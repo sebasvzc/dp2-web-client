@@ -136,21 +136,31 @@ export default function UserPage() {
   }
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Users</Typography>
-
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Nuevo Usuario
-        </Button>
-      </Stack>
-
-      <Card>
+      <Typography variant="h2">Gestión de Usuarios</Typography>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        mb={5}
+      >
         <UserTableToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
-        />
-
+          />
+        <Stack direction="row" spacing={2}>
+          <Button variant="contained" color="inherit" sx={{ marginRight: '8px' }}>
+            Crear
+          </Button>
+          <Button variant="contained" color="inherit" sx={{ marginRight: '8px' }}>
+            Deshabilitar
+          </Button>
+          <Button variant="contained" color="inherit" >
+            Habilitar
+          </Button>
+        </Stack>
+      </Stack>
+      <Card>
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
@@ -192,7 +202,6 @@ export default function UserPage() {
             </Table>
           </TableContainer>
         </Scrollbar>
-
         <TablePagination
           page={page}
           component="div"
