@@ -27,13 +27,13 @@ import LoginUsuario from '../../_mock/account';
 
 export default function LoginView() {
   const router = useRouter();
-  const {user, loginUser} = useAuth();
+  const { user, loginUser } = useAuth();
 
   useEffect(() => {
     if (user) {
       router.push('/');
     }
-  }, );
+  },);
   const theme = useTheme();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -42,9 +42,9 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = async (e) => {
-    console.log('emailRef',emailRef.current.value)
-    console.log('passwordRef',passwordRef.current.value)
-    const data =await LoginUsuario(emailRef.current.value, passwordRef.current.value);
+    console.log('emailRef', emailRef.current.value)
+    console.log('passwordRef', passwordRef.current.value)
+    const data = await LoginUsuario(emailRef.current.value, passwordRef.current.value);
     console.log(data)
     loginUser(data)
 
@@ -90,7 +90,7 @@ export default function LoginView() {
       </LoadingButton>
     </>
   );
-  
+
 
   return (
     <Box
@@ -106,36 +106,35 @@ export default function LoginView() {
         justifyContent="center"
         alignItems="center"
         spacing={2}>
-        
+        <div>
           <Typography variant="h1" color="white">Bienvenido(a)</Typography>
-          <img 
+          <img
             src={logo}
             alt=""
             style={{
-            width: '16%',
-            height: 'auto', 
-            marginTop: '10%',
-          }}
+              height: 'auto',
+              marginTop: '10%'
+            }}
 
           />
-  
-        
-          <Card 
-              sx={{
-                p: 5,
-                width: 1,
-                maxWidth: 420,
-              }}
-            >
-              <div style={{ textAlign: 'center' }}>
-                <Typography variant="h4">Iniciar Sesión</Typography>
-              </div>
-              <div>
-                <br/>
-              </div>
-              {renderForm}
-          </Card>
-      
+        </div>
+
+        <Card
+          sx={{
+            p: 5,
+            width: 1,
+            maxWidth: 420,
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <Typography variant="h4">Iniciar Sesión</Typography>
+          </div>
+          <div>
+            <br />
+          </div>
+          {renderForm}
+        </Card>
+
       </Stack>
     </Box>
   );
