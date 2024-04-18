@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -17,7 +18,8 @@ import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
 
-import Logo from 'src/components/logo';
+import fondo from 'src/components/images/pep.png';
+import logo from 'src/components/images/logo-plaza.png';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../utils/AuthContext'
 import LoginUsuario from '../../_mock/account';
@@ -25,7 +27,8 @@ import LoginUsuario from '../../_mock/account';
 
 export default function LoginView() {
   const router = useRouter();
-  const {user, loginUser} = useAuth()
+  const {user, loginUser} = useAuth();
+
   useEffect(() => {
     if (user) {
       router.push('/');
@@ -50,12 +53,12 @@ export default function LoginView() {
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField inputRef={emailRef} name="email" label="Email address" />
+        <TextField inputRef={emailRef} name="email" label="Correo" />
 
         <TextField
           inputRef={passwordRef}
           name="password"
-          label="Password"
+          label="Contraseña"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -69,9 +72,9 @@ export default function LoginView() {
         />
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
+      <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ my: 3 }}>
+        <Link variant="subtitle2" underline="hover" style={{ color: "#EE8700" }}>
+          ¿Olvido su contraseña?
         </Link>
       </Stack>
 
@@ -80,89 +83,58 @@ export default function LoginView() {
         size="large"
         type="submit"
         variant="contained"
-        color="inherit"
+        style={{ backgroundColor: "#EE8700" }}
         onClick={handleClick}
       >
-        Login
+        Ingresar
       </LoadingButton>
     </>
   );
+  
 
   return (
     <Box
       sx={{
         ...bgGradient({
-          color: alpha(theme.palette.background.default, 0.9),
-          imgUrl: '/assets/background/overlay_4.jpg',
+          color: alpha(theme.palette.common.black, 0.7),
+          imgUrl: fondo,
         }),
         height: 1,
       }}
     >
-      <Logo
-        sx={{
-          position: 'fixed',
-          top: { xs: 16, md: 24 },
-          left: { xs: 16, md: 24 },
-        }}
-      />
+      <Stack direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}>
+        
+          <Typography variant="h1" color="white">Bienvenido(a)</Typography>
+          <img 
+            src={logo}
+            style={{
+            width: '16%',
+            height: 'auto', 
+            marginTop: '10%',
+          }}>
 
-      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
-        <Card
-          sx={{
-            p: 5,
-            width: 1,
-            maxWidth: 420,
-          }}
-        >
-          <Typography variant="h4">Sign in to Minimal</Typography>
-
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
-          </Typography>
-
-          <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
+          </img>
+  
+        
+          <Card 
+              sx={{
+                p: 5,
+                width: 1,
+                maxWidth: 420,
+              }}
             >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider>
-
-          {renderForm}
-        </Card>
+              <div style={{ textAlign: 'center' }}>
+                <Typography variant="h4">Iniciar Sesión</Typography>
+              </div>
+              <div>
+                <br></br>
+              </div>
+              {renderForm}
+          </Card>
+      
       </Stack>
     </Box>
   );
