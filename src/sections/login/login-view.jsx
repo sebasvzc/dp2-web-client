@@ -110,13 +110,14 @@ export default function LoginView() {
           <Typography variant="h1" color="white">Bienvenido(a)</Typography>
           <img 
             src={logo}
+            alt=""
             style={{
             width: '16%',
             height: 'auto', 
             marginTop: '10%',
-          }}>
+          }}
 
-          </img>
+          />
   
         
           <Card 
@@ -130,7 +131,7 @@ export default function LoginView() {
                 <Typography variant="h4">Iniciar Sesión</Typography>
               </div>
               <div>
-                <br></br>
+                <br/>
               </div>
               {renderForm}
           </Card>
