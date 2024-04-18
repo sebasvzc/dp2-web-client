@@ -94,18 +94,35 @@ export default function LoginView() {
 
   return (
     <Box
-      sx={{
-        ...bgGradient({
-          color: alpha(theme.palette.common.black, 0.7),
-          imgUrl: fondo,
-        }),
-        height: 1,
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'black', // Color de fondo detrás del gradiente o imagen
       }}
     >
-      <Stack direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}>
+      <Box
+        sx={{
+          ...bgGradient({
+            color: alpha(theme.palette.common.black, 0.7),
+            imgUrl: fondo,
+          }),
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+      <Stack direction="row" justifyContent="center" alignItems="center" spacing={30}>
         <Stack>
           <Typography variant="h1" color="white">Bienvenido(a)</Typography>
           <img
@@ -115,17 +132,10 @@ export default function LoginView() {
               height: 'auto',
               marginTop: '10%'
             }}
-
           />
         </Stack>
 
-        <Card
-          sx={{
-            p: 5,
-            width: 1,
-            maxWidth: 420,
-          }}
-        >
+        <Card sx={{ p: 5, width: 1, maxWidth: 420 }}>
           <div style={{ textAlign: 'center' }}>
             <Typography variant="h4">Iniciar Sesión</Typography>
           </div>
@@ -134,8 +144,8 @@ export default function LoginView() {
           </div>
           {renderForm}
         </Card>
-
       </Stack>
+      </Box>
     </Box>
   );
 }
