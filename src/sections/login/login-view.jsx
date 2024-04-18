@@ -106,7 +106,7 @@ export default function LoginView() {
         justifyContent="center"
         alignItems="center"
         spacing={2}>
-        <div>
+        <Stack>
           <Typography variant="h1" color="white">Bienvenido(a)</Typography>
           <img
             src={logo}
@@ -117,7 +117,7 @@ export default function LoginView() {
             }}
 
           />
-        </div>
+        </Stack>
 
         <Card
           sx={{
