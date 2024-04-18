@@ -27,13 +27,13 @@ import LoginUsuario from '../../_mock/account';
 
 export default function LoginView() {
   const router = useRouter();
-  const {user, loginUser} = useAuth();
+  const { user, loginUser } = useAuth();
 
   useEffect(() => {
     if (user) {
       router.push('/');
     }
-  }, );
+  },);
   const theme = useTheme();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -42,9 +42,9 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = async (e) => {
-    console.log('emailRef',emailRef.current.value)
-    console.log('passwordRef',passwordRef.current.value)
-    const data =await LoginUsuario(emailRef.current.value, passwordRef.current.value);
+    console.log('emailRef', emailRef.current.value)
+    console.log('passwordRef', passwordRef.current.value)
+    const data = await LoginUsuario(emailRef.current.value, passwordRef.current.value);
     console.log(data)
     loginUser(data)
 
@@ -90,53 +90,62 @@ export default function LoginView() {
       </LoadingButton>
     </>
   );
-  
+
 
   return (
     <Box
-      sx={{
-        ...bgGradient({
-          color: alpha(theme.palette.common.black, 0.7),
-          imgUrl: fondo,
-        }),
-        height: 1,
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'black', // Color de fondo detrás del gradiente o imagen
       }}
     >
-      <Stack direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}>
-        
+      <Box
+        sx={{
+          ...bgGradient({
+            color: alpha(theme.palette.common.black, 0.7),
+            imgUrl: fondo,
+          }),
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+      <Stack direction="row" justifyContent="center" alignItems="center" spacing={30}>
+        <Stack>
           <Typography variant="h1" color="white">Bienvenido(a)</Typography>
-          <img 
+          <img
             src={logo}
             alt=""
             style={{
-            width: '16%',
-            height: 'auto', 
-            marginTop: '10%',
-          }}
-
+              height: 'auto',
+              marginTop: '10%'
+            }}
           />
-  
-        
-          <Card 
-              sx={{
-                p: 5,
-                width: 1,
-                maxWidth: 420,
-              }}
-            >
-              <div style={{ textAlign: 'center' }}>
-                <Typography variant="h4">Iniciar Sesión</Typography>
-              </div>
-              <div>
-                <br/>
-              </div>
-              {renderForm}
-          </Card>
-      
+        </Stack>
+
+        <Card sx={{ p: 5, width: 1, maxWidth: 420 }}>
+          <div style={{ textAlign: 'center' }}>
+            <Typography variant="h4">Iniciar Sesión</Typography>
+          </div>
+          <div>
+            <br />
+          </div>
+          {renderForm}
+        </Card>
       </Stack>
+      </Box>
     </Box>
   );
 }
