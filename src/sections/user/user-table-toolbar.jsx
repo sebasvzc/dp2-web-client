@@ -15,13 +15,13 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
   return (
     <Toolbar
       sx={{
-        height: 96,
+        height: 120,
         display: 'flex',
         justifyContent: 'space-between',
         p: (theme) => theme.spacing(0, 1, 0, 3),
         ...(numSelected > 0 && {
           color: 'primary.main',
-          bgcolor: 'primary.lighter',
+          bgcolor: 'white',
         }),
       }}
     >
@@ -35,29 +35,17 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
           onChange={onFilterName}
           placeholder="Buscar usuario..."
           startAdornment={
-            <InputAdornment position="start">
+            <InputAdornment position="left">
               <Iconify
                 icon="eva:search-fill"
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                sx={{ color: 'text.disabled', width: 40, height: 20 }}
               />
             </InputAdornment>
           }
+          
         />
       )}
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <Iconify icon="eva:trash-2-fill" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <Iconify icon="ic:round-filter-list" />
-          </IconButton>
-        </Tooltip>
-      )}
     </Toolbar>
   );
 }
