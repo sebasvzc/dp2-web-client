@@ -6,6 +6,7 @@ import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
 
 import ThemeProvider from 'src/theme';
 import RouterX from 'src/routes/sections';
+import { ToastContainer, toast } from 'react-toastify';
 
 // ----------------------------------------------------------------------
 
