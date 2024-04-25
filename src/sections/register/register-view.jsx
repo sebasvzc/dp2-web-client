@@ -131,10 +131,7 @@ export default function RegisterView() {
 
         if(response.status===403 || response.status===401){
           console.log("Cualquiera de 403 o 401")
-                mensajeCompleto = "Error inesperado. Redirigiendo al inicio" ;
-                //setmostrarModal2(true);
-                setMensajeError(mensajeCompleto);
-                toast.error(mensajeCompleto, {
+                toast.error("Error inesperado. Redirigiendo al inicio", {
                     position: "top-right",
                     autoClose: false,
                     hideProgressBar: true,
@@ -146,8 +143,6 @@ export default function RegisterView() {
                 });
         }
         if (!response.ok) {
-              mensajeCompleto = "Error inesperado. Redirigiendo al inicio";
-                setMensajeError(mensajeCompleto);
                 toast.error("Error inesperado. Redirigiendo al inicio", {
                     position: "top-right",
                     autoClose: false,
