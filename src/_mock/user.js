@@ -17,7 +17,7 @@ const getUsers = async () => {
     console.log(userStringify.token);
     const accessToken = userStringify.token;
     const refreshToken = userStringify.refreshToken;
-    const response = await fetch('http://localhost:3000/api/users?query=all', {
+    const response = await fetch('http://localhost:3000/api/user/listusers?query=all', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

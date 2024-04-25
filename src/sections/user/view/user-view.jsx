@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Card from '@mui/material/Card';
@@ -10,6 +11,12 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 import obtenerUsuarios  from 'src/_mock/user';
 
@@ -22,6 +29,7 @@ import UserTableHead from '../user-table-head';
 import UserTableToolbar from '../user-table-toolbar';
 import {  applyFilter, getComparator } from '../utils';
 import { useAuth } from '../../../utils/AuthContext';
+
 
 // ----------------------------------------------------------------------
 
@@ -65,7 +73,38 @@ export default function UserPage() {
   }, []);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-
+  const [openModal, setOpenModal] = useState(false);
+  const [email, setEmail] = useState('');
+  const handleEnviar = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/user/invite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      console.log(data); // Maneja la respuesta de la API según sea necesario
+      if(data.success==="true"){
+        console.log("entre a true")
+        toast.success('Usuario invitado exitosamente a través de correo', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      }
+      handleCloseModal(); // Cierra el modal después de enviar
+    } catch (e) {
+      console.error('Error al enviar correo electrónico:', e);
+    }
+  };
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     console.log("Este es el id que ordena")
@@ -125,7 +164,17 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
 
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
   const notFound = !userData.length && !!filterName;
   if (loading) {
     return <div>Cargando...</div>; // Mostrar un indicador de carga mientras se obtienen los datos
@@ -149,9 +198,32 @@ export default function UserPage() {
           onFilterName={handleFilterByName}
           />
         <Stack direction="row" spacing={2}>
-          <Button variant="contained" color="inherit" sx={{ marginRight: '8px' }}>
-            Crear
+          <Button variant="contained" color="inherit" sx={{ marginRight: '8px' }} onClick={handleOpenModal}>
+            + Invitar
           </Button>
+          <Dialog open={openModal} onClose={handleCloseModal}>
+            <DialogTitle>Invitar usuario</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="email"
+                label="Correo electrónico"
+                type="email"
+                fullWidth
+                value={email}
+                onChange={handleEmailChange}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseModal} color="primary">
+                Cancelar
+              </Button>
+              <Button onClick={handleEnviar} color="primary">
+                Enviar
+              </Button>
+            </DialogActions>
+          </Dialog>
           <Button variant="contained" color="inherit" sx={{ marginRight: '8px' }}>
             Deshabilitar
           </Button>
@@ -186,11 +258,11 @@ export default function UserPage() {
                     .map((row) => (
                       <UserTableRow
                         key={row.id}
-                        userNameX={row.userName}
-                        role={row.role}
+                        nombre={row.nombre}
+                        rol={row.rol}
                         emailX={row.email}
-                        selected={selected.indexOf(row.userName) !== -1}
-                        handleClick={(event) => handleClick(event, row.userName)}
+                        selected={selected.indexOf(row.nombre) !== -1}
+                        handleClick={(event) => handleClick(event, row.nombre)}
                       />
                     ))
                 ) : (

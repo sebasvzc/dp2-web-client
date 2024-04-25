@@ -23,7 +23,7 @@ import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
-import navConfig from './config-navigation';
+import NavBar from './config-navigation';
 
 
 // ----------------------------------------------------------------------
@@ -67,11 +67,7 @@ export default function Nav({ openNav, onCloseNav }) {
   );
 
   const renderMenu = (
-    <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
-      ))}
-    </Stack>
+    <NavBar/>
   );
 
   const renderUpgrade = (
@@ -143,56 +139,3 @@ Nav.propTypes = {
 };
 
 // ----------------------------------------------------------------------
-
-function NavItem({ item }) {
-  const pathname = usePathname();
-  const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const active = item.path === pathname;
-  const handleClick = () => {
-    if (item.subMenu) {
-      setOpen(!open);
-    } else {
-      navigate(item.path);
-    }
-  };
-  return (
-    <>
-      <ListItemButton onClick={handleClick} sx={{
-        minHeight: 44,
-        borderRadius: 0.75,
-        typography: 'body2',
-        textTransform: 'capitalize',
-        fontWeight: 'fontWeightMedium',
-        color:"white",
-        ...(item.path === usePathname() && {
-          color: 'white',
-          fontWeight: 'fontWeightSemiBold',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
-          '&:hover': {
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
-          },
-        }),
-      }}>
-        <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
-          {item.icon}
-        </Box>
-        <Box component="span">{item.title}</Box>
-        {item.subMenu && (open ? <ExpandLess /> : <ExpandMore />)}
-      </ListItemButton>
-      {item.subMenu && (
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-            {item.subMenu.map((subItem) => (
-              <NavItem key={subItem.title} item={subItem} />
-            ))}
-          </Stack>
-        </Collapse>
-      )}
-    </>
-  );
-}
-
-NavItem.propTypes = {
-  item: PropTypes.object,
-};
