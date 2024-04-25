@@ -75,31 +75,31 @@ export default function RegisterView() {
       tamanho=true;
     }
     if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho 
-      && formData.email.length!=0 && validarEmail(formData.email)
-      && formData.nombre.length!=0 && validarNombre(formData.nombre)
-      && formData.apellido.length!=0 && validarNombre(formData.apellido)){
+      && formData.email.length!==0 && validarEmail(formData.email)
+      && formData.nombre.length!==0 && validarNombre(formData.nombre)
+      && formData.apellido.length!==0 && validarNombre(formData.apellido)){
       setBackgroundBtnReg("#EE8700");
       setBotonDeshabilitado(false);
     }else{
       setBackgroundBtnReg("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-    if ((formData.nombre.length!=0 && validarNombre(formData.nombre)) || formData.nombre.length==0) {
+    if ((formData.nombre.length!==0 && validarNombre(formData.nombre)) || formData.nombre.length===0) {
       setMostrarTxtNomb("");
     } else {
       setMostrarTxtNomb("Nombre inválido");
     }
-    if ((formData.apellido.length!=0 && validarNombre(formData.apellido)) || formData.apellido.length==0 ) {
+    if ((formData.apellido.length!==0 && validarNombre(formData.apellido)) || formData.apellido.length===0 ) {
       setMostrarTxtApp("");
     } else {
       setMostrarTxtApp("Apellido Paterno inválido");
     }
-    if ((formData.email.length!=0 && validarEmail(formData.email)) || formData.email.length==0) {
+    if ((formData.email.length!==0 && validarEmail(formData.email)) || formData.email.length===0) {
       setMostrarTxtCorreo("");
     } else {
       setMostrarTxtCorreo("Correo inválido");
     }
-    if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && formData.password.trim().length !== 0) || formData.password.trim().length==0 ) {
+    if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && formData.password.trim().length !== 0) || formData.password.trim().length===0 ) {
       setMostrarTxtCont("");
     } else {
       setMostrarTxtCont("Debe tener 8 digitos (mayúsculas,minúsculas y número)");
