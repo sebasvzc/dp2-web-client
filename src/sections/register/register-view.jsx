@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
-
+import { ToastContainer, toast } from 'react-toastify';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -131,11 +131,44 @@ export default function RegisterView() {
 
         if(response.status===403 || response.status===401){
           console.log("Cualquiera de 403 o 401")
-          // agregar tostada - Lian Tume
+                mensajeCompleto = "Error inesperado. Redirigiendo al inicio" ;
+                //setmostrarModal2(true);
+                setMensajeError(mensajeCompleto);
+                toast.error(mensajeCompleto, {
+                    position: "top-right",
+                    autoClose: false,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
         }
         if (!response.ok) {
-          throw new Error('Network response was not ok');
-          // agregar tostada - Lian Tume
+              mensajeCompleto = "Error inesperado. Redirigiendo al inicio";
+                setMensajeError(mensajeCompleto);
+                toast.error("Error inesperado. Redirigiendo al inicio", {
+                    position: "top-right",
+                    autoClose: false,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+        }else{
+          toast.success('Usuario registrado exitosamente.', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
         }
 
         const data = response.json();
