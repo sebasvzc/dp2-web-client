@@ -15,10 +15,9 @@ import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Link, useNavigate, Route, useLocation, Navigate } from 'react-router-dom';
 import { useRouter } from 'src/routes/hooks';
-
+import Logo from 'src/components/logo';
+import fondo from 'src/components/images/fondo.avif';
 import { bgGradient } from 'src/theme/css';
-
-import fondo from 'src/components/images/pep.png';
 import logo from 'src/components/images/logo-plaza.png';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../utils/AuthContext'
@@ -49,13 +48,28 @@ export default function RegisterView() {
     }));
   };
 
+  const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
+  const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+
+  useEffect(() => {
+    const tieneAlMenosUnNumero = /\d/.test(formData.password);
+    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(formData.password);
+    let tamanho = false;
+    if (formData.password.length >= 8) {
+      tamanho=true;
+    }
+    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho){
+      setBackgroundBtnReg("#EE8700");
+      setBotonDeshabilitado(false);
+    }else{
+      setBackgroundBtnReg("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+  }, [formData.password]);
 
 
   useEffect(() => {
-
-
       console.log('Token recibido:', token);
-
   }, [token]);
 
   const handleSubmit = (e) => {
@@ -99,14 +113,14 @@ export default function RegisterView() {
       <Stack spacing={3}>
         <TextField
           name="nombre"
-          label="Nombre"
+          label="Nombres"
           value={formData.nombre}
           onChange={handleChange}
           fullWidth
         />
         <TextField
           name="apellido"
-          label="Apellido"
+          label="Apellidos"
           value={formData.apellido}
           onChange={handleChange}
           fullWidth
@@ -143,7 +157,8 @@ export default function RegisterView() {
         size="large"
         type="submit"
         variant="contained"
-        style={{ backgroundColor: "#EE8700", mt: 3 , marginTop: "30px" }}
+        style={{ backgroundColor: backgroundBtnReg, mt: 3 , marginTop: "30px" }}
+        disabled={botonDeshabilitado}
       >
         Registrarse
       </LoadingButton>
@@ -156,23 +171,22 @@ export default function RegisterView() {
 
   return (
     <Box
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black', // Color de fondo detrás del gradiente o imagen
-      }}
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
     >
 
       <Box
         sx={{
           ...bgGradient({
-            color: alpha(theme.palette.common.black, 0.7),
+            color: alpha(theme.palette.background.default, 0.1),
             imgUrl: fondo,
           }),
           position: 'absolute',
@@ -185,15 +199,15 @@ export default function RegisterView() {
           alignItems: 'center',
         }}
       >
-        <Stack direction="row" justifyContent="center" alignItems="center" spacing={30}  style={{
-          top: 0,
-          left: "15%",
-          right: "15%",marginLeft:"15%", marginRight:"15%",
-          bottom: 0,// Color de fondo detrás del gradiente o imagen
-        }}>
-
-
-          <Card sx={{ p: 5, width: 1}}>
+        <Logo
+          sx={{
+            position: 'fixed',
+            top: { xs: 16, md: 24 },
+            left: { xs: 16, md: 24 },
+          }}
+        />
+        
+          <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh' }}>
             <div style={{ textAlign: 'center' }}>
               <Typography variant="h4">Crear cuenta</Typography>
             </div>
@@ -202,7 +216,7 @@ export default function RegisterView() {
             </div>
             {renderForm}
           </Card>
-        </Stack>
+      
       </Box>
     </Box>
   );
