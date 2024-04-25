@@ -12,6 +12,7 @@ export default function LoginPage() {
       </Helmet>
 
       <LoginView />
+
     </>
   );
 }

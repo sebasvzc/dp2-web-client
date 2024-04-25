@@ -3,9 +3,10 @@ import 'src/global.css';
 
 import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
 
-
+import 'react-toastify/dist/ReactToastify.css';
 import ThemeProvider from 'src/theme';
 import RouterX from 'src/routes/sections';
+import { ToastContainer } from 'react-toastify';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +16,8 @@ export default function App() {
   return (
     <ThemeProvider>
       <RouterX />
+      <ToastContainer/>
     </ThemeProvider>
+
   );
 }

@@ -2,7 +2,9 @@ import { Helmet } from 'react-helmet-async';
 import React, { useEffect } from 'react';
 import { RegisterView } from 'src/sections/register';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import obtenerUsuarios from '../_mock/user';
+
 // ----------------------------------------------------------------------
 
 export default function RegisterPage() {
@@ -54,6 +56,7 @@ export default function RegisterPage() {
       </Helmet>
 
       <RegisterView />
+
     </>
   );
 }

@@ -140,9 +140,14 @@ export default function RegisterView() {
                     draggable: true,
                     progress: undefined,
                     theme: "colored",
+                  onClose: () => {
+                    // Aquí agregamos la navegación a la página de inicio de sesión
+                    navigate('/login');
+                  }
                 });
         }
         if (!response.ok) {
+          console.log("No estamos creado usuarios correctos")
                 toast.error("Error inesperado. Redirigiendo al inicio", {
                     position: "top-right",
                     autoClose: false,
@@ -152,17 +157,26 @@ export default function RegisterView() {
                     draggable: true,
                     progress: undefined,
                     theme: "colored",
+                  onClose: () => {
+                    // Aquí agregamos la navegación a la página de inicio de sesión
+                    navigate('/login');
+                  }
                 });
         }else{
+          console.log("Estamos creado usuarios correctos")
           toast.success('Usuario registrado exitosamente.', {
             position: "top-right",
-            autoClose: 10000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
             theme: "colored",
+            onClose: () => {
+              // Aquí agregamos la navegación a la página de inicio de sesión
+              navigate('/login');
+            }
           });
         }
 
