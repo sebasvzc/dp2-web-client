@@ -102,7 +102,7 @@ export default function RegisterView() {
     if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && formData.password.trim().length !== 0) || formData.password.trim().length===0 ) {
       setMostrarTxtCont("");
     } else {
-      setMostrarTxtCont("Debe tener 8 digitos (mayúsculas,minúsculas y número)");
+      setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
     }
   }, [formData.password,formData.email,formData.nombre,formData.apellido]);
 
