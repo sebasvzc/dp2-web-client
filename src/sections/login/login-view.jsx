@@ -13,13 +13,10 @@ import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
-
 import { useRouter } from 'src/routes/hooks';
-
 import { bgGradient } from 'src/theme/css';
-
-import fondo from 'src/components/images/pep.png';
-import logo from 'src/components/images/logo-plaza.png';
+import fondo from 'src/components/images/fondo.avif';
+import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../utils/AuthContext'
 import LoginUsuario from '../../_mock/account';
@@ -37,8 +34,6 @@ export default function LoginView() {
   const theme = useTheme();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = async (e) => {
@@ -52,9 +47,8 @@ export default function LoginView() {
 
   const renderForm = (
     <>
-      <Stack spacing={3}>
+    <Stack spacing={3}>
         <TextField inputRef={emailRef} name="email" label="Correo" />
-
         <TextField
           inputRef={passwordRef}
           name="password"
@@ -70,14 +64,13 @@ export default function LoginView() {
             ),
           }}
         />
-      </Stack>
-
-      <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover" style={{ color: "#EE8700" }}>
-          ¿Olvido su contraseña?
-        </Link>
-      </Stack>
-
+    </Stack>
+    <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ my: 3 }}>
+      <Link variant="subtitle2" underline="hover" style={{ color: "#EE8700", fontWeight: "bold" }}>
+        ¿Olvidó su contraseña?
+      </Link>
+    </Stack>
+    <Box mb={2}>
       <LoadingButton
         fullWidth
         size="large"
@@ -86,11 +79,11 @@ export default function LoginView() {
         style={{ backgroundColor: "#EE8700" }}
         onClick={handleClick}
       >
-        Ingresar
+        Iniciar Sesión
       </LoadingButton>
+    </Box>
     </>
   );
-
 
   return (
     <Box
@@ -103,13 +96,12 @@ export default function LoginView() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'black', // Color de fondo detrás del gradiente o imagen
       }}
     >
       <Box
         sx={{
           ...bgGradient({
-            color: alpha(theme.palette.common.black, 0.7),
+            color: alpha(theme.palette.background.default, 0.1),
             imgUrl: fondo,
           }),
           position: 'absolute',
@@ -122,20 +114,14 @@ export default function LoginView() {
           alignItems: 'center',
         }}
       >
-      <Stack direction="row" justifyContent="center" alignItems="center" spacing={30}>
-        <Stack>
-          <Typography variant="h1" color="white">Bienvenido(a)</Typography>
-          <img
-            src={logo}
-            alt=""
-            style={{
-              height: 'auto',
-              marginTop: '10%'
-            }}
-          />
-        </Stack>
-
-        <Card sx={{ p: 5, width: 1, maxWidth: 420 }}>
+        <Logo
+          sx={{
+            position: 'fixed',
+            top: { xs: 16, md: 24 },
+            left: { xs: 16, md: 24 },
+          }}
+        />
+        <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh' }}>
           <div style={{ textAlign: 'center' }}>
             <Typography variant="h4">Iniciar Sesión</Typography>
           </div>
@@ -144,7 +130,6 @@ export default function LoginView() {
           </div>
           {renderForm}
         </Card>
-      </Stack>
       </Box>
     </Box>
   );
