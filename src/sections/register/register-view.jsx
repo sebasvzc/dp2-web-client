@@ -131,15 +131,17 @@ export default function RegisterView() {
 
         if(response.status===403 || response.status===401){
           console.log("Cualquiera de 403 o 401")
-
+          // agregar tostada - Lian Tume
         }
         if (!response.ok) {
           throw new Error('Network response was not ok');
+          // agregar tostada - Lian Tume
         }
 
         const data = response.json();
         console.log(data)
       } catch (err) {
+        // agregar tostada - Lian Tume
         console.log(err);
       }
     };
