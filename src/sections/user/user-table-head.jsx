@@ -25,13 +25,13 @@ export default function UserTableHead({
   };
 
   return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
+    <TableHead style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}>
+      <TableRow style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}>
+        <TableCell padding="checkbox" style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}>
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
+            onChange={onSelectAllClick} style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}
           />
         </TableCell>
 
@@ -41,12 +41,14 @@ export default function UserTableHead({
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{ width: headCell.width, minWidth: headCell.minWidth }}
+            style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}
           >
             <TableSortLabel
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={onSort(headCell.id)}
+              style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}
             >
               {headCell.label}
               {orderBy === headCell.id ? (

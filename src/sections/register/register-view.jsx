@@ -133,7 +133,8 @@ export default function RegisterView() {
           console.log("Cualquiera de 403 o 401")
                 toast.error("Error inesperado. Redirigiendo al inicio", {
                     position: "top-right",
-                    autoClose: false,
+
+                  autoClose: 3000,
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -150,7 +151,7 @@ export default function RegisterView() {
           console.log("No estamos creado usuarios correctos")
                 toast.error("Error inesperado. Redirigiendo al inicio", {
                     position: "top-right",
-                    autoClose: false,
+                  autoClose: 3000,
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,

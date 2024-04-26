@@ -12,6 +12,7 @@ export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
+export const TiendasPage = lazy(() => import('src/pages/tiendas'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
 
@@ -27,7 +28,7 @@ export default function RouterX() {
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<IndexPage/>}/>
             <Route path="/user" element={<UserPage/>}/>
-
+            <Route path="/tienda" element={<TiendasPage/>}/>
             <Route path="*" element={<Page404/>}/>
           </Route>
         </Routes>
