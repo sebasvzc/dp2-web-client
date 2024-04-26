@@ -1,6 +1,7 @@
-const obtenerUsuarios = async () => {
+
+const obtenerUsuarios = async (page,pageSize) => {
   try {
-    const userData = await getUsers(); // Obtener los usuarios de manera asíncrona
+    const userData = await getUsers(page,pageSize); // Obtener los usuarios de manera asíncrona
     console.log('Usuarios obtenidos:', userData);
     // Puedes hacer más cosas con los datos de usuarios si es necesario
     return userData; // Devolver los datos de usuarios obtenidos
@@ -10,14 +11,15 @@ const obtenerUsuarios = async () => {
   }
 };
 
-const getUsers = async () => {
+const getUsers = async (page,pageSize) => {
   try {
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
     console.log(userStringify.token);
     const accessToken = userStringify.token;
     const refreshToken = userStringify.refreshToken;
-    const response = await fetch('http://localhost:3000/api/user/listusers?query=all', {
+    console.log(`http://localhost:3000/api/user/listusers?query=all&page=${page}&pageSize=${pageSize}`);
+    const response = await fetch(`http://localhost:3000/api/user/listusers?query=all&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

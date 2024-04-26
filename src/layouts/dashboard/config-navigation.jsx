@@ -129,7 +129,7 @@ export default function NavBar() {
         },
         {
           title: 'Gestión de Tiendas',
-          path: '/user',
+          path: '/tienda',
           icon: icon('ic_tienda'),
         },
         // Otras opciones de submenú...
