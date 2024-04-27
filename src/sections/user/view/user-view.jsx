@@ -44,6 +44,7 @@
   };
   export default function UserView() {
     const [order, setOrder] = useState('asc');
+    const [searchName, setSearchName] = useState("all");
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [habilitarUsuarios, setHabilitarUsuarios] = useState(true);
@@ -61,7 +62,7 @@
 
     const fetchData = async () => {
         try {
-          const data = await obtenerUsuarios(page+1,pageSize); // Obtener los datos de usuarios
+          const data = await obtenerUsuarios(page+1,pageSize,searchName); // Obtener los datos de usuarios
           console.log(data.users)
           if(data.newToken){
             const storedUser = localStorage.getItem('user');
@@ -83,7 +84,7 @@
       };
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
-    }, [page, pageSize,totalUsers, habilitarUsuarios]);
+    }, [page, pageSize,totalUsers, habilitarUsuarios,searchName]);
 
     const [rowsPerPage, setRowsPerPage] = useState(8);
 
@@ -190,11 +191,7 @@
         setOrderBy(id);
       }
     };
-    const dataFiltered = applyFilter({
-      inputData: userData,
-      comparator: getComparator(order, orderBy),
-      filterName,
-    });
+
 
     const handleSelectAllClick = (event) => {
       if (event.target.checked) {
@@ -236,9 +233,10 @@
       setPageSize(parseInt(event.target.value, 10));
     };
 
-    const handleFilterByName = (event) => {
-      setPage(0);
-      setFilterName(event.target.value);
+    const handleSearch = (e) => {
+      setSearchName(e)
+      // setPage(0);
+      console.log(e);
     };
     const handleOpenModalDesactivar = () => {
       setOpenModalDesactivar(true);
@@ -298,7 +296,7 @@
           <UserTableToolbar
             numSelected={selected.length}
             filterName={filterName}
-            onFilterName={handleFilterByName}
+            onFilterName={handleSearch}
           />
           <Stack direction="row" spacing={2}>
             <Button variant="contained" color="inherit" sx={{ marginRight: '8px' }} onClick={handleOpenModal}>
@@ -327,10 +325,10 @@
                 </Button>
               </DialogActions>
             </Dialog>
-            <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar}>
-              <DialogTitle>¿Estás seguro de que deseas deshabilitar el usuario seleccionado?</DialogTitle>
+            <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} >
+              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el usuario seleccionado?</DialogTitle>
 
-              <DialogActions>
+              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
                 <Button onClick={handleDeshabilitar} sx={{ backgroundColor: '#DFE0E0', color:"black" }}>
                   Sí
                 </Button>
@@ -340,10 +338,10 @@
 
               </DialogActions>
             </Dialog>
-            <Dialog open={openModalActivar} onClose={handleCloseModalActivar}>
+            <Dialog open={openModalActivar} onClose={handleCloseModalActivar}  sx={{ alignItems: 'center'}}>
               <DialogTitle>¿Estás seguro de que deseas habilitar el usuario seleccionado?</DialogTitle>
 
-              <DialogActions>
+              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
                 <Button onClick={handleHabilitar} sx={{ backgroundColor: '#DFE0E0', color:"black" }}>
                   Sí
                 </Button>
@@ -377,7 +375,7 @@
         <Box sx={scrollContainerStyle}>
           <Grid container spacing={3}>
             {userData && userData.length > 0 ? (
-              dataFiltered.map((row) => (
+              userData.map((row) => (
                 <Grid item xs={12} sm={6} md={4} key={row.id}>
                   <Card>
                     <UserTableRow

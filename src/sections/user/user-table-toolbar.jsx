@@ -8,10 +8,24 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
-
+import React, { useState } from 'react';
 // ----------------------------------------------------------------------
 
 export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {
+
+
+
+  const handleIconClick = () => {
+    // Llamar a onFilterName con el valor actual de filterName
+    // console.log(filterName)
+    onFilterName(filterName);
+
+  };
+  const handleInputChange = (event) => {
+    // Actualizar el estado local al cambiar el input
+    // console.log(event.target.value);
+    filterName=event.target.value;
+  };
   return (
     <Toolbar
       sx={{
@@ -31,18 +45,18 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
         </Typography>
       ) : (
         <OutlinedInput
-          value={filterName}
-          onChange={onFilterName}
+
+          onChange={handleInputChange}
           placeholder="Buscar usuario..."
           startAdornment={
-            <InputAdornment position="left">
+            <InputAdornment position="left" onClick={handleIconClick}>
               <Iconify
                 icon="eva:search-fill"
                 sx={{ color: 'text.disabled', width: 40, height: 20 }}
               />
             </InputAdornment>
           }
-          
+          sx={{  width: 600, height: 40, backgroundColor:"white" }}
         />
       )}
 
