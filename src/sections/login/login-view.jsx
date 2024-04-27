@@ -39,9 +39,20 @@ export default function LoginView() {
   const handleClick = async (e) => {
     console.log('emailRef', emailRef.current.value)
     console.log('passwordRef', passwordRef.current.value)
-    const data = await LoginUsuario(emailRef.current.value, passwordRef.current.value);
-    console.log(data)
-    loginUser(data)
+    try {
+      const data = await LoginUsuario(emailRef.current.value, passwordRef.current.value);
+
+      console.log(data)
+      loginUser(data)
+      // Realizar acciones con los datos de respuesta exitosa, como redireccionar o establecer tokens en el estado, etc.
+    } catch (err) {
+      console.log("error dentro de try cathc")
+      console.log(err.code)
+      // Mostrar un toast de error en caso de que el código sea "2"
+
+    }
+
+
 
   };
 
