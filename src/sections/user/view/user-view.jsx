@@ -62,6 +62,7 @@
 
     const fetchData = async () => {
         try {
+          setLoading(true); // Indicar que la carga ha finalizado
           const data = await obtenerUsuarios(page+1,pageSize,searchName); // Obtener los datos de usuarios
           console.log(data.users)
           if(data.newToken){
@@ -84,6 +85,7 @@
       };
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
+      console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,totalUsers, habilitarUsuarios,searchName]);
 
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -194,6 +196,8 @@
 
 
     const handleSelectAllClick = (event) => {
+
+      console.log(searchName)
       if (event.target.checked) {
         const newSelecteds = userData.map((n) => n.id);
         setSelected(newSelecteds);
@@ -235,7 +239,7 @@
 
     const handleSearch = (e) => {
       setSearchName(e)
-      // setPage(0);
+      setPage(0);
       console.log(e);
     };
     const handleOpenModalDesactivar = () => {
@@ -265,7 +269,7 @@
       setEmail(event.target.value);
     };
     const notFound = !userData.length && !!filterName;
-    if (loading) {
+    /* if (loading) {
       return (
         <Box
           sx={{
@@ -283,7 +287,7 @@
           </Typography>
         </Box>
       );
-    }
+    } */
 
     if (error) {
       return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
@@ -374,6 +378,27 @@
         />
         <Box sx={scrollContainerStyle}>
           <Grid container spacing={3}>
+            {loading ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginLeft:'50%',
+                  height: '25%',
+                  marginTop: '15%', // Ajusta la distancia desde la parte superior
+                  marginBottom: '15%',
+                }}
+              >
+                <CircularProgress color="primary" />
+                <Typography variant="h6" sx={{ mt: 2 }}>
+                  Cargando...
+                </Typography>
+              </Box>
+            ) : (
+              <>
             {userData && userData.length > 0 ? (
               userData.map((row) => (
                 <Grid item xs={12} sm={6} md={4} key={row.id}>
@@ -385,14 +410,32 @@
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       activo={row.activo}
+                      apellido={row.apellido}
                     />
                   </Card>
                 </Grid>
               ))
             ) : (
-              <Typography variant="body1" align="center" sx={{ marginTop: '20px' }}>
-                No hay datos disponibles
-              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginLeft:'30%',
+                  height: '25%',
+                  marginTop: '15%', // Ajusta la distancia desde la parte superior
+                  marginBottom: '15%',
+                }}
+              >
+
+                <Typography variant="h6" sx={{ mt: 2 }}>
+                  No se encontraron usuarios para la búsqueda
+                </Typography>
+              </Box>
+            )}
+              </>
             )}
           </Grid>
       </Box>

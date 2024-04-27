@@ -8,24 +8,26 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 // ----------------------------------------------------------------------
 
 export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {
 
+  const [localFilterName, setLocalFilterName] = useState(filterName);
 
+  useEffect(() => {
+    setLocalFilterName(filterName); // Actualiza el estado local cuando filterName cambia
+  }, [filterName]);
 
   const handleIconClick = () => {
-    // Llamar a onFilterName con el valor actual de filterName
-    // console.log(filterName)
-    onFilterName(filterName);
+    onFilterName(localFilterName); // Llama a onFilterName con el valor actualizado
+  };
 
-  };
   const handleInputChange = (event) => {
-    // Actualizar el estado local al cambiar el input
-    // console.log(event.target.value);
-    filterName=event.target.value;
+    const newValue = event.target.value;
+    setLocalFilterName(newValue); // Actualiza el estado local al cambiar el input
   };
+
   return (
     <Toolbar
       sx={{
@@ -45,7 +47,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
         </Typography>
       ) : (
         <OutlinedInput
-
+          value={localFilterName}
           onChange={handleInputChange}
           placeholder="Buscar usuario..."
           startAdornment={

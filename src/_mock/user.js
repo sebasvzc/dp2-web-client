@@ -19,7 +19,9 @@ const getUsers = async (page,pageSize,searchName) => {
     const accessToken = userStringify.token;
     const refreshToken = userStringify.refreshToken;
 
-
+    if(searchName===""){
+      searchName="all";
+    }
     const response = await fetch(`http://localhost:3000/api/user/listusers?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {

@@ -40,7 +40,8 @@ export default function UserTableRow({
                                        rol,
                                        emailX,
                                        handleClick,
-                                        activo
+                                        activo,
+                                       apellido
                                      }) {
   const [open, setOpen] = useState(null);
   const classes = useStyles();
@@ -62,7 +63,7 @@ export default function UserTableRow({
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
             <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
-                {nombre}
+                {nombre} {apellido}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Rol: {rol}
@@ -108,6 +109,7 @@ export default function UserTableRow({
 
 UserTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
+  apellido: PropTypes.string.isRequired,
   rol: PropTypes.string.isRequired,
   emailX: PropTypes.string.isRequired,
   activo: PropTypes.string.isRequired,
