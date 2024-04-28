@@ -6,6 +6,10 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
@@ -18,6 +22,17 @@ import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
+  modalContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    padding: "40px",
+    backgroundColor: 'white', // Fondo blanco
+    boxShadow: 24,
+    outline: 'none',
+  },
   activo: {
     color: '#008000', // Verde oscuro para activo
     backgroundColor: '#C8E6C9', // Fondo verde claro para activo
@@ -45,14 +60,37 @@ export default function UserTableRow({
                                      }) {
   const [open, setOpen] = useState(null);
   const classes = useStyles();
+  const [editedUser, setEditedUser] = useState({
+    nombre,
+    apellido,
+    rol,
+    email: emailX,
+    activo,
+  });
+
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
-
+  const [openEdit, setOpenEdit] = useState(false); // Estado para controlar la apertura y cierre del modal
   const handleCloseMenu = () => {
     setOpen(null);
   };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedUser({ ...editedUser, [name]: value });
+  };
 
+  const handleOpenModalEdit = () => {
+    console.log("open edit es true")
+    setOpenEdit(true);
+  };
+
+  const handleCloseModalEdit = () => {
+    setOpenEdit(false);
+  };
+  const handleGuardarCambios = () => {
+    console.log("Guardar cambios")
+  };
   return (
     <>
       <Card variant="outlined" sx={{ marginBottom: 2 }}>
@@ -95,14 +133,56 @@ export default function UserTableRow({
         }}
       >
         <MenuItem onClick={handleCloseMenu}>
+           <IconButton onClick={handleOpenModalEdit}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Editar
-        </MenuItem>
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Eliminar
+           </IconButton>
         </MenuItem>
       </Popover>
+      {/* Modal para editar usuario */}
+      <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title">
+        <div className={classes.modalContainer}>
+          <Typography variant="h6">Modificar Usuario</Typography>
+          <TextField
+            name="nombre"
+            label="Nombre"
+            value={editedUser.nombre}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="apellido"
+            label="Apellido"
+            value={editedUser.apellido}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="rol"
+            label="Rol"
+            value={editedUser.rol}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="email"
+            label="Email"
+            value={editedUser.email}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <Button variant="contained" onClick={handleCloseModalEdit}>
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={handleGuardarCambios}>
+            Guardar Cambios
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }
