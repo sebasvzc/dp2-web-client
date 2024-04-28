@@ -18,6 +18,8 @@ import IconButton from '@mui/material/IconButton';
 import { makeStyles } from '@mui/styles';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
+import { toast } from 'react-toastify';
+import InputAdornment from '@mui/material/InputAdornment';
 
 // ----------------------------------------------------------------------
 
@@ -53,21 +55,55 @@ export default function UserTableRow({
                                        selected,
                                        nombre,
                                        rol,
+                                        id,
                                        emailX,
                                        handleClick,
                                         activo,
-                                       apellido
+                                       apellido,
+                                       onEditUer
                                      }) {
   const [open, setOpen] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
   const [editedUser, setEditedUser] = useState({
+    id,
     nombre,
     apellido,
     rol,
     email: emailX,
     activo,
+    password: ""
   });
-
+  const handleGuardarCambios = async() => {
+    console.log("Usuario a modificar: ",editedUser)
+    try {
+      const response = await fetch('http://localhost:3000/api/user/modificar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ editedUser }),
+      });
+      const data = await response.json();
+      console.log(data); // Maneja la respuesta de la API según sea necesario
+      setOpenEdit(false);
+      toast.success('Usuario modificado exitosamente', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+      onEditUer();
+      // handleCloseModal(); // Cierra el modal después de enviar
+    } catch (e) {
+      console.error('Error al habilitar usuarios:', e);
+    }
+  };
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -88,9 +124,7 @@ export default function UserTableRow({
   const handleCloseModalEdit = () => {
     setOpenEdit(false);
   };
-  const handleGuardarCambios = () => {
-    console.log("Guardar cambios")
-  };
+
   return (
     <>
       <Card variant="outlined" sx={{ marginBottom: 2 }}>
@@ -175,6 +209,24 @@ export default function UserTableRow({
             fullWidth
             margin="normal"
           />
+          <TextField
+            name="password"
+            label="Contraseña"
+            type={showPassword ? 'text' : 'password'}
+            value={editedUser.password}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
           <Button variant="contained" onClick={handleCloseModalEdit}>
             Cancelar
           </Button>
@@ -191,8 +243,10 @@ UserTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
   apellido: PropTypes.string.isRequired,
   rol: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   emailX: PropTypes.string.isRequired,
   activo: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
+  onEditUer: PropTypes.func.isRequired,
 };

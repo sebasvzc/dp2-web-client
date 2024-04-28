@@ -205,7 +205,10 @@
       }
       setSelected([]);
     };
-
+    const handleCambio = (event) => {
+      console.log("camio de datos de usuario")
+      setHabilitarUsuarios(!habilitarUsuarios);
+    };
     const handleClick = (event, name) => {
       const selectedIndex = selected.indexOf(name);
       let newSelected = [];
@@ -293,8 +296,8 @@
       return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
     }
     return (
-      <Container>
-        <Typography variant="h2">Gestión de Usuarios</Typography>
+      <Container sx={{  borderLeft: '2 !important', borderRight: '0 !important', maxWidth: 'unset !important' }} >
+        <Typography variant="h2" >Gestión de Usuarios</Typography>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0}>
 
           <UserTableToolbar
@@ -406,11 +409,13 @@
                     <UserTableRow
                       nombre={row.nombre}
                       rol={row.rol}
+                      id={row.id}
                       emailX={row.email}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       activo={row.activo}
                       apellido={row.apellido}
+                      onEditUer={handleCambio}
                     />
                   </Card>
                 </Grid>
