@@ -306,8 +306,9 @@
             onFilterName={handleSearch}
           />
           <Stack direction="row" spacing={2}>
-            <Button variant="contained" color="inherit" sx={{ marginRight: '8px' }} onClick={handleOpenModal}>
-              + Invitar
+            <Button variant="contained" color="inherit" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
+            onClick={handleOpenModal} startIcon={<Iconify icon ="mdi:invite"/>}>
+              Invitar
             </Button>
             <Dialog open={openModal} onClose={handleCloseModal}>
               <DialogTitle>Invitar usuario</DialogTitle>
@@ -324,10 +325,10 @@
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleCloseModal} color="primary">
+                <Button onClick={handleCloseModal} color="error">
                   Cancelar
                 </Button>
-                <Button onClick={handleEnviar} color="primary">
+                <Button onClick={handleEnviar} color="success">
                   Enviar
                 </Button>
               </DialogActions>
@@ -336,10 +337,10 @@
               <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el usuario seleccionado?</DialogTitle>
 
               <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
-                <Button onClick={handleDeshabilitar} sx={{ backgroundColor: '#DFE0E0', color:"black" }}>
+                <Button onClick={handleDeshabilitar} color="success">
                   Sí
                 </Button>
-                <Button onClick={handleCloseModalDesactivar} sx={{ backgroundColor: '#DFE0E0', color:"black" }}>
+                <Button onClick={handleCloseModalDesactivar} color="error">
                   No
                 </Button>
 
@@ -349,36 +350,43 @@
               <DialogTitle>¿Estás seguro de que deseas habilitar el usuario seleccionado?</DialogTitle>
 
               <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
-                <Button onClick={handleHabilitar} sx={{ backgroundColor: '#DFE0E0', color:"black" }}>
+                <Button onClick={handleHabilitar} color="success">
                   Sí
                 </Button>
-                <Button onClick={handleCloseModalActivar} sx={{ backgroundColor: '#DFE0E0', color:"black" }}>
+                <Button onClick={handleCloseModalActivar} color="error">
                   No
                 </Button>
 
               </DialogActions>
             </Dialog>
-            <Button variant="contained"  sx={{ marginRight: '8px' , backgroundColor: '#DFE0E0', color:"black" }}  onClick={handleOpenModalDesactivar}>
-              Deshabilitar
-            </Button>
-            <Button variant="contained"  sx={{ backgroundColor: '#DFE0E0', color:"black" }} onClick={handleOpenModalActivar}>
+          </Stack>
+        </Stack>
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0}>
+          <UserTableHead
+            order={order}
+            orderBy={orderBy}
+            rowCount={userData.length}
+            numSelected={selected.length}
+            onRequestSort={handleSort}
+            onSelectAllClick={handleSelectAllClick}
+            headLabel={[
+
+              { id: '' },
+            ]}
+          />
+          <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
+            <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: '#198754', color:"#FFFFFF" }} 
+            onClick={handleOpenModalActivar} startIcon={<Iconify icon="eva:plus-fill" />}>
               Habilitar
             </Button>
-          </Stack>
-
+            <Button variant="contained" color="error" sx={{ backgroundColor: '#DC3545', color:"#FFFFFF" }}  
+            onClick={handleOpenModalDesactivar} startIcon={<Iconify icon="bi:dash" />}>
+              Deshabilitar
+            </Button>
+            </Stack>
         </Stack>
-        <UserTableHead
-          order={order}
-          orderBy={orderBy}
-          rowCount={userData.length}
-          numSelected={selected.length}
-          onRequestSort={handleSort}
-          onSelectAllClick={handleSelectAllClick}
-          headLabel={[
 
-            { id: '' },
-          ]}
-        />
         <Box sx={scrollContainerStyle}>
           <Grid container spacing={3}>
             {loading ? (

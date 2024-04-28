@@ -102,7 +102,8 @@ export default function Nav({ openNav, onCloseNav }) {
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV.WIDTH },
-        backgroundColor: "#007881"
+        background: 'linear-gradient(135deg, #003B91, #0081CF)',
+        border: 0,
       }}
     >
       {upLg ? (
