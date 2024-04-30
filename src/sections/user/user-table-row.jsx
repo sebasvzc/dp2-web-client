@@ -227,12 +227,14 @@ export default function UserTableRow({
               ),
             }}
           />
-          <Button variant="contained" onClick={handleCloseModalEdit}>
+         <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
+          <Button color="error" onClick={handleCloseModalEdit}>
             Cancelar
           </Button>
-          <Button variant="contained" onClick={handleGuardarCambios}>
-            Guardar Cambios
+          <Button color="success" onClick={handleGuardarCambios}>
+            Guardar
           </Button>
+        </div>
         </div>
       </Modal>
     </>

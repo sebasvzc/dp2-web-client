@@ -77,7 +77,7 @@ export default function LoginView() {
         />
     </Stack>
     <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ my: 3 }}>
-      <Link variant="subtitle2" underline="hover" style={{ color: "#EE8700", fontWeight: "bold" }}>
+      <Link variant="subtitle2" underline="hover" style={{ color: "#003B91", fontWeight: "bold" }}>
         ¿Olvidó su contraseña?
       </Link>
     </Stack>
@@ -87,7 +87,8 @@ export default function LoginView() {
         size="large"
         type="submit"
         variant="contained"
-        style={{ backgroundColor: "#EE8700" }}
+        style={{ background: 'linear-gradient(135deg, #003B91, #0081CF)',
+        color: 'white'}}
         onClick={handleClick}
       >
         Iniciar Sesión
@@ -132,7 +133,7 @@ export default function LoginView() {
             left: { xs: 16, md: 24 },
           }}
         />
-        <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh' }}>
+        <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh'}}>
           <div style={{ textAlign: 'center' }}>
             <Typography variant="h4">Iniciar Sesión</Typography>
           </div>
