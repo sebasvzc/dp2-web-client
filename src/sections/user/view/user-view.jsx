@@ -4,6 +4,7 @@
   import TableCell from '@mui/material/TableCell';
   import Grid from '@mui/material/Grid';
   import Card from '@mui/material/Card';
+  import Pagination from '@mui/material/Pagination';
   import Box from '@mui/material/Box';
   import CircularProgress from '@mui/material/CircularProgress';
   import NewScrollbar from 'src/components/scrollbar';
@@ -21,7 +22,7 @@
   import TextField from '@mui/material/TextField';
   import DialogTitle from '@mui/material/DialogTitle';
 
-
+  import { makeStyles } from '@mui/styles';
   import obtenerUsuarios  from 'src/_mock/user';
 
   import Iconify from 'src/components/iconify';
@@ -34,11 +35,23 @@
   import {  applyFilter, getComparator } from '../utils';
   import { useAuth } from '../../../utils/AuthContext';
 
+  const useStyles = makeStyles((theme) => ({
+    hideNavigationButton: {
+      display: 'none !important', // Oculta el botón de navegación
+    },
+    paginationContainer: {
 
+      display: "inline-block"
+    },
+    centeredPagination: {
+      margin: 'auto', // Centra horizontalmente el componente
+      maxWidth: 'fit-content', // Ajusta el ancho al contenido
+    },
+  }));
   // ----------------------------------------------------------------------
   const scrollContainerStyle = {
     overflowY: 'auto',
-    maxHeight: 'calc(100vh - 470px)',
+
     paddingRight: '5%',
     boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
@@ -50,10 +63,12 @@
     const [habilitarUsuarios, setHabilitarUsuarios] = useState(true);
     const [error, setError] = useState(null);
     const [selected, setSelected] = useState([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(6);
+
     const [orderBy, setOrderBy] = useState('id');
 
+    const classes = useStyles();
     const [filterName, setFilterName] = useState('');
     const {user, loginUser} = useAuth()
     const [totalUsers, setTotalUsers] = useState(10);
@@ -63,7 +78,7 @@
     const fetchData = async () => {
         try {
           setLoading(true); // Indicar que la carga ha finalizado
-          const data = await obtenerUsuarios(page+1,pageSize,searchName); // Obtener los datos de usuarios
+          const data = await obtenerUsuarios(page,pageSize,searchName); // Obtener los datos de usuarios
           console.log(data.users)
           if(data.newToken){
             const storedUser = localStorage.getItem('user');
@@ -72,6 +87,7 @@
             localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
             console.log("He puesto un nuevo token");
           }
+          console.log(data.totalUsers)
           if(data.totalUsers){
             setTotalUsers(data.totalUsers);
           }
@@ -236,15 +252,16 @@
     };
 
     const handleChangeRowsPerPage = (event) => {
-      setPage(0);
+      setPage(1);
       setPageSize(parseInt(event.target.value, 10));
     };
 
     const handleSearch = (e) => {
       setSearchName(e)
-      setPage(0);
+      setPage(1);
       console.log(e);
     };
+    const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
     const handleOpenModalDesactivar = () => {
       setOpenModalDesactivar(true);
     };
@@ -444,16 +461,26 @@
             )}
           </Grid>
       </Box>
-        <TablePagination
-          page={page}
-          component="div"
-          count={totalUsers}
-          rowsPerPage={pageSize}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[6, 12, 18]}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Usuarios por página"
-        />
+        <Grid container justifyContent="center"> {/* Centra horizontalmente */}
+          <Grid item>
+            <TablePagination
+              page={page-1}
+              component="div"
+              count={totalUsers}
+              rowsPerPage={pageSize}
+              onPageChange={handleChangePage}
+              rowsPerPageOptions={[6, 12, 18]}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Usuarios por página"
+              nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha
+              backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
+              labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
+            />
+            <Pagination count={totalUsers/pageSize} showFirstButton showLastButton  onChange={handleChangePage}/>
+          </Grid>
+
+        </Grid>
+
       </Container>
     );
   }
