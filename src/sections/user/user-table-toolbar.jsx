@@ -55,7 +55,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
               <Iconify
                 icon="eva:search-fill"
                 sx={{ color: 'text.disabled', width: 40, height: 20 }}
-              />
+              /> 
             </InputAdornment>
           }
           sx={{  width: 600, height: 40, backgroundColor:"white" }}

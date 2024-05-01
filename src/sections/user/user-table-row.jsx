@@ -40,14 +40,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#C8E6C9', // Fondo verde claro para activo
     padding: '2px 6px',
     borderRadius: '4px',
-    marginLeft: '4px',
   },
   inactivo: {
     color: '#FF0000', // Rojo para inactivo
     backgroundColor: '#FFCDD2', // Fondo rojo claro para inactivo
     padding: '2px 6px',
     borderRadius: '4px',
-    marginLeft: '4px',
   },
 }));
 
@@ -129,7 +127,8 @@ export default function UserTableRow({
     <>
       <Card variant="outlined" sx={{ marginBottom: 2 }}>
         <CardContent>
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
+          <Checkbox disableRipple checked={selected} onChange={handleClick} 
+          style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src="public/assets/images/avatars/avatar_1.jpg" alt="Avatar"
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
@@ -163,13 +162,13 @@ export default function UserTableRow({
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
-          sx: { width: 140 },
+          sx: { width: 120 },
         }}
       >
         <MenuItem onClick={handleCloseMenu}>
            <IconButton onClick={handleOpenModalEdit}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Editar
+          <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
+          <span style={{ fontSize: 'smaller' }}>Editar</span>
            </IconButton>
         </MenuItem>
       </Popover>

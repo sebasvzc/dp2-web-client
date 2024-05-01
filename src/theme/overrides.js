@@ -75,7 +75,6 @@ export function overrides(theme) {
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: theme.customShadows.card,
           borderRadius: Number(theme.shape.borderRadius) * 2,
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
@@ -97,7 +96,7 @@ export function overrides(theme) {
       styleOverrides: {
         root: {
           [`& .${outlinedInputClasses.notchedOutline}`]: {
-            borderColor: alpha(theme.palette.grey[500], 0.24),
+            borderColor: 'alpha(theme.palette.grey[500], 0.24)',
           },
         },
       },

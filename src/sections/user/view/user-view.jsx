@@ -52,7 +52,7 @@
   const scrollContainerStyle = {
     overflowY: 'auto',
 
-    paddingRight: '5%',
+    paddingRight: '0.1%',
     boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
   export default function UserView() {
@@ -67,11 +67,34 @@
     const [pageSize, setPageSize] = useState(6);
 
     const [orderBy, setOrderBy] = useState('id');
+    const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
+    const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+    const [botonHabilitado, setBotonHabilitado] = useState(true);
 
     const classes = useStyles();
     const [filterName, setFilterName] = useState('');
     const {user, loginUser} = useAuth()
     const [totalUsers, setTotalUsers] = useState(10);
+
+  useEffect(() => {
+    if(selected.length>0){
+      setBackgroundBtnHabilitar("#198754");
+      setBotonHabilitado(false);
+      setBackgroundBtnDeshabilitar("#DC3545");
+      setBotonDeshabilitado(false);
+    }else{
+      setBackgroundBtnHabilitar("#CCCCCC");
+      setBotonHabilitado(true);
+      setBackgroundBtnDeshabilitar("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+  }, [selected]);
+
+  console.log("Seleccionar")
+  console.log(selected)
+  console.log("Seleccionar")
+
   // Llama a la función obtenerUsuarios para obtener y mostrar los datos de usuarios
     useEffect(() => {
 
@@ -313,10 +336,11 @@
       return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
     }
     return (
-      <Container sx={{  borderLeft: '2 !important', borderRight: '0 !important', maxWidth: 'unset !important' }} >
-        <Typography variant="h2" >Gestión de Usuarios</Typography>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0}>
-
+      
+      <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Usuarios</Typography>
+        <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
           <UserTableToolbar
             numSelected={selected.length}
             filterName={filterName}
@@ -327,7 +351,8 @@
             onClick={handleOpenModal} startIcon={<Iconify icon ="mdi:invite"/>}>
               Invitar
             </Button>
-            <Dialog open={openModal} onClose={handleCloseModal}>
+            <Dialog open={openModal} onClose={handleCloseModal} 
+            fullWidth maxWidth="md" PaperProps={{ style: { maxHeight: '90vh' } }}>
               <DialogTitle>Invitar usuario</DialogTitle>
               <DialogContent>
                 <TextField
@@ -350,7 +375,8 @@
                 </Button>
               </DialogActions>
             </Dialog>
-            <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} >
+            <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} 
+             fullHeight maxHeight="md" >
               <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el usuario seleccionado?</DialogTitle>
 
               <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
@@ -363,7 +389,8 @@
 
               </DialogActions>
             </Dialog>
-            <Dialog open={openModalActivar} onClose={handleCloseModalActivar}  sx={{ alignItems: 'center'}}>
+            <Dialog open={openModalActivar} onClose={handleCloseModalActivar}
+            maxWidth="md" maxHeight="md" >
               <DialogTitle>¿Estás seguro de que deseas habilitar el usuario seleccionado?</DialogTitle>
 
               <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
@@ -379,7 +406,7 @@
           </Stack>
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
           <UserTableHead
             order={order}
             orderBy={orderBy}
@@ -393,11 +420,13 @@
             ]}
           />
           <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
-            <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: '#198754', color:"#FFFFFF" }} 
+            <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
+            disabled={botonDeshabilitado}
             onClick={handleOpenModalActivar} startIcon={<Iconify icon="eva:plus-fill" />}>
               Habilitar
             </Button>
-            <Button variant="contained" color="error" sx={{ backgroundColor: '#DC3545', color:"#FFFFFF" }}  
+            <Button variant="contained" color="error" sx={{ backgroundColor: backgroundBtnDeshabilitar , color:"#FFFFFF" }}  
+            disabled={botonDeshabilitado}
             onClick={handleOpenModalDesactivar} startIcon={<Iconify icon="bi:dash" />}>
               Deshabilitar
             </Button>
@@ -405,7 +434,7 @@
         </Stack>
 
         <Box sx={scrollContainerStyle}>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {loading ? (
               <Box
                 sx={{
@@ -421,7 +450,7 @@
                 }}
               >
                 <CircularProgress color="primary" />
-                <Typography variant="h6" sx={{ mt: 2 }}>
+                <Typography variant="h6" sx={{ mt: 1 }}>
                   Cargando...
                 </Typography>
               </Box>
