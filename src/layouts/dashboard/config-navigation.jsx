@@ -109,22 +109,22 @@ export default function NavBar() {
         },
         {
           title: 'Gestión de Cupones',
-          path: '/user',
+          path: '/cupon',
           icon: icon('ic_cupon'),
         },
         {
           title: 'Gestión de Eventos',
-          path: '/user',
+          path: '/eventos',
           icon: icon('ic_evento'),
         },
         {
           title: 'Gestión de Clientes',
-          path: '/user',
+          path: '/clientes',
           icon: icon('ic_cliente'),
         },
         {
           title: 'Gestión de Categorías',
-          path: '/user',
+          path: '/categorias',
           icon: icon('ic_categoria'),
         },
         {
