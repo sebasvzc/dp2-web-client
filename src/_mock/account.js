@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 const LoginUsuario = async (email, password) => {
   try {
     console.log("LoginUsuario", email, password)
-    const response = await fetch('http://localhost:3000/api/user/login', {
+    const response = await fetch('http://3.220.179.149/api/api/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
