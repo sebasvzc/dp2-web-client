@@ -49,62 +49,8 @@ export default function NuevaContrasenaView() {
     const idUsuario = sessionStorage.getItem('UsuarioIDRecupracion')
     const codigoValidacion = sessionStorage.getItem('CodigoRecuperacion')
 
-
-    try {
-      const response = await fetch('http://localhost:3000/api/password/cambiarPasswordWeb', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({idUsuario,nuevaContrasenia,codigoValidacion}) // Propiedad abreviada
-      });
-  
-      const responseData  = await response.json();
-  
-      console.log('SOY LA DATA DE RESPUESTA')
-      console.log(responseData)
-      console.log(emailRef.current.value)
-      console.log(nuevaContra2)
-      if(emailRef.current.value!==nuevaContra2.current.value){
-        toast.error("Error: Las contraseñas deben ser iguales", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-        });
-      }
-      else if(responseData.estado!==1 && responseData.estado!==0){
-
-        setMessage(responseData.message)
-
-      }
-      else if(responseData.estado===0){
-        setMessage(responseData.message)
-      }
-      else{
-        console.log('Todo bien')
-        toast.success('Contraseña cambiada exitosamente. Redirigendo al login', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          onClose: () => {
-            // Aquí agregamos la navegación a la página de inicio de sesión
-            navigate('/login');
-          }
-        });
-      }
-    } catch (error) {
-      toast.error("Error inesperado", {
+    if(emailRef.current.value!==nuevaContra2.current.value){
+      toast.error("Error: Las contraseñas deben ser iguales", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: true,
@@ -114,9 +60,64 @@ export default function NuevaContrasenaView() {
         progress: undefined,
         theme: "colored"
       });
-      console.error('Error fetching users:', error);
-      throw error; // Lanzar el error para manejarlo en el componente que llama a getUsers
+    }else{
+      try {
+        const response = await fetch('http://localhost:3000/api/password/cambiarPasswordWeb', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({idUsuario,nuevaContrasenia,codigoValidacion}) // Propiedad abreviada
+        });
+
+        const responseData  = await response.json();
+
+        console.log('SOY LA DATA DE RESPUESTA')
+        console.log(responseData)
+        console.log(emailRef.current.value)
+        console.log(nuevaContra2)
+        if(responseData.estado!==1 && responseData.estado!==0){
+
+          setMessage(responseData.message)
+
+        }
+        else if(responseData.estado===0){
+          setMessage(responseData.message)
+        }
+        else{
+          console.log('Todo bien')
+          toast.success('Contraseña cambiada exitosamente. Redirigendo al login', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            onClose: () => {
+              // Aquí agregamos la navegación a la página de inicio de sesión
+              navigate('/login');
+            }
+          });
+        }
+      } catch (error) {
+        toast.error("Error inesperado", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        console.error('Error fetching users:', error);
+        throw error; // Lanzar el error para manejarlo en el componente que llama a getUsers
+      }
     }
+
   };
 
   const renderForm = (
