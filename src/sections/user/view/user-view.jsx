@@ -52,6 +52,7 @@
   const scrollContainerStyle = {
     overflowY: 'auto',
 
+    maxHeight: 'calc(100vh - 470px)',
     paddingRight: '0.1%',
     boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
