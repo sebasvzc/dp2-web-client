@@ -23,11 +23,14 @@ import LoginUsuario from '../../_mock/account';
 import { useNavigate } from 'react-router-dom';
 // ----------------------------------------------------------------------
 
-export default function LoginView() {
+export default function ForgottenPasswordView() {
   const router = useRouter();
   const { user, loginUser } = useAuth();
-  const navigate=useNavigate();
+  const [message,setMessage]=useState('');
 
+  
+  const navigate=useNavigate();
+  
   useEffect(() => {
     if (user) {
       router.push('/');
@@ -35,59 +38,56 @@ export default function LoginView() {
   },);
   const theme = useTheme();
   const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = async (e) => {
-    console.log('emailRef', emailRef.current.value)
-    console.log('passwordRef', passwordRef.current.value)
-    try {
-      const data = await LoginUsuario(emailRef.current.value, passwordRef.current.value);
+    const regEx=/[a-zA-Z0-9+_%+-]+@[a-z0-9]+\.[a-z]{2,8}(.[a-z{2,8}])?/g
 
-      console.log(data)
-      loginUser(data)
-      // Realizar acciones con los datos de respuesta exitosa, como redireccionar o establecer tokens en el estado, etc.
-    } catch (err) {
-      console.log("error dentro de try cathc")
-      console.log(err.code)
-      // Mostrar un toast de error en caso de que el código sea "2"
-
+    if(regEx.test(emailRef.current.value)){
+        console.log('emailRef', emailRef.current.value)
+        try {
+            const response = await fetch('http://localhost:3000/api/password/olvidoPasswordWeb ', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({email:emailRef.current.value}) // Propiedad abreviada
+            });
+        
+            const responseData  = await response.json();
+        
+            console.log('SOY LA DATA DE RESPUESTA')
+            console.log(responseData.id)
+            if (responseData.id!=0) {
+              console.log('HURRA')
+              sessionStorage.setItem('UsuarioIDRecupracion',responseData.id)
+              sessionStorage.setItem('CodigoRecuperacion',responseData.codigo)
+              setMessage('')
+              navigate('/CodeValidation')
+            }
+            else{
+                setMessage('No existe un usuario asociado a este correo')
+            }
+          } catch (error) {
+            console.error('Error fetching users:', error);
+            throw error; // Lanzar el error para manejarlo en el componente que llama a getUsers
+          }
     }
-
-
-
+    else{
+        console.log('Correo invalido')
+        setMessage('El correo no es válido')
+    }
   };
-
-  const handleClickForgottenPassword = async (e) =>{
-    //console.log('HOLA')
-    navigate('/ForgottenPassword')
-  }
-
 
   const renderForm = (
     <>
     <Stack spacing={3}>
+        <p>Ingresa el correo de la cuenta asociada. Se te enviará un mail para recuperar tu contraseña</p>
         <TextField inputRef={emailRef} name="email" label="Correo" />
-        <TextField
-          inputRef={passwordRef}
-          name="password"
-          label="Contraseña"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        {message}
     </Stack>
     <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ my: 3 }}>
-      <Link variant="subtitle2" onClick={handleClickForgottenPassword} underline="hover" style={{ color: "#003B91", fontWeight: "bold" }}>
-        ¿Olvidó su contraseña?
-      </Link>
+     
     </Stack>
     <Box mb={2}>
       <LoadingButton
@@ -99,7 +99,7 @@ export default function LoginView() {
         color: 'white'}}
         onClick={handleClick}
       >
-        Iniciar Sesión
+        Recuperar contraseña
       </LoadingButton>
     </Box>
     </>
@@ -143,7 +143,7 @@ export default function LoginView() {
         />
         <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh'}}>
           <div style={{ textAlign: 'center' }}>
-            <Typography variant="h4">Iniciar Sesión</Typography>
+            <Typography variant="h4">Recuperar Contraseña</Typography>
           </div>
           <div>
             <br />
@@ -154,3 +154,4 @@ export default function LoginView() {
     </Box>
   );
 }
+export { default as ForgottenPasswordView } from './forgottenPassword-view';

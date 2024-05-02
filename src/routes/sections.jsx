@@ -15,6 +15,9 @@ export const ProductsPage = lazy(() => import('src/pages/products'));
 export const TiendasPage = lazy(() => import('src/pages/tiendas'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
+export const ForgottenPasswordPage = lazy(() => import('src/pages/forgottenPassword'));
+export const CodeValidationPage = lazy(() => import('src/pages/codeValidation'));
+export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'));
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +28,9 @@ export default function RouterX() {
         <Routes>
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
+          <Route path="/ForgottenPassword" element={<ForgottenPasswordPage/>}/>
+          <Route path="/CodeValidation" element={<CodeValidationPage/>}/>
+          <Route path="/NewPassword" element={<NuevaContrasenaPage/>}/>
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<IndexPage/>}/>
             <Route path="/user" element={<UserPage/>}/>
