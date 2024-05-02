@@ -1,5 +1,7 @@
 import { useEffect,useState} from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
+import { fetchAccountData } from 'src/_mock/accountData';
 import { Collapse } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -11,13 +13,13 @@ import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
-import { useNavigate } from 'react-router-dom';
+
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { account } from 'src/_mock/accountData';
+
 
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
@@ -30,10 +32,26 @@ import NavBar from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
-
+  const [account, setAccount] = useState({
+    activo: '',
+    nombre: '',
+    apellido: '',
+    email: '',
+    rol: ''
+  });
   const upLg = useResponsive('up', 'lg');
 
   useEffect(() => {
+    const loadAccountData = async () => {
+      try {
+        const data = await fetchAccountData();
+        console.log(data)
+        setAccount(data);
+      } catch (error) {
+        console.error('Error loading account data:', error);
+      }
+    };
+    loadAccountData();
     if (openNav) {
       onCloseNav();
     }
@@ -57,10 +75,10 @@ export default function Nav({ openNav, onCloseNav }) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+        <Typography variant="subtitle2">{account.nombre} {account.apellido}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+          {account.rol}
         </Typography>
       </Box>
     </Box>
