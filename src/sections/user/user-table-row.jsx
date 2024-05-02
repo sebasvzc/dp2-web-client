@@ -238,17 +238,22 @@ export default function UserTableRow({
         </MenuItem>
       </Popover>
       {/* Modal para editar usuario */}
-      <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title">
+      <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title" >
         <div className={classes.modalContainer}>
-          <Typography variant="h6">Modificar Usuario</Typography>
-          <TextField
-            name="nombre"
-            label="Nombre"
-            value={editedUser.nombre}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
+        <Typography variant="h6" style={{ marginBottom: "20px" }}>Modificar Usuario</Typography>
+          <Stack direction="column" spacing={1}>
+            <TextField
+              name="nombre"
+              label="Nombre"
+              value={editedUser.nombre}
+              onChange={handleInputChange}
+              fullWidth
+              margin="normal"
+            />
+            <input className="inputEspecialAC" type="text" value={mostrarTxtNomb} onChange={handleInputChange} 
+            style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
+            disabled/>
+           
           <TextField
             name="apellido"
             label="Apellido"
@@ -257,6 +262,10 @@ export default function UserTableRow({
             fullWidth
             margin="normal"
           />
+          <input className="inputEspecialAC" type="text" value={mostrarTxtApp} onChange={handleInputChange} 
+          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
+          disabled/>
+          
           <TextField
             name="rol"
             label="Rol"
@@ -265,6 +274,10 @@ export default function UserTableRow({
             fullWidth
             margin="normal"
           />
+           <input className="inputEspecialAC" type="text"
+          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
+          disabled/>
+         
           <TextField
             name="email"
             label="Email"
@@ -273,6 +286,10 @@ export default function UserTableRow({
             fullWidth
             margin="normal"
           />
+          <input className="inputEspecialAC" type="text" value={mostrarTxtCorreo} onChange={handleInputChange} 
+          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
+          disabled/>
+         
           <TextField
             name="password"
             label="Contraseña"
@@ -291,6 +308,10 @@ export default function UserTableRow({
               ),
             }}
           />
+           <input className="inputEspecialAC" type="text" value={mostrarTxtCont} onChange={handleInputChange} 
+          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
+          disabled/>
+          </Stack>
          <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
           <Button color="error" variant="contained" style={{backgroundColor: '#DC3545'}} onClick={handleCloseModalEdit}>
             Cancelar
