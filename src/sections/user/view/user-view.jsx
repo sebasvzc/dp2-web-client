@@ -481,8 +481,8 @@
               <>
             {userData && userData.length > 0 ? (
               userData.map((row) => (
-                <Grid item xs={12} sm={6} md={4} key={row.id}>
-                  <Card>
+                <Grid item xs={12} sm={6} md={4} key={row.id} >
+                  <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <UserTableRow
                       nombre={row.nombre}
                       rol={row.rol}
