@@ -535,7 +535,7 @@
               backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
               labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
             />
-            <Pagination count={totalUsers/pageSize} showFirstButton showLastButton  onChange={handleChangePage}/>
+            <Pagination count={ Math.ceil(totalUsers / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
           </Grid>
 
         </Grid>
