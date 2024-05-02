@@ -11,6 +11,7 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import { toast } from 'react-toastify';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -20,6 +21,7 @@ import fondo from 'src/components/images/fondo.avif';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../../utils/AuthContext'
+
 
 
 // ----------------------------------------------------------------------
@@ -40,6 +42,7 @@ export default function NuevaContrasenaView() {
   const passwordRef = useRef(null);
 
   const handleClick = async (e) => {
+
     console.log('emailRef', emailRef.current.value)
     
     const nuevaContrasenia=emailRef.current.value
@@ -64,7 +67,16 @@ export default function NuevaContrasenaView() {
       console.log(emailRef.current.value)
       console.log(nuevaContra2)
       if(emailRef.current.value!==nuevaContra2.current.value){
-        setMessage('Ambos campos deben tener la misma contraseña')
+        toast.error("Error: Las contraseñas deben ser iguales", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
       }
       else if(responseData.estado!==1 && responseData.estado!==0){
 
@@ -76,9 +88,32 @@ export default function NuevaContrasenaView() {
       }
       else{
         console.log('Todo bien')
-        navigate('/login')
+        toast.success('Contraseña cambiada exitosamente. Redirigendo al login', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          onClose: () => {
+            // Aquí agregamos la navegación a la página de inicio de sesión
+            navigate('/login');
+          }
+        });
       }
     } catch (error) {
+      toast.error("Error inesperado", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
       console.error('Error fetching users:', error);
       throw error; // Lanzar el error para manejarlo en el componente que llama a getUsers
     }

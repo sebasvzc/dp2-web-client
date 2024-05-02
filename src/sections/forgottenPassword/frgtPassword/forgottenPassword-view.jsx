@@ -7,6 +7,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import { ToastContainer, toast } from 'react-toastify';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -19,6 +20,7 @@ import fondo from 'src/components/images/fondo.avif';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../../utils/AuthContext'
+
 
 
 // ----------------------------------------------------------------------
@@ -62,11 +64,34 @@ export default function ForgottenPasswordView() {
               console.log('HURRA')
               sessionStorage.setItem('UsuarioIDRecupracion',responseData.id)
               sessionStorage.setItem('CodigoRecuperacion',responseData.codigo)
-              setMessage('')
-              navigate('/CodeValidation')
+              toast.success('Email enviado exitosamente.', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                onClose: () => {
+                  // Aquí agregamos la navegación a la página de inicio de sesión
+                  navigate('/CodeValidation');
+                }
+              });
+
             }
             else{
-                setMessage('No existe un usuario asociado a este correo')
+              toast.error("Error: No existe un usuario asociado a este correo", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored"
+              });
+
             }
           } catch (error) {
             console.error('Error fetching users:', error);
@@ -75,7 +100,16 @@ export default function ForgottenPasswordView() {
     }
     else{
         console.log('Correo invalido')
-        setMessage('El correo no es válido')
+      toast.error("Error: El correo no es valido", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
     }
   };
 

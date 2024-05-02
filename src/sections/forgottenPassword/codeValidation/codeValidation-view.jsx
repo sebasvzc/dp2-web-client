@@ -6,6 +6,7 @@ import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { ToastContainer, toast } from 'react-toastify';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -20,6 +21,7 @@ import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../../utils/AuthContext'
 import LoginUsuario from '../../../_mock/account';
+
 
 // ----------------------------------------------------------------------
 
@@ -45,11 +47,33 @@ export default function CodeValidationView() {
 
     if(codigoSesion===emailRef.current.value){
       console.log('Codigo Valido')
-      navigate('/NewPassword')
+      toast.success('Código validado exitosamente.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        onClose: () => {
+          // Aquí agregamos la navegación a la página de inicio de sesión
+          navigate('/NewPassword');
+        }
+      });
     }
     else{
       console.log('Codigo Invalido')
-      setMessage('Código Inválido')
+      toast.error("Error: El código introducido es inválido", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
     }
   };
 
