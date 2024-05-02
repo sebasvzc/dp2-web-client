@@ -78,7 +78,7 @@ export default function RegisterView() {
       && formData.email.length!==0 && validarEmail(formData.email)
       && formData.nombre.length!==0 && validarNombre(formData.nombre)
       && formData.apellido.length!==0 && validarNombre(formData.apellido)){
-      setBackgroundBtnReg("#EE8700");
+      setBackgroundBtnReg("#003B91");
       setBotonDeshabilitado(false);
     }else{
       setBackgroundBtnReg("#CCCCCC");
@@ -261,7 +261,7 @@ export default function RegisterView() {
         size="large"
         type="submit"
         variant="contained"
-        style={{ backgroundColor: backgroundBtnReg, mt: 3 , marginTop: "30px" }}
+        style={{ backgroundColor: backgroundBtnReg, mt: 3 , marginTop: "30px" , color: "white"}}
         disabled={botonDeshabilitado}
       >
         Registrarse
