@@ -56,7 +56,7 @@ export default function NuevaContrasenaView() {
       });
     }else{
       try {
-        const response = await fetch('http://localhost:3000/api/password/cambiarPasswordWeb', {
+        const response = await fetch('http://3.220.179.149/api/api/password/cambiarPasswordWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
