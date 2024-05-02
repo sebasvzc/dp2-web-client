@@ -122,7 +122,7 @@ export default function RegisterView() {
     // Aquí puedes manejar la lógica de envío del formulario, como enviar los datos al backend
     const fetchData = async () => {
       try {
-         const response = await fetch('http://localhost:3000/api/user/signup', {
+         const response = await fetch('http://3.220.179.149/api/api/user/signup', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
