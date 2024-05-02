@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { NuevaContrasenaView } from 'src/sections/forgottenPassword/nuevaContrasena-view'
+import {NuevaContrasenaView} from 'src/sections/forgottenPassword/nuevaContrasenia'
 
 // ----------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
 import Link from '@mui/material/Link';
@@ -20,7 +20,7 @@ import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../utils/AuthContext'
 import LoginUsuario from '../../_mock/account';
-import { useNavigate } from 'react-router-dom';
+
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
@@ -59,7 +59,7 @@ export default function LoginView() {
   };
 
   const handleClickForgottenPassword = async (e) =>{
-    //console.log('HOLA')
+
     navigate('/ForgottenPassword')
   }
 

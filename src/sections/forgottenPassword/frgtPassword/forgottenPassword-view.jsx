@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
 import Link from '@mui/material/Link';
@@ -18,9 +18,9 @@ import { bgGradient } from 'src/theme/css';
 import fondo from 'src/components/images/fondo.avif';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-import { useAuth } from '../../utils/AuthContext'
-import LoginUsuario from '../../_mock/account';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../utils/AuthContext'
+
+
 // ----------------------------------------------------------------------
 
 export default function ForgottenPasswordView() {
@@ -58,7 +58,7 @@ export default function ForgottenPasswordView() {
         
             console.log('SOY LA DATA DE RESPUESTA')
             console.log(responseData.id)
-            if (responseData.id!=0) {
+            if (responseData.id!==0) {
               console.log('HURRA')
               sessionStorage.setItem('UsuarioIDRecupracion',responseData.id)
               sessionStorage.setItem('CodigoRecuperacion',responseData.codigo)
@@ -86,9 +86,7 @@ export default function ForgottenPasswordView() {
         <TextField inputRef={emailRef} name="email" label="Correo" />
         {message}
     </Stack>
-    <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ my: 3 }}>
-     
-    </Stack>
+
     <Box mb={2}>
       <LoadingButton
         fullWidth
@@ -154,4 +152,4 @@ export default function ForgottenPasswordView() {
     </Box>
   );
 }
-export { default as ForgottenPasswordView } from './forgottenPassword-view';
+

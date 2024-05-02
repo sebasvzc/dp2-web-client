@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
@@ -18,16 +19,15 @@ import { bgGradient } from 'src/theme/css';
 import fondo from 'src/components/images/fondo.avif';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-import { useAuth } from '../../utils/AuthContext'
-import LoginUsuario from '../../_mock/account';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../utils/AuthContext'
+
+
 // ----------------------------------------------------------------------
 
-export default function CodeValidationView() {
+export default function NuevaContrasenaView() {
   const router = useRouter();
   const { user, loginUser } = useAuth();
   const [message,setMessage]=useState('');
-
   const navigate=useNavigate();
   useEffect(() => {
     if (user) {
@@ -36,32 +36,64 @@ export default function CodeValidationView() {
   },);
   const theme = useTheme();
   const emailRef = useRef(null);
+  const nuevaContra2 = useRef(null);
   const passwordRef = useRef(null);
 
   const handleClick = async (e) => {
     console.log('emailRef', emailRef.current.value)
     
-    let codigoSesion=sessionStorage.getItem('CodigoRecuperacion')
+    const nuevaContrasenia=emailRef.current.value
+    const idUsuario = sessionStorage.getItem('UsuarioIDRecupracion')
+    const codigoValidacion = sessionStorage.getItem('CodigoRecuperacion')
 
-    if(codigoSesion==emailRef.current.value){
-      console.log('Codigo Valido')
-      navigate('/NewPassword')
-    }
-    else{
-      console.log('Codigo Invalido')
-      setMessage('Código Inválido')
+
+    try {
+      const response = await fetch('http://localhost:3000/api/password/cambiarPasswordWeb', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({idUsuario,nuevaContrasenia,codigoValidacion}) // Propiedad abreviada
+      });
+  
+      const responseData  = await response.json();
+  
+      console.log('SOY LA DATA DE RESPUESTA')
+      console.log(responseData)
+      console.log(emailRef.current.value)
+      console.log(nuevaContra2)
+      if(emailRef.current.value!==nuevaContra2.current.value){
+        setMessage('Ambos campos deben tener la misma contraseña')
+      }
+      else if(responseData.estado!==1 && responseData.estado!==0){
+
+        setMessage(responseData.message)
+
+      }
+      else if(responseData.estado===0){
+        setMessage(responseData.message)
+      }
+      else{
+        console.log('Todo bien')
+        navigate('/login')
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw error; // Lanzar el error para manejarlo en el componente que llama a getUsers
     }
   };
 
   const renderForm = (
     <>
     <Stack spacing={3}>
-        <p>Se le ha enviado un código por correo. Por favor ingresarlo</p>
-        <TextField inputRef={emailRef} name="email" label="Código" />
-    </Stack>
-    <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ my: 3 }}>
+        <p>Ingrese su nueva contraseña</p>
+        <TextField inputRef={emailRef} name="email" label="Nueva Contraseña" />
+        <p>Vuelva a ingresar su nueva contraseña</p>
+        <TextField inputRef={nuevaContra2} name="email2" label="Reingrese Nueva Contraseña" />
     {message}
     </Stack>
+
     <Box mb={2}>
       <LoadingButton
         fullWidth
@@ -72,7 +104,7 @@ export default function CodeValidationView() {
         color: 'white'}}
         onClick={handleClick}
       >
-        Validar Código
+        Cambiar Contraseña
       </LoadingButton>
     </Box>
     </>
@@ -116,7 +148,7 @@ export default function CodeValidationView() {
         />
         <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh'}}>
           <div style={{ textAlign: 'center' }}>
-            <Typography variant="h4">Ingrese el código</Typography>
+            <Typography variant="h4">Nueva Contraseña</Typography>
           </div>
           <div>
             <br />
@@ -127,3 +159,4 @@ export default function CodeValidationView() {
     </Box>
   );
 }
+
