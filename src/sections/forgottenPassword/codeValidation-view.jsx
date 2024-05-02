@@ -127,4 +127,3 @@ export default function CodeValidationView() {
     </Box>
   );
 }
-export { default as CodeValidationView } from './codeValidation-View';
