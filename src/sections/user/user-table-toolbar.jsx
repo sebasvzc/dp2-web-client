@@ -22,6 +22,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
 
   const handleIconClick = () => {
     onFilterName(localFilterName); // Llama a onFilterName con el valor actualizado
+
   };
 
   const handleInputChange = (event) => {

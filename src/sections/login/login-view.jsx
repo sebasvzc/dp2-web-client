@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import { toast } from 'react-toastify';
 import { Grid } from '@mui/material';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -51,7 +52,16 @@ export default function LoginView() {
       console.log("error dentro de try cathc")
       console.log(err.code)
       // Mostrar un toast de error en caso de que el código sea "2"
-
+      toast.error("Error durante el proceso de login", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
     }
 
 
