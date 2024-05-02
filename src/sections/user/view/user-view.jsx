@@ -158,11 +158,35 @@
             progress: undefined,
             theme: "colored"
           });
+        }else{
+          toast.error('Error: El correo ya se encuentra registrado', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
         }
         handleCloseModal(); // Cierra el modal después de enviar
+        setEmail("");
       } catch (e) {
         console.error('Error al enviar correo electrónico:', e);
+        toast.error('Error: El correo ya se encuentra registrado', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        setEmail("");
       }
+
     };
     const handleDeshabilitar = async () => {
       try {
@@ -174,9 +198,7 @@
           },
           body: JSON.stringify({ selected }),
         });
-
         const data = await response.json();
-
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
         setHabilitarUsuarios(!habilitarUsuarios);
