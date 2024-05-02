@@ -81,25 +81,27 @@ export default function ForgottenPasswordView() {
 
   const renderForm = (
     <>
-    <Stack spacing={3}>
+      <Stack spacing={3}>
         <p>Ingresa el correo de la cuenta asociada. Se te enviará un mail para recuperar tu contraseña</p>
         <TextField inputRef={emailRef} name="email" label="Correo" />
         {message}
-    </Stack>
-
-    <Box mb={2}>
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        style={{ background: 'linear-gradient(135deg, #003B91, #0081CF)',
-        color: 'white'}}
-        onClick={handleClick}
-      >
-        Recuperar contraseña
-      </LoadingButton>
-    </Box>
+      </Stack>
+      <br />
+      <Box mb={2}>
+        <LoadingButton
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          style={{
+            background: 'linear-gradient(135deg, #003B91, #0081CF)',
+            color: 'white',
+          }}
+          onClick={handleClick}
+        >
+          Recuperar contraseña
+        </LoadingButton>
+      </Box>
     </>
   );
 
@@ -139,7 +141,8 @@ export default function ForgottenPasswordView() {
             left: { xs: 16, md: 24 },
           }}
         />
-        <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh'}}>
+
+        <Card sx={{ p: 4, width: '25%', maxWidth: 1200, maxHeight: '95vh' }}>
           <div style={{ textAlign: 'center' }}>
             <Typography variant="h4">Recuperar Contraseña</Typography>
           </div>

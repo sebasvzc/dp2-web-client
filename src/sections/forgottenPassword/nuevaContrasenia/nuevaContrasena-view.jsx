@@ -86,15 +86,16 @@ export default function NuevaContrasenaView() {
 
   const renderForm = (
     <>
-    <Stack spacing={3}>
+      <Stack spacing={3}>
         <p>Ingrese su nueva contraseña</p>
         <TextField inputRef={emailRef} name="email" label="Nueva Contraseña" />
         <p>Vuelva a ingresar su nueva contraseña</p>
         <TextField inputRef={nuevaContra2} name="email2" label="Reingrese Nueva Contraseña" />
-    {message}
-    </Stack>
+        <br />
+        {message}
+      </Stack>
 
-    <Box mb={2}>
+      <Box mb={2}>
       <LoadingButton
         fullWidth
         size="large"
