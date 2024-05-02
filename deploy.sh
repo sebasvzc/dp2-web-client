@@ -6,5 +6,6 @@ yarn build
 echo "Deploying files to Server..."
 sudo rm -r /var/www/html/*
 sudo cp -r dist/* /var/www/html
-echo "Done!"
 sudo systemctl start nginx
+sudo systemctl status nginx
+echo "Done!"
