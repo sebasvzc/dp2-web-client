@@ -370,7 +370,7 @@
             onFilterName={handleSearch}
           />
           <Stack direction="row" spacing={2}>
-            <Button variant="contained" color="inherit" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
+            <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
             onClick={handleOpenModal} startIcon={<Iconify icon ="mdi:invite"/>}>
               Invitar
             </Button>
