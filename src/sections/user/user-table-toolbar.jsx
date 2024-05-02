@@ -34,11 +34,9 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
         height: 120,
         display: 'flex',
         justifyContent: 'space-between',
-        p: (theme) => theme.spacing(0, 0, 0,0),
-        ...(numSelected > 0 && {
-          color: 'primary.main',
-          bgcolor: 'F9FAFB',
-        }),
+
+        paddingLeft: '0 !important',
+
       }}
     >
       {numSelected > 0 ? (
@@ -58,7 +56,9 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
               /> 
             </InputAdornment>
           }
+
           sx={{  width: 500, height: 40, backgroundColor:"white" }}
+
         />
       )}
 
