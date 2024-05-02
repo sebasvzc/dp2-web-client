@@ -190,7 +190,7 @@ export default function UserTableRow({
 
   return (
     <>
-      <Card variant="outlined" sx={{ marginBottom: 2 }}>
+      <Card variant="outlined" sx={{ marginBottom: 2, border: 0}}>
         <CardContent>
           <Checkbox disableRipple checked={selected} onChange={handleClick} 
           style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
