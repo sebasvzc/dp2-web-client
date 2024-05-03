@@ -17,7 +17,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 import { bgGradient } from 'src/theme/css';
-import fondo from 'src/components/images/fondo.avif';
+import fondo from 'src/components/images/fondo-nuevo.jpg';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useAuth } from '../../../utils/AuthContext'

@@ -16,7 +16,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { Link, useNavigate, Route, useLocation, Navigate } from 'react-router-dom';
 import { useRouter } from 'src/routes/hooks';
 import Logo from 'src/components/logo';
-import fondo from 'src/components/images/fondo.avif';
+import fondo from 'src/components/images/fondo-nuevo.jpg';
 import { bgGradient } from 'src/theme/css';
 import logo from 'src/components/images/logo-plaza.png';
 import Iconify from 'src/components/iconify';
