@@ -1,39 +1,30 @@
-  import { useState, useEffect } from 'react';
-  import { toast } from 'react-toastify';
-  import TableRow from '@mui/material/TableRow';
-  import TableCell from '@mui/material/TableCell';
-  import Grid from '@mui/material/Grid';
-  import Card from '@mui/material/Card';
-  import Pagination from '@mui/material/Pagination';
-  import Box from '@mui/material/Box';
-  import CircularProgress from '@mui/material/CircularProgress';
-  import NewScrollbar from 'src/components/scrollbar';
-  import Stack from '@mui/material/Stack';
-  import Table from '@mui/material/Table';
-  import Button from '@mui/material/Button';
-  import Container from '@mui/material/Container';
-  import TableBody from '@mui/material/TableBody';
-  import Typography from '@mui/material/Typography';
-  import TableContainer from '@mui/material/TableContainer';
-  import TablePagination from '@mui/material/TablePagination';
-  import Dialog from '@mui/material/Dialog';
-  import DialogActions from '@mui/material/DialogActions';
-  import DialogContent from '@mui/material/DialogContent';
-  import TextField from '@mui/material/TextField';
-  import DialogTitle from '@mui/material/DialogTitle';
+import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 
-  import { makeStyles } from '@mui/styles';
-  import obtenerUsuarios  from 'src/_mock/user';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
+import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import TablePagination from '@mui/material/TablePagination';
+import CircularProgress from '@mui/material/CircularProgress';
 
-  import Iconify from 'src/components/iconify';
+import obtenerUsuarios  from 'src/_mock/user';
 
+import Iconify from 'src/components/iconify';
 
-  import TableNoData from '../table-no-data';
-  import UserTableRow from '../user-table-row';
-  import UserTableHead from '../user-table-head';
-  import UserTableToolbar from '../user-table-toolbar';
-  import {  applyFilter, getComparator } from '../utils';
-  import { useAuth } from '../../../utils/AuthContext';
+import UserTableRow from '../user-table-row';
+import UserTableHead from '../user-table-head';
+import UserTableToolbar from '../user-table-toolbar';
 
   const useStyles = makeStyles((theme) => ({
     hideNavigationButton: {
@@ -70,22 +61,20 @@
     const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
     const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
     const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
-    const [botonHabilitado, setBotonHabilitado] = useState(true);
+
 
     const classes = useStyles();
-    const [filterName, setFilterName] = useState('');
-    const {user, loginUser} = useAuth()
+    const filterName= useState('')
+
     const [totalUsers, setTotalUsers] = useState(10);
 
   useEffect(() => {
     if(selected.length>0){
       setBackgroundBtnHabilitar("#198754");
-      setBotonHabilitado(false);
       setBackgroundBtnDeshabilitar("#DC3545");
       setBotonDeshabilitado(false);
     }else{
       setBackgroundBtnHabilitar("#CCCCCC");
-      setBotonHabilitado(true);
       setBackgroundBtnDeshabilitar("#CCCCCC");
       setBotonDeshabilitado(true);
     }
@@ -126,8 +115,6 @@
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,totalUsers, habilitarUsuarios,searchName]);
-
-    const [rowsPerPage, setRowsPerPage] = useState(8);
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
@@ -333,7 +320,7 @@
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
-    const notFound = !userData.length && !!filterName;
+    // const notFound = !userData.length && !!filterName;
     /* if (loading) {
       return (
         <Box

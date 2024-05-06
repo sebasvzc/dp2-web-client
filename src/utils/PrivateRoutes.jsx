@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { Outlet, Navigate } from 'react-router-dom'
-import { lazy, Suspense } from 'react';
+
 import DashboardLayout from 'src/layouts/dashboard';
+
 import { useAuth } from './AuthContext'
 
 const PrivateRoutes = () => {

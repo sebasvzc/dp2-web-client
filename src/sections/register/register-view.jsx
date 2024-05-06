@@ -1,28 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
+import {  toast } from 'react-toastify';
+import { useState,useEffect} from 'react';
+import {  useNavigate, useLocation} from 'react-router-dom';
 
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
-import { Link, useNavigate, Route, useLocation, Navigate } from 'react-router-dom';
-import { useRouter } from 'src/routes/hooks';
-import Logo from 'src/components/logo';
-import fondo from 'src/components/images/fondo.avif';
+
 import { bgGradient } from 'src/theme/css';
-import logo from 'src/components/images/logo-plaza.png';
+
+import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-import { useAuth } from '../../utils/AuthContext'
-import LoginUsuario from '../../_mock/account';
-import obtenerUsuarios from '../../_mock/user';
+import fondo from 'src/components/images/fondo.avif';
+
 // ----------------------------------------------------------------------
 
 export default function RegisterView() {

@@ -17,7 +17,7 @@ const getUsers = async (page,pageSize,searchName) => {
     const userStringify = JSON.parse(user);
     console.log(userStringify.token);
     const accessToken = userStringify.token;
-    const refreshToken = userStringify.refreshToken;
+    const {refreshToken} = userStringify;
 
     if(searchName===""){
       searchName="all";

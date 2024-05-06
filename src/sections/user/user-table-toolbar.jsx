@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types';
 
-import Tooltip from '@mui/material/Tooltip';
+import React, { useState, useEffect} from 'react';
+import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
-import React, { useState, useEffect} from 'react';
+
 // ----------------------------------------------------------------------
 
 export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {

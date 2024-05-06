@@ -1,6 +1,6 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 
 const NewScrollbar = styled(Box)`
   overflow-y: auto;

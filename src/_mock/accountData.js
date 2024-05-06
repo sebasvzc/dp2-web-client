@@ -4,7 +4,7 @@ export const fetchAccountData = async () => {
     const userStringify = JSON.parse(user);
     console.log(userStringify.token);
     const accessToken = userStringify.token;
-    const refreshToken = userStringify.refreshToken;
+    const {refreshToken} = userStringify;
     console.log("estoy consultando el usuario para el navbar");
     const response = await fetch('http://localhost:3000/api/user/extraerData', {
       method: 'POST',
