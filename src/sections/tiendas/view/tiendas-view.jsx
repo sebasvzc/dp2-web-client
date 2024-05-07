@@ -5,14 +5,12 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import Card from '@mui/material/Card';
-import Scrollbar from 'src/components/scrollbar';
 import { products } from 'src/_mock/products';
 
 import ProductCard from '../tiendas-card';
 import ProductSort from '../tiendas-sort';
 import TiendasFilters from '../tiendas-filters';
-import ProductCartWidget from '../tiendas-cart-widget';
+
 
 
 // ----------------------------------------------------------------------

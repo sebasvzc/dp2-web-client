@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
@@ -9,16 +8,12 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
-
-import obtenerClientes  from 'src/_mock/cliente';
 
 import Iconify from 'src/components/iconify';
 
@@ -120,7 +115,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
-    const [email, setEmail] = useState('');
+    // const [email, setEmail] = useState('');
     const handleEnviar = async () => {
         /*
       try {
@@ -314,33 +309,33 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       setOpenModal(true);
     };
 
-    const handleCloseModal = () => {
-      setOpenModal(false);
-    };
+    /*  const handleCloseModal = () => {
+     setOpenModal(false);
+   };
 
-    const handleEmailChange = (event) => {
-      setEmail(event.target.value);
-    };
-    // const notFound = !userData.length && !!filterName;
-    /* if (loading) {
-      return (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '25%',
-            marginTop: '15%', // Ajusta la distancia desde la parte superior
-          }}
-        >
-          <CircularProgress color="primary" />
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Cargando...
-          </Typography>
-        </Box>
-      );
-    } */
+   const handleEmailChange = (event) => {
+     setEmail(event.target.value);
+   }; */
+   // const notFound = !userData.length && !!filterName;
+   /* if (loading) {
+     return (
+       <Box
+         sx={{
+           display: 'flex',
+           flexDirection: 'column',
+           justifyContent: 'center',
+           alignItems: 'center',
+           height: '25%',
+           marginTop: '15%', // Ajusta la distancia desde la parte superior
+         }}
+       >
+         <CircularProgress color="primary" />
+         <Typography variant="h6" sx={{ mt: 2 }}>
+           Cargando...
+         </Typography>
+       </Box>
+     );
+   } */
 
     if (error) {
       return <div>Error al cargar datos de clientees</div>; // Manejar errores de obtención de datos

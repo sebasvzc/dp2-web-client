@@ -1,9 +1,12 @@
-import { Helmet } from 'react-helmet-async';
 import React, { useEffect } from 'react';
-import { RegisterView } from 'src/sections/register';
+import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import obtenerUsuarios from '../_mock/user';
+import { RegisterView } from 'src/sections/register';
+
+
+
+// import obtenerUsuarios from '../_mock/user';
 
 // ----------------------------------------------------------------------
 

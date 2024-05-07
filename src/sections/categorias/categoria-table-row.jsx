@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CardContent from '@mui/material/CardContent';
-import InputAdornment from '@mui/material/InputAdornment';
+// import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
 
@@ -70,7 +70,6 @@ export default function CuponTableRow({
                                        onEditUer
                                      }) {
   const [open, setOpen] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
   
   const [editedUser, setEditedUser] = useState({
@@ -136,7 +135,6 @@ export default function CuponTableRow({
   const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
   const [mostrarTxtApp, setMostrarTxtApp] = useState("");
   const [mostrarTxtCorreo, setMostrarTxtCorreo] = useState("");
-  const [mostrarTxtCont, setMostrarTxtCont] = useState("");
 
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
@@ -179,24 +177,25 @@ export default function CuponTableRow({
     } else {
       setMostrarTxtCorreo("Correo inválido");
     }
-    if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedUser.password.trim().length !== 0) || editedUser.password.trim().length===0 ) {
-      setMostrarTxtCont("");
-    } else {
-      setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
-    }
-  }, [editedUser.nombre,editedUser.email,editedUser.apellido,editedUser.password]);
-  
+    /*
+   if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedUser.password.trim().length !== 0) || editedUser.password.trim().length===0 ) {
+     setMostrarTxtCont("");
+   } else {
+     setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
+   } */
+ }, [editedUser.nombre,editedUser.email,editedUser.apellido,editedUser.password]);
 
-  return (
-    <>
-      <Card variant="outlined" sx={{ marginBottom: 1.5, border: -2 , background: 'linear-gradient(to bottom, rgba(135, 206, 250, 0.05), rgba(0, 191, 255, 0.01))', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)'}}>
-        <CardContent>
-          <Checkbox disableRipple checked={selected} onChange={handleClick} 
-          style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="public/assets/images/avatars/avatar_1.jpg" alt="Avatar"
-                 style={{ width: 100, height: 100, borderRadius: '50%' }} />
-            <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
+
+ return (
+   <>
+     <Card variant="outlined" sx={{ marginBottom: 1.5, border: -2 , background: 'linear-gradient(to bottom, rgba(135, 206, 250, 0.05), rgba(0, 191, 255, 0.01))', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)'}}>
+       <CardContent>
+         <Checkbox disableRipple checked={selected} onChange={handleClick}
+         style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
+         <div style={{ display: 'flex', alignItems: 'center' }}>
+           <img src="public/assets/images/avatars/avatar_1.jpg" alt="Avatar"
+                style={{ width: 100, height: 100, borderRadius: '50%' }} />
+           <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
                 {nombre} {apellido}
               </Typography>

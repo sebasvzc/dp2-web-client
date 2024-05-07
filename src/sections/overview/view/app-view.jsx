@@ -1,27 +1,19 @@
-import { faker } from '@faker-js/faker';
-import React, { useState } from 'react';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
-
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Iconify from 'src/components/iconify';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es-mx';
-import AppTasks from '../app-tasks';
-import AppNewsUpdate from '../app-news-update';
-import AppOrderTimeline from '../app-order-timeline';
+import React, { useState } from 'react';
+
+import Card from '@mui/material/Card';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Unstable_Grid2';
+import TextField from '@mui/material/TextField';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
+
 import AppCurrentVisits from '../app-current-visits';
 import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
-import AppTrafficBySite from '../app-traffic-by-site';
-import AppCurrentSubject from '../app-current-subject';
-import AppConversionRates from '../app-conversion-rates';
 // Importar localización española
 
 dayjs.locale('es-mx');

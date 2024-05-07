@@ -1,34 +1,29 @@
-import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import {useRef, useState,useEffect } from 'react';
 
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import { toast } from 'react-toastify';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
+
 import { useRouter } from 'src/routes/hooks';
+
 import { bgGradient } from 'src/theme/css';
-import fondo from 'src/components/images/fondo-nuevo.jpg';
+
 import Logo from 'src/components/logo';
-import Iconify from 'src/components/iconify';
+import fondo from 'src/components/images/fondo-nuevo.jpg';
+
 import { useAuth } from '../../../utils/AuthContext'
-
-
 
 // ----------------------------------------------------------------------
 
 export default function NuevaContrasenaView() {
   const router = useRouter();
-  const { user, loginUser } = useAuth();
+  const { user } = useAuth();
   const [message,setMessage]=useState('');
   const navigate=useNavigate();
   useEffect(() => {
@@ -39,7 +34,6 @@ export default function NuevaContrasenaView() {
   const theme = useTheme();
   const emailRef = useRef(null);
   const nuevaContra2 = useRef(null);
-  const passwordRef = useRef(null);
 
   const handleClick = async (e) => {
 

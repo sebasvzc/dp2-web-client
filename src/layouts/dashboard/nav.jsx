@@ -1,25 +1,17 @@
-import { useEffect,useState} from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
-import { fetchAccountData } from 'src/_mock/accountData';
-import { Collapse } from '@mui/material';
+import { useState,useEffect} from 'react';
+
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import ListItemButton from '@mui/material/ListItemButton';
 
 import { usePathname } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-
+import { fetchAccountData } from 'src/_mock/accountData';
 
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';

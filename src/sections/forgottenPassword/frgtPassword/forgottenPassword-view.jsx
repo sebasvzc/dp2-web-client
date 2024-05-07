@@ -1,24 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
+import {useRef,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import { ToastContainer, toast } from 'react-toastify';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
+
 import { useRouter } from 'src/routes/hooks';
+
 import { bgGradient } from 'src/theme/css';
-import fondo from 'src/components/images/fondo-nuevo.jpg';
+
 import Logo from 'src/components/logo';
-import Iconify from 'src/components/iconify';
+import fondo from 'src/components/images/fondo-nuevo.jpg';
+
 import { useAuth } from '../../../utils/AuthContext'
 
 
@@ -27,8 +25,8 @@ import { useAuth } from '../../../utils/AuthContext'
 
 export default function ForgottenPasswordView() {
   const router = useRouter();
-  const { user, loginUser } = useAuth();
-  const [message,setMessage]=useState('');
+  const { user } = useAuth();
+
 
   
   const navigate=useNavigate();
@@ -118,7 +116,7 @@ export default function ForgottenPasswordView() {
       <Stack spacing={3}>
         <p>Ingresa el correo de la cuenta asociada. Se te enviará un mail para recuperar tu contraseña</p>
         <TextField inputRef={emailRef} name="email" label="Correo" />
-        {message}
+
       </Stack>
       <br />
       <Box mb={2}>

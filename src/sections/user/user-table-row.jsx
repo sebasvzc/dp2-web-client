@@ -14,7 +14,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CardContent from '@mui/material/CardContent';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
 
@@ -70,7 +69,7 @@ export default function UserTableRow({
                                        onEditUer
                                      }) {
   const [open, setOpen] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+
   const classes = useStyles();
   
   const [editedUser, setEditedUser] = useState({
@@ -136,7 +135,7 @@ export default function UserTableRow({
   const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
   const [mostrarTxtApp, setMostrarTxtApp] = useState("");
   const [mostrarTxtCorreo, setMostrarTxtCorreo] = useState("");
-  const [mostrarTxtCont, setMostrarTxtCont] = useState("");
+
 
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
@@ -147,14 +146,11 @@ export default function UserTableRow({
   console.log(editedUser.password)
 
   useEffect(() => {
-    const tieneAlMenosUnNumero = /\d/.test(editedUser.password);
-    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(editedUser.password);
+    const tieneAlMenosUnNumero = true;
+    const tieneAlMenosUnaMayuscula = true;
   
-    let tamanho = false;
-    if (editedUser.password.length >= 8) {
-      tamanho=true;
-    }
-    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho 
+
+    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula
       && editedUser.email.length!==0 && validarEmail(editedUser.email)
       && editedUser.nombre.length!==0 && validarNombre(editedUser.nombre)
       && editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)){
@@ -178,11 +174,6 @@ export default function UserTableRow({
       setMostrarTxtCorreo("");
     } else {
       setMostrarTxtCorreo("Correo inválido");
-    }
-    if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedUser.password.trim().length !== 0) || editedUser.password.trim().length===0 ) {
-      setMostrarTxtCont("");
-    } else {
-      setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
     }
   }, [editedUser.nombre,editedUser.email,editedUser.apellido,editedUser.password]);
   

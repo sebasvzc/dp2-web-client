@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
@@ -9,16 +8,13 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Pagination from '@mui/material/Pagination';
+// import Pagination from '@mui/material/Pagination';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
-
-import obtenerCupones  from 'src/_mock/cupon';
+// import obtenerCupones  from 'src/_mock/cupon';
 
 import Iconify from 'src/components/iconify';
 
@@ -66,7 +62,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
     const classes = useStyles();
     const filterName= useState('')
 
-    const [totalCupones, setTotalCupones] = useState(10);
+    // const [totalCupones, setTotalCupones] = useState(10);
 
   useEffect(() => {
     if(selected.length>0){
@@ -117,65 +113,65 @@ import CuponTableToolbar from '../cupon-table-toolbar';
       console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,totalCupones, habilitarCupones,searchName]);
 */
-    const [openModal, setOpenModal] = useState(false);
+    // const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
-    const [email, setEmail] = useState('');
-    const handleEnviar = async () => {
-        /*
-      try {
-        const response = await fetch('http://localhost:3000/api/user/invite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ email }),
-        });
-        const data = await response.json();
-        console.log(data); // Maneja la respuesta de la API según sea necesario
-        if(data.success==="true"){
-          console.log("entre a true")
-          toast.success('Usuario invitado exitosamente a través de correo', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }else{
-          toast.error('Error: El correo ya se encuentra registrado', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }
-        handleCloseModal(); // Cierra el modal después de enviar
-        setEmail("");
-      } catch (e) {
-        console.error('Error al enviar correo electrónico:', e);
-        toast.error('Error: El correo ya se encuentra registrado', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-        });
-        setEmail("");
-      }
-      */
-    };
+
+    /* const handleEnviar = async () => {
+
+     try {
+       const response = await fetch('http://localhost:3000/api/user/invite', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+           'Accept': 'application/json'
+         },
+         body: JSON.stringify({ email }),
+       });
+       const data = await response.json();
+       console.log(data); // Maneja la respuesta de la API según sea necesario
+       if(data.success==="true"){
+         console.log("entre a true")
+         toast.success('Usuario invitado exitosamente a través de correo', {
+           position: "top-right",
+           autoClose: 3000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "colored"
+         });
+       }else{
+         toast.error('Error: El correo ya se encuentra registrado', {
+           position: "top-right",
+           autoClose: 3000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "colored"
+         });
+       }
+       handleCloseModal(); // Cierra el modal después de enviar
+       setEmail("");
+     } catch (e) {
+       console.error('Error al enviar correo electrónico:', e);
+       toast.error('Error: El correo ya se encuentra registrado', {
+         position: "top-right",
+         autoClose: 3000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "colored"
+       });
+       setEmail("");
+     }
+
+    }; */
     const handleDeshabilitar = async () => {
      /* try {
         const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
@@ -311,16 +307,9 @@ import CuponTableToolbar from '../cupon-table-toolbar';
     };
 
     const handleOpenModal = () => {
-      setOpenModal(true);
+      // setOpenModal(true);
     };
 
-    const handleCloseModal = () => {
-      setOpenModal(false);
-    };
-
-    const handleEmailChange = (event) => {
-      setEmail(event.target.value);
-    };
     // const notFound = !userData.length && !!filterName;
     /* if (loading) {
       return (
@@ -489,7 +478,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
             <TablePagination
               page={page-1}
               component="div"
-              count={totalCupones}
+              // count={totalCupones}
               rowsPerPage={pageSize}
               onPageChange={handleChangePage}
               rowsPerPageOptions={[6, 12, 18]}
@@ -499,7 +488,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
               backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
               labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
             />
-            <Pagination count={ Math.ceil(totalCupones / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
+            {/* <Pagination count={ Math.ceil(totalCupones / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/> */}
           </Grid>
 
         </Grid>

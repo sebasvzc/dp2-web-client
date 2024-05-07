@@ -1,17 +1,14 @@
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
+import {Route, Routes} from 'react-router-dom'
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import PrivateRoutes from '../utils/PrivateRoutes'
 import { AuthProvider } from '../utils/AuthContext'
-import { RegisterView } from '../sections/register';
-
-
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-export const BlogPage = lazy(() => import('src/pages/blog'));
+// export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
-export const ProductsPage = lazy(() => import('src/pages/products'));
+// export const ProductsPage = lazy(() => import('src/pages/products'));
 export const TiendasPage = lazy(() => import('src/pages/tiendas'));
 export const CuponesPage = lazy(() => import('src/pages/cupones'));
 export const CategoriasPage = lazy(() => import('src/pages/categorias'));
