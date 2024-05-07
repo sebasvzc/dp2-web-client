@@ -403,7 +403,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
           />
           <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
           <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
-            onClick={handleOpenModal} startIcon={<Iconify icon ="streamline:discount-percent-coupon-solid"/>}>
+            onClick={handleOpenModal} startIcon={<Iconify icon ="system-uicons:replicate-alt"/>}>
               Crear
             </Button>
             <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
