@@ -58,7 +58,7 @@ function validarNombre(nombre) {
   return regexNombre.test(nombre);
 }
 
-export default function UserTableRow({
+export default function CuponTableRow({
                                        selected,
                                        nombre,
                                        rol,
@@ -307,7 +307,7 @@ export default function UserTableRow({
   );
 }
 
-UserTableRow.propTypes = {
+CuponTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
   apellido: PropTypes.string.isRequired,
   rol: PropTypes.string.isRequired,
