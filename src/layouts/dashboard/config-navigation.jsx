@@ -1,19 +1,18 @@
-import SvgColor from 'src/components/svg-color';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import Stack from '@mui/material/Stack';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import ListItemButton from '@mui/material/ListItemButton';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import { Collapse } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import ListItemButton from '@mui/material/ListItemButton';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
+import SvgColor from 'src/components/svg-color';
 
-
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Collapse } from '@mui/material';
-import PropTypes from 'prop-types';
 import { usePathname } from '../../routes/hooks';
 import { useAuth } from '../../utils/AuthContext';
 // ----------------------------------------------------------------------
