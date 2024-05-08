@@ -1,8 +1,8 @@
 
 const obtenerCupones = async (page,pageSize,searchName) => {
   try {
-    const userData = await getUsers(page,pageSize,searchName); // Obtener los cupones de manera asíncrona
-    console.log('Usuarios obtenidos:', userData);
+    const userData = await getCupones(page,pageSize,searchName); // Obtener los cupones de manera asíncrona
+    console.log('Cupones obtenidos:', userData);
     // Puedes hacer más cosas con los datos de cupones si es necesario
     return userData; // Devolver los datos de cupones obtenidos
   } catch (error) {
@@ -11,7 +11,7 @@ const obtenerCupones = async (page,pageSize,searchName) => {
   }
 };
 
-const getUsers = async (page,pageSize,searchName) => {
+const getCupones = async (page,pageSize,searchName) => {
   try {
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
@@ -22,7 +22,7 @@ const getUsers = async (page,pageSize,searchName) => {
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(`http://localhost:3000/api/user/listusers?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(`http://localhost:3000/api/cupones/listarcupones?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

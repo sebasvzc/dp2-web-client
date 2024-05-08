@@ -9,12 +9,12 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-// import Pagination from '@mui/material/Pagination';
+import Pagination from '@mui/material/Pagination';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
-// import obtenerCupones  from 'src/_mock/cupon';
+import obtenerCupones  from 'src/_mock/cupon';
 
 import Iconify from 'src/components/iconify';
 
@@ -62,7 +62,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
     const classes = useStyles();
     const filterName= useState('')
 
-    // const [totalCupones, setTotalCupones] = useState(10);
+    const [totalCupones, setTotalCupones] = useState(10);
 
   useEffect(() => {
     if(selected.length>0){
@@ -81,17 +81,17 @@ import CuponTableToolbar from '../cupon-table-toolbar';
   console.log("Seleccionar")
 
   // Llama a la función obtenerCupones para obtener y mostrar los datos de cupones
-    /*
+
   useEffect(() => {
 
     const fetchData = async () => {
         try {
           setLoading(true); // Indicar que la carga ha finalizado
           const data = await obtenerCupones(page,pageSize,searchName); // Obtener los datos de cupones
-          console.log(data.users)
+          console.log(data.cupones)
           if(data.newToken){
-            const storedCupon = localStorage.getItem('user');
-            const userX = JSON.parse(storedCupon);
+            const storedUser = localStorage.getItem('user');
+            const userX = JSON.parse(storedUser);
             userX.token = data.newToken;
             localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
             console.log("He puesto un nuevo token");
@@ -100,7 +100,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
           if(data.totalCupones){
             setTotalCupones(data.totalCupones);
           }
-          setCuponData(data.users); // Actualizar el estado con los datos obtenidos
+          setCuponData(data.cupones); // Actualizar el estado con los datos obtenidos
           setLoading(false); // Indicar que la carga ha finalizado
 
         } catch (err) {
@@ -112,7 +112,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,totalCupones, habilitarCupones,searchName]);
-*/
+
     // const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
@@ -478,7 +478,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
             <TablePagination
               page={page-1}
               component="div"
-              // count={totalCupones}
+              count={totalCupones}
               rowsPerPage={pageSize}
               onPageChange={handleChangePage}
               rowsPerPageOptions={[6, 12, 18]}
@@ -488,7 +488,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
               backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
               labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
             />
-            {/* <Pagination count={ Math.ceil(totalCupones / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/> */}
+            <Pagination count={ Math.ceil(totalCupones / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
           </Grid>
 
         </Grid>
