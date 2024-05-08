@@ -18,7 +18,6 @@ import CardContent from '@mui/material/CardContent';
 import Iconify from 'src/components/iconify';
 
 
-
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -58,39 +57,63 @@ function validarNombre(nombre) {
 }
 
 export default function CuponTableRow({
-                                       selected,
-                                       nombre,
-                                       rol,
                                         id,
-                                       emailX,
-                                       handleClick,
+                                        selected,
+                                        codigo,
+                                        fidLocatario,
+                                        fidTipoCupon,
+                                        sumilla,
+                                        handleClick,
+                                        descripcionCompleta,
+                                        fechaExpiracion,
+                                        terminosCondiciones,
+                                        esLimitado,
+                                        costoPuntos,
+                                        cantidadInicial,
+                                        cantidadDisponible,
+                                        ordenPriorizacion,
+                                        rutaFoto,
                                         activo,
-                                       apellido,
-                                       onEditUer
+                                        createdAt,
+                                        updatedAt,
+                                        onEditCupon
                                      }) {
   const [open, setOpen] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
   
-  const [editedUser, setEditedUser] = useState({
+  const [editedCupon, setEditedCupon] = useState({
     id,
-    nombre,
-    apellido,
-    rol,
-    email: emailX,
+    codigo,
+    fidLocatario,
+    fidTipoCupon,
+    sumilla,
+    descripcionCompleta,
+    fechaExpiracion,
+    terminosCondiciones,
+    esLimitado,
+    costoPuntos,
+    cantidadInicial,
+    cantidadDisponible,
+    ordenPriorizacion,
+    rutaFoto,
     activo,
-    password: ""
+    createdAt,
+    updatedAt
   });
+
+ 
   const handleGuardarCambios = async() => {
-    console.log("Usuario a modificar: ",editedUser)
+    /*
+    console.log("Usuario a modificar: ",editedCupon)
     try {
-      const response = await fetch('http://localhost:3000/api/user/modificar', {
+      const response = await fetch('http://localhost:3000/api/Cupon/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ editedUser }),
+        body: JSON.stringify({ editedCupon }),
       });
       const data = await response.json();
       console.log(data); // Maneja la respuesta de la API según sea necesario
@@ -110,7 +133,10 @@ export default function CuponTableRow({
     } catch (e) {
       console.error('Error al habilitar usuarios:', e);
     }
+    */
   };
+
+
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -120,7 +146,7 @@ export default function CuponTableRow({
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedUser({ ...editedUser, [name]: value });
+    setEditedCupon({ ...editedCupon, [name]: value });
   };
 
   const handleOpenModalEdit = () => {
@@ -140,51 +166,56 @@ export default function CuponTableRow({
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-  console.log(editedUser.nombre)
-  console.log(editedUser.apellido)
-  console.log(editedUser.email)
-  console.log(editedUser.password)
-
+  /*
   useEffect(() => {
-    const tieneAlMenosUnNumero = /\d/.test(editedUser.password);
-    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(editedUser.password);
+    const tieneAlMenosUnNumero = /\d/.test(editedCupon.password);
+    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(editedCupon.password);
   
     let tamanho = false;
-    if (editedUser.password.length >= 8) {
+    if (editedCupon.password.length >= 8) {
       tamanho=true;
     }
     if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho 
-      && editedUser.email.length!==0 && validarEmail(editedUser.email)
-      && editedUser.nombre.length!==0 && validarNombre(editedUser.nombre)
-      && editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)){
+      && editedCupon.email.length!==0 && validarEmail(editedCupon.email)
+      && editedCupon.nombre.length!==0 && validarNombre(editedCupon.nombre)
+      && editedCupon.apellido.length!==0 && validarNombre(editedCupon.apellido)){
       setBackgroundBtnMod("#003B91");
       setBotonDeshabilitado(false);
     }else{
       setBackgroundBtnMod("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-    if ((editedUser.nombre.length!==0 && validarNombre(editedUser.nombre)) || editedUser.nombre.length===0) {
+    if ((editedCupon.nombre.length!==0 && validarNombre(editedCupon.nombre)) || editedCupon.nombre.length===0) {
       setMostrarTxtNomb("");
     } else {
       setMostrarTxtNomb("Nombre inválido");
     }
-    if ((editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)) || editedUser.apellido.length===0 ) {
+    if ((editedCupon.apellido.length!==0 && validarNombre(editedCupon.apellido)) || editedCupon.apellido.length===0 ) {
       setMostrarTxtApp("");
     } else {
       setMostrarTxtApp("Apellido Paterno inválido");
     }
-    if ((editedUser.email.length!==0 && validarEmail(editedUser.email)) || editedUser.email.length===0) {
+    if ((editedCupon.email.length!==0 && validarEmail(editedCupon.email)) || editedCupon.email.length===0) {
       setMostrarTxtCorreo("");
     } else {
       setMostrarTxtCorreo("Correo inválido");
     }
-    if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedUser.password.trim().length !== 0) || editedUser.password.trim().length===0 ) {
+    if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedCupon.password.trim().length !== 0) || editedCupon.password.trim().length===0 ) {
       setMostrarTxtCont("");
     } else {
       setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
     }
-  }, [editedUser.nombre,editedUser.email,editedUser.apellido,editedUser.password]);
-  
+  }, [editedCupon.nombre,editedCupon.email,editedCupon.apellido,editedCupon.password]);
+  */
+
+  const fecha = new Date(fechaExpiracion);
+  const dia = fecha.getDate();
+  const mes = fecha.getMonth() + 1; // Sumar 1 porque los meses van de 0 a 11
+  const año = fecha.getFullYear();
+
+  const diaFormateado = dia < 10 ? `0${dia}` : dia;
+  const mesFormateado = mes < 10 ? `0${mes}` : mes;
+  const fechaFormateada = `${diaFormateado}/${mesFormateado}/${año}`;
 
   return (
     <>
@@ -197,13 +228,13 @@ export default function CuponTableRow({
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
             <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
-                {nombre} {apellido}
+                {codigo}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Rol: {rol}
+                Sumilla: {sumilla}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Email: {emailX}
+                Fecha de Vencimiento: {fechaFormateada}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <span className={activo === 1 ? classes.activo : classes.inactivo}>
@@ -243,7 +274,7 @@ export default function CuponTableRow({
             <TextField
               name="nombre"
               label="Nombre"
-              value={editedUser.nombre}
+              value={editedCupon.codigo}
               onChange={handleInputChange}
               fullWidth
               margin="normal"
@@ -251,42 +282,6 @@ export default function CuponTableRow({
             <input className="inputEspecialAC" type="text" value={mostrarTxtNomb} onChange={handleInputChange} 
             style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
             disabled/>
-           
-          <TextField
-            name="apellido"
-            label="Apellido"
-            value={editedUser.apellido}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <input className="inputEspecialAC" type="text" value={mostrarTxtApp} onChange={handleInputChange} 
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
-          
-          <TextField
-            name="rol"
-            label="Rol"
-            value={editedUser.rol}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-           <input className="inputEspecialAC" type="text"
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
-         
-          <TextField
-            name="email"
-            label="Email"
-            value={editedUser.email}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <input className="inputEspecialAC" type="text" value={mostrarTxtCorreo} onChange={handleInputChange} 
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
          
           </Stack>
          <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
@@ -307,13 +302,24 @@ export default function CuponTableRow({
 }
 
 CuponTableRow.propTypes = {
-  nombre: PropTypes.string.isRequired,
-  apellido: PropTypes.string.isRequired,
-  rol: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  emailX: PropTypes.string.isRequired,
-  activo: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  codigo: PropTypes.string.isRequired,
+  fidLocatario: PropTypes.string.isRequired,
+  fidTipoCupon: PropTypes.string.isRequired,
+  sumilla: PropTypes.string.isRequired,
+  handleClick: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
-  onEditUer: PropTypes.func.isRequired,
+  descripcionCompleta: PropTypes.string.isRequired,
+  fechaExpiracion: PropTypes.string.isRequired,
+  terminosCondiciones: PropTypes.string.isRequired,
+  esLimitado: PropTypes.string.isRequired,
+  costoPuntos: PropTypes.string.isRequired,
+  cantidadInicial: PropTypes.string.isRequired,
+  cantidadDisponible: PropTypes.string.isRequired,
+  ordenPriorizacion: PropTypes.string.isRequired,
+  rutaFoto: PropTypes.string.isRequired,
+  activo: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  onEditCupon: PropTypes.func.isRequired,
 };

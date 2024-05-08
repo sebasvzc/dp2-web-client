@@ -1,10 +1,10 @@
 
 const obtenerCupones = async (page,pageSize,searchName) => {
   try {
-    const userData = await getCupones(page,pageSize,searchName); // Obtener los cupones de manera asíncrona
-    console.log('Cupones obtenidos:', userData);
+    const cuponData = await getCupones(page,pageSize,searchName); // Obtener los cupones de manera asíncrona
+    console.log('Cupones obtenidos:', cuponData);
     // Puedes hacer más cosas con los datos de cupones si es necesario
-    return userData; // Devolver los datos de cupones obtenidos
+    return cuponData; // Devolver los datos de cupones obtenidos
   } catch (error) {
     console.error('Error al obtener cupones:', error);
     throw error; // Lanzar el error para manejarlo en el componente que llama a obtenerCupones

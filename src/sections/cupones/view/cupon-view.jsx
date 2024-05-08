@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
+
 import obtenerCupones  from 'src/_mock/cupon';
 
 import Iconify from 'src/components/iconify';
@@ -436,15 +437,14 @@ import CuponTableToolbar from '../cupon-table-toolbar';
                 <Grid item xs={12} sm={6} md={4} key={row.id} >
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <CuponTableRow
-                      nombre={row.nombre}
-                      rol={row.rol}
-                      id={row.id}
-                      emailX={row.email}
+                      codigo={row.codigo}
+                      sumilla={row.sumilla}
+                      cantidadInicial={row.cantidadInicial}
+                      fechaExpiracion={row.fechaExpiracion}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       activo={row.activo}
-                      apellido={row.apellido}
-                      onEditUer={handleCambio}
+                      onEditCupon={handleCambio}
                     />
                   </Card>
                 </Grid>
