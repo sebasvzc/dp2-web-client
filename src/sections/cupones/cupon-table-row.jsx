@@ -237,9 +237,9 @@ export default function CuponTableRow({
                 Fecha de Vencimiento: {fechaFormateada}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <span className={activo === 1 ? classes.activo : classes.inactivo}>
-                    {activo === 1 ? 'Activo' : 'Inactivo'}
-                </span>
+              <span className={activo ? classes.activo : classes.inactivo}>
+                  {activo ? 'Activo' : 'Inactivo'}
+              </span>
               </Typography>
             </div>
           </div>
