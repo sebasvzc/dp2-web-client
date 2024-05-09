@@ -328,7 +328,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
       setOpenModal(false);
     };
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleCrear = () => {
     navigate('/cupon/cupon-new'); // Redirige al usuario a la ruta especificada
