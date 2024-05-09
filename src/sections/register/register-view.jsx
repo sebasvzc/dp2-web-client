@@ -28,8 +28,11 @@ export default function RegisterView() {
   const [mostrarTxtApp, setMostrarTxtApp] = useState("");
   const [mostrarTxtCorreo, setMostrarTxtCorreo] = useState("");
   const [mostrarTxtCont, setMostrarTxtCont] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
+  const [mostrarTxtCont2, setMostrarTxtCont2] = useState("");
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [password2, setPassword2] = useState("");
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -40,6 +43,11 @@ export default function RegisterView() {
   });
   const navigate = useNavigate();
   const theme = useTheme();
+
+  const handleChange2 = (event) => {
+    setPassword2(event.target.value); // Actualiza el estado de password2 con el valor del TextField
+  };
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -69,10 +77,10 @@ export default function RegisterView() {
     if (formData.password.length >= 8) {
       tamanho=true;
     }
-    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho 
-      && formData.email.length!==0 && validarEmail(formData.email)
+    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho
       && formData.nombre.length!==0 && validarNombre(formData.nombre)
-      && formData.apellido.length!==0 && validarNombre(formData.apellido)){
+      && formData.apellido.length!==0 && validarNombre(formData.apellido)
+      && password2.length!==0 && password2 === formData.password){
       setBackgroundBtnReg("#003B91");
       setBotonDeshabilitado(false);
     }else{
@@ -89,17 +97,17 @@ export default function RegisterView() {
     } else {
       setMostrarTxtApp("Apellido Paterno inválido");
     }
-    if ((formData.email.length!==0 && validarEmail(formData.email)) || formData.email.length===0) {
-      setMostrarTxtCorreo("");
-    } else {
-      setMostrarTxtCorreo("Correo inválido");
-    }
     if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && formData.password.trim().length !== 0) || formData.password.trim().length===0 ) {
       setMostrarTxtCont("");
     } else {
       setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
     }
-  }, [formData.password,formData.email,formData.nombre,formData.apellido]);
+    if (password2.trim().length===0 || password2 === formData.password) {
+      setMostrarTxtCont2("");
+    } else {
+      setMostrarTxtCont2("Las contraseñas no coinciden");
+    }
+  }, [password2,formData.password,formData.nombre,formData.apellido]);
 
 
   useEffect(() => {
@@ -221,6 +229,13 @@ export default function RegisterView() {
             value={formData.email}
             onChange={handleChange}
             fullWidth
+            InputProps={{
+              readOnly: true, // Esto hace que el TextField sea de solo lectura
+              style: {
+                backgroundColor: '#f5f5f5', // Color de fondo para indicar que está bloqueado
+                color: '#777', // Color de texto más claro para indicar que está bloqueado
+              },
+            }}
           />
           <input className="inputEspecialAC" type="text" value={mostrarTxtCorreo} onChange={handleChange} 
           style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
@@ -245,6 +260,28 @@ export default function RegisterView() {
             }}
           />
           <input className="inputEspecialAC" type="text" value={mostrarTxtCont} onChange={handleChange} 
+          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+          disabled/>
+        </Stack>
+        <Stack spacing={0}>
+          <TextField
+            name="password"
+            label="Ingres de nuevo la contraseña"
+            type={showPassword2 ? 'text' : 'password'}
+            value={password2}
+            onChange={handleChange2}
+            fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword2(!showPassword2)} edge="end">
+                    <Iconify icon={showPassword2 ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <input className="inputEspecialAC" type="text" value={mostrarTxtCont2} onChange={handleChange} 
           style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
           disabled/>
         </Stack>
