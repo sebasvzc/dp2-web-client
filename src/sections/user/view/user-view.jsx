@@ -121,6 +121,8 @@ import UserTableToolbar from '../user-table-toolbar';
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
     const [email, setEmail] = useState('');
+   
+   
     const handleEnviar = async () => {
       try {
         const response = await fetch('http://localhost:3000/api/user/invite', {

@@ -19,10 +19,16 @@ import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
+import { useCookies } from "react-cookie";
 import obtenerCupones  from 'src/_mock/cupon';
 import Iconify from 'src/components/iconify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import { useSelector,useDispatch } from "react-redux";
 import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
+
+import { addIdCupon, addDatosCupon } from "../../../redux/CuponSlice";
+
 
   const useStyles = makeStyles((theme) => ({
     hideNavigationButton: {
@@ -65,8 +71,62 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
     const [imagen, setImagen] = useState(defaultImage); // Imagen predefinida
     const [imageFile, setImageFile] = useState(null); // Para manejar el archivo de imagen seleccionado
 
-    const handleDateChange = (date) => {
-    setSelectedDate(date);
+    const dispatch = useDispatch();
+    const datosCupon = useSelector((state) => state.Cupon);
+    const [cookies, setCookie] = useCookies();
+    const navigate = useNavigate();
+
+    const handleCrear = async () => {
+    /*
+      try {
+        const response = await fetch('http://localhost:3000/api/user/invite', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ email }),
+        });
+          if (respuesta.data.success) {
+              toast.success('Cupón registrado exitosamente.', {
+                  position: "top-right",
+                  autoClose: 10000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+              });
+          } else {
+              toast.error('Error: Cupón no registrado.', {
+                  position: "top-right",
+                  autoClose: false,
+                  hideProgressBar: true,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+              });
+          }
+
+      } catch (error) {
+          toast.error('No hay conexión. Intente de nuevo.', {
+              position: "top-right",
+              autoClose: false,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+          });
+          console.log(error);
+          console.log(error.message);
+      }
+      */
+      navigate('/cupon');
   };
 
     const handleSubmit = (event) => {
@@ -90,12 +150,6 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
       });
     };
 
-    
-  const navigate = useNavigate();
-
-  const handleCrear = () => {
-    navigate('/cupon'); // Redirige al usuario a la ruta especificada
-  };
 
   const handleBack = () => {
     navigate('/cupon'); // Redirige al usuario a la ruta especificada
@@ -126,6 +180,51 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
         setImageFile(null);
       }
     };
+
+  const handleChange = (e) => {
+    const { name, value } = e?.target || {};
+
+    switch (name) {
+      case "codigo":
+        setCodigo(value);
+        break;
+      case "fidLocatario":
+        setFidLocatario(value);
+        break;
+      case "fidTipoCupon":
+        setFidTipoCupon(value);
+        break;
+      case "sumilla":
+        setSumilla(value);
+        break;
+      case "descripcionCompleta":
+        setDescripcionCompleta(value);
+        break;
+      case "fechaExpiracion":
+        setFechaExpiracion(value);
+        break;
+      case "terminosCondiciones":
+        setTerminosCondiciones(value);
+        break;
+      case "esLimitado":
+        setEsLimitado(value);
+        break;
+      case "costoPuntos":
+        setCostoPuntos(value);
+        break;
+      case "cantidadInicial":
+        setCantidadInicial(value);
+        break;
+      case "cantidadDisponible":
+        setCantidadDisponible(value);
+        break;
+      case "ordenPriorizacion":
+        setOrdenPriorizacion(value);
+        break;
+      default:
+        break;
+    }
+  };
 
     if (error) {
       return <div>Error al cargar datos de cupones</div>; // Manejar errores de obtención de datos
@@ -175,50 +274,43 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Código" value={codigo} onChange={(e) => setCodigo(e.target.value)} />
+                <TextField fullWidth label="Código" value={codigo} onChange={handleChange} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="ID Locatario" value={fidLocatario} onChange={(e) => setFidLocatario(e.target.value)} />
+                <TextField fullWidth label="ID Locatario" value={fidLocatario} onChange={handleChange} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="ID Tipo Cupón" value={fidTipoCupon} onChange={(e) => setFidTipoCupon(e.target.value)} />
+                <TextField fullWidth label="ID Tipo Cupón" value={fidTipoCupon} onChange={handleChange} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Sumilla" value={sumilla} onChange={(e) => setSumilla(e.target.value)} />
+                <TextField fullWidth label="Sumilla" value={sumilla} onChange={handleChange} />
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth multiline label="Descripción Completa" value={descripcionCompleta} onChange={(e) => setDescripcionCompleta(e.target.value)} />
+                <TextField fullWidth multiline label="Descripción Completa" value={descripcionCompleta} onChange={handleChange} />
               </Grid>
-              
               <Grid item xs={12}>
-              <DatePicker
-                  label="Fecha de Expiración"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  renderInput={(params) => <TextField {...params} />}
-                />
+                  Datepicker
               </Grid>
-              
               <Grid item xs={12}>
-                <TextField fullWidth multiline label="Términos y Condiciones" value={terminosCondiciones} onChange={(e) => setTerminosCondiciones(e.target.value)} />
+                <TextField fullWidth multiline label="Términos y Condiciones" value={terminosCondiciones} onChange={handleChange} />
               </Grid>
               <Grid item xs={12}>
                 <FormGroup>
-                  <FormControlLabel control={<Checkbox checked={esLimitado} onChange={(e) => setEsLimitado(e.target.checked)} />} label="Es Limitado" />
+                  <FormControlLabel control={<Checkbox checked={esLimitado} onChange={handleChange} />} label="Es Limitado" />
                   
                 </FormGroup>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Costo en Puntos" value={costoPuntos} onChange={(e) => setCostoPuntos(e.target.value)} />
+                <TextField fullWidth type="number" label="Costo en Puntos" value={costoPuntos} onChange={handleChange} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Cantidad Inicial" value={cantidadInicial} onChange={(e) => setCantidadInicial(e.target.value)} />
+                <TextField fullWidth type="number" label="Cantidad Inicial" value={cantidadInicial} onChange={handleChange} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Cantidad Disponible" value={cantidadDisponible} onChange={(e) => setCantidadDisponible(e.target.value)} />
+                <TextField fullWidth type="number" label="Cantidad Disponible" value={cantidadDisponible} onChange={handleChange} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Orden de Priorización" value={ordenPriorizacion} onChange={(e) => setOrdenPriorizacion(e.target.value)} />
+                <TextField fullWidth type="number" label="Orden de Priorización" value={ordenPriorizacion} onChange={handleChange} />
               </Grid>
             </Grid>
           </form>
