@@ -9,7 +9,8 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
+import { TextField, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { DatePicker } from '@mui/lab';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -120,6 +121,8 @@ import UserTableToolbar from '../user-table-toolbar';
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
     const [email, setEmail] = useState('');
+   
+   
     const handleEnviar = async () => {
       try {
         const response = await fetch('http://localhost:3000/api/user/invite', {

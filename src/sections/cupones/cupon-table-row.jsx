@@ -224,7 +224,7 @@ export default function CuponTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} 
           style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="public/assets/images/avatars/avatar_1.jpg" alt="Avatar"
+            <img src="public/assets/images/covers/cupon.jpg" alt="Avatar"
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
             <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
@@ -237,9 +237,9 @@ export default function CuponTableRow({
                 Fecha de Vencimiento: {fechaFormateada}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <span className={activo === 1 ? classes.activo : classes.inactivo}>
-                    {activo === 1 ? 'Activo' : 'Inactivo'}
-                </span>
+              <span className={activo ? classes.activo : classes.inactivo}>
+                  {activo ? 'Activo' : 'Inactivo'}
+              </span>
               </Typography>
             </div>
           </div>
@@ -267,36 +267,7 @@ export default function CuponTableRow({
         </MenuItem>
       </Popover>
       {/* Modal para editar usuario */}
-      <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title" >
-        <div className={classes.modalContainer}>
-        <Typography variant="h6" style={{ marginBottom: "20px" }}>Modificar Usuario</Typography>
-          <Stack direction="column" spacing={1}>
-            <TextField
-              name="nombre"
-              label="Nombre"
-              value={editedCupon.codigo}
-              onChange={handleInputChange}
-              fullWidth
-              margin="normal"
-            />
-            <input className="inputEspecialAC" type="text" value={mostrarTxtNomb} onChange={handleInputChange} 
-            style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-            disabled/>
-         
-          </Stack>
-         <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
-          <Button color="error" variant="contained" style={{backgroundColor: '#DC3545'}} onClick={handleCloseModalEdit}>
-            Cancelar
-          </Button>
-          <Button color="success" variant="contained"
-            onClick={handleGuardarCambios}
-            style={{ backgroundColor: backgroundBtnMod, mt: 3 , color: "white", marginLeft: '10px'}}
-            disabled={botonDeshabilitado}>
-            Guardar
-          </Button>
-        </div>
-        </div>
-      </Modal>
+      
     </>
   );
 }

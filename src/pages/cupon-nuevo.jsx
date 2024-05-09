@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { CuponView} from 'src/sections/cupones/view';
+import { CuponNew} from 'src/sections/cupones/view';
 
 // ----------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ export default function CuponesPage() {
         <title> User | Minimal UI </title>
       </Helmet>
 
-      <CuponView />
+      <CuponNew />
     </>
   );
 }

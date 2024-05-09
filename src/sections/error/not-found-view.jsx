@@ -21,9 +21,7 @@ export default function NotFoundView() {
         position: 'fixed',
         p: (theme) => ({ xs: theme.spacing(3, 3, 0), sm: theme.spacing(5, 5, 0) }),
       }}
-    >
-      <Logo />
-    </Box>
+    />
   );
 
   return (
