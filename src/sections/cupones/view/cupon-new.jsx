@@ -66,9 +66,6 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
     const [imagen, setImagen] = useState(defaultImage); // Imagen predefinida
     const [imageFile, setImageFile] = useState(null); // Para manejar el archivo de imagen seleccionado
 
-    const dispatch = useDispatch();
-    const datosCupon = useSelector((state) => state.Cupon);
-    const [cookies, setCookie] = useCookies();
     const navigate = useNavigate();
 
     const handleCrear = async () => {
