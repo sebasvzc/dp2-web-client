@@ -65,6 +65,9 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
     const [imagen, setImagen] = useState(defaultImage); // Imagen predefinida
     const [imageFile, setImageFile] = useState(null); // Para manejar el archivo de imagen seleccionado
 
+    const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -186,9 +189,16 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
               <Grid item xs={12}>
                 <TextField fullWidth multiline label="Descripción Completa" value={descripcionCompleta} onChange={(e) => setDescripcionCompleta(e.target.value)} />
               </Grid>
+              
               <Grid item xs={12}>
-                <DatePicker fullWidth label="Fecha de Expiración" value={fechaExpiracion} onChange={(newValue) => setFechaExpiracion(newValue)} />
+              <DatePicker
+                  label="Fecha de Expiración"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
               </Grid>
+              
               <Grid item xs={12}>
                 <TextField fullWidth multiline label="Términos y Condiciones" value={terminosCondiciones} onChange={(e) => setTerminosCondiciones(e.target.value)} />
               </Grid>
