@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import { toast } from 'react-toastify';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -114,7 +114,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
       console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,totalCupones, habilitarCupones,searchName]);
 
-    // const [openModal, setOpenModal] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
 
@@ -173,21 +173,27 @@ import CuponTableToolbar from '../cupon-table-toolbar';
      }
 
     }; */
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const accessToken = userStringify.token;
+    const {refreshToken} = userStringify;
+
     const handleDeshabilitar = async () => {
-     /* try {
-        const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
+      try {
+        const response = await fetch('http://localhost:3000/api/cupones/deshabilitar', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+            },
           body: JSON.stringify({ selected }),
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
         setHabilitarCupones(!habilitarCupones);
-        toast.success('Usuario deshabilitado exitosamente', {
+        toast.success('Cupón deshabilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -197,18 +203,21 @@ import CuponTableToolbar from '../cupon-table-toolbar';
           progress: undefined,
           theme: "colored"
         });
-        // handleCloseModal(); // Cierra el modal después de enviar
+        
       } catch (e) {
         console.error('Error al deshabilitar cupones:', e);
       }
-    */};
+    };
+
     const handleHabilitar = async () => {
-    /*  try {
-        const response = await fetch('http://localhost:3000/api/user/habilitar', {
+      console.log("entre")
+      try {
+        const response = await fetch('http://localhost:3000/api/cupones/habilitar', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+          'Refresh-Token': `Bearer ${refreshToken}`
           },
           body: JSON.stringify({ selected }),
         });
@@ -216,7 +225,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setHabilitarCupones(!habilitarCupones);
         setOpenModalActivar(false);
-        toast.success('Usuario habilitado exitosamente', {
+        toast.success('Cupón habilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -226,11 +235,11 @@ import CuponTableToolbar from '../cupon-table-toolbar';
           progress: undefined,
           theme: "colored"
         });
-        // handleCloseModal(); // Cierra el modal después de enviar
       } catch (e) {
         console.error('Error al habilitar cupones:', e);
       }
-    */};
+    };
+
     const handleSort = (event, id) => {
       const isAsc = orderBy === id && order === 'asc';
       console.log("Este es el id que ordena")
@@ -308,7 +317,11 @@ import CuponTableToolbar from '../cupon-table-toolbar';
     };
 
     const handleOpenModal = () => {
-      // setOpenModal(true);
+      setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setOpenModal(false);
     };
 
     // const notFound = !userData.length && !!filterName;
