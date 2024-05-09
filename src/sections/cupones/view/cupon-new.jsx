@@ -117,10 +117,10 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
     }
     return (
       
-      <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+      <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0}} >
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 , marginBottom:40}} />
-        <Box border={0} borderRadius={2} padding={6}>
+        <Box borderRadius={2} padding={6} variant="outlined"  sx={{ border: 0.1 , background: 'linear-gradient(to bottom, rgba(135, 206, 250, 0.05), rgba(0, 191, 255, 0.01))', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)'}}>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
@@ -195,12 +195,12 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
               <Grid item xs={12} sm={6}>
                 <TextField fullWidth type="number" label="Orden de Priorización" value={ordenPriorizacion} onChange={(e) => setOrdenPriorizacion(e.target.value)} />
               </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'right' }}>
-              <Button variant="contained" color="info" sx={{ backgroundColor: "#003B91", color:"#FFFFFF" }}>Crear Cupón</Button>
-              </Grid>
             </Grid>
           </form>
         </Box>
+        <Grid item xs={12} sx={{ textAlign: 'right' , marginTop: '20px'}} >
+            <Button variant="contained" color="info" sx={{ backgroundColor: "#003B91", color:"#FFFFFF" }}>Crear Cupón</Button>
+        </Grid>
       </Container>
     );
   }
