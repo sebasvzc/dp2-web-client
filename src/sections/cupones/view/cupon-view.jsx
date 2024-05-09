@@ -183,6 +183,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
         const response = await fetch('http://localhost:3000/api/cupones/deshabilitar', {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
             'Refresh-Token': `Bearer ${refreshToken}`
@@ -211,15 +212,17 @@ import CuponTableToolbar from '../cupon-table-toolbar';
 
     const handleHabilitar = async () => {
       console.log("entre")
+      console.log(selected)
       try {
         const response = await fetch('http://localhost:3000/api/cupones/habilitar', {
           method: 'POST',
           headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-          'Refresh-Token': `Bearer ${refreshToken}`
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
           },
-          body: JSON.stringify({ selected }),
+          body: JSON.stringify({ selected })
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario
