@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -327,6 +328,12 @@ import CuponTableToolbar from '../cupon-table-toolbar';
       setOpenModal(false);
     };
 
+    const navigate = useNavigate();
+
+  const handleCrear = () => {
+    navigate('/cupon-new'); // Redirige al usuario a la ruta especificada
+  };
+
     // const notFound = !userData.length && !!filterName;
     /* if (loading) {
       return (
@@ -409,7 +416,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
           />
           <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
           <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
-            onClick={handleOpenModal} startIcon={<Iconify icon ="streamline:discount-percent-coupon-solid"/>}>
+            onClick={handleCrear} startIcon={<Iconify icon ="streamline:discount-percent-coupon-solid"/>}>
               Crear
             </Button>
             <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
