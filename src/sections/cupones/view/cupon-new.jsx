@@ -19,15 +19,10 @@ import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
-import { useCookies } from "react-cookie";
 import obtenerCupones  from 'src/_mock/cupon';
 import Iconify from 'src/components/iconify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-import { useSelector,useDispatch } from "react-redux";
 import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
-
-import { addIdCupon, addDatosCupon } from "../../../redux/CuponSlice";
 
 
   const useStyles = makeStyles((theme) => ({

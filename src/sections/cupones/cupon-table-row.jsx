@@ -267,36 +267,7 @@ export default function CuponTableRow({
         </MenuItem>
       </Popover>
       {/* Modal para editar usuario */}
-      <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title" >
-        <div className={classes.modalContainer}>
-        <Typography variant="h6" style={{ marginBottom: "20px" }}>Modificar Usuario</Typography>
-          <Stack direction="column" spacing={1}>
-            <TextField
-              name="nombre"
-              label="Nombre"
-              value={editedCupon.codigo}
-              onChange={handleInputChange}
-              fullWidth
-              margin="normal"
-            />
-            <input className="inputEspecialAC" type="text" value={mostrarTxtNomb} onChange={handleInputChange} 
-            style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-            disabled/>
-         
-          </Stack>
-         <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
-          <Button color="error" variant="contained" style={{backgroundColor: '#DC3545'}} onClick={handleCloseModalEdit}>
-            Cancelar
-          </Button>
-          <Button color="success" variant="contained"
-            onClick={handleGuardarCambios}
-            style={{ backgroundColor: backgroundBtnMod, mt: 3 , color: "white", marginLeft: '10px'}}
-            disabled={botonDeshabilitado}>
-            Guardar
-          </Button>
-        </div>
-        </div>
-      </Modal>
+      
     </>
   );
 }
