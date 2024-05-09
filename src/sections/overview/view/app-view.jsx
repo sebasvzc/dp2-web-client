@@ -57,7 +57,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Número de personas que han asisitdo a un evento"
-            total={714000}
+            total={14200}
             color="success"
             icon={<img alt="icon" src="/assets/icons/glass/ic_clientes.png" />}
           />
@@ -66,7 +66,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Número de usuarios que han interactuado con la aplicación RA"
-            total={1352831}
+            total={11700}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_RAMobile.png" />}
           />
@@ -75,7 +75,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Cantidad de dinero ahorrado por cupones"
-            total={1723315}
+            total={31700}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_SavedMoney.png" />}
           />
@@ -84,7 +84,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Número puntos generados por escaneo y asistencia a eventos"
-            total={234}
+            total={60234}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_Points.png" />}
           />
@@ -92,14 +92,14 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Número puntos generados por escaneo y asistencia a tiendas"
-            total={234}
+            total={60234}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_Points.png" />}
           />
         </Grid> <Grid xs={12} sm={6} md={4}>
         <AppWidgetSummary
-          title="Frecuencia de visitas de clientes con un cupón"
-          total={234}
+          title="Visitas de clientes a un evento por escaneo"
+          total={2034}
           color="error"
           icon={<img alt="icon" src="/assets/icons/glass/ic_frecuenciavisitas.png" />}
         />
