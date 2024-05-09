@@ -20,9 +20,6 @@ import obtenerCupones  from 'src/_mock/cupon';
 
 import Iconify from 'src/components/iconify';
 
-import CuponTableRow from '../cupon-table-row';
-import CuponTableHead from '../cupon-table-head';
-import CuponTableToolbar from '../cupon-table-toolbar';
 
   const useStyles = makeStyles((theme) => ({
     hideNavigationButton: {
@@ -44,7 +41,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
     paddingRight: '0.1%',
     boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
-  export default function CuponNew() {
+  export default function CuponNewView() {
     const [order, setOrder] = useState('asc');
     const [searchName, setSearchName] = useState("all");
     const [userData, setCuponData] = useState([]);
@@ -67,7 +64,10 @@ import CuponTableToolbar from '../cupon-table-toolbar';
     return (
       
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
-        Hola
+        <div>
+      <h1>Crea un nuevo cupón</h1>
+      {/* Otro contenido de la página de creación de cupón */}
+    </div>
       </Container>
     );
   }
