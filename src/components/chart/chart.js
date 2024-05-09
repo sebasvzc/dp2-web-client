@@ -45,7 +45,6 @@ const Chart = styled(ApexChart)(({ theme }) => ({
       backgroundColor: alpha(theme.palette.grey[500], 0.08),
       color: theme.palette.text[theme.palette.mode === 'light' ? 'secondary' : 'primary'],
     },
-
     // LEGEND
     '& .apexcharts-legend': {
       padding: 0,

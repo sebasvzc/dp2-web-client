@@ -13,29 +13,54 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
 
   const chartOptions = useChart({
     colors,
+    chart: {
+      type: 'bar',
+      height: 350,
+      stacked: true,
+    },
     plotOptions: {
       bar: {
-        columnWidth: '16%',
+        horizontal: true,
+        dataLabels: {
+          total: {
+            enabled: true,
+            offsetX: 0,
+            style: {
+              fontSize: '13px',
+              fontWeight: 900
+            }
+          }
+        }
       },
     },
     fill: {
-      type: series.map((i) => i.fill),
+      opacity: 1
     },
     labels,
     xaxis: {
-      type: 'datetime',
+      categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+      labels: {
+        formatter (val) {
+          return `${val  }K`
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: undefined
+      },
     },
     tooltip: {
-      shared: true,
-      intersect: false,
       y: {
-        formatter: (value) => {
-          if (typeof value !== 'undefined') {
-            return `${value.toFixed(0)} visits`;
-          }
-          return value;
-        },
-      },
+        formatter (val) {
+          return `${val  }K`
+        }
+      }
+    },
+    legend: {
+    position: 'top',
+      horizontalAlign: 'left',
+      offsetX: 40
     },
     ...options,
   });
@@ -46,8 +71,6 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
 
       <Box sx={{ p: 3, pb: 1 }}>
         <Chart
-          dir="ltr"
-          type="line"
           series={series}
           options={chartOptions}
           width="100%"

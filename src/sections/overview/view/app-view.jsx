@@ -3,6 +3,7 @@ import 'dayjs/locale/es-mx';
 import React, { useState } from 'react';
 
 import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import TextField from '@mui/material/TextField';
@@ -12,8 +13,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
 
 import AppCurrentVisits from '../app-current-visits';
-import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
+import FictionBooksSalesChart from '../FictionBooksSalesChart';
+
 // Importar localización española
 
 dayjs.locale('es-mx');
@@ -62,7 +64,6 @@ export default function AppView() {
             icon={<img alt="icon" src="/assets/icons/glass/ic_clientes.png" />}
           />
         </Grid>
-
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Número de usuarios que han interactuado con la aplicación RA"
@@ -71,7 +72,6 @@ export default function AppView() {
             icon={<img alt="icon" src="/assets/icons/glass/ic_RAMobile.png" />}
           />
         </Grid>
-
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Cantidad de dinero ahorrado por cupones"
@@ -80,7 +80,6 @@ export default function AppView() {
             icon={<img alt="icon" src="/assets/icons/glass/ic_SavedMoney.png" />}
           />
         </Grid>
-
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Número puntos generados por escaneo y asistencia a eventos"
@@ -96,54 +95,26 @@ export default function AppView() {
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_Points.png" />}
           />
-        </Grid> <Grid xs={12} sm={6} md={4}>
-        <AppWidgetSummary
-          title="Visitas de clientes a un evento por escaneo"
-          total={2034}
-          color="error"
-          icon={<img alt="icon" src="/assets/icons/glass/ic_frecuenciavisitas.png" />}
-        />
-      </Grid>
-        <Grid xs={12} md={6} lg={8}>
-          <AppWebsiteVisits
-            title="% de Rentabilidad"
-
-            chart={{
-              labels: [
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ],
-              series: [
-                {
-                  name: 'Categoria Zapatillas',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Categoria Comida',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Categoria Joyas',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ],
-            }}
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="Visitas de clientes a un evento por escaneos de QRs"
+            total={2034}
+            color="error"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_frecuenciavisitas.png" />}
           />
+        </Grid>
+        <Grid xs={12} md={6} lg={8}>
+          <Card
+
+
+            sx={{
+              px: 3,
+              py: 5,
+              borderRadius: 2,
+            }} >
+          <FictionBooksSalesChart />
+          </Card>
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
@@ -152,9 +123,9 @@ export default function AppView() {
             chart={{
               series: [
                 { label: 'Adidas', value: 4344 },
-                { label: 'Marathon', value: 5435 },
-                { label: 'Nike', value: 1443 },
-                { label: 'SuperPet', value: 4443 },
+                { label: 'Coolbox', value: 5435 },
+                { label: 'Phantom', value: 1443 },
+                { label: 'Crisol', value: 4443 },
               ],
             }}
           />
