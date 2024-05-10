@@ -121,7 +121,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     const handleEnviar = async () => {
         /*
       try {
-        const response = await fetch('http://localhost:3000/api/user/invite', {
+        const response = await fetch('http://3.220.179.149/api/api/user/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     };
     const handleDeshabilitar = async () => {
      /* try {
-        const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/user/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -204,7 +204,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     */};
     const handleHabilitar = async () => {
     /*  try {
-        const response = await fetch('http://localhost:3000/api/user/habilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/user/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
