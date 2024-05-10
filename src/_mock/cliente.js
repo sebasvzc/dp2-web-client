@@ -1,8 +1,9 @@
 
 const obtenerClientes = async (page,pageSize,searchName) => {
   try {
+    console.log('HOLA ENTRE A OBTENER CLIENTES')
     const userData = await getUsers(page,pageSize,searchName); // Obtener los clientes de manera asíncrona
-    console.log('Usuarios obtenidos:', userData);
+    console.log('Clientes obtenidos:', userData);
     // Puedes hacer más cosas con los datos de clientes si es necesario
     return userData; // Devolver los datos de clientes obtenidos
   } catch (error) {
@@ -22,12 +23,16 @@ const getUsers = async (page,pageSize,searchName) => {
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(`http://localhost:3000/api/user/listusers?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
-      method: 'GET',
+    const response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=${page}&pageSize=${pageSize}`, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
         'Refresh-Token': `Bearer ${refreshToken}`
+      },
+      body:{
+        'active':3,
+        'searchText':searchName
       }
     });
     console.log(response);

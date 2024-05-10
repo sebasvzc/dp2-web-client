@@ -61,6 +61,7 @@ function validarNombre(nombre) {
 export default function CuponTableRow({
                                        selected,
                                        nombre,
+                                       
                                        rol,
                                         id,
                                        emailX,
@@ -169,11 +170,11 @@ export default function CuponTableRow({
     } else {
       setMostrarTxtNomb("Nombre inválido");
     }
-    if ((editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)) || editedUser.apellido.length===0 ) {
+    /*if ((editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)) || editedUser.apellido.length===0 ) {
       setMostrarTxtApp("");
     } else {
       setMostrarTxtApp("Apellido Paterno inválido");
-    }
+    }*/
     if ((editedUser.email.length!==0 && validarEmail(editedUser.email)) || editedUser.email.length===0) {
       setMostrarTxtCorreo("");
     } else {

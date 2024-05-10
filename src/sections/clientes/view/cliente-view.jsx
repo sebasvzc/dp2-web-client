@@ -15,6 +15,8 @@ import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import obtenerClientes from 'src/_mock/cliente';
+
 import Iconify from 'src/components/iconify';
 
 import ClienteTableRow from '../cliente-table-row';
@@ -80,14 +82,17 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
   console.log("Seleccionar")
 
   // Llama a la función obtenerClientes para obtener y mostrar los datos de clientees
-    /*
+    
   useEffect(() => {
 
     const fetchData = async () => {
         try {
+          console.log('HOLA ENTRO AL FETCH')
           setLoading(true); // Indicar que la carga ha finalizado
           const data = await obtenerClientes(page,pageSize,searchName); // Obtener los datos de clientees
-          console.log(data.users)
+          console.log('ESTOY EN CLIENTE-VIEW')
+          console.log(data.clientes)
+          //console.log(data.users)
           if(data.newToken){
             const storedCliente = localStorage.getItem('user');
             const userX = JSON.parse(storedCliente);
@@ -99,7 +104,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
           if(data.totalClientes){
             setTotalClientes(data.totalClientes);
           }
-          setClienteData(data.users); // Actualizar el estado con los datos obtenidos
+          setClienteData(data.clientes); // Actualizar el estado con los datos obtenidos
           setLoading(false); // Indicar que la carga ha finalizado
 
         } catch (err) {
@@ -111,13 +116,13 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,totalClientes, habilitarClientes,searchName]);
-*/
+
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
     // const [email, setEmail] = useState('');
     const handleEnviar = async () => {
-        /*
+        
       try {
         const response = await fetch('http://localhost:3000/api/user/invite', {
           method: 'POST',
@@ -169,10 +174,10 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
         });
         setEmail("");
       }
-      */
+      
     };
     const handleDeshabilitar = async () => {
-     /* try {
+      try {
         const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
           method: 'POST',
           headers: {
@@ -199,9 +204,9 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       } catch (e) {
         console.error('Error al deshabilitar clientees:', e);
       }
-    */};
+    };
     const handleHabilitar = async () => {
-    /*  try {
+      try {
         const response = await fetch('http://localhost:3000/api/user/habilitar', {
           method: 'POST',
           headers: {
@@ -228,7 +233,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       } catch (e) {
         console.error('Error al habilitar clientees:', e);
       }
-    */};
+    };
     const handleSort = (event, id) => {
       const isAsc = orderBy === id && order === 'asc';
       console.log("Este es el id que ordena")
@@ -387,8 +392,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
           <ClienteTableHead
             order={order}
             orderBy={orderBy}
-            rowCount={userData.length}
-            numSelected={selected.length}
+           
             onRequestSort={handleSort}
             onSelectAllClick={handleSelectAllClick}
             headLabel={[
@@ -471,7 +475,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
               >
 
                 <Typography variant="h6" sx={{ mt: 2 }}>
-                  No se encontraron clientees para la búsqueda
+                  No se encontraron clientes para la búsqueda
                 </Typography>
               </Box>
             )}
