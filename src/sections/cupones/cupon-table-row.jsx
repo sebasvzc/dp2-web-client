@@ -109,7 +109,7 @@ export default function CuponTableRow({
     /*
     console.log("Usuario a modificar: ",editedCupon)
     try {
-      const response = await fetch('http://localhost:3000/api/Cupon/modificar', {
+      const response = await fetch('http://3.220.179.149/api/api/Cupon/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
