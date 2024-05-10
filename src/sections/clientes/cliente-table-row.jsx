@@ -61,7 +61,9 @@ function validarNombre(nombre) {
 export default function CuponTableRow({
                                        selected,
                                        nombre,
-                                       
+                                       genero,
+                                       apellidoPaterno,
+                                       apellidoMaterno,
                                        rol,
                                         id,
                                        emailX,
@@ -78,6 +80,8 @@ export default function CuponTableRow({
     id,
     nombre,
     apellido,
+    apellidoPaterno,
+    apellidoMaterno,
     rol,
     email: emailX,
     activo,
@@ -185,7 +189,7 @@ export default function CuponTableRow({
     } else {
       setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
     }
-  }, [editedUser.nombre,editedUser.email,editedUser.apellido,editedUser.password]);
+  }, [editedUser.nombre,editedUser.email,editedUser.apellidoPaterno,editedUser.apellidoMaterno,editedUser.password]);
   
 
   return (
@@ -202,14 +206,17 @@ export default function CuponTableRow({
                 {nombre} {apellido}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Rol: {rol}
+                {apellidoPaterno} {apellidoMaterno}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Genero: {genero}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Email: {emailX}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <span className={activo === 1 ? classes.activo : classes.inactivo}>
-                    {activo === 1 ? 'Activo' : 'Inactivo'}
+                <span className={activo === true ? classes.activo : classes.inactivo}>
+                    {activo === true ? 'Activo' : 'Inactivo'}
                 </span>
               </Typography>
             </div>
