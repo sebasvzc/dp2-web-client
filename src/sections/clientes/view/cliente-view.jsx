@@ -16,7 +16,7 @@ import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import obtenerClientes from 'src/_mock/cliente';
-
+import { toast } from 'react-toastify';
 import Iconify from 'src/components/iconify';
 
 import ClienteTableRow from '../cliente-table-row';
@@ -92,7 +92,6 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
           const data = await obtenerClientes(page,pageSize,searchName); // Obtener los datos de clientees
           console.log('ESTOY EN CLIENTE-VIEW')
           console.log(data.clientes)
-          //console.log(data.users)
           if(data.newToken){
             const storedCliente = localStorage.getItem('user');
             const userX = JSON.parse(storedCliente);
@@ -120,7 +119,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
-    // const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('');
     const handleEnviar = async () => {
         
       try {
@@ -314,13 +313,13 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       setOpenModal(true);
     };
 
-    /*  const handleCloseModal = () => {
+    const handleCloseModal = () => {
      setOpenModal(false);
    };
 
    const handleEmailChange = (event) => {
      setEmail(event.target.value);
-   }; */
+   };
    // const notFound = !userData.length && !!filterName;
    /* if (loading) {
      return (

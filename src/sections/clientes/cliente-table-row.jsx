@@ -58,20 +58,20 @@ function validarNombre(nombre) {
   return regexNombre.test(nombre);
 }
 
-export default function CuponTableRow({
-                                       selected,
-                                       nombre,
-                                       genero,
-                                       apellidoPaterno,
-                                       apellidoMaterno,
-                                       rol,
-                                        id,
-                                       emailX,
-                                       handleClick,
-                                        activo,
-                                       apellido,
-                                       onEditUer
-                                     }) {
+export default function ClienteTableRow({
+                                          nombre,
+                                          rol,
+                                          id,
+                                          genero,
+                                          apellidoPaterno,
+                                          apellidoMaterno,
+                                          emailX,
+                                          selected,
+                                          handleClick,
+                                          activo,
+                                          apellido,
+                                          onEditUer
+                                        }) {
   const [open, setOpen] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
@@ -174,11 +174,6 @@ export default function CuponTableRow({
     } else {
       setMostrarTxtNomb("Nombre inválido");
     }
-    /*if ((editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)) || editedUser.apellido.length===0 ) {
-      setMostrarTxtApp("");
-    } else {
-      setMostrarTxtApp("Apellido Paterno inválido");
-    }*/
     if ((editedUser.email.length!==0 && validarEmail(editedUser.email)) || editedUser.email.length===0) {
       setMostrarTxtCorreo("");
     } else {
@@ -189,7 +184,7 @@ export default function CuponTableRow({
     } else {
       setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
     }
-  }, [editedUser.nombre,editedUser.email,editedUser.apellidoPaterno,editedUser.apellidoMaterno,editedUser.password]);
+  }, [editedUser.nombre,editedUser.email,editedUser.apellidoPaterno,editedUser.apellidoMaterno,editedUser.password,editedUser.apellido]);
   
 
   return (
@@ -315,14 +310,17 @@ export default function CuponTableRow({
   );
 }
 
-CuponTableRow.propTypes = {
+ClienteTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
-  apellido: PropTypes.string.isRequired,
   rol: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  genero: PropTypes.string.isRequired,
+  apellidoPaterno: PropTypes.string.isRequired,
+  apellidoMaterno: PropTypes.string.isRequired,
   emailX: PropTypes.string.isRequired,
-  activo: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  activo: PropTypes.string.isRequired,
+  apellido: PropTypes.string.isRequired,
   onEditUer: PropTypes.func.isRequired,
 };
