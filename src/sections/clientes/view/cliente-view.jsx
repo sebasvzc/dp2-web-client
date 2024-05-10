@@ -124,7 +124,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     const handleEnviar = async () => {
         
       try {
-        const response = await fetch('http://localhost:3000/api/user/invite', {
+        const response = await fetch('http://3.220.179.149/api/api/user/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
