@@ -122,7 +122,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
     /* const handleEnviar = async () => {
 
      try {
-       const response = await fetch('http://localhost:3000/api/user/invite', {
+       const response = await fetch('http://3.220.179.149/api/api/user/invite', {
          method: 'POST',
          headers: {
            'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
 
     const handleDeshabilitar = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/cupones/deshabilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/cupones/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -215,7 +215,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
       console.log("entre")
       console.log(selected)
       try {
-        const response = await fetch('http://localhost:3000/api/cupones/habilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/cupones/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
