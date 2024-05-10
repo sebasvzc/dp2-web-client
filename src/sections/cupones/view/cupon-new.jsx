@@ -1,43 +1,51 @@
 import { useState, useEffect } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { FileUploader } from "react-drag-drop-files";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import {  FormControlLabel, Checkbox, CardMedia,CardContent,TextField, Button, Grid, Typography, Select, MenuItem, InputLabel, FormControl, Box, Container } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';
-import { Checkbox, FormControlLabel, FormGroup , Avatar } from '@mui/material';
-import { DatePicker } from '@mui/lab';
-import Dialog from '@mui/material/Dialog';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Pagination from '@mui/material/Pagination';
-import EditIcon from '@mui/icons-material/Edit';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import TablePagination from '@mui/material/TablePagination';
-import CircularProgress from '@mui/material/CircularProgress';
-import TextField from '@mui/material/TextField';
-import obtenerCupones  from 'src/_mock/cupon';
-import Iconify from 'src/components/iconify';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
 
 
-  const useStyles = makeStyles((theme) => ({
-    hideNavigationButton: {
-      display: 'none !important', // Oculta el botón de navegación
-    },
-    paginationContainer: {
-
-      display: "inline-block"
-    },
-    centeredPagination: {
-      margin: 'auto', // Centra horizontalmente el componente
-      maxWidth: 'fit-content', // Ajusta el ancho al contenido
-    },
-  }));
+const useStyles = makeStyles((theme) => ({
+  hideNavigationButton: {
+    display: 'none !important',
+  },
+  paginationContainer: {
+    display: 'inline-block',
+  },
+  centeredPagination: {
+    margin: 'auto',
+    maxWidth: 'fit-content',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'white',
+    cursor: 'pointer',
+  },
+  deleteIcon: {
+    color: 'white',
+  },
+  fileUpload:{
+    alignItems: 'center',
+  }
+}));
   // ----------------------------------------------------------------------
   const scrollContainerStyle = {
     overflowY: 'auto',
@@ -45,271 +53,117 @@ import defaultImage from '../../../../public/assets/images/covers/cupon.jpg';
     paddingRight: '0.1%',
     boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
+  const fileTypes = ["JPG", "PNG"];
   export default function CuponNew() {
-    const [error, setError] = useState(null);
-    const [codigo, setCodigo] = useState('');
-    const [fidLocatario, setFidLocatario] = useState('');
-    const [fidTipoCupon, setFidTipoCupon] = useState('');
-    const [sumilla, setSumilla] = useState('');
-    const [descripcionCompleta, setDescripcionCompleta] = useState('');
-    const [fechaExpiracion, setFechaExpiracion] = useState(null);
-    const [terminosCondiciones, setTerminosCondiciones] = useState('');
-    const [esLimitado, setEsLimitado] = useState(false);
-    const [costoPuntos, setCostoPuntos] = useState('');
-    const [cantidadInicial, setCantidadInicial] = useState('');
-    const [cantidadDisponible, setCantidadDisponible] = useState('');
-    const [ordenPriorizacion, setOrdenPriorizacion] = useState('');
-    const [rutaFoto, setRutaFoto] = useState('');
-    const [activo, setActivo] = useState(false);
-    const [editingImage, setEditingImage] = useState(false);
-   
-    const [imagen, setImagen] = useState(defaultImage); // Imagen predefinida
-    const [imageFile, setImageFile] = useState(null); // Para manejar el archivo de imagen seleccionado
+    const classes = useStyles();
+    const [file, setFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('/public/a/tu/imagen.jpg');
+    const [showFileUploader, setShowFileUploader] = useState(true);
 
-    const navigate = useNavigate();
+    const handleChange = (fileX) => {
+      setFile(fileX);
+      const reader = new FileReader();
 
-    const handleCrear = async () => {
-    /*
-      try {
-        const response = await fetch('http://localhost:3000/api/user/invite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ email }),
-        });
-          if (respuesta.data.success) {
-              toast.success('Cupón registrado exitosamente.', {
-                  position: "top-right",
-                  autoClose: 10000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "colored",
-              });
-          } else {
-              toast.error('Error: Cupón no registrado.', {
-                  position: "top-right",
-                  autoClose: false,
-                  hideProgressBar: true,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "colored",
-              });
-          }
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+      };
 
-      } catch (error) {
-          toast.error('No hay conexión. Intente de nuevo.', {
-              position: "top-right",
-              autoClose: false,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-          });
-          console.log(error);
-          console.log(error.message);
-      }
-      */
-      navigate('/cupon');
-  };
+      reader.readAsDataURL(fileX);
+      setShowFileUploader(false);
+    };
+
+    const handleImageClick = () => {
+      setShowFileUploader(true);
+    };
+
+    const handleDeleteImage = () => {
+      setFile(null);
+      setImagePreview(null);
+      setShowFileUploader(true);
+    };
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      // Aquí puedes enviar los datos del formulario a tu servidor
-      console.log({
-        codigo,
-        fidLocatario,
-        fidTipoCupon,
-        sumilla,
-        descripcionCompleta,
-        fechaExpiracion,
-        terminosCondiciones,
-        esLimitado,
-        costoPuntos,
-        cantidadInicial,
-        cantidadDisponible,
-        ordenPriorizacion,
-        rutaFoto,
-        activo
-      });
+      // Lógica para manejar la submisión del formulario
     };
-
-
-  const handleBack = () => {
-    navigate('/cupon'); // Redirige al usuario a la ruta especificada
-  };
-
-    const handleImageChange = (event) => {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-  
-      reader.onloadend = () => {
-        setImagen(reader.result);
-      };
-  
-      if (file) {
-        reader.readAsDataURL(file);
-        setImageFile(file);
-      } else {
-        setImagen(null); // Cambia a null si no se selecciona ninguna imagen
-        setImageFile(null);
-      }
-    };
-
-    const handleEditImage = () => {
-      setEditingImage(!editingImage); // Cambia el estado de editingImage
-      if (!editingImage) {
-        // Limpiar imagen y archivo si se cancela la edición
-        setImagen(null);
-        setImageFile(null);
-      }
-    };
-
-  const handleChange = (e) => {
-    const { name, value } = e?.target || {};
-
-    switch (name) {
-      case "codigo":
-        setCodigo(value);
-        break;
-      case "fidLocatario":
-        setFidLocatario(value);
-        break;
-      case "fidTipoCupon":
-        setFidTipoCupon(value);
-        break;
-      case "sumilla":
-        setSumilla(value);
-        break;
-      case "descripcionCompleta":
-        setDescripcionCompleta(value);
-        break;
-      case "fechaExpiracion":
-        setFechaExpiracion(value);
-        break;
-      case "terminosCondiciones":
-        setTerminosCondiciones(value);
-        break;
-      case "esLimitado":
-        setEsLimitado(value);
-        break;
-      case "costoPuntos":
-        setCostoPuntos(value);
-        break;
-      case "cantidadInicial":
-        setCantidadInicial(value);
-        break;
-      case "cantidadDisponible":
-        setCantidadDisponible(value);
-        break;
-      case "ordenPriorizacion":
-        setOrdenPriorizacion(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-    if (error) {
-      return <div>Error al cargar datos de cupones</div>; // Manejar errores de obtención de datos
-    }
     return (
-      
-      <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0}} >
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
-        </Stack>
-        <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 , marginBottom:40}} />
-        <Box borderRadius={2} padding={6} variant="outlined"  sx={{ border: 0.1 , background: 'linear-gradient(to bottom, rgba(135, 206, 250, 0.05), rgba(0, 191, 255, 0.01))', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)'}}>
+      <Container>
+        <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupon</Typography>
+        <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
+        <Box sx={{ mt: 3 }}>
           <form onSubmit={handleSubmit}>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
-                <Box sx={{ position: 'relative', display: 'inline-block' }}>
-                {editingImage ? (
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="image-upload"
-                      style={{ display: 'none' }}
-                      onChange={handleImageChange}
-                    />
-                  ) : (
-                    <Avatar src={imagen} alt="Imagen del cupón" sx={{ width: 200, height: 200, border: '2px solid #ccc', cursor: 'pointer' }} />
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField fullWidth label="Código" name="codigo" />
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl fullWidth>
+                  <InputLabel id="fidLocatario-label">Locatario</InputLabel>
+                  <Select labelId="fidLocatario-label" label="Locatario" name="fidLocatario">
+                    {/* Opciones del ComboBox de Tiendas */}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl fullWidth>
+                  <InputLabel id="fidTipoCupon-label">Tipo de Cupón</InputLabel>
+                  <Select labelId="fidTipoCupon-label" label="Tipo de Cupón" name="fidTipoCupon">
+                    {/* Opciones del ComboBox de Tipos de Cupon */}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField fullWidth label="Sumilla" name="sumilla" />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4} />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField fullWidth label="Fecha de Expiración" name="fechaExpiracion" type="date" InputLabelProps={{ shrink: true }} />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
+              </Grid>
+              <Grid item xs={6}>
+                <FormControlLabel control={<Checkbox name="esLimitado" />} label="Es Limitado" />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField fullWidth label="Costo en Puntos" name="costoPuntos" />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion" />
+              </Grid>
+              <Grid item xs={6}>
+                <Card position="center" onClick={handleImageClick}>
+
+                  {imagePreview && (
+                    <div>
+                      <img alt="Preview" src={imagePreview} />
+
+
+                    <Button className={classes.overlay} onClick={handleDeleteImage}>
+                      <IconButton className={classes.deleteIcon}>
+                        <DeleteIcon />
+                      </IconButton>
+                      <Typography variant="body1">Borrar Imagen</Typography>
+                    </Button>
+                    </div>
                   )}
-                
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6} sx={{ textAlign: 'left' }}>
-                <Box display="flex">
-                <label htmlFor="image-upload">
-                <Button variant="contained" color="info" sx={{ backgroundColor: "#003B91", color:"#FFFFFF" }}
-                  component="span"
-                  startIcon={<EditIcon />}
-                >Cambiar Imagen</Button>
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="image-upload"
-                  style={{ display: 'none' }}
-                  onChange={handleImageChange}
-                />
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Código" value={codigo} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="ID Locatario" value={fidLocatario} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="ID Tipo Cupón" value={fidTipoCupon} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Sumilla" value={sumilla} onChange={handleChange} />
+                  {showFileUploader && !imagePreview && (
+                    <FileUploader handleChange={handleChange} name="file" types={fileTypes} label="Arrastra o carga la imagen del cupon"  classes={classes.fileUpload} />
+                  )}
+                </Card>
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth multiline label="Descripción Completa" value={descripcionCompleta} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12}>
-                  Datepicker
-              </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth multiline label="Términos y Condiciones" value={terminosCondiciones} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12}>
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox checked={esLimitado} onChange={handleChange} />} label="Es Limitado" />
-                  
-                </FormGroup>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Costo en Puntos" value={costoPuntos} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Cantidad Inicial" value={cantidadInicial} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Cantidad Disponible" value={cantidadDisponible} onChange={handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth type="number" label="Orden de Priorización" value={ordenPriorizacion} onChange={handleChange} />
+                <Button type="submit" variant="contained" color="primary">Crear</Button>
               </Grid>
             </Grid>
           </form>
         </Box>
-        <Grid item xs={12} sx={{ textAlign: 'right' , marginTop: '20px'}} >
-            <Button variant="contained" color="info" sx={{ backgroundColor: "#003B91", color:"#FFFFFF" }} onClick={handleCrear}>Crear Cupón</Button>
-        </Grid>
       </Container>
     );
+
   }
