@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/es-mx';
 import { useState, useEffect } from 'react';
 import * as React from "react";
-
 import { useNavigate } from 'react-router-dom';
+
 import { toast } from 'react-toastify';
 import {  FormControlLabel, Checkbox, CardMedia,CardContent,TextField, Button, Grid, Typography, Select, MenuItem, InputLabel, FormControl, Box, Container } from '@mui/material';
 
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   const fileTypes = ["JPG", "PNG"];
   export default function CuponNew() {
     const classes = useStyles();
-
+    const navigate=useNavigate();
     /* const [file, setFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('/public/a/tu/imagen.jpg');
     const [showFileUploader, setShowFileUploader] = useState(true);
@@ -150,6 +150,7 @@ const useStyles = makeStyles((theme) => ({
           progress: undefined,
           theme: "colored"
         });
+        navigate('/cupon');
         return data;
       } catch (error) {
         console.error('Error fetching crear cupones:', error);
