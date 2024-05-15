@@ -1,14 +1,12 @@
+import dayjs from 'dayjs';
+import 'dayjs/locale/es-mx';
 import { useState, useEffect } from 'react';
 import * as React from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { FileUploader } from "react-drag-drop-files";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {  FormControlLabel, Checkbox, CardMedia,CardContent,TextField, Button, Grid, Typography, Select, MenuItem, InputLabel, FormControl, Box, Container } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import Card from '@mui/material/Card';
@@ -17,6 +15,10 @@ import { makeStyles } from '@mui/styles';
 import ListSubheader from '@mui/material/ListSubheader';
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from '@mui/material/InputAdornment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
+
+dayjs.locale('es-mx');
 
 const useStyles = makeStyles((theme) => ({
   hideNavigationButton: {
@@ -91,17 +93,80 @@ const useStyles = makeStyles((theme) => ({
       event.preventDefault();
       // Lógica para manejar la submisión del formulario
     }; */
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
       event.preventDefault();
-      // Lógica para manejar la submisión del formulario
+      try {
+        const user = localStorage.getItem('user');
+        const userStringify = JSON.parse(user);
+        const { token, refreshToken } = userStringify;
+        const formData = new FormData();
+
+        formData.append("file", files[0].file)
+        formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
+        formData.append("codigo", event.target.codigo.value);
+        formData.append("sumilla", event.target.sumilla.value);
+        formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
+        formData.append("terminosCondiciones", event.target.terminosCondiciones.value);
+        formData.append("fechaExpiracion", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
+        formData.append("costoPuntos", event.target.costoPuntos.value);
+        formData.append("cantidadInicial", event.target.cantidadInicial.value);
+        formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
+        formData.append("fidLocatario", selectedTienda);
+        formData.append("fidTipoCupon", selectedTipoCupon);
+        // eslint-disable-next-line no-restricted-syntax
+        for (const [key, value] of formData.entries()) {
+          console.log(`${key}: ${value}`);
+        }
+
+         let response="";
+        response = await fetch(`http://localhost:3000/api/cupones/crear`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json',
+            // 'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        toast.success('Cupon creado exitosamente', {
+          position: "top-right",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        return data;
+      } catch (error) {
+        console.error('Error fetching crear cupones:', error);
+        throw error;
+      }
     };
     const [files, setFiles] = React.useState([]);
     const updateFiles = (incommingFiles) => {
       setFiles(incommingFiles);
     };
+    const [startDate, setStartDate] = useState(dayjs());
     const [tiendas, setTiendas] = useState([]);
     const [selectedTienda, setSelectedTienda] = useState('');
-    const [searchTerm, setSearchTerm] = useState('all');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [tipoCupones, setTipoCupones] = useState([]);
+    const [selectedTipoCupon, setSelectedTipoCupon] = useState('');
+    const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
     const getTiendas = async () => {
       try {
         const user = localStorage.getItem('user');
@@ -146,6 +211,51 @@ const useStyles = makeStyles((theme) => ({
         throw error;
       }
     };
+
+    const getTipoCupones = async () => {
+      try {
+        const user = localStorage.getItem('user');
+        const userStringify = JSON.parse(user);
+        const { token, refreshToken } = userStringify;
+        let response="";
+        console.log(searchTermTipoCupones)
+        if(searchTerm===""){
+          response = await fetch(`http://localhost:3000/api/tipocupones/listartipocupones?query=all&page=1&pageSize=10`, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            }
+          });
+        }else{
+          response = await fetch(`http://localhost:3000/api/tipocupones/listartipocupones?query=${searchTerm}&page=1&pageSize=10`, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            }
+          });
+        }
+
+
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching cupones:', error);
+        throw error;
+      }
+    };
     const handleSearch = async (e) => {
       e.preventDefault();
       const results = await getTiendas();
@@ -156,12 +266,23 @@ const useStyles = makeStyles((theme) => ({
       e.preventDefault();
       setSearchTerm(e.target.value)
     };
+    const handleSearchTipoCupon = async (e) => {
+      e.preventDefault();
+      const results = await getTipoCupones();
+      console.log("viendo resultados", results.tipoCupones)
+      setTipoCupones(results.tipoCupones);
+    };
+    const changeTermSearchTipoCupon = async (e) => {
+      e.preventDefault();
+      setSearchTermTipoCupones(e.target.value)
+    };
+    console.log(startDate)
     return (
       <Container>
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupon</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Box sx={{ mt: 3 }}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Grid container spacing={2}>
               <Grid item xs={2}>
                 <FormControlLabel control={<Checkbox name="esLimitado" />} label="Es Limitado" />
@@ -180,19 +301,19 @@ const useStyles = makeStyles((theme) => ({
                     value={selectedTienda}
                     label="Elegir Tienda"
                     onChange={(e) => setSelectedTienda(e.target.value)}
-                    onClose={() => setSearchTerm("all")}
                     // This prevents rendering empty string in Select's value
                     // if search text would exclude currently selected option.
-                    renderValue={() => selectedTienda}
+
                   >
                     <ListSubheader>
                       <TextField
                         size="small"
-                        // Autofocus on textfield
                         autoFocus
                         placeholder="Busca una tienda por nombre..."
                         fullWidth
+                        value={searchTerm}
                         onChange={changeTermSearch}
+                        onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
@@ -200,11 +321,10 @@ const useStyles = makeStyles((theme) => ({
                             </InputAdornment>
                           )
                         }}
-
                       />
                     </ListSubheader>
                     {tiendas.map((option, i) => (
-                      <MenuItem key={i} value={option.nombre}>
+                      <MenuItem key={i} value={option.id}>
                         {option.nombre}
                       </MenuItem>
                     ))}
@@ -213,9 +333,41 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={4}>
                 <FormControl fullWidth>
-                  <InputLabel id="fidTipoCupon-label">Tipo de Cupón</InputLabel>
-                  <Select labelId="fidTipoCupon-label" label="Tipo de Cupón" name="fidTipoCupon">
-                    {/* Opciones del ComboBox de Tipos de Cupon */}
+                  <InputLabel id="search-tipo-select-label">Tipo de Cupon</InputLabel>
+                  <Select
+                    // Disables auto focus on MenuItems and allows TextField to be in focus
+                    MenuProps={{ autoFocus: false }}
+                    labelId="search-tipo-cupon-select-label"
+                    id="search-tipo-cupon-select"
+                    value={selectedTipoCupon}
+                    label="Elegir tipo de cupon"
+                    onChange={(e) => setSelectedTipoCupon(e.target.value)}
+
+                  >
+                    <ListSubheader>
+                      <TextField
+                        size="small"
+                        autoFocus
+                        placeholder="Busca un tipo de cupon por nombre..."
+                        fullWidth
+                        value={searchTermTipoCupones}
+                        onChange={changeTermSearchTipoCupon}
+                        onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SearchIcon onClick={handleSearchTipoCupon} />
+                            </InputAdornment>
+                          )
+                        }}
+
+                      />
+                    </ListSubheader>
+                    {tipoCupones.map((option, i) => (
+                      <MenuItem key={i} value={option.id}>
+                        {option.nombre}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -230,7 +382,15 @@ const useStyles = makeStyles((theme) => ({
                 <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
               </Grid>
               <Grid item xs={3}>
-                <TextField fullWidth label="Fecha de Expiración" name="fechaExpiracion" type="date" InputLabelProps={{ shrink: true }} />
+                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                <DatePicker
+                  label="Fecha expiracion"
+                  value={startDate}
+                  format="DD/MM/YYYY"
+                  onChange={setStartDate}
+
+                />
+                </LocalizationProvider>
               </Grid>
               <Grid item xs={3}>
                 <TextField fullWidth label="Costo en Puntos" name="costoPuntos" />
@@ -249,7 +409,7 @@ const useStyles = makeStyles((theme) => ({
                 </Dropzone>
               </Grid>
               <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary">Crear</Button>
+                <Button type="submit" variant="contained" color="primary" >Crear</Button>
               </Grid>
             </Grid>
           </form>

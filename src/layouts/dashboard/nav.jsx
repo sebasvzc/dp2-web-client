@@ -37,8 +37,21 @@ export default function Nav({ openNav, onCloseNav }) {
     const loadAccountData = async () => {
       try {
         const data = await fetchAccountData();
+        console.log("viendo data")
         console.log(data)
-        setAccount(data);
+        if(data.status===403 || data.status===401){
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+        if(data.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        console.log(data.findUser)
+        setAccount(data.findUser);
       } catch (error) {
         console.error('Error loading account data:', error);
       }
