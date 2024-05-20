@@ -25,8 +25,13 @@ import * as React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
+
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import Iconify from '../../../components/iconify';
+
+import { getTiendas, getTipoCupones } from '../../../funciones/api';
 
 dayjs.extend(utc);
 
@@ -241,28 +246,62 @@ export default function CuponDetail() {
         {editable ? "Modificar Cupon" : "Visualizar Cupon"}
       </Typography>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-      <Grid container spacing={2}>
+      <Grid container spacing={5}>
         <Grid item xs={3}>
           <Box sx={{ borderRight: 1, borderColor: 'divider', height: '100vh', paddingTop: 2 }}>
-            <Typography variant="h5" sx={{ mb: 2 }}>
-              Opciones
-            </Typography>
-            <Button
-              variant="contained"
 
-              onClick={() => setView('datos')}
-              sx={{ width: '100%', mb: 1 }}
-            >
-              Datos
-            </Button>
-            <Button
-              variant="contained"
-
-              onClick={() => setView('estadisticas')}
-              sx={{ width: '100%' }}
-            >
-              Estadísticas
-            </Button>
+            <List component="nav" aria-label="opciones de navegación">
+              <ListItemButton
+                component="a"
+                onClick={() => setView('datos')}
+                sx={{
+                  width: '100%',
+                  bgcolor: view === 'datos' ? '#F9FAFB' : '#F1F1F1',
+                  '&:hover': {
+                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
+                  },
+                  position: 'relative', // Necesario para el pseudoelemento
+                  ...(view === 'datos' && {
+                    '&::before': { // Estilo para el "bookmark"
+                      content: '""',
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: '5px',
+                      bgcolor: '#00489C', // Color azul para el "bookmark"
+                    }
+                  }),
+                }}
+              >
+                <ListItemText primary="Datos" />
+              </ListItemButton>
+              <ListItemButton
+                component="a"
+                onClick={() => setView('estadisticas')}
+                sx={{
+                  width: '100%',
+                  bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
+                  '&:hover': {
+                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
+                  },
+                  position: 'relative', // Necesario para el pseudoelemento
+                  ...(view === 'estadisticas' && {
+                    '&::before': { // Estilo para el "bookmark"
+                      content: '""',
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: '5px',
+                      bgcolor: '#00489C', // Color azul para el "bookmark"
+                    }
+                  }),
+                }}
+              >
+                <ListItemText primary="Estadísticas" />
+              </ListItemButton>
+            </List>
           </Box>
         </Grid>
         <Grid item xs={9}>
