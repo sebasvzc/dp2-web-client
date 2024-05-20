@@ -24,47 +24,48 @@ import CuponTableRow from '../cupon-table-row';
 import CuponTableHead from '../cupon-table-head';
 import CuponTableToolbar from '../cupon-table-toolbar';
 
-  const useStyles = makeStyles((theme) => ({
-    hideNavigationButton: {
-      display: 'none !important', // Oculta el botón de navegación
-    },
-    paginationContainer: {
+const useStyles = makeStyles((theme) => ({
+  hideNavigationButton: {
+    display: 'none !important', // Oculta el botón de navegación
+  },
+  paginationContainer: {
 
-      display: "inline-block"
-    },
-    centeredPagination: {
-      margin: 'auto', // Centra horizontalmente el componente
-      maxWidth: 'fit-content', // Ajusta el ancho al contenido
-    },
-  }));
-  // ----------------------------------------------------------------------
-  const scrollContainerStyle = {
-    overflowY: 'auto',
-    maxHeight: 'calc(100vh - 470px)',
-    paddingRight: '0.1%',
-    boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
-  };
-  export default function CuponView() {
-    const [order, setOrder] = useState('asc');
-    const [searchName, setSearchName] = useState("all");
-    const [userData, setCuponData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [habilitarCupones, setHabilitarCupones] = useState(true);
-    const [error, setError] = useState(null);
-    const [selected, setSelected] = useState([]);
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(6);
+    display: "inline-block"
+  },
+  centeredPagination: {
+    margin: 'auto', // Centra horizontalmente el componente
+    maxWidth: 'fit-content', // Ajusta el ancho al contenido
+  },
+}));
+// ----------------------------------------------------------------------
+const scrollContainerStyle = {
+  overflowY: 'auto',
+  maxHeight: 'calc(100vh - 470px)',
+  paddingRight: '0.1%',
+  boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
+};
 
-    const [orderBy, setOrderBy] = useState('id');
-    const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
-    const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
-    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+export default function CuponView() {
+  const [order, setOrder] = useState('asc');
+  const [searchName, setSearchName] = useState("all");
+  const [userData, setCuponData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [habilitarCupones, setHabilitarCupones] = useState(true);
+  const [error, setError] = useState(null);
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+
+  const [orderBy, setOrderBy] = useState('id');
+  const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
+  const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
+  const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
 
-    const classes = useStyles();
-    const filterName= useState('')
+  const classes = useStyles();
+  const filterName= useState('')
 
-    const [totalCupones, setTotalCupones] = useState(10);
+  const [totalCupones, setTotalCupones] = useState(10);
 
   useEffect(() => {
     if(selected.length>0){
@@ -85,7 +86,6 @@ import CuponTableToolbar from '../cupon-table-toolbar';
   // Llama a la función obtenerCupones para obtener y mostrar los datos de cupones
 
   useEffect(() => {
-
     const fetchData = async () => {
         try {
           setLoading(true); // Indicar que la carga ha finalizado
@@ -460,6 +460,7 @@ import CuponTableToolbar from '../cupon-table-toolbar';
                 <Grid item xs={12} sm={6} md={4} key={row.id} >
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <CuponTableRow
+                      id={row.id}
                       codigo={row.codigo}
                       sumilla={row.sumilla}
                       cantidadInicial={row.cantidadInicial}

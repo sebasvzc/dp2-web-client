@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { useState,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -78,6 +79,7 @@ export default function CuponTableRow({
                                         updatedAt,
                                         onEditCupon
                                      }) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
@@ -150,8 +152,8 @@ export default function CuponTableRow({
   };
 
   const handleOpenModalEdit = () => {
-    console.log("open edit es true")
-    setOpenEdit(true);
+    console.log(id)
+    navigate(`/cupon/detalle/${id}`);
   };
 
   const handleCloseModalEdit = () => {
