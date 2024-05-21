@@ -210,9 +210,9 @@ export default function ClienteTableRow({
                 Email: {emailX}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <span className={activo === true ? classes.activo : classes.inactivo}>
-                    {activo === true ? 'Activo' : 'Inactivo'}
-                </span>
+              <span className={activo ? classes.activo : classes.inactivo}>
+                  {activo ? 'Activo' : 'Inactivo'}
+              </span>
               </Typography>
             </div>
           </div>
