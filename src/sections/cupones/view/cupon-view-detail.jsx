@@ -27,11 +27,16 @@ import utc from 'dayjs/plugin/utc';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 
 import List from '@mui/material/List';
+import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Iconify from '../../../components/iconify';
 
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
+import AppCurrentVisits from '../../overview/app-current-visits';
+
+
+import DashboardCuponClient from '../../overview/dashboardCuponClient';
 
 dayjs.extend(utc);
 
@@ -240,15 +245,31 @@ export default function CuponDetail() {
     e.preventDefault();
     setSearchTermTipoCupones(e.target.value)
   };
+
+  const fetchAndSetView = async (newView) => {
+    try {
+      // Simulando una llamada a la API
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+      const data = await response.json();
+
+      // Procesa la data aquí si es necesario
+      console.log('Datos recibidos de la API:', data);
+
+      // Cambia la vista
+      setView(newView);
+    } catch (error) {
+      console.error('Error al obtener datos de la API:', error);
+    }
+  };
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Typography variant="h2">
         {editable ? "Modificar Cupon" : "Visualizar Cupon"}
       </Typography>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-      <Grid container spacing={5}>
+      <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '100vh', paddingTop: 2 }}>
+          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '690px', paddingTop: 2 }}>
 
             <List component="nav" aria-label="opciones de navegación">
               <ListItemButton
@@ -278,7 +299,7 @@ export default function CuponDetail() {
               </ListItemButton>
               <ListItemButton
                 component="a"
-                onClick={() => setView('estadisticas')}
+                onClick={() => fetchAndSetView('estadisticas')}
                 sx={{
                   width: '100%',
                   bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
@@ -307,7 +328,7 @@ export default function CuponDetail() {
         <Grid item xs={9}>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <Box display="flex" alignItems="right" justifyContent="space-between" sx={{ mb: 2 }}>
+              <Box display="flex" justifyContent="flex-end" alignItems="center">
 
 
                 {!editable && (
@@ -332,7 +353,8 @@ export default function CuponDetail() {
                       type="submit"
                       variant="contained"
                       color="success"
-                      sx={{ marginTop: 5, marginLeft: 65, backgroundColor: "#198754" }}
+                      sx={{ marginTop: 5, marginRight:5, backgroundColor: "#198754" }}
+                      startIcon={<Iconify icon="ic:baseline-save" />}
                     >
                       Guardar
                     </Button>
@@ -340,6 +362,7 @@ export default function CuponDetail() {
                     <Button
                       variant="contained"
                       color="error"
+                      startIcon={<Iconify icon="ic:baseline-cancel" />}
                       sx={{ marginTop: 5, backgroundColor: "#DC3545" }}
                       onClick={() => setEditable(false)} // Opcional: Cambia 'editable' a false para "cancelar"
                     >
@@ -357,7 +380,6 @@ export default function CuponDetail() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     textAlign: 'center',
-                    marginLeft: '50%',
                     height: '25%',
                     marginTop: '15%', // Ajusta la distancia desde la parte superior
                     marginBottom: '15%',
@@ -369,7 +391,7 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3 }}>
+                <Box sx={{ mt: 3 , overflowY: 'auto', maxHeight: '60vh', pr: 2}}>
 
                   <Grid container spacing={2}>
                     <Grid item xs={2}>
@@ -406,7 +428,7 @@ export default function CuponDetail() {
                     <Grid item xs={2}>
                       <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={5}>
                       <FormControl fullWidth>
                         <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
                         <Select
@@ -449,7 +471,7 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={5}>
                       <FormControl fullWidth>
                         <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
                         <Select
@@ -490,19 +512,6 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
-                                 disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} disabled={!editable} />
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} disabled={!editable} />
-                    </Grid>
                     <Grid item xs={3}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <DatePicker
@@ -526,6 +535,20 @@ export default function CuponDetail() {
                       <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
                                  defaultValue={ordPriorizacionText} disabled={!editable} />
                     </Grid>
+                    <Grid item xs={12}>
+                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
+                                 disabled={!editable} />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
+                                 defaultValue={descripcionText} disabled={!editable} />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
+                                 defaultValue={terminosText} disabled={!editable} />
+                    </Grid>
+
 
                   </Grid>
 
@@ -533,16 +556,34 @@ export default function CuponDetail() {
               )}
             </form>
           ) : (
-            <Box>
-              {/* Aquí irían tus componentes y grillas de estadísticas */}
-              <Typography variant="h4" sx={{ mb: 2 }}>
-                Estadísticas
-              </Typography>
-              {/* Ejemplo de contenido de estadísticas */}
-              <Typography>
-                Aquí puedes añadir gráficos, tablas y más información estadística.
-              </Typography>
-            </Box>
+            <Box sx={{paddingTop:10}}>
+            {loading ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    height: '25%',
+                    marginTop: '15%', // Ajusta la distancia desde la parte superior
+                    marginBottom: '15%',
+                  }}
+                >
+                  <CircularProgress color="primary" />
+                  <Typography variant="h6" sx={{ mt: 1 }}>
+                    Cargando...
+                  </Typography>
+                </Box>
+              ):(
+
+              <Grid xs={12} md={6} lg={8}>
+
+                  <DashboardCuponClient />
+
+              </Grid>
+              )}
+              </Box >
           )}
         </Grid>
       </Grid>
