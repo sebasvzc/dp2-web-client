@@ -250,6 +250,9 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
       }
     };
 
+    const handleCrear = () => {
+      //navigate('/cupon/cupon-new'); // Redirige al usuario a la ruta especificada
+    };
 
     const handleSelectAllClick = (event) => {
 
@@ -355,7 +358,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     return (
       
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
-        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Usuarios</Typography>
+        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Tiendas</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
           <TiendaTableToolbar
@@ -364,10 +367,6 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             onFilterName={handleSearch}
           />
           <Stack direction="row" spacing={2}>
-            <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
-            onClick={handleOpenModal} startIcon={<Iconify icon ="mdi:invite"/>}>
-              Invitar
-            </Button>
             <Dialog open={openModal} onClose={handleCloseModal} 
             fullWidth maxWidth="md" PaperProps={{ style: { maxHeight: '90vh' } }}>
               <DialogTitle>Invitar usuario</DialogTitle>
@@ -437,6 +436,10 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             ]}
           />
           <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
+          <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
+            onClick={handleCrear} startIcon={<Iconify icon ="mingcute:shop-fill"/>}>
+              Crear
+            </Button>
             <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
             disabled={botonDeshabilitado}
             onClick={handleOpenModalActivar} startIcon={<Iconify icon="eva:plus-fill" />}>
@@ -447,7 +450,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             onClick={handleOpenModalDesactivar} startIcon={<Iconify icon="bi:dash" />}>
               Deshabilitar
             </Button>
-            </Stack>
+          </Stack>
         </Stack>
 
         <Box sx={scrollContainerStyle}>

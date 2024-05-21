@@ -429,7 +429,7 @@ export default function CuponView() {
             onClick={handleOpenModalDesactivar} startIcon={<Iconify icon="bi:dash" />}>
               Deshabilitar
             </Button>
-            </Stack>
+          </Stack>
         </Stack>
 
         <Box sx={scrollContainerStyle}>
