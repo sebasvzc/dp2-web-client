@@ -16,6 +16,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from '@mui/material/InputAdornment';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
 
 dayjs.locale('es-mx');
@@ -63,6 +64,10 @@ const useStyles = makeStyles((theme) => ({
   export default function CuponNew() {
     const classes = useStyles();
     const navigate=useNavigate();
+
+    const handleBack = () => {
+      navigate('/cupon'); 
+    }
     /* const [file, setFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('/public/a/tu/imagen.jpg');
     const [showFileUploader, setShowFileUploader] = useState(true);
@@ -280,7 +285,10 @@ const useStyles = makeStyles((theme) => ({
     console.log(startDate)
     return (
       <Container>
-        <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupon</Typography>
+       <Stack direction="row" alignItems="center" spacing={2}>
+          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
+        </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Box sx={{ mt: 3 }}>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -382,36 +390,43 @@ const useStyles = makeStyles((theme) => ({
               <Grid item xs={12}>
                 <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
               </Grid>
-              <Grid item xs={3}>
-                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                <DatePicker
-                  label="Fecha expiracion"
-                  value={startDate}
-                  format="DD/MM/YYYY"
-                  onChange={setStartDate}
-
-                />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={3}>
-                <TextField fullWidth label="Costo en Puntos" name="costoPuntos" />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion" />
+              <Grid item xs={12}/>
+              <Grid container spacing={2} item xs={6}>
+                <Grid item xs={6} style={{ paddingBottom: 0 }}>
+                  <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                  <DatePicker
+                    label="Fecha expiracion"
+                    value={startDate}
+                    format="DD/MM/YYYY"
+                    onChange={setStartDate}
+                    sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                  />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6} style={{ paddingBottom: 0 }}>
+                  <TextField fullWidth label="Costo en Puntos" name="costoPuntos" />
+                </Grid>
+                <Grid item xs={6} style={{ paddingTop: 0 }}>
+                  <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" />
+                </Grid>
+                <Grid item xs={6} style={{ paddingTop: 0 }}>
+                  <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion" />
+                </Grid>
               </Grid>
               <Grid item xs={6}>
-                <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" maxFiles={1} footer={false} localization="ES-es" accept="image/*">
-                  {files.map((file) => (
-                    <FileMosaic {...file} preview   localization="ES-es" style={{width: '80%'}}/>
-                  ))}
-                </Dropzone>
+                <Grid item xs={12} >
+                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
+                    maxFiles={1} footer={false} localization="ES-es" accept="image/*">
+                      {files.map((file) => (
+                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
+                      ))}
+                    </Dropzone>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+            <Grid item xs={12}/>
+            <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary" >Crear</Button>
-              </Grid>
             </Grid>
           </form>
         </Box>
