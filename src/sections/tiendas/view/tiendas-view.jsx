@@ -1,61 +1,540 @@
-import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
+import { TextField, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { DatePicker } from '@mui/lab';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import TablePagination from '@mui/material/TablePagination';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import { products } from 'src/_mock/products';
+import obtenerUsuarios  from 'src/_mock/tienda';
 
-import ProductCard from '../tiendas-card';
-import ProductSort from '../tiendas-sort';
-import TiendasFilters from '../tiendas-filters';
+import Iconify from 'src/components/iconify';
 
+import TiendaTableRow from '../tienda-table-row';
+import TiendaTableHead from '../tienda-table-head';
+import TiendaTableToolbar from '../tienda-table-toolbar';
 
+  const useStyles = makeStyles((theme) => ({
+    hideNavigationButton: {
+      display: 'none !important', // Oculta el botón de navegación
+    },
+    paginationContainer: {
 
-// ----------------------------------------------------------------------
-
-export default function TiendasView() {
-  const [openFilter, setOpenFilter] = useState(false);
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
+      display: "inline-block"
+    },
+    centeredPagination: {
+      margin: 'auto', // Centra horizontalmente el componente
+      maxWidth: 'fit-content', // Ajusta el ancho al contenido
+    },
+  }));
+  // ----------------------------------------------------------------------
+  const scrollContainerStyle = {
+    overflowY: 'auto',
+    maxHeight: 'calc(100vh - 470px)',
+    paddingRight: '0.1%',
+    boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
+  export default function TiendasView() {
+    const [order, setOrder] = useState('asc');
+    const [searchName, setSearchName] = useState("all");
+    const [tiendaData, setTiendaData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [habilitarUsuarios, setHabilitarUsuarios] = useState(true);
+    const [error, setError] = useState(null);
+    const [selected, setSelected] = useState([]);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
 
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
+    const [orderBy, setOrderBy] = useState('id');
+    const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
+    const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-  return (
-    <Container>
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Tiendas
-      </Typography>
 
-      <Stack
-        direction="row"
-        alignItems="center"
-        flexWrap="wrap-reverse"
-        justifyContent="flex-end"
-        sx={{ mb: 5 }}
-      >
-        <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-          <TiendasFilters
-            openFilter={openFilter}
-            onOpenFilter={handleOpenFilter}
-            onCloseFilter={handleCloseFilter}
+    const classes = useStyles();
+    const filterName= useState('')
+
+    const [totalTiendas, setTotalTiendas] = useState(10);
+
+  useEffect(() => {
+    if(selected.length>0){
+      setBackgroundBtnHabilitar("#198754");
+      setBackgroundBtnDeshabilitar("#DC3545");
+      setBotonDeshabilitado(false);
+    }else{
+      setBackgroundBtnHabilitar("#CCCCCC");
+      setBackgroundBtnDeshabilitar("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+  }, [selected]);
+
+  console.log("Seleccionar")
+  console.log(selected)
+  console.log("Seleccionar")
+/*
+  // Llama a la función obtenerUsuarios para obtener y mostrar los datos de usuarios
+    useEffect(() => {
+
+    const fetchData = async () => {
+        try {
+          setLoading(true); // Indicar que la carga ha finalizado
+          const data = await obtenerUsuarios(page,pageSize,searchName); // Obtener los datos de usuarios
+          console.log(data.tiendas)
+          if(data.newToken){
+            const storedTienda = localStorage.getItem('tienda');
+            const tiendaX = JSON.parse(storedTienda);
+            tiendaX.token = data.newToken;
+            localStorage.setItem('tienda', JSON.stringify(tiendaX)); // Actualiza el usuario en el almacenamiento local
+            console.log("He puesto un nuevo token");
+          }
+          console.log(data.totalTiendas)
+          if(data.totalTiendas){
+            setTotalTiendas(data.totalTiendas);
+          }
+          setTiendaData(data.tiendas); // Actualizar el estado con los datos obtenidos
+          setLoading(false); // Indicar que la carga ha finalizado
+
+        } catch (err) {
+          setError(err); // Manejar errores de obtención de datos
+          setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+        }
+      };
+
+      fetchData(); // Llamar a la función para obtener los datos al montar el componente
+      console.log("searchName despues de buscar",searchName)
+    }, [page, pageSize,totalTiendas, habilitarUsuarios,searchName]);
+*/
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
+    const [openModalActivar, setOpenModalActivar] = useState(false);
+    const [email, setEmail] = useState('');
+   
+   
+    const handleEnviar = async () => {
+      /*
+      try {
+        const response = await fetch('http://localhost:3000/api/tienda/invite', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ email }),
+        });
+        const data = await response.json();
+        console.log(data); // Maneja la respuesta de la API según sea necesario
+        if(data.success==="true"){
+          console.log("entre a true")
+          toast.success('Usuario invitado exitosamente a través de correo', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }else{
+          toast.error('Error: El correo ya se encuentra registrado', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }
+        handleCloseModal(); // Cierra el modal después de enviar
+        setEmail("");
+      } catch (e) {
+        console.error('Error al enviar correo electrónico:', e);
+        toast.error('Error: El correo ya se encuentra registrado', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        setEmail("");
+      }
+      */
+    };
+    const handleDeshabilitar = async () => {
+      /*
+      try {
+        const response = await fetch('http://localhost:3000/api/tienda/deshabilitar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ selected }),
+        });
+        const data = await response.json();
+        console.log(data); // Maneja la respuesta de la API según sea necesario
+        setOpenModalDesactivar(false);
+        setHabilitarUsuarios(!habilitarUsuarios);
+        toast.success('Usuario deshabilitado exitosamente', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        // handleCloseModal(); // Cierra el modal después de enviar
+      } catch (e) {
+        console.error('Error al deshabilitar usuarios:', e);
+      }
+    */
+    };
+    const handleHabilitar = async () => {
+      /*
+      try {
+        const response = await fetch('http://localhost:3000/api/tienda/habilitar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ selected }),
+        });
+        const data = await response.json();
+        console.log(data); // Maneja la respuesta de la API según sea necesario
+        setHabilitarUsuarios(!habilitarUsuarios);
+        setOpenModalActivar(false);
+        toast.success('Usuario habilitado exitosamente', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        // handleCloseModal(); // Cierra el modal después de enviar
+      } catch (e) {
+        console.error('Error al habilitar usuarios:', e);
+      }
+      */
+    };
+    const handleSort = (event, id) => {
+      const isAsc = orderBy === id && order === 'asc';
+      console.log("Este es el id que ordena")
+      console.log(id)
+      if (id !== '') {
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(id);
+      }
+    };
+
+
+    const handleSelectAllClick = (event) => {
+
+      console.log(searchName)
+      if (event.target.checked) {
+        const newSelecteds = tiendaData.map((n) => n.id);
+        setSelected(newSelecteds);
+        return;
+      }
+      setSelected([]);
+    };
+    const handleCambio = (event) => {
+      console.log("camio de datos de usuario")
+      setHabilitarUsuarios(!habilitarUsuarios);
+    };
+    const handleClick = (event, name) => {
+      const selectedIndex = selected.indexOf(name);
+      let newSelected = [];
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, name);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+        );
+      }
+      setSelected(newSelected);
+      console.log("newSelected");
+      console.log(newSelected);
+      console.log(typeof newSelected);
+    };
+
+    const handleChangePage = (event, newPage) => {
+      console.log("new page", newPage)
+      setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+      setPage(1);
+      setPageSize(parseInt(event.target.value, 10));
+    };
+
+    const handleSearch = (e) => {
+      setSearchName(e)
+      setPage(1);
+      console.log(e);
+    };
+    const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
+    const handleOpenModalDesactivar = () => {
+      setOpenModalDesactivar(true);
+    };
+    const handleCloseModalDesactivar = () => {
+      console.log("desactivar")
+      setOpenModalDesactivar(false);
+    };
+    const handleOpenModalActivar = () => {
+      setOpenModalActivar(true);
+    };
+    const handleCloseModalActivar = () => {
+      console.log("desactivar")
+      setOpenModalActivar(false);
+    };
+
+    const handleOpenModal = () => {
+      setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setOpenModal(false);
+    };
+
+    const handleEmailChange = (event) => {
+      setEmail(event.target.value);
+    };
+    // const notFound = !tiendaData.length && !!filterName;
+    /* if (loading) {
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '25%',
+            marginTop: '15%', // Ajusta la distancia desde la parte superior
+          }}
+        >
+          <CircularProgress color="primary" />
+          <Typography variant="h6" sx={{ mt: 2 }}>
+            Cargando...
+          </Typography>
+        </Box>
+      );
+    } */
+
+    if (error) {
+      return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
+    }
+    return (
+      
+      <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Usuarios</Typography>
+        <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
+          <TiendaTableToolbar
+            numSelected={selected.length}
+            filterName={filterName}
+            onFilterName={handleSearch}
           />
+          <Stack direction="row" spacing={2}>
+            <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
+            onClick={handleOpenModal} startIcon={<Iconify icon ="mdi:invite"/>}>
+              Invitar
+            </Button>
+            <Dialog open={openModal} onClose={handleCloseModal} 
+            fullWidth maxWidth="md" PaperProps={{ style: { maxHeight: '90vh' } }}>
+              <DialogTitle>Invitar usuario</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="email"
+                  label="Correo electrónico"
+                  type="email"
+                  fullWidth
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseModal} color="error">
+                  Cancelar
+                </Button>
+                <Button onClick={handleEnviar} color="success">
+                  Enviar
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} 
+             fullHeight maxHeight="md" >
+              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el usuario seleccionado?</DialogTitle>
 
-          <ProductSort />
+              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
+                <Button onClick={handleDeshabilitar} color="success">
+                  Sí
+                </Button>
+                <Button onClick={handleCloseModalDesactivar} color="error">
+                  No
+                </Button>
+
+              </DialogActions>
+            </Dialog>
+            <Dialog open={openModalActivar} onClose={handleCloseModalActivar}
+            maxWidth="md" maxHeight="md" >
+              <DialogTitle>¿Estás seguro de que deseas habilitar el usuario seleccionado?</DialogTitle>
+
+              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
+                <Button onClick={handleHabilitar} color="success">
+                  Sí
+                </Button>
+                <Button onClick={handleCloseModalActivar} color="error">
+                  No
+                </Button>
+
+              </DialogActions>
+            </Dialog>
+          </Stack>
         </Stack>
-      </Stack>
-      <Grid container spacing={3}>
-        {products.map((product) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
-            <ProductCard product={product} />
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+          <TiendaTableHead
+            order={order}
+            orderBy={orderBy}
+            rowCount={tiendaData.length}
+            numSelected={selected.length}
+            onRequestSort={handleSort}
+            onSelectAllClick={handleSelectAllClick}
+            headLabel={[
+
+              { id: '' },
+            ]}
+          />
+          <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
+            <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
+            disabled={botonDeshabilitado}
+            onClick={handleOpenModalActivar} startIcon={<Iconify icon="eva:plus-fill" />}>
+              Habilitar
+            </Button>
+            <Button variant="contained" color="error" sx={{ backgroundColor: backgroundBtnDeshabilitar , color:"#FFFFFF" }}  
+            disabled={botonDeshabilitado}
+            onClick={handleOpenModalDesactivar} startIcon={<Iconify icon="bi:dash" />}>
+              Deshabilitar
+            </Button>
+            </Stack>
+        </Stack>
+
+        <Box sx={scrollContainerStyle}>
+          <Grid container spacing={2}>
+            {loading ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginLeft:'50%',
+                  height: '25%',
+                  marginTop: '15%', // Ajusta la distancia desde la parte superior
+                  marginBottom: '15%',
+                }}
+              >
+                <CircularProgress color="primary" />
+                <Typography variant="h6" sx={{ mt: 1 }}>
+                  Cargando...
+                </Typography>
+              </Box>
+            ) : (
+              <>
+            {tiendaData && tiendaData.length > 0 ? (
+              tiendaData.map((row) => (
+                <Grid item xs={12} sm={6} md={4} key={row.id} >
+                  <Card style={{ backgroundColor: '#F9FAFB' }}>
+                    <TiendaTableRow
+                      nombre={row.nombre}
+                      rol={row.rol}
+                      id={row.id}
+                      emailX={row.email}
+                      selected={selected.indexOf(row.id) !== -1}
+                      handleClick={(event) => handleClick(event, row.id)}
+                      activo={row.activo}
+                      apellido={row.apellido}
+                      onEditUer={handleCambio}
+                    />
+                  </Card>
+                </Grid>
+              ))
+            ) : (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginLeft:'30%',
+                  height: '25%',
+                  marginTop: '15%', // Ajusta la distancia desde la parte superior
+                  marginBottom: '15%',
+                }}
+              >
+
+                <Typography variant="h6" sx={{ mt: 2 }}>
+                  No se encontraron usuarios para la búsqueda
+                </Typography>
+              </Box>
+            )}
+              </>
+            )}
           </Grid>
-        ))}
-      </Grid>
-    </Container>
-  );
-}
+      </Box>
+        <Grid container justifyContent="center"> {/* Centra horizontalmente */}
+          <Grid item>
+            <TablePagination
+              page={page-1}
+              component="div"
+              count={totalTiendas}
+              rowsPerPage={pageSize}
+              onPageChange={handleChangePage}
+              rowsPerPageOptions={[6, 12, 18]}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Usuarios por página"
+              nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha
+              backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
+              labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
+            />
+            <Pagination count={ Math.ceil(totalTiendas / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
+          </Grid>
+
+        </Grid>
+
+      </Container>
+    );
+  }
