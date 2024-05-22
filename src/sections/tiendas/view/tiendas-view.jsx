@@ -52,7 +52,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     const [searchName, setSearchName] = useState("all");
     const [tiendaData, setTiendaData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [habilitarUsuarios, setHabilitarUsuarios] = useState(true);
+    const [habilitarTiendas, setHabilitarTiendas] = useState(true);
     const [error, setError] = useState(null);
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(1);
@@ -115,7 +115,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalTiendas, habilitarUsuarios,searchName]);
+    }, [page, pageSize,totalTiendas, habilitarTiendas,searchName]);
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
@@ -138,14 +138,14 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             'Accept': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
             'Refresh-Token': `Bearer ${refreshToken}`
-            },
+          },
           body: JSON.stringify({ selected }),
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
-        setHabilitarCupones(!habilitarCupones);
-        toast.success('Cupón deshabilitado exitosamente', {
+        setHabilitarTiendas(!habilitarTiendas);
+        toast.success('Tienda deshabilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -155,9 +155,9 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
           progress: undefined,
           theme: "colored"
         });
-        
+        // handleCloseModal(); // Cierra el modal después de enviar
       } catch (e) {
-        console.error('Error al deshabilitar cupones:', e);
+        console.error('Error al deshabilitar usuarios:', e);
       }
     
     };
@@ -175,9 +175,9 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario
-        setHabilitarUsuarios(!habilitarUsuarios);
+        setHabilitarTiendas(!habilitarTiendas);
         setOpenModalActivar(false);
-        toast.success('Usuario habilitado exitosamente', {
+        toast.success('Tienda habilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -219,7 +219,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     };
     const handleCambio = (event) => {
       console.log("camio de datos de usuario")
-      setHabilitarUsuarios(!habilitarUsuarios);
+      setHabilitarTiendas(!habilitarTiendas);
     };
     const handleClick = (event, name) => {
       const selectedIndex = selected.indexOf(name);
@@ -456,7 +456,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
               onPageChange={handleChangePage}
               rowsPerPageOptions={[6, 12, 18]}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              labelRowsPerPage="Usuarios por página"
+              labelRowsPerPage="Tiendas por página"
               nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha
               backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
               labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
