@@ -159,6 +159,7 @@ const useStyles = makeStyles((theme) => ({
     };
     const [files, setFiles] = React.useState([]);
     const updateFiles = (incommingFiles) => {
+      console.log(typeof incommingFiles)
       setFiles(incommingFiles);
     };
     const [startDate, setStartDate] = useState(dayjs());

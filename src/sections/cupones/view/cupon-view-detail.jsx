@@ -137,7 +137,19 @@ export default function CuponDetail() {
         setCantIniText(data.detalles.cantidadInicial)
         setCantDisText(data.detalles.cantidadDisponible)
         setOrdPriorizacionText(data.detalles.ordenPriorizacion)
-        setUrlImagenS3(data.image)
+
+        const response2 = await fetch(data.image);
+        if (!response2.ok) {
+          throw new Error('Network response for image was not ok');
+        }
+
+        const blob = await response2.blob();
+        console.log("Blob:", blob);
+
+        const file = new File([blob], 'defaultImage.jpg', { type: 'image/jpg' });
+        console.log("File created:", file);
+
+        setFiles([file]);
 
 
         setSelectedTienda(data.detalles.locatario.id)
@@ -155,13 +167,14 @@ export default function CuponDetail() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("funciona")
-    /* try {
+    try {
       const user = localStorage.getItem('user');
       const userStringify = JSON.parse(user);
       const { token, refreshToken } = userStringify;
       const formData = new FormData();
 
-      formData.append("file", files[0].file)
+      // formData.append("file", files[0].file)
+      formData.append("id", id);
       formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
       formData.append("codigo", event.target.codigo.value);
       formData.append("sumilla", event.target.sumilla.value);
@@ -179,7 +192,7 @@ export default function CuponDetail() {
       }
 
       let response="";
-      response = await fetch(`http://localhost:3000/api/cupones/crear`, {
+      response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -200,7 +213,7 @@ export default function CuponDetail() {
       }
 
       const data = await response.json();
-      toast.success('Cupon creado exitosamente', {
+      toast.success('Cupon modificado exitosamente', {
         position: "top-right",
         hideProgressBar: false,
         closeOnClick: true,
@@ -209,12 +222,12 @@ export default function CuponDetail() {
         progress: undefined,
         theme: "colored"
       });
-      navigate('/cupon');
+      setEditable(false);
       return data;
     } catch (error) {
       console.error('Error fetching crear cupones:', error);
       throw error;
-    } */
+    }
   };
 
 
@@ -413,16 +426,10 @@ export default function CuponDetail() {
                         accept="image/*"
                         disabled={!editable}  // Deshabilita la Dropzone si no es editable
                       >
-                        {editable ? (
-                          // Si es editable, muestra los archivos seleccionados o permite cargar nuevos
-                          files.map((file) => (
-                            <FileMosaic {...file} preview localization="ES-es" style={{ width: '80%' }} />
-                          ))
-                        ) : (
-                          // Si no es editable, muestra la imagen predeterminada
-                          <img src={urlImagenS3} alt="Imagen Predeterminada"
-                               style={{ width: '100%', height: 'auto' }} />
-                        )}
+                        {files.map((file, index) => (
+                          // Asegura que cada FileMosaic tiene una key única
+                          <FileMosaic {...file} key={file.name + index} preview localization="ES-es" style={{width: '80%'}}/>
+                        ))}
                       </Dropzone>
                     </Grid>
                     <Grid item xs={2}>
