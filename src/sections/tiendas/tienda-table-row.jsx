@@ -14,7 +14,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CardContent from '@mui/material/CardContent';
-// import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
 
@@ -58,37 +57,32 @@ function validarNombre(nombre) {
   return regexNombre.test(nombre);
 }
 
-export default function ClienteTableRow({
-                                          nombre,
-                                          rol,
-                                          id,
-                                          genero,
-                                          apellidoPaterno,
-                                          apellidoMaterno,
-                                          emailX,
-                                          selected,
-                                          handleClick,
-                                          activo,
-                                          apellido,
-                                          onEditUer
-                                        }) {
+export default function TiendaTableRow({
+                                       selected,
+                                       nombre,
+                                       rol,
+                                        id,
+                                       emailX,
+                                       handleClick,
+                                        activo,
+                                       apellido,
+                                       onEditUer
+                                     }) {
   const [open, setOpen] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+
   const classes = useStyles();
   
-  const [editedUser, setEditedUser] = useState({
+  const [editedTienda, setEditedTienda] = useState({
     id,
     nombre,
     apellido,
-    apellidoPaterno,
-    apellidoMaterno,
     rol,
     email: emailX,
     activo,
     password: ""
   });
   const handleGuardarCambios = async() => {
-    console.log("Usuario a modificar: ",editedUser)
+    console.log("Usuario a modificar: ",editedTienda)
     try {
       const response = await fetch('http://localhost:3000/api/user/modificar', {
         method: 'POST',
@@ -96,7 +90,7 @@ export default function ClienteTableRow({
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ editedUser }),
+        body: JSON.stringify({ editedTienda }),
       });
       const data = await response.json();
       console.log(data); // Maneja la respuesta de la API según sea necesario
@@ -126,7 +120,7 @@ export default function ClienteTableRow({
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedUser({ ...editedUser, [name]: value });
+    setEditedTienda({ ...editedTienda, [name]: value });
   };
 
   const handleOpenModalEdit = () => {
@@ -141,50 +135,47 @@ export default function ClienteTableRow({
   const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
   const [mostrarTxtApp, setMostrarTxtApp] = useState("");
   const [mostrarTxtCorreo, setMostrarTxtCorreo] = useState("");
-  const [mostrarTxtCont, setMostrarTxtCont] = useState("");
+
 
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-  console.log(editedUser.nombre)
-  console.log(editedUser.apellido)
-  console.log(editedUser.email)
-  console.log(editedUser.password)
+  console.log(editedTienda.nombre)
+  console.log(editedTienda.apellido)
+  console.log(editedTienda.email)
+  console.log(editedTienda.password)
 
   useEffect(() => {
-    const tieneAlMenosUnNumero = /\d/.test(editedUser.password);
-    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(editedUser.password);
+    const tieneAlMenosUnNumero = true;
+    const tieneAlMenosUnaMayuscula = true;
   
-    let tamanho = false;
-    if (editedUser.password.length >= 8) {
-      tamanho=true;
-    }
-    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho 
-      && editedUser.email.length!==0 && validarEmail(editedUser.email)
-      && editedUser.nombre.length!==0 && validarNombre(editedUser.nombre)
-      && editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)){
+
+    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula
+      && editedTienda.email.length!==0 && validarEmail(editedTienda.email)
+      && editedTienda.nombre.length!==0 && validarNombre(editedTienda.nombre)
+      && editedTienda.apellido.length!==0 && validarNombre(editedTienda.apellido)){
       setBackgroundBtnMod("#003B91");
       setBotonDeshabilitado(false);
     }else{
       setBackgroundBtnMod("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-    if ((editedUser.nombre.length!==0 && validarNombre(editedUser.nombre)) || editedUser.nombre.length===0) {
+    if ((editedTienda.nombre.length!==0 && validarNombre(editedTienda.nombre)) || editedTienda.nombre.length===0) {
       setMostrarTxtNomb("");
     } else {
       setMostrarTxtNomb("Nombre inválido");
     }
-    if ((editedUser.email.length!==0 && validarEmail(editedUser.email)) || editedUser.email.length===0) {
+    if ((editedTienda.apellido.length!==0 && validarNombre(editedTienda.apellido)) || editedTienda.apellido.length===0 ) {
+      setMostrarTxtApp("");
+    } else {
+      setMostrarTxtApp("Apellido Paterno inválido");
+    }
+    if ((editedTienda.email.length!==0 && validarEmail(editedTienda.email)) || editedTienda.email.length===0) {
       setMostrarTxtCorreo("");
     } else {
       setMostrarTxtCorreo("Correo inválido");
     }
-    if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedUser.password.trim().length !== 0) || editedUser.password.trim().length===0 ) {
-      setMostrarTxtCont("");
-    } else {
-      setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
-    }
-  }, [editedUser.nombre,editedUser.email,editedUser.apellidoPaterno,editedUser.apellidoMaterno,editedUser.password,editedUser.apellido]);
+  }, [editedTienda.nombre,editedTienda.email,editedTienda.apellido,editedTienda.password]);
   
 
   return (
@@ -201,18 +192,15 @@ export default function ClienteTableRow({
                 {nombre} {apellido}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {apellidoPaterno} {apellidoMaterno}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Genero: {genero}
+                Rol: {rol}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Email: {emailX}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              <span className={activo ? classes.activo : classes.inactivo}>
-                  {activo ? 'Activo' : 'Inactivo'}
-              </span>
+                <span className={activo === 1 ? classes.activo : classes.inactivo}>
+                    {activo === 1 ? 'Activo' : 'Inactivo'}
+                </span>
               </Typography>
             </div>
           </div>
@@ -247,7 +235,7 @@ export default function ClienteTableRow({
             <TextField
               name="nombre"
               label="Nombre"
-              value={editedUser.nombre}
+              value={editedTienda.nombre}
               onChange={handleInputChange}
               fullWidth
               margin="normal"
@@ -259,7 +247,7 @@ export default function ClienteTableRow({
           <TextField
             name="apellido"
             label="Apellido"
-            value={editedUser.apellido}
+            value={editedTienda.apellido}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
@@ -271,7 +259,7 @@ export default function ClienteTableRow({
           <TextField
             name="rol"
             label="Rol"
-            value={editedUser.rol}
+            value={editedTienda.rol}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
@@ -283,7 +271,7 @@ export default function ClienteTableRow({
           <TextField
             name="email"
             label="Email"
-            value={editedUser.email}
+            value={editedTienda.email}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
@@ -310,17 +298,14 @@ export default function ClienteTableRow({
   );
 }
 
-ClienteTableRow.propTypes = {
+TiendaTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
+  apellido: PropTypes.string.isRequired,
   rol: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  genero: PropTypes.string.isRequired,
-  apellidoPaterno: PropTypes.string.isRequired,
-  apellidoMaterno: PropTypes.string.isRequired,
   emailX: PropTypes.string.isRequired,
-  selected: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired,
   activo: PropTypes.string.isRequired,
-  apellido: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  selected: PropTypes.bool.isRequired,
   onEditUer: PropTypes.func.isRequired,
 };
