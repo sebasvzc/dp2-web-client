@@ -97,7 +97,7 @@ export default function TiendaTableRow({
     updatedAt
   });
   const handleGuardarCambios = async() => {
-    console.log("Usuario a modificar: ",editedTienda)
+   /* console.log("Usuario a modificar: ",editedTienda)
     try {
       const response = await fetch('http://localhost:3000/api/user/modificar', {
         method: 'POST',
@@ -124,7 +124,7 @@ export default function TiendaTableRow({
       // handleCloseModal(); // Cierra el modal después de enviar
     } catch (e) {
       console.error('Error al habilitar usuarios:', e);
-    }
+    }*/
   };
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);

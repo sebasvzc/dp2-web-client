@@ -180,6 +180,8 @@ export default function CuponView() {
     const {refreshToken} = userStringify;
 
     const handleDeshabilitar = async () => {
+      console.log("Probando deshabilitar");
+      console.log(selected)
       try {
         const response = await fetch('http://localhost:3000/api/cupones/deshabilitar', {
           method: 'POST',
@@ -212,8 +214,6 @@ export default function CuponView() {
     };
 
     const handleHabilitar = async () => {
-      console.log("entre")
-      console.log(selected)
       try {
         const response = await fetch('http://localhost:3000/api/cupones/habilitar', {
           method: 'POST',

@@ -122,24 +122,30 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     const [openModalActivar, setOpenModalActivar] = useState(false);
     const [email, setEmail] = useState('');
    
-   
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const accessToken = userStringify.token;
+    const {refreshToken} = userStringify;
     
     const handleDeshabilitar = async () => {
-      /*
+      console.log("Probando deshabilitar");
+      console.log(selected)
       try {
-        const response = await fetch('http://localhost:3000/api/tienda/deshabilitar', {
+        const response = await fetch('http://localhost:3000/api/tiendas/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+            },
           body: JSON.stringify({ selected }),
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
-        setHabilitarUsuarios(!habilitarUsuarios);
-        toast.success('Usuario deshabilitado exitosamente', {
+        setHabilitarCupones(!habilitarCupones);
+        toast.success('Cupón deshabilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -149,20 +155,21 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
           progress: undefined,
           theme: "colored"
         });
-        // handleCloseModal(); // Cierra el modal después de enviar
+        
       } catch (e) {
-        console.error('Error al deshabilitar usuarios:', e);
+        console.error('Error al deshabilitar cupones:', e);
       }
-    */
+    
     };
     const handleHabilitar = async () => {
-      /*
       try {
-        const response = await fetch('http://localhost:3000/api/tienda/habilitar', {
+        const response = await fetch('http://localhost:3000/api/tiendas/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
           },
           body: JSON.stringify({ selected }),
         });
@@ -184,7 +191,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
       } catch (e) {
         console.error('Error al habilitar usuarios:', e);
       }
-      */
+      
     };
     const handleSort = (event, id) => {
       const isAsc = orderBy === id && order === 'asc';
@@ -277,8 +284,8 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
-    // const notFound = !tiendaData.length && !!filterName;
-    /* if (loading) {
+     const notFound = !tiendaData.length && !!filterName;
+     if (loading) {
       return (
         <Box
           sx={{
@@ -296,7 +303,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
           </Typography>
         </Box>
       );
-    } */
+    } 
 
     if (error) {
       return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
@@ -312,7 +319,36 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             filterName={filterName}
             onFilterName={handleSearch}
           />
-          
+          <Stack direction="row" spacing={2}>
+            <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} 
+             fullHeight maxHeight="md" >
+              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar la(s) tienda(s) seleccionada(s)?</DialogTitle>
+
+              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
+                <Button onClick={handleDeshabilitar} color="success">
+                  Sí
+                </Button>
+                <Button onClick={handleCloseModalDesactivar} color="error">
+                  No
+                </Button>
+
+              </DialogActions>
+            </Dialog>
+            <Dialog open={openModalActivar} onClose={handleCloseModalActivar}
+            maxWidth="md" maxHeight="md" >
+              <DialogTitle>¿Estás seguro de que deseas habilitar la(s) tienda(s) seleccionada(s)?</DialogTitle>
+
+              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
+                <Button onClick={handleHabilitar} color="success">
+                  Sí
+                </Button>
+                <Button onClick={handleCloseModalActivar} color="error">
+                  No
+                </Button>
+
+              </DialogActions>
+            </Dialog>
+          </Stack>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
