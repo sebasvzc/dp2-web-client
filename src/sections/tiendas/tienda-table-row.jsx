@@ -59,14 +59,22 @@ function validarNombre(nombre) {
 
 export default function TiendaTableRow({
                                        selected,
+                                       id,
                                        nombre,
-                                       rol,
-                                        id,
-                                       emailX,
+                                       fidCategoriaTienda,
+                                       descripcion,
+                                       locacion,
+                                       horaApertura,
+                                       horaCierre,
+                                       aforo,
+                                       rutaFoto,
+                                       activo,
+                                       usuarioCreacion,
+                                       usuarioActualizacion,
+                                       createdAt,
                                        handleClick,
-                                        activo,
-                                       apellido,
-                                       onEditUer
+                                       updatedAt,
+                                       onEditTienda
                                      }) {
   const [open, setOpen] = useState(null);
 
@@ -75,11 +83,18 @@ export default function TiendaTableRow({
   const [editedTienda, setEditedTienda] = useState({
     id,
     nombre,
-    apellido,
-    rol,
-    email: emailX,
+    fidCategoriaTienda,
+    descripcion,
+    locacion,
+    horaApertura,
+    horaCierre,
+    aforo,
+    rutaFoto,
     activo,
-    password: ""
+    usuarioCreacion,
+    usuarioActualizacion,
+    createdAt,
+    updatedAt
   });
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedTienda)
@@ -105,7 +120,7 @@ export default function TiendaTableRow({
         progress: undefined,
         theme: "colored"
       });
-      onEditUer();
+      onEditTienda();
       // handleCloseModal(); // Cierra el modal después de enviar
     } catch (e) {
       console.error('Error al habilitar usuarios:', e);
@@ -140,11 +155,7 @@ export default function TiendaTableRow({
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-  console.log(editedTienda.nombre)
-  console.log(editedTienda.apellido)
-  console.log(editedTienda.email)
-  console.log(editedTienda.password)
-
+  /*
   useEffect(() => {
     const tieneAlMenosUnNumero = true;
     const tieneAlMenosUnaMayuscula = true;
@@ -176,7 +187,7 @@ export default function TiendaTableRow({
       setMostrarTxtCorreo("Correo inválido");
     }
   }, [editedTienda.nombre,editedTienda.email,editedTienda.apellido,editedTienda.password]);
-  
+  */
 
   return (
     <>
@@ -189,18 +200,18 @@ export default function TiendaTableRow({
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
             <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
-                {nombre} {apellido}
+                {nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Rol: {rol}
+                Locación: {locacion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Email: {emailX}
+                Descripción: {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <span className={activo === 1 ? classes.activo : classes.inactivo}>
-                    {activo === 1 ? 'Activo' : 'Inactivo'}
-                </span>
+              <span className={activo ? classes.activo : classes.inactivo}>
+                  {activo ? 'Activo' : 'Inactivo'}
+              </span>
               </Typography>
             </div>
           </div>
@@ -245,9 +256,9 @@ export default function TiendaTableRow({
             disabled/>
            
           <TextField
-            name="apellido"
-            label="Apellido"
-            value={editedTienda.apellido}
+            name="locacion"
+            label="Locación"
+            value={editedTienda.locacion}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
@@ -269,9 +280,9 @@ export default function TiendaTableRow({
           disabled/>
          
           <TextField
-            name="email"
-            label="Email"
-            value={editedTienda.email}
+            name="descripcion"
+            label="Descripción"
+            value={editedTienda.descripcion}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
@@ -299,13 +310,21 @@ export default function TiendaTableRow({
 }
 
 TiendaTableRow.propTypes = {
-  nombre: PropTypes.string.isRequired,
-  apellido: PropTypes.string.isRequired,
-  rol: PropTypes.string.isRequired,
+  selected : PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  emailX: PropTypes.string.isRequired,
+  nombre: PropTypes.string.isRequired,
+  fidCategoriaTienda: PropTypes.string.isRequired,
+  descripcion: PropTypes.string.isRequired,
+  locacion: PropTypes.string.isRequired,
+  horaApertura: PropTypes.string.isRequired,
+  horaCierre: PropTypes.string.isRequired,
+  aforo: PropTypes.string.isRequired,
+  rutaFoto: PropTypes.string.isRequired,
   activo: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  selected: PropTypes.bool.isRequired,
-  onEditUer: PropTypes.func.isRequired,
+  usuarioCreacion: PropTypes.string.isRequired,
+  usuarioActualizacion: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  handleClick: PropTypes.string.isRequired,
+  onEditTienda: PropTypes.func.isRequired,
 };

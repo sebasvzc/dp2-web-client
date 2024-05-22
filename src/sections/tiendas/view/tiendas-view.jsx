@@ -19,7 +19,7 @@ import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import obtenerUsuarios  from 'src/_mock/tienda';
+import obtenerTiendas  from 'src/_mock/tienda';
 
 import Iconify from 'src/components/iconify';
 
@@ -84,14 +84,14 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
   console.log("Seleccionar")
   console.log(selected)
   console.log("Seleccionar")
-/*
-  // Llama a la función obtenerUsuarios para obtener y mostrar los datos de usuarios
+
+  // Llama a la función obtenerTiendas para obtener y mostrar los datos de usuarios
     useEffect(() => {
 
     const fetchData = async () => {
         try {
           setLoading(true); // Indicar que la carga ha finalizado
-          const data = await obtenerUsuarios(page,pageSize,searchName); // Obtener los datos de usuarios
+          const data = await obtenerTiendas(page,pageSize,searchName); // Obtener los datos de usuarios
           console.log(data.tiendas)
           if(data.newToken){
             const storedTienda = localStorage.getItem('tienda');
@@ -116,68 +116,14 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,totalTiendas, habilitarUsuarios,searchName]);
-*/
+
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
     const [email, setEmail] = useState('');
    
    
-    const handleEnviar = async () => {
-      /*
-      try {
-        const response = await fetch('http://localhost:3000/api/tienda/invite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ email }),
-        });
-        const data = await response.json();
-        console.log(data); // Maneja la respuesta de la API según sea necesario
-        if(data.success==="true"){
-          console.log("entre a true")
-          toast.success('Usuario invitado exitosamente a través de correo', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }else{
-          toast.error('Error: El correo ya se encuentra registrado', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }
-        handleCloseModal(); // Cierra el modal después de enviar
-        setEmail("");
-      } catch (e) {
-        console.error('Error al enviar correo electrónico:', e);
-        toast.error('Error: El correo ya se encuentra registrado', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-        });
-        setEmail("");
-      }
-      */
-    };
+    
     const handleDeshabilitar = async () => {
       /*
       try {
@@ -366,60 +312,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             filterName={filterName}
             onFilterName={handleSearch}
           />
-          <Stack direction="row" spacing={2}>
-            <Dialog open={openModal} onClose={handleCloseModal} 
-            fullWidth maxWidth="md" PaperProps={{ style: { maxHeight: '90vh' } }}>
-              <DialogTitle>Invitar usuario</DialogTitle>
-              <DialogContent>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="email"
-                  label="Correo electrónico"
-                  type="email"
-                  fullWidth
-                  value={email}
-                  onChange={handleEmailChange}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseModal} color="error">
-                  Cancelar
-                </Button>
-                <Button onClick={handleEnviar} color="success">
-                  Enviar
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} 
-             fullHeight maxHeight="md" >
-              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el usuario seleccionado?</DialogTitle>
-
-              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
-                <Button onClick={handleDeshabilitar} color="success">
-                  Sí
-                </Button>
-                <Button onClick={handleCloseModalDesactivar} color="error">
-                  No
-                </Button>
-
-              </DialogActions>
-            </Dialog>
-            <Dialog open={openModalActivar} onClose={handleCloseModalActivar}
-            maxWidth="md" maxHeight="md" >
-              <DialogTitle>¿Estás seguro de que deseas habilitar el usuario seleccionado?</DialogTitle>
-
-              <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
-                <Button onClick={handleHabilitar} color="success">
-                  Sí
-                </Button>
-                <Button onClick={handleCloseModalActivar} color="error">
-                  No
-                </Button>
-
-              </DialogActions>
-            </Dialog>
-          </Stack>
+          
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -482,14 +375,13 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <TiendaTableRow
                       nombre={row.nombre}
-                      rol={row.rol}
+                      locacion={row.locacion}
+                      descripcion={row.descripcion}
                       id={row.id}
-                      emailX={row.email}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       activo={row.activo}
-                      apellido={row.apellido}
-                      onEditUer={handleCambio}
+                      onEditTienda={handleCambio}
                     />
                   </Card>
                 </Grid>

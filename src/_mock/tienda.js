@@ -1,28 +1,28 @@
 
 const obtenerTiendas = async (page,pageSize,searchName) => {
   try {
-    const userData = await getUsers(page,pageSize,searchName); // Obtener los usuarios de manera asíncrona
-    console.log('Tiendas obtenidos:', userData);
+    const tiendaData = await getTiendas(page,pageSize,searchName); // Obtener los usuarios de manera asíncrona
+    console.log('Tiendas obtenidos:', tiendaData);
     // Puedes hacer más cosas con los datos de usuarios si es necesario
-    return userData; // Devolver los datos de usuarios obtenidos
+    return tiendaData; // Devolver los datos de usuarios obtenidos
   } catch (error) {
     console.error('Error al obtener usuarios:', error);
     throw error; // Lanzar el error para manejarlo en el componente que llama a obtenerTiendas
   }
 };
 
-const getUsers = async (page,pageSize,searchName) => {
+const getTiendas = async (page,pageSize,searchName) => {
   try {
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
     console.log(userStringify.token);
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
-
+    
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(`http://localhost:3000/api/user/listusers?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -33,7 +33,7 @@ const getUsers = async (page,pageSize,searchName) => {
     console.log(response);
 
     if(response.status===403 || response.status===401){
-        localStorage.removeItem('user');
+        localStorage.removeItem('tienda');
         window.location.reload();
     }
     if (!response.ok) {
@@ -45,8 +45,8 @@ const getUsers = async (page,pageSize,searchName) => {
     return data;
   } catch (error) {
 
-    console.error('Error fetching users:', error);
-    throw error; // Lanzar el error para manejarlo en el componente que llama a getUsers
+    console.error('Error fetching tiendas:', error);
+    throw error; // Lanzar el error para manejarlo en el componente que llama a getTiendas
   }
 };
 
