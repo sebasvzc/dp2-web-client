@@ -463,6 +463,7 @@ export default function CuponView() {
                       id={row.id}
                       codigo={row.codigo}
                       sumilla={row.sumilla}
+                      rutaFoto={row.rutaFoto}
                       cantidadInicial={row.cantidadInicial}
                       fechaExpiracion={row.fechaExpiracion}
                       selected={selected.indexOf(row.id) !== -1}
