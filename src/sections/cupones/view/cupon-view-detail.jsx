@@ -274,7 +274,7 @@ export default function CuponDetail() {
       }
 
       formData.append("id", idParam);
-      formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
+      formData.append("esLimitado", esLimitadoDesp);
 
       formData.append("codigo", event.target.codigo.value);
       formData.append("sumilla", event.target.sumilla.value);
