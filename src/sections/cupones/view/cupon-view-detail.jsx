@@ -66,6 +66,7 @@ export default function CuponDetail() {
   const [totalCupones, setTotalCupones] = useState(10);
   const [cuponText, setCuponText] = useState('');
   const [esLimitadoText, setEsLimitadoText] = useState(false);
+  const [esLimitadoDesp, setEsLimitadoDesp] = useState(false);
   const [sumillaText, setSumillaText] = useState('');
   const [descripcionText, setDescripcionText] = useState('');
   const [terminosText, setTerminosText] = useState('');
@@ -132,6 +133,13 @@ export default function CuponDetail() {
         const data = await response.json();
         console.log(data)
         setEsLimitadoText(data.detalles.esLimitado)
+        if(data.detalles.esLimitado){
+          setEsLimitadoDesp("1")
+        }else{
+          setEsLimitadoDesp("0")
+        }
+        console.log("Texto limitado")
+        console.log(esLimitadoText)
         setCuponText(data.detalles.codigo)
         setSumillaText(data.detalles.sumilla)
         setDescripcionText(data.detalles.descripcionCompleta)
@@ -170,7 +178,7 @@ export default function CuponDetail() {
         // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
       formData.append("id", id);
-      formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
+      formData.append("esLimitado", esLimitadoDesp);
       formData.append("codigo", event.target.codigo.value);
       formData.append("sumilla", event.target.sumilla.value);
       formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
@@ -256,6 +264,10 @@ export default function CuponDetail() {
   const changeTermSearchTipoCupon = async (e) => {
     e.preventDefault();
     setSearchTermTipoCupones(e.target.value)
+  };
+
+  const handleLimitado = (event) => {
+    setEsLimitadoDesp(event.target.value);
   };
 
   const fetchAndSetView = async (newView) => {
@@ -469,12 +481,21 @@ export default function CuponDetail() {
                       <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
                     </Grid>
                     <Grid item xs={3}>
-                      <FormControlLabel control={
-                        <Checkbox name="esLimitado"
-                                  checked={esLimitadoText}
-                                  disabled={!editable}
-                        />
-                      } label="Es Limitado" />
+                    <FormControl fullWidth>
+                    <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
+                    <Select
+                      labelId="es-limitado-select-label"
+                      id="es-limitado-select"
+                      disabled={!editable}
+                      value={esLimitadoDesp} // Usar esLimitadoText como valor seleccionado
+                      onChange={handleLimitado}
+                      label="Es Limitado"
+                    >
+                      <MenuItem value="1">Sí</MenuItem>
+                      <MenuItem value="0">No</MenuItem>
+                    </Select>
+                  </FormControl>
+
                     </Grid>
                     <Grid item xs={3}>
                       <FormControl fullWidth>
