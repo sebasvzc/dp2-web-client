@@ -414,6 +414,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <TiendaTableRow
                       nombre={row.nombre}
+                      rutaFoto={row.rutaFoto}
                       locacion={row.locacion}
                       descripcion={row.descripcion}
                       id={row.id}
