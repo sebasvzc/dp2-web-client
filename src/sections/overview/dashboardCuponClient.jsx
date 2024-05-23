@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import ApexCharts from 'apexcharts';
 
-const DashboardCuponClient = () => {
+const DashboardCuponClient = ({ dataDash }) => {
+  console.log("dataDash");
+  console.log(dataDash);
   useEffect(() => {
     const options = {
       series: [
         {
           name: "Cupones",
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
+          data: dataDash.cantidad
         }
       ],
       chart: {
@@ -16,7 +19,7 @@ const DashboardCuponClient = () => {
         height: 350
       },
       xaxis: {
-        categories: ["Ene 2024", "Feb 2024", "Mar 2024", "Abr 2024", "May 2024", "Jun 2024", "Jul 2024", "Ago 2024"]
+        categories: dataDash.fechas
       },
       plotOptions: {
         bar: {
@@ -49,7 +52,7 @@ const DashboardCuponClient = () => {
       },
       tooltip: {
         y: {
-          formatter: (val) => `${val.toFixed(0)} unidades`
+          formatter: (val) => `${val.toFixed(0)}`
         }
       },
       fill: {
@@ -68,9 +71,14 @@ const DashboardCuponClient = () => {
     return () => {
       chart.destroy();
     };
-  }, []);
+  }, [dataDash]);
 
   return <div id="basic-line-chart" />;
 };
-
+DashboardCuponClient.propTypes = {
+  dataDash: PropTypes.shape({
+    fechas: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cantidad: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+};
 export default DashboardCuponClient;
