@@ -99,6 +99,11 @@ const useStyles = makeStyles((theme) => ({
       // Lógica para manejar la submisión del formulario
     }; */
 
+    const handleCrear = () => {
+      
+    };
+  
+
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
@@ -285,7 +290,7 @@ const useStyles = makeStyles((theme) => ({
     };
     console.log(startDate)
     return (
-      <Container>
+      <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
@@ -427,7 +432,8 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
             <Grid item xs={12}/>
             <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary" >Crear</Button>
+                <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
+            onClick={handleCrear}>Crear</Button>
             </Grid>
           </form>
         </Box>
