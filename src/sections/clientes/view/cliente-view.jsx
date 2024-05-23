@@ -176,17 +176,29 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       }
       
     };
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const accessToken = userStringify.token;
+    const {refreshToken} = userStringify;
+   
     const handleDeshabilitar = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
+        console.log('SOY EL SELECTED')
+        console.log(selected[0])
+        const response = await fetch('http://localhost:3000/api/client/deshabilitarCliente', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            //Authorization': `Bearer ${accessToken}`,
+            //'Refresh-Token': `Bearer ${refreshToken}`
           },
-          body: JSON.stringify({ selected }),
+          body: JSON.stringify({selected}),
+      
         });
         const data = await response.json();
+        
+        console.log('AQUI ESTA LA DATA QUE VUELVE')
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
         setHabilitarClientes(!habilitarClientes);
