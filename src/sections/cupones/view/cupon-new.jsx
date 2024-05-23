@@ -480,7 +480,7 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
             <Grid item xs={12}> 
             <Button variant="contained" color="info" 
-            sx={{ marginRight: '8px' , backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem', marginLeft: '16px'}}
+            sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem'}}
             type='submit'
             disabled={botonDeshabilitado}>Crear</Button>
             </Grid>
