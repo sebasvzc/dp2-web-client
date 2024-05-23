@@ -25,11 +25,12 @@ import * as React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+
 import Iconify from '../../../components/iconify';
 
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
@@ -38,12 +39,14 @@ import AppCurrentVisits from '../../overview/app-current-visits';
 
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 
+
 dayjs.extend(utc);
 
 export default function CuponDetail() {
   const [view, setView] = useState('datos');
   const { id } = useParams();
   const [editable, setEditable] = useState(false);
+  const [editableImg, setEditableImg] = useState(false);
   const [order, setOrder] = useState('asc');
   const [searchName, setSearchName] = useState("all");
   const [userData, setCuponData] = useState([]);
@@ -138,7 +141,7 @@ export default function CuponDetail() {
         setCantIniText(data.detalles.cantidadInicial)
         setCantDisText(data.detalles.cantidadDisponible)
         setOrdPriorizacionText(data.detalles.ordenPriorizacion)
-
+        setUrlImagenS3(data.image);
         const response2 = await fetch(data.image);
         if (!response2.ok) {
           throw new Error('Network response for image was not ok');
@@ -243,6 +246,10 @@ export default function CuponDetail() {
     const results = await getTiendas(token,refreshToken,searchTerm);
     console.log("viendo resultados", results.tiendas)
     setTiendas(results.tiendas);
+  };
+  const handleChangeImage = async (e) => {
+    e.preventDefault();
+    setEditableImg(true);
   };
   const changeTermSearch = async (e) => {
     e.preventDefault();
@@ -380,7 +387,10 @@ export default function CuponDetail() {
                       color="error"
                       startIcon={<Iconify icon="ic:baseline-cancel" />}
                       sx={{ marginTop: 5, backgroundColor: "#DC3545" }}
-                      onClick={() => setEditable(false)} // Opcional: Cambia 'editable' a false para "cancelar"
+                      onClick={() => {
+                        setEditable(false);
+                        setEditableImg(false); // Cambia 'editableImg' a false para "cancelar" adicionalmente
+                      }} // Opcional: Cambia 'editable' a false para "cancelar"
                     >
                       Cancelar
                     </Button>
@@ -408,8 +418,7 @@ export default function CuponDetail() {
                 </Box>
               ) : (
                 <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 }}>
-                  {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                  <img src={fileUrl} alt="Uploaded file" />
+
                   <Grid container spacing={2}>
                     <Grid item xs={2}>
                       <FormControlLabel control={
@@ -419,21 +428,19 @@ export default function CuponDetail() {
                         />
                       } label="Es Limitado" />
                     </Grid>
-                    <Grid item xs={10}>
-                      <Dropzone
-                        onChange={updateFiles}
-                        value={files}
-                        label="Arrastra y suelta tus archivos"
-                        maxFiles={1}
-                        footer={false}
-                        localization="ES-es"
-                        accept="image/*"
-                        disabled={!editable}  // Deshabilita la Dropzone si no es editable
-                      >
-                        {files.map((file, index) => {
-                          console.log("toy viendo archivos");
-                          console.log(file);
-                          return (
+                    <Grid item xs={10} >
+                      <Box display="flex" justifyContent="center" alignItems="center">
+                      {editableImg ? <Dropzone
+                          onChange={updateFiles}
+                          value={files}
+                          label="Arrastra y suelta tus archivos"
+                          maxFiles={1}
+                          footer={false}
+                          localization="ES-es"
+                          accept="image/*"
+                          disabled={!editable}
+                        >
+                          {files.map((file, index) => (
                             // Asegura que cada FileMosaic tiene una key única
                             <FileMosaic
                               {...file}
@@ -442,9 +449,38 @@ export default function CuponDetail() {
                               localization="ES-es"
                               style={{ width: '80%' }}
                             />
-                          );
-                        })}
-                      </Dropzone>
+                          ))}
+                        </Dropzone> : <Box
+                          position="relative"
+                          width="100%"
+                          maxWidth="300px"
+                          style={{ width: '100%', height: 'auto' }}
+                        >
+                          <img
+                            src={urlImagenS3}
+                            alt="Imagen Predeterminada"
+                            style={{ width: '100%', height: 'auto' }}
+                          />
+                          <Box
+                            position="absolute"
+                            top={0}
+                            left={0}
+                            right={0}
+                            bottom={0}
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            bgcolor="rgba(0, 0, 0, 0.2)"
+                          >
+                            {editable && (
+                              <IconButton onClick={handleChangeImage} disabled={!editable} style={{ color: 'white', fontSize: 16 }}>
+                                <Iconify icon="ic:baseline-edit" style={{ color: 'white', fontSize: '2rem' }} />
+                                Cambiar Imagen
+                              </IconButton>
+                            )}
+                          </Box>
+                        </Box>}
+                        </Box>
                     </Grid>
                     <Grid item xs={2}>
                       <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
