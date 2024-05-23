@@ -10,8 +10,10 @@ export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 // export const ProductsPage = lazy(() => import('src/pages/products'));
 export const TiendasPage = lazy(() => import('src/pages/tiendas'));
+export const TiendaNew = lazy(() => import('src/pages/tienda-nueva'));
 export const CuponesPage = lazy(() => import('src/pages/cupones'));
 export const CuponNew = lazy(() => import('src/pages/cupon-nuevo'));
+export const CuponDetalle = lazy(() => import('src/pages/cupon-detalle'));
 export const ClientesPage = lazy(() => import('src/pages/clientes'));
 export const CategoriasPage = lazy(() => import('src/pages/categorias'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
@@ -35,13 +37,21 @@ export default function RouterX() {
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<IndexPage/>}/>
             <Route path="/user" element={<UserPage/>}/>
+
             <Route path="/cupon" element={<CuponesPage/>}/>
             <Route path="/cupon">
-            <Route path="cupon-new" element={<CuponNew/>}/>
+              <Route path="cupon-new" element={<CuponNew/>}/>
+              <Route path="detalle/:id" element={<CuponDetalle />} />
             </Route>
+            
             <Route path="/categorias" element={<CategoriasPage/>}/>
             <Route path="/clientes" element={<ClientesPage/>}/>
+
             <Route path="/tienda" element={<TiendasPage/>}/>
+            <Route path="/tienda">
+              <Route path="tienda-new" element={<TiendaNew/>}/>
+            </Route>
+
             <Route path="*" element={<Page404/>}/>
           </Route>
         </Routes>

@@ -1,6 +1,7 @@
+import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -9,63 +10,65 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
+import { TextField, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { DatePicker } from '@mui/lab';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import obtenerCupones  from 'src/_mock/cupon';
+import obtenerTiendas  from 'src/_mock/tienda';
 
 import Iconify from 'src/components/iconify';
 
-import CuponTableRow from '../cupon-table-row';
-import CuponTableHead from '../cupon-table-head';
-import CuponTableToolbar from '../cupon-table-toolbar';
+import TiendaTableRow from '../tienda-table-row';
+import TiendaTableHead from '../tienda-table-head';
+import TiendaTableToolbar from '../tienda-table-toolbar';
 
-const useStyles = makeStyles((theme) => ({
-  hideNavigationButton: {
-    display: 'none !important', // Oculta el botón de navegación
-  },
-  paginationContainer: {
+  const useStyles = makeStyles((theme) => ({
+    hideNavigationButton: {
+      display: 'none !important', // Oculta el botón de navegación
+    },
+    paginationContainer: {
 
-    display: "inline-block"
-  },
-  centeredPagination: {
-    margin: 'auto', // Centra horizontalmente el componente
-    maxWidth: 'fit-content', // Ajusta el ancho al contenido
-  },
-}));
-// ----------------------------------------------------------------------
-const scrollContainerStyle = {
-  overflowY: 'auto',
-  maxHeight: 'calc(100vh - 470px)',
-  paddingRight: '0.1%',
-  boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
-};
+      display: "inline-block"
+    },
+    centeredPagination: {
+      margin: 'auto', // Centra horizontalmente el componente
+      maxWidth: 'fit-content', // Ajusta el ancho al contenido
+    },
+  }));
+  // ----------------------------------------------------------------------
+  const scrollContainerStyle = {
+    overflowY: 'auto',
+    maxHeight: 'calc(100vh - 470px)',
+    paddingRight: '0.1%',
+    boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
+  };
+  export default function TiendasView() {
+    const [order, setOrder] = useState('asc');
+    const [searchName, setSearchName] = useState("all");
+    const [tiendaData, setTiendaData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [habilitarTiendas, setHabilitarTiendas] = useState(true);
+    const [error, setError] = useState(null);
+    const [selected, setSelected] = useState([]);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
 
-export default function CuponView() {
-  const [order, setOrder] = useState('asc');
-  const [searchName, setSearchName] = useState("all");
-  const [userData, setCuponData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [habilitarCupones, setHabilitarCupones] = useState(true);
-  const [error, setError] = useState(null);
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6);
-
-  const [orderBy, setOrderBy] = useState('id');
-  const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
-  const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
-  const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+    const [orderBy, setOrderBy] = useState('id');
+    const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
+    const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
 
-  const classes = useStyles();
-  const filterName= useState('')
+    const classes = useStyles();
+    const filterName= useState('')
 
-  const [totalCupones, setTotalCupones] = useState(10);
+    const [totalTiendas, setTotalTiendas] = useState(10);
 
   useEffect(() => {
     if(selected.length>0){
@@ -83,26 +86,26 @@ export default function CuponView() {
   console.log(selected)
   console.log("Seleccionar")
 
-  // Llama a la función obtenerCupones para obtener y mostrar los datos de cupones
+  // Llama a la función obtenerTiendas para obtener y mostrar los datos de usuarios
+    useEffect(() => {
 
-  useEffect(() => {
     const fetchData = async () => {
         try {
           setLoading(true); // Indicar que la carga ha finalizado
-          const data = await obtenerCupones(page,pageSize,searchName); // Obtener los datos de cupones
-          console.log(data.cupones)
+          const data = await obtenerTiendas(page,pageSize,searchName); // Obtener los datos de usuarios
+          console.log(data.tiendas)
           if(data.newToken){
-            const storedUser = localStorage.getItem('user');
-            const userX = JSON.parse(storedUser);
-            userX.token = data.newToken;
-            localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
+            const storedTienda = localStorage.getItem('tienda');
+            const tiendaX = JSON.parse(storedTienda);
+            tiendaX.token = data.newToken;
+            localStorage.setItem('tienda', JSON.stringify(tiendaX)); // Actualiza el usuario en el almacenamiento local
             console.log("He puesto un nuevo token");
           }
-          console.log(data.totalCupones)
-          if(data.totalCupones){
-            setTotalCupones(data.totalCupones);
+          console.log(data.totalTiendas)
+          if(data.totalTiendas){
+            setTotalTiendas(data.totalTiendas);
           }
-          setCuponData(data.cupones); // Actualizar el estado con los datos obtenidos
+          setTiendaData(data.tiendas); // Actualizar el estado con los datos obtenidos
           setLoading(false); // Indicar que la carga ha finalizado
 
         } catch (err) {
@@ -113,109 +116,23 @@ export default function CuponView() {
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalCupones, habilitarCupones,searchName]);
+    }, [page, pageSize,totalTiendas, habilitarTiendas,searchName]);
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
-
-    /* const handleEnviar = async () => {
-
-     try {
-       const response = await fetch('http://localhost:3000/api/user/invite', {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-           'Accept': 'application/json'
-         },
-         body: JSON.stringify({ email }),
-       });
-       const data = await response.json();
-       console.log(data); // Maneja la respuesta de la API según sea necesario
-       if(data.success==="true"){
-         console.log("entre a true")
-         toast.success('Usuario invitado exitosamente a través de correo', {
-           position: "top-right",
-           autoClose: 3000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           theme: "colored"
-         });
-       }else{
-         toast.error('Error: El correo ya se encuentra registrado', {
-           position: "top-right",
-           autoClose: 3000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           theme: "colored"
-         });
-       }
-       handleCloseModal(); // Cierra el modal después de enviar
-       setEmail("");
-     } catch (e) {
-       console.error('Error al enviar correo electrónico:', e);
-       toast.error('Error: El correo ya se encuentra registrado', {
-         position: "top-right",
-         autoClose: 3000,
-         hideProgressBar: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         theme: "colored"
-       });
-       setEmail("");
-     }
-
-    }; */
+    const [email, setEmail] = useState('');
+   
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
-
+    
     const handleDeshabilitar = async () => {
       console.log("Probando deshabilitar");
       console.log(selected)
       try {
-        const response = await fetch('http://localhost:3000/api/cupones/deshabilitar', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-            'Refresh-Token': `Bearer ${refreshToken}`
-            },
-          body: JSON.stringify({ selected }),
-        });
-        const data = await response.json();
-        console.log(data); // Maneja la respuesta de la API según sea necesario
-        setOpenModalDesactivar(false);
-        setHabilitarCupones(!habilitarCupones);
-        toast.success('Cupón deshabilitado exitosamente', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-        });
-        
-      } catch (e) {
-        console.error('Error al deshabilitar cupones:', e);
-      }
-    };
-
-    const handleHabilitar = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/cupones/habilitar', {
+        const response = await fetch('http://localhost:3000/api/tiendas/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -223,13 +140,13 @@ export default function CuponView() {
             'Authorization': `Bearer ${accessToken}`,
             'Refresh-Token': `Bearer ${refreshToken}`
           },
-          body: JSON.stringify({ selected })
+          body: JSON.stringify({ selected }),
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario
-        setHabilitarCupones(!habilitarCupones);
-        setOpenModalActivar(false);
-        toast.success('Cupón habilitado exitosamente', {
+        setOpenModalDesactivar(false);
+        setHabilitarTiendas(!habilitarTiendas);
+        toast.success('Tienda deshabilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -239,11 +156,44 @@ export default function CuponView() {
           progress: undefined,
           theme: "colored"
         });
+        // handleCloseModal(); // Cierra el modal después de enviar
       } catch (e) {
-        console.error('Error al habilitar cupones:', e);
+        console.error('Error al deshabilitar usuarios:', e);
       }
+    
     };
-
+    const handleHabilitar = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/tiendas/habilitar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+          body: JSON.stringify({ selected }),
+        });
+        const data = await response.json();
+        console.log(data); // Maneja la respuesta de la API según sea necesario
+        setHabilitarTiendas(!habilitarTiendas);
+        setOpenModalActivar(false);
+        toast.success('Tienda habilitado exitosamente', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        // handleCloseModal(); // Cierra el modal después de enviar
+      } catch (e) {
+        console.error('Error al habilitar usuarios:', e);
+      }
+      
+    };
     const handleSort = (event, id) => {
       const isAsc = orderBy === id && order === 'asc';
       console.log("Este es el id que ordena")
@@ -254,19 +204,25 @@ export default function CuponView() {
       }
     };
 
+    const navigate = useNavigate();
+
+    const handleCrear = () => {
+      navigate('/tienda/tienda-new'); // Redirige al usuario a la ruta especificada
+    };
 
     const handleSelectAllClick = (event) => {
 
       console.log(searchName)
       if (event.target.checked) {
-        const newSelecteds = userData.map((n) => n.id);
+        const newSelecteds = tiendaData.map((n) => n.id);
         setSelected(newSelecteds);
         return;
       }
       setSelected([]);
     };
     const handleCambio = (event) => {
-      setHabilitarCupones(!habilitarCupones);
+      console.log("camio de datos de usuario")
+      setHabilitarTiendas(!habilitarTiendas);
     };
     const handleClick = (event, name) => {
       const selectedIndex = selected.indexOf(name);
@@ -328,14 +284,11 @@ export default function CuponView() {
       setOpenModal(false);
     };
 
-  const navigate = useNavigate();
-
-  const handleCrear = () => {
-    navigate('/cupon/cupon-new'); // Redirige al usuario a la ruta especificada
-  };
-
-    // const notFound = !userData.length && !!filterName;
-    /* if (loading) {
+    const handleEmailChange = (event) => {
+      setEmail(event.target.value);
+    };
+     const notFound = !tiendaData.length && !!filterName;
+     if (loading) {
       return (
         <Box
           sx={{
@@ -353,18 +306,18 @@ export default function CuponView() {
           </Typography>
         </Box>
       );
-    } */
+    } 
 
     if (error) {
-      return <div>Error al cargar datos de cupones</div>; // Manejar errores de obtención de datos
+      return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
     }
     return (
       
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
-        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Cupones</Typography>
+        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Tiendas</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
-          <CuponTableToolbar
+          <TiendaTableToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleSearch}
@@ -372,7 +325,7 @@ export default function CuponView() {
           <Stack direction="row" spacing={2}>
             <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} 
              fullHeight maxHeight="md" >
-              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el cupón seleccionado?</DialogTitle>
+              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar la(s) tienda(s) seleccionada(s)?</DialogTitle>
 
               <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
                 <Button onClick={handleDeshabilitar} color="success">
@@ -386,7 +339,7 @@ export default function CuponView() {
             </Dialog>
             <Dialog open={openModalActivar} onClose={handleCloseModalActivar}
             maxWidth="md" maxHeight="md" >
-              <DialogTitle>¿Estás seguro de que deseas habilitar el cupón seleccionado?</DialogTitle>
+              <DialogTitle>¿Estás seguro de que deseas habilitar la(s) tienda(s) seleccionada(s)?</DialogTitle>
 
               <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
                 <Button onClick={handleHabilitar} color="success">
@@ -402,10 +355,10 @@ export default function CuponView() {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <CuponTableHead
+          <TiendaTableHead
             order={order}
             orderBy={orderBy}
-            rowCount={userData.length}
+            rowCount={tiendaData.length}
             numSelected={selected.length}
             onRequestSort={handleSort}
             onSelectAllClick={handleSelectAllClick}
@@ -416,7 +369,7 @@ export default function CuponView() {
           />
           <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
           <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
-            onClick={handleCrear} startIcon={<Iconify icon ="streamline:discount-percent-coupon-solid"/>}>
+            onClick={handleCrear} startIcon={<Iconify icon ="mingcute:shop-fill"/>}>
               Crear
             </Button>
             <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
@@ -455,20 +408,19 @@ export default function CuponView() {
               </Box>
             ) : (
               <>
-            {userData && userData.length > 0 ? (
-              userData.map((row) => (
+            {tiendaData && tiendaData.length > 0 ? (
+              tiendaData.map((row) => (
                 <Grid item xs={12} sm={6} md={4} key={row.id} >
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
-                    <CuponTableRow
+                    <TiendaTableRow
+                      nombre={row.nombre}
+                      locacion={row.locacion}
+                      descripcion={row.descripcion}
                       id={row.id}
-                      codigo={row.codigo}
-                      sumilla={row.sumilla}
-                      cantidadInicial={row.cantidadInicial}
-                      fechaExpiracion={row.fechaExpiracion}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       activo={row.activo}
-                      onEditCupon={handleCambio}
+                      onEditTienda={handleCambio}
                     />
                   </Card>
                 </Grid>
@@ -489,7 +441,7 @@ export default function CuponView() {
               >
 
                 <Typography variant="h6" sx={{ mt: 2 }}>
-                  No se encontraron cupones para la búsqueda
+                  No se encontraron usuarios para la búsqueda
                 </Typography>
               </Box>
             )}
@@ -502,17 +454,17 @@ export default function CuponView() {
             <TablePagination
               page={page-1}
               component="div"
-              count={totalCupones}
+              count={totalTiendas}
               rowsPerPage={pageSize}
               onPageChange={handleChangePage}
               rowsPerPageOptions={[6, 12, 18]}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              labelRowsPerPage="Cupones por página"
+              labelRowsPerPage="Tiendas por página"
               nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha
               backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
               labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
             />
-            <Pagination count={ Math.ceil(totalCupones / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
+            <Pagination count={ Math.ceil(totalTiendas / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
           </Grid>
 
         </Grid>

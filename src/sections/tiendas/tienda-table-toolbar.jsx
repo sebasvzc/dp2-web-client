@@ -10,7 +10,7 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function CuponTableToolbar({ numSelected, filterName, onFilterName }) {
+export default function TiendaTableToolbar({ numSelected, filterName, onFilterName }) {
 
   const [localFilterName, setLocalFilterName] = useState(filterName);
 
@@ -48,7 +48,7 @@ export default function CuponTableToolbar({ numSelected, filterName, onFilterNam
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
-        placeholder="Buscar cupon por sumilla"
+        placeholder="Buscar tienda por nombre"
         style={{ width: 500, height: 40, backgroundColor: "white" }}
       />
       <Button
@@ -65,7 +65,7 @@ export default function CuponTableToolbar({ numSelected, filterName, onFilterNam
   );
 }
 
-CuponTableToolbar.propTypes = {
+TiendaTableToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,

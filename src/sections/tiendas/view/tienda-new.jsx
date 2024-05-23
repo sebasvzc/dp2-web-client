@@ -61,12 +61,13 @@ const useStyles = makeStyles((theme) => ({
     boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
   const fileTypes = ["JPG", "PNG"];
-  export default function CuponNew() {
+  
+  export default function TiendaNew() {
     const classes = useStyles();
     const navigate=useNavigate();
 
     const handleBack = () => {
-      navigate('/cupon'); 
+      navigate('/tienda'); 
     }
     /* const [file, setFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('/public/a/tu/imagen.jpg');
@@ -100,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
     }; */
 
     const handleSubmit = async (event) => {
+      /*
       event.preventDefault();
       try {
         const user = localStorage.getItem('user');
@@ -118,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
         formData.append("cantidadInicial", event.target.cantidadInicial.value);
         formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
         formData.append("fidLocatario", selectedTienda);
-        formData.append("fidTipoCupon", selectedTipoCupon);
+        formData.append("fidTipoTienda", selectedTipoTienda);
         // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
@@ -146,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
         }
 
         const data = await response.json();
-        toast.success('Cupon creado exitosamente', {
+        toast.success('Tienda creado exitosamente', {
           position: "top-right",
           hideProgressBar: false,
           closeOnClick: true,
@@ -161,6 +163,7 @@ const useStyles = makeStyles((theme) => ({
         console.error('Error fetching crear cupones:', error);
         throw error;
       }
+      */
     };
     const [files, setFiles] = React.useState([]);
     const updateFiles = (incommingFiles) => {
@@ -171,10 +174,12 @@ const useStyles = makeStyles((theme) => ({
     const [tiendas, setTiendas] = useState([]);
     const [selectedTienda, setSelectedTienda] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [tipoCupones, setTipoCupones] = useState([]);
-    const [selectedTipoCupon, setSelectedTipoCupon] = useState('');
-    const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
+    const [tipoTiendaes, setTipoTiendaes] = useState([]);
+    const [selectedTipoTienda, setSelectedTipoTienda] = useState('');
+    const [searchTermTipoTiendaes, setSearchTermTipoTiendaes] = useState('');
+
     const getTiendas = async () => {
+      /*
       try {
         const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
@@ -217,15 +222,17 @@ const useStyles = makeStyles((theme) => ({
         console.error('Error fetching cupones:', error);
         throw error;
       }
+      */
     };
 
-    const getTipoCupones = async () => {
+    const getTipoTiendaes = async () => {
+      /*
       try {
         const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         let response="";
-        console.log(searchTermTipoCupones)
+        console.log(searchTermTipoTiendaes)
         if(searchTerm===""){
           response = await fetch(`http://localhost:3000/api/tipocupones/listartipocupones?query=all&page=1&pageSize=10`, {
             method: 'GET',
@@ -262,6 +269,7 @@ const useStyles = makeStyles((theme) => ({
         console.error('Error fetching cupones:', error);
         throw error;
       }
+      */
     };
     const handleSearch = async (e) => {
       e.preventDefault();
@@ -273,22 +281,22 @@ const useStyles = makeStyles((theme) => ({
       e.preventDefault();
       setSearchTerm(e.target.value)
     };
-    const handleSearchTipoCupon = async (e) => {
+    const handleSearchTipoTienda = async (e) => {
       e.preventDefault();
-      const results = await getTipoCupones();
-      console.log("viendo resultados", results.tipoCupones)
-      setTipoCupones(results.tipoCupones);
+      const results = await getTipoTiendaes();
+      console.log("viendo resultados", results.tipoTiendaes)
+      setTipoTiendaes(results.tipoTiendaes);
     };
-    const changeTermSearchTipoCupon = async (e) => {
+    const changeTermSearchTipoTienda = async (e) => {
       e.preventDefault();
-      setSearchTermTipoCupones(e.target.value)
+      setSearchTermTipoTiendaes(e.target.value)
     };
     console.log(startDate)
     return (
       <Container>
        <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Tienda</Typography>
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Box sx={{ mt: 3 }}>
@@ -343,15 +351,15 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={4}>
                 <FormControl fullWidth>
-                  <InputLabel id="search-tipo-select-label">Tipo de Cupon</InputLabel>
+                  <InputLabel id="search-tipo-select-label">Tipo de Tienda</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
                     MenuProps={{ autoFocus: false }}
                     labelId="search-tipo-cupon-select-label"
                     id="search-tipo-cupon-select"
-                    value={selectedTipoCupon}
+                    value={selectedTipoTienda}
                     label="Elegir tipo de cupon"
-                    onChange={(e) => setSelectedTipoCupon(e.target.value)}
+                    onChange={(e) => setSelectedTipoTienda(e.target.value)}
 
                   >
                     <ListSubheader>
@@ -360,20 +368,20 @@ const useStyles = makeStyles((theme) => ({
                         autoFocus
                         placeholder="Busca un tipo de cupon por nombre..."
                         fullWidth
-                        value={searchTermTipoCupones}
-                        onChange={changeTermSearchTipoCupon}
+                        value={searchTermTipoTiendaes}
+                        onChange={changeTermSearchTipoTienda}
                         onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <SearchIcon onClick={handleSearchTipoCupon} />
+                              <SearchIcon onClick={handleSearchTipoTienda} />
                             </InputAdornment>
                           )
                         }}
 
                       />
                     </ListSubheader>
-                    {tipoCupones.map((option, i) => (
+                    {tipoTiendaes.map((option, i) => (
                       <MenuItem key={i} value={option.id}>
                         {option.nombre}
                       </MenuItem>
