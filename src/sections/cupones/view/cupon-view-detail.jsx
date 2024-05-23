@@ -365,7 +365,7 @@ export default function CuponDetail() {
                       type="submit"
                       variant="contained"
                       color="success"
-                      sx={{ marginTop: 5, marginRight:5, backgroundColor: "#198754" }}
+                      sx={{ marginTop: 5, marginRight:2, backgroundColor: "#198754" }}
                       startIcon={<Iconify icon="ic:baseline-save" />}
                     >
                       Guardar
@@ -406,18 +406,12 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 }}>
-
+                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
+                  <p>
+                    <strong>(*) Todos los campos son obligatorios para poder modificar un cupón</strong>
+                  </p>
                   <Grid container spacing={2}>
-                    <Grid item xs={2}>
-                      <FormControlLabel control={
-                        <Checkbox name="esLimitado"
-                                  checked={esLimitadoText}
-                                  disabled={!editable}
-                        />
-                      } label="Es Limitado" />
-                    </Grid>
-                    <Grid item xs={10} >
+                    <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
                       {editableImg ? <Dropzone
                           onChange={updateFiles}
@@ -471,10 +465,18 @@ export default function CuponDetail() {
                         </Box>}
                         </Box>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                       <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={3}>
+                      <FormControlLabel control={
+                        <Checkbox name="esLimitado"
+                                  checked={esLimitadoText}
+                                  disabled={!editable}
+                        />
+                      } label="Es Limitado" />
+                    </Grid>
+                    <Grid item xs={3}>
                       <FormControl fullWidth>
                         <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
                         <Select
@@ -517,7 +519,7 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={3}>
                       <FormControl fullWidth>
                         <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
                         <Select
@@ -558,6 +560,18 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
+                    <Grid item xs={12}>
+                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
+                                 disabled={!editable} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
+                                 defaultValue={descripcionText} disabled={!editable} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
+                                 defaultValue={terminosText} disabled={!editable} />
+                    </Grid>
                     <Grid item xs={3}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <DatePicker
@@ -566,6 +580,7 @@ export default function CuponDetail() {
                           format="DD/MM/YYYY"
                           onChange={setStartDate}
                           disabled={!editable}
+                          sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
                         />
                       </LocalizationProvider>
                     </Grid>
@@ -581,21 +596,6 @@ export default function CuponDetail() {
                       <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
                                  defaultValue={ordPriorizacionText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
-                                 disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} disabled={!editable} />
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} disabled={!editable} />
-                    </Grid>
-
-
                   </Grid>
 
                 </Box>
