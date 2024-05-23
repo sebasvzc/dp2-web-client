@@ -94,9 +94,7 @@ export default function ClienteTableRow({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-          'Refresh-Token': `Bearer ${refreshToken}`
+          'Accept': 'application/json'
         },
         body: JSON.stringify({ editedUser }),
       });

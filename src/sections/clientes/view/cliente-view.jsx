@@ -188,7 +188,11 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
         console.log(JSON.stringify({ selected }) )
         const response = await fetch('http://localhost:3000/api/client/deshabilitarCliente', {
           method: 'POST',
-          
+
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
           body: JSON.stringify({ selected }),
         });
         const data = await response.json();
@@ -214,7 +218,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/user/habilitar', {
+        const response = await fetch('http://localhost:3000/api/client/habilitarCliente', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
