@@ -57,7 +57,7 @@ export default function CuponDetail() {
   const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
   const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
-
+  const [fileUrl, setFileUrl] = useState('');
   const filterName= useState('')
 
   const [totalCupones, setTotalCupones] = useState(10);
@@ -76,6 +76,7 @@ export default function CuponDetail() {
   const updateFiles = (incommingFiles) => {
     setFiles(incommingFiles);
   };
+  const previewImage = document.querySelector("#previewImage");
   const [startDate, setStartDate] = useState(dayjs());
   const [tiendas, setTiendas] = useState([]);
   const [selectedTienda, setSelectedTienda] = useState('');
@@ -151,6 +152,8 @@ export default function CuponDetail() {
 
         setFiles([file]);
 
+        const url = URL.createObjectURL(file);
+        setFileUrl(url);
 
         setSelectedTienda(data.detalles.locatario.id)
         setSelectedTipoCupon(data.detalles.tipoCupon.id)
@@ -404,8 +407,9 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3 , overflowY: 'auto', maxHeight: '60vh', pr: 2}}>
-
+                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 }}>
+                  {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                  <img src={fileUrl} alt="Uploaded file" />
                   <Grid container spacing={2}>
                     <Grid item xs={2}>
                       <FormControlLabel control={
@@ -426,10 +430,20 @@ export default function CuponDetail() {
                         accept="image/*"
                         disabled={!editable}  // Deshabilita la Dropzone si no es editable
                       >
-                        {files.map((file, index) => (
-                          // Asegura que cada FileMosaic tiene una key única
-                          <FileMosaic {...file} key={file.name + index} preview localization="ES-es" style={{width: '80%'}}/>
-                        ))}
+                        {files.map((file, index) => {
+                          console.log("toy viendo archivos");
+                          console.log(file);
+                          return (
+                            // Asegura que cada FileMosaic tiene una key única
+                            <FileMosaic
+                              {...file}
+                              key={file.name + index}
+                              preview
+                              localization="ES-es"
+                              style={{ width: '80%' }}
+                            />
+                          );
+                        })}
                       </Dropzone>
                     </Grid>
                     <Grid item xs={2}>
@@ -466,7 +480,7 @@ export default function CuponDetail() {
                                   <InputAdornment position="start">
                                     <SearchIcon onClick={handleSearch} />
                                   </InputAdornment>
-                                )
+                                ),
                               }}
                             />
                           </ListSubheader>
@@ -506,7 +520,7 @@ export default function CuponDetail() {
                                   <InputAdornment position="start">
                                     <SearchIcon onClick={handleSearchTipoCupon} />
                                   </InputAdornment>
-                                )
+                                ),
                               }}
 
                             />
@@ -562,6 +576,7 @@ export default function CuponDetail() {
                 </Box>
               )}
             </form>
+
           ) : (
             <Box sx={{paddingTop:10}}>
             {loading ? (
