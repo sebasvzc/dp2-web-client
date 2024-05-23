@@ -307,14 +307,17 @@ const useStyles = makeStyles((theme) => ({
 
     useEffect(() => {
       console.log(selectedTienda)
-      if (selectedTienda.length !== 0) {
+      if (formDatos.codigo.length !== 0
+        && selectedTienda.length !== 0
+        && selectedTipoCupon.length !== 0
+      ) {
         setBackgroundBtnReg("#003B91");
         setBotonDeshabilitado(false);
       } else {
         setBackgroundBtnReg("#CCCCCC");
         setBotonDeshabilitado(true);
       }
-    }, [formDatos.codigo,selectedTienda]); // Cierra correctamente con un corchete    
+    }, [formDatos.codigo,selectedTienda,selectedTipoCupon]); // Cierra correctamente con un corchete    
 
 
 
