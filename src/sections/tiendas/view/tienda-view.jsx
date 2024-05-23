@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -202,6 +203,8 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
         setOrderBy(id);
       }
     };
+
+    const navigate = useNavigate();
 
     const handleCrear = () => {
       navigate('/tienda/tienda-new'); // Redirige al usuario a la ruta especificada

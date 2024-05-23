@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     boxSizing: 'border-box', // Añade esta propiedad para incluir el padding en el ancho total
   };
   const fileTypes = ["JPG", "PNG"];
+  
   export default function TiendaNew() {
     const classes = useStyles();
     const navigate=useNavigate();

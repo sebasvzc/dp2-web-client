@@ -37,17 +37,21 @@ export default function RouterX() {
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<IndexPage/>}/>
             <Route path="/user" element={<UserPage/>}/>
+
             <Route path="/cupon" element={<CuponesPage/>}/>
             <Route path="/cupon">
               <Route path="cupon-new" element={<CuponNew/>}/>
               <Route path="detalle/:id" element={<CuponDetalle />} />
             </Route>
+            
             <Route path="/categorias" element={<CategoriasPage/>}/>
             <Route path="/clientes" element={<ClientesPage/>}/>
+
             <Route path="/tienda" element={<TiendasPage/>}/>
             <Route path="/tienda">
               <Route path="tienda-new" element={<TiendaNew/>}/>
             </Route>
+
             <Route path="*" element={<Page404/>}/>
           </Route>
         </Routes>
