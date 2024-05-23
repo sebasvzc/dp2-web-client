@@ -297,6 +297,9 @@ const useStyles = makeStyles((theme) => ({
       sumilla: '',
       descripcionCompleta: '',
       terminosCondiciones: '',
+      costoPuntos: '',
+      cantidadInicial: '',
+      ordenPriorizacion: '',
     });
 
     const handleChange = (e) => {
@@ -315,6 +318,11 @@ const useStyles = makeStyles((theme) => ({
         && formDatos.sumilla.length !== 0
         && formDatos.descripcionCompleta.length !== 0
         && formDatos.terminosCondiciones.length !== 0
+        && formDatos.costoPuntos.length !== 0
+        && formDatos.cantidadInicial.length !== 0
+        && formDatos.ordenPriorizacion.length !== 0
+        && startDate.length !== 0
+        && files.length !== 0
       ) {
         setBackgroundBtnReg("#003B91");
         setBotonDeshabilitado(false);
@@ -322,10 +330,9 @@ const useStyles = makeStyles((theme) => ({
         setBackgroundBtnReg("#CCCCCC");
         setBotonDeshabilitado(true);
       }
-    }, [formDatos.codigo,selectedTienda,selectedTipoCupon, formDatos.sumilla, formDatos.descripcionCompleta, formDatos.terminosCondiciones]); // Cierra correctamente con un corchete    
-
-
-
+    }, [formDatos.codigo,selectedTienda,selectedTipoCupon, formDatos.sumilla, 
+      formDatos.descripcionCompleta, formDatos.terminosCondiciones, formDatos.costoPuntos, 
+      formDatos.cantidadInicial, formDatos.ordenPriorizacion,startDate,files]); // Cierra correctamente con un corchete    
 
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
@@ -451,13 +458,13 @@ const useStyles = makeStyles((theme) => ({
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6} style={{ paddingBottom: 0 }}>
-                  <TextField fullWidth label="Costo en Puntos" name="costoPuntos" />
+                  <TextField fullWidth onChange={handleChange} label="Costo en Puntos" name="costoPuntos" />
                 </Grid>
                 <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" />
+                  <TextField fullWidth onChange={handleChange} label="Cantidad Inicial" name="cantidadInicial" />
                 </Grid>
                 <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion" />
+                  <TextField fullWidth onChange={handleChange} label="Orden de Priorización" name="ordenPriorizacion" />
                 </Grid>
               </Grid>
               <Grid item xs={6}>
