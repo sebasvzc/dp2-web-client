@@ -255,7 +255,7 @@ export default function CuponDetail() {
     }
 
     loadCuponData();
-  }, [idParam, page, pageSize, searchName]);
+  }, [esLimitadoText, idParam, page, pageSize, searchName]);
 
 
   const handleSubmit = async (event) => {
