@@ -132,7 +132,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
       console.log("Probando deshabilitar");
       console.log(selected)
       try {
-        const response = await fetch('http://localhost:3000/api/tiendas/deshabilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/tiendas/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/tiendas/habilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/tiendas/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
