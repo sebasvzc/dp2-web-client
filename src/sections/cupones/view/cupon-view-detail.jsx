@@ -114,7 +114,7 @@ export default function CuponDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
+        response = await fetch(`http://3.220.179.149/api/api/cupones/detalleCuponCompleto`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -177,7 +177,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://3.220.179.149/api/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -188,7 +188,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://3.220.179.149/api/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -224,7 +224,7 @@ export default function CuponDetail() {
 
         setDataClients(data2.clientesxCupon);
 
-        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
+        response = await fetch(`http://3.220.179.149/api/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -307,7 +307,7 @@ export default function CuponDetail() {
       }
 
       let response="";
-      response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
+      response = await fetch(`http://3.220.179.149/api/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
