@@ -294,7 +294,9 @@ const useStyles = makeStyles((theme) => ({
 
     const [formDatos, setFormDatos] = useState({
       codigo: '',  
-
+      sumilla: '',
+      descripcionCompleta: '',
+      terminosCondiciones: '',
     });
 
     const handleChange = (e) => {
@@ -310,6 +312,9 @@ const useStyles = makeStyles((theme) => ({
       if (formDatos.codigo.length !== 0
         && selectedTienda.length !== 0
         && selectedTipoCupon.length !== 0
+        && formDatos.sumilla.length !== 0
+        && formDatos.descripcionCompleta.length !== 0
+        && formDatos.terminosCondiciones.length !== 0
       ) {
         setBackgroundBtnReg("#003B91");
         setBotonDeshabilitado(false);
@@ -317,7 +322,7 @@ const useStyles = makeStyles((theme) => ({
         setBackgroundBtnReg("#CCCCCC");
         setBotonDeshabilitado(true);
       }
-    }, [formDatos.codigo,selectedTienda,selectedTipoCupon]); // Cierra correctamente con un corchete    
+    }, [formDatos.codigo,selectedTienda,selectedTipoCupon, formDatos.sumilla, formDatos.descripcionCompleta, formDatos.terminosCondiciones]); // Cierra correctamente con un corchete    
 
 
 
@@ -423,14 +428,14 @@ const useStyles = makeStyles((theme) => ({
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth label="Sumilla" name="sumilla" />
+                <TextField fullWidth onChange={handleChange}  label="Sumilla" name="sumilla" />
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4} />
+                <TextField fullWidth onChange={handleChange}  label="Descripción Completa" name="descripcionCompleta" multiline rows={4} />
               </Grid>
 
               <Grid item xs={12}>
-                <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
+                <TextField fullWidth onChange={handleChange}  label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
               </Grid>
               <Grid item xs={12}/>
               <Grid container spacing={2} item xs={6}>
