@@ -163,8 +163,11 @@ export default function CuponDetail() {
       const userStringify = JSON.parse(user);
       const { token, refreshToken } = userStringify;
       const formData = new FormData();
-      if(files[0].file){
-        formData.append("file", files[0].file)
+      if (files && files.length > 0) {
+        formData.append("file", files[0].file);
+      } else {
+        console.log("No se ha enviado ningún archivo");
+        // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
       formData.append("id", id);
       formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
