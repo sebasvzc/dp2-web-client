@@ -99,6 +99,15 @@ const useStyles = makeStyles((theme) => ({
       // Lógica para manejar la submisión del formulario
     }; */
 
+    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+
+
+
+    const handleCrear = () => {
+      
+    };
+
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
@@ -108,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
         const formData = new FormData();
 
         formData.append("file", files[0].file)
-        formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
+        formData.append("esLimitado", esLimitado);
         formData.append("codigo", event.target.codigo.value);
         formData.append("sumilla", event.target.sumilla.value);
         formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
@@ -166,6 +175,11 @@ const useStyles = makeStyles((theme) => ({
     const updateFiles = (incommingFiles) => {
       console.log(typeof incommingFiles)
       setFiles(incommingFiles);
+    };
+    const [esLimitado, setEsLimitado] = useState('');
+
+    const handleLimitado = (event) => {
+      setEsLimitado(event.target.value);
     };
     const [startDate, setStartDate] = useState(dayjs());
     const [tiendas, setTiendas] = useState([]);
@@ -284,25 +298,147 @@ const useStyles = makeStyles((theme) => ({
       setSearchTermTipoCupones(e.target.value)
     };
     console.log(startDate)
+
+    const [formDatos, setFormDatos] = useState({
+      codigo: '',  
+      sumilla: '',
+      descripcionCompleta: '',
+      terminosCondiciones: '',
+      costoPuntos: '',
+      cantidadInicial: '',
+      ordenPriorizacion: '',
+    });
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormDatos((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    const [mostrarTxtFile, setMostrarTxtFile] = useState("");
+    const [mostrarTxtEsLimitado, setMostrarTxtEsLimitado] = useState("");
+    const [mostrarTxtCodigo, setMostrarTxtCodigo] = useState("");
+    const [mostrarTxtSumilla, setMostrarTxtSumilla] = useState("");
+    const [mostrarTxtDescripcionCompleta, setMostrarTxtDescripcionCompleta] = useState("");
+    const [mostrarTxtTerminosCondiciones, setMostrarTxtTerminosCondiciones] = useState("");
+    const [mostrarTxtFechaExpiracion, setMostrarTxtFechaExpiracion] = useState("");
+    const [mostrarTxtCostoPuntos, setMostrarTxtCostoPuntos] = useState("");
+    const [mostrarTxtCantidadInicial, setMostrarTxtCantidadInicial] = useState("");
+    const [mostrarTxtOrdenPriorizacion, setMostrarTxtOrdenPriorizacion] = useState("");
+    const [mostrarTxtFidLocatario, setMostrarTxtFidLocatario] = useState("");
+    const [mostrarTxtFidTipoCupon, setMostrarTxtFidTipoCupon] = useState("");
+
+  useEffect(() => {
+    console.log(selectedTienda)
+    if (formDatos.codigo.length !== 0
+      && selectedTienda.length !== 0
+      && selectedTipoCupon.length !== 0
+      && formDatos.sumilla.length !== 0
+      && formDatos.descripcionCompleta.length !== 0
+      && formDatos.terminosCondiciones.length !== 0
+      && formDatos.costoPuntos.length !== 0
+      && formDatos.cantidadInicial.length !== 0
+      && formDatos.ordenPriorizacion.length !== 0
+      && startDate.length !== 0
+      && files.length !== 0
+    ) {
+      setBackgroundBtnReg("#003B91");
+      setBotonDeshabilitado(false);
+    } else {
+      setBackgroundBtnReg("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+    
+    if (!/\s/.test(formDatos.codigo)) {
+      setMostrarTxtCodigo("");
+    } else {
+      setMostrarTxtCodigo("El código no puede contener espacios en blanco");
+    }
+
+    if (!isNaN(formDatos.costoPuntos) && !/\s/.test(formDatos.costoPuntos)) {
+      setMostrarTxtCostoPuntos("");
+    } else {
+      setMostrarTxtCostoPuntos("Costo en puntos inválido");
+    }
+
+    if (!isNaN(formDatos.cantidadInicial) && !/\s/.test(formDatos.cantidadInicial)) {
+      setMostrarTxtCantidadInicial("");
+    } else {
+      setMostrarTxtCantidadInicial("Cantidad inicial inválida");
+    }
+
+    if (!isNaN(formDatos.ordenPriorizacion) && !/\s/.test(formDatos.ordenPriorizacion)) {
+      setMostrarTxtOrdenPriorizacion("");
+    } else {
+      setMostrarTxtOrdenPriorizacion("Orden de priorización inválido");
+    }
+
+    if (startDate !== null ) {
+      setMostrarTxtFechaExpiracion("");
+    } else {
+      setMostrarTxtFechaExpiracion("Fecha inválida");
+    }
+
+    if (files.length !== 0) {
+      setMostrarTxtFile("");
+    } else {
+      setMostrarTxtFile("Archivo inválido");
+    }
+  },[formDatos.codigo,selectedTienda,selectedTipoCupon, formDatos.sumilla, 
+      formDatos.descripcionCompleta, formDatos.terminosCondiciones, formDatos.costoPuntos, 
+      formDatos.cantidadInicial, formDatos.ordenPriorizacion,startDate,files]); // Cierra correctamente con un corchete    
+
     return (
-      <Container>
+      <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: 3 , borderRadius: '8px',  padding: '2%' , border: '2px solid #CCCCCC', backgroundColor: '#F5F5F5' }}>
+          <p>
+            <strong>(*) Todos los campos son obligatorios para poder crear un cupón</strong>
+          </p>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Grid container spacing={2}>
-              <Grid item xs={2}>
-                <FormControlLabel control={<Checkbox name="esLimitado" />} label="Es Limitado" />
+              <Grid item xs={12} >
+                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
+                    maxFiles={1} footer={false} localization="ES-es" accept="image/*"
+                    >
+                      {files.map((file) => (
+                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
+                      ))}
+                    </Dropzone>
               </Grid>
-              <Grid item xs={2}>
-                <TextField fullWidth label="Código" name="codigo" />
+              <Grid item xs={3}>
+                <TextField fullWidth 
+                onChange={handleChange} 
+                label="Código" name="codigo" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtCodigo} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <FormControl fullWidth>
-                  <InputLabel id="search-select-label">Tienda</InputLabel>
+                  <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
+                  <Select
+                    labelId="es-limitado-select-label"
+                    id="es-limitado-select"
+                    value={esLimitado}
+                    onChange={handleLimitado}
+                    label="Es Limitado"
+                  >
+                    <MenuItem value="1">Sí</MenuItem>
+                    <MenuItem value="0">No</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl fullWidth>
+                  <InputLabel 
+                  id="search-select-label" >Tienda</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
                     MenuProps={{ autoFocus: false }}
@@ -341,7 +477,7 @@ const useStyles = makeStyles((theme) => ({
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <FormControl fullWidth>
                   <InputLabel id="search-tipo-select-label">Tipo de Cupon</InputLabel>
                   <Select
@@ -382,52 +518,49 @@ const useStyles = makeStyles((theme) => ({
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth label="Sumilla" name="sumilla" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4} />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
-              </Grid>
-              <Grid item xs={12}/>
-              <Grid container spacing={2} item xs={6}>
-                <Grid item xs={6} style={{ paddingBottom: 0 }}>
-                  <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                  <DatePicker
-                    label="Fecha expiracion"
-                    value={startDate}
-                    format="DD/MM/YYYY"
-                    onChange={setStartDate}
-                    sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                  />
-                  </LocalizationProvider>
-                </Grid>
-                <Grid item xs={6} style={{ paddingBottom: 0 }}>
-                  <TextField fullWidth label="Costo en Puntos" name="costoPuntos" />
-                </Grid>
-                <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" />
-                </Grid>
-                <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion" />
-                </Grid>
+                <TextField fullWidth onChange={handleChange}  label="Sumilla" name="sumilla" />
               </Grid>
               <Grid item xs={6}>
-                <Grid item xs={12} >
-                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
-                    maxFiles={1} footer={false} localization="ES-es" accept="image/*">
-                      {files.map((file) => (
-                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
-                      ))}
-                    </Dropzone>
-                </Grid>
+                <TextField fullWidth onChange={handleChange}  label="Descripción Completa" name="descripcionCompleta" multiline rows={4} />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField fullWidth onChange={handleChange}  label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
+              </Grid>
+              <Grid item xs={3}>
+                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                <DatePicker
+                  label="Fecha expiracion"
+                  value={startDate}
+                  format="DD/MM/YYYY"
+                  onChange={setStartDate}
+                  sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={3} >
+                <TextField fullWidth onChange={handleChange} label="Costo en Puntos" name="costoPuntos" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtCostoPuntos} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
+              </Grid>
+              <Grid item xs={3} >
+                <TextField fullWidth onChange={handleChange} label="Cantidad Inicial" name="cantidadInicial" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtCantidadInicial} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
+              </Grid>
+              <Grid item xs={3} >
+                <TextField fullWidth onChange={handleChange} label="Orden de Priorización" name="ordenPriorizacion" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtOrdenPriorizacion} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
               </Grid>
               </Grid>
-            <Grid item xs={12}/>
-            <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary" >Crear</Button>
+            <Grid item xs={12}> 
+            <Button variant="contained" color="info" 
+            sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
+            type='submit'
+            disabled={botonDeshabilitado}>Crear</Button>
             </Grid>
           </form>
         </Box>

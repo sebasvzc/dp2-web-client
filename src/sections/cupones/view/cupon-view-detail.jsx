@@ -69,6 +69,7 @@ export default function CuponDetail() {
   const [totalClientsCupon, setTotalClientsCupon] = useState(10);
   const [cuponText, setCuponText] = useState('');
   const [esLimitadoText, setEsLimitadoText] = useState(false);
+  const [esLimitadoDesp, setEsLimitadoDesp] = useState(false);
   const [sumillaText, setSumillaText] = useState('');
   const [descripcionText, setDescripcionText] = useState('');
   const [terminosText, setTerminosText] = useState('');
@@ -136,6 +137,13 @@ export default function CuponDetail() {
         const data = await response.json();
         console.log(data)
         setEsLimitadoText(data.detalles.esLimitado)
+        if(data.detalles.esLimitado){
+          setEsLimitadoDesp("1")
+        }else{
+          setEsLimitadoDesp("0")
+        }
+        console.log("Texto limitado")
+        console.log(esLimitadoText)
         setCuponText(data.detalles.codigo)
         setSumillaText(data.detalles.sumilla)
         setDescripcionText(data.detalles.descripcionCompleta)
@@ -264,8 +272,10 @@ export default function CuponDetail() {
         console.log("No se ha enviado ningún archivo");
         // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
+
       formData.append("id", idParam);
       formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
+
       formData.append("codigo", event.target.codigo.value);
       formData.append("sumilla", event.target.sumilla.value);
       formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
@@ -348,6 +358,10 @@ export default function CuponDetail() {
   const changeTermSearchTipoCupon = async (e) => {
     e.preventDefault();
     setSearchTermTipoCupones(e.target.value)
+  };
+
+  const handleLimitado = (event) => {
+    setEsLimitadoDesp(event.target.value);
   };
   const fetchAndSetView = async (newView) => {
     try {
@@ -505,7 +519,7 @@ export default function CuponDetail() {
                       type="submit"
                       variant="contained"
                       color="success"
-                      sx={{ marginTop: 5, marginRight:5, backgroundColor: "#198754" }}
+                      sx={{ marginTop: 5, marginRight:2, backgroundColor: "#198754" }}
                       startIcon={<Iconify icon="ic:baseline-save" />}
                     >
                       Guardar
@@ -546,18 +560,12 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 }}>
-
+                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
+                  <p>
+                    <strong>(*) Todos los campos son obligatorios para poder modificar un cupón</strong>
+                  </p>
                   <Grid container spacing={2}>
-                    <Grid item xs={2}>
-                      <FormControlLabel control={
-                        <Checkbox name="esLimitado"
-                                  checked={esLimitadoText}
-                                  disabled={!editable}
-                        />
-                      } label="Es Limitado" />
-                    </Grid>
-                    <Grid item xs={10} >
+                    <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
                       {editableImg ? <Dropzone
                           onChange={updateFiles}
@@ -611,10 +619,27 @@ export default function CuponDetail() {
                         </Box>}
                         </Box>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                       <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={3}>
+                    <FormControl fullWidth>
+                    <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
+                    <Select
+                      labelId="es-limitado-select-label"
+                      id="es-limitado-select"
+                      disabled={!editable}
+                      value={esLimitadoDesp} // Usar esLimitadoText como valor seleccionado
+                      onChange={handleLimitado}
+                      label="Es Limitado"
+                    >
+                      <MenuItem value="1">Sí</MenuItem>
+                      <MenuItem value="0">No</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                    </Grid>
+                    <Grid item xs={3}>
                       <FormControl fullWidth>
                         <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
                         <Select
@@ -657,7 +682,7 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={3}>
                       <FormControl fullWidth>
                         <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
                         <Select
@@ -698,6 +723,18 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
+                    <Grid item xs={12}>
+                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
+                                 disabled={!editable} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
+                                 defaultValue={descripcionText} disabled={!editable} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
+                                 defaultValue={terminosText} disabled={!editable} />
+                    </Grid>
                     <Grid item xs={3}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <DatePicker
@@ -706,6 +743,7 @@ export default function CuponDetail() {
                           format="DD/MM/YYYY"
                           onChange={setStartDate}
                           disabled={!editable}
+                          sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
                         />
                       </LocalizationProvider>
                     </Grid>
@@ -721,21 +759,6 @@ export default function CuponDetail() {
                       <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
                                  defaultValue={ordPriorizacionText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
-                                 disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} disabled={!editable} />
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} disabled={!editable} />
-                    </Grid>
-
-
                   </Grid>
 
                 </Box>

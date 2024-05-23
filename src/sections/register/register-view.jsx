@@ -41,6 +41,7 @@ export default function RegisterView() {
     rol:'user',
     tokenReg:token
   });
+  
   const navigate = useNavigate();
   const theme = useTheme();
 
