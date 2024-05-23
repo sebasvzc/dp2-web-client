@@ -176,17 +176,24 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       }
       
     };
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const accessToken = userStringify.token;
+    const {refreshToken} = userStringify;
+   
     const handleDeshabilitar = async () => {
+      console.log('MUY BUENAS NOCHES')
       try {
-        const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
+        console.log('SOY EL SELECTED')
+        console.log(JSON.stringify({ selected }) )
+        const response = await fetch('http://localhost:3000/api/client/deshabilitarCliente', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
+          
           body: JSON.stringify({ selected }),
         });
         const data = await response.json();
+        
+        console.log('AQUI ESTA LA DATA QUE VUELVE')
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
         setHabilitarClientes(!habilitarClientes);
@@ -359,7 +366,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
           <Stack direction="row" spacing={2}>
             <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} 
              fullHeight maxHeight="md" >
-              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el cupón seleccionado?</DialogTitle>
+              <DialogTitle sx={{ alignItems: 'center',textAlign:'center'}}>¿Estás seguro de que deseas deshabilitar el cliente seleccionado?</DialogTitle>
 
               <DialogActions sx={{ alignSelf: 'center',textAlign:'center'}}>
                 <Button onClick={handleDeshabilitar} color="success">
