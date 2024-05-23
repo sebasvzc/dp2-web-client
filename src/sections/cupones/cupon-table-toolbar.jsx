@@ -48,7 +48,7 @@ export default function CuponTableToolbar({ numSelected, filterName, onFilterNam
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
-        placeholder="Buscar cupon por nombre"
+        placeholder="Buscar cupon por sumilla"
         style={{ width: 500, height: 40, backgroundColor: "white" }}
       />
       <Button

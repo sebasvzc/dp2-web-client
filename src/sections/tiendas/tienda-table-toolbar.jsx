@@ -48,7 +48,7 @@ export default function TiendaTableToolbar({ numSelected, filterName, onFilterNa
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
-        placeholder="Buscar usuario por nombre o por correo"
+        placeholder="Buscar tienda por nombre"
         style={{ width: 500, height: 40, backgroundColor: "white" }}
       />
       <Button

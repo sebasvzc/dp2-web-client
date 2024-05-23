@@ -204,7 +204,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     };
 
     const handleCrear = () => {
-      //navigate('/cupon/cupon-new'); // Redirige al usuario a la ruta especificada
+      navigate('/tienda/tienda-new'); // Redirige al usuario a la ruta especificada
     };
 
     const handleSelectAllClick = (event) => {
