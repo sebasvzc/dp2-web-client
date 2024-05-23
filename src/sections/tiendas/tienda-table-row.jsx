@@ -99,7 +99,7 @@ export default function TiendaTableRow({
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedTienda)
     /* try {
-      const response = await fetch('http://localhost:3000/api/user/modificar', {
+      const response = await fetch('http://3.220.179.149/api/api/user/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
