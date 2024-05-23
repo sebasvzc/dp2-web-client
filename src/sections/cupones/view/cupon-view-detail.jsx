@@ -142,21 +142,6 @@ export default function CuponDetail() {
         setCantDisText(data.detalles.cantidadDisponible)
         setOrdPriorizacionText(data.detalles.ordenPriorizacion)
         setUrlImagenS3(data.image);
-        const response2 = await fetch(data.image);
-        if (!response2.ok) {
-          throw new Error('Network response for image was not ok');
-        }
-
-        const blob = await response2.blob();
-        console.log("Blob:", blob);
-
-        const file = new File([blob], 'defaultImage.jpg', { type: 'image/jpg' });
-        console.log("File created:", file);
-
-        setFiles([file]);
-
-        const url = URL.createObjectURL(file);
-        setFileUrl(url);
 
         setSelectedTienda(data.detalles.locatario.id)
         setSelectedTipoCupon(data.detalles.tipoCupon.id)
@@ -178,8 +163,9 @@ export default function CuponDetail() {
       const userStringify = JSON.parse(user);
       const { token, refreshToken } = userStringify;
       const formData = new FormData();
-
-      // formData.append("file", files[0].file)
+      if(files[0].file){
+        formData.append("file", files[0].file)
+      }
       formData.append("id", id);
       formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
       formData.append("codigo", event.target.codigo.value);
