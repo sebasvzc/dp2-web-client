@@ -99,10 +99,12 @@ const useStyles = makeStyles((theme) => ({
       // Lógica para manejar la submisión del formulario
     }; */
 
+    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+
     const handleCrear = () => {
       
     };
-  
 
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -289,6 +291,34 @@ const useStyles = makeStyles((theme) => ({
       setSearchTermTipoCupones(e.target.value)
     };
     console.log(startDate)
+
+    const [formDatos, setFormDatos] = useState({
+      codigo: '',  
+
+    });
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormDatos((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    useEffect(() => {
+      console.log(selectedTienda)
+      if (selectedTienda.length !== 0) {
+        setBackgroundBtnReg("#003B91");
+        setBotonDeshabilitado(false);
+      } else {
+        setBackgroundBtnReg("#CCCCCC");
+        setBotonDeshabilitado(true);
+      }
+    }, [formDatos.codigo,selectedTienda]); // Cierra correctamente con un corchete    
+
+
+
+
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
@@ -296,18 +326,21 @@ const useStyles = makeStyles((theme) => ({
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: 3 , borderRadius: '8px',  padding: '16px' }}>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Grid container spacing={2}>
               <Grid item xs={2}>
                 <FormControlLabel control={<Checkbox name="esLimitado" />} label="Es Limitado" />
               </Grid>
               <Grid item xs={2}>
-                <TextField fullWidth label="Código" name="codigo" />
+                <TextField fullWidth 
+                onChange={handleChange} 
+                label="Código" name="codigo" />
               </Grid>
               <Grid item xs={4}>
                 <FormControl fullWidth>
-                  <InputLabel id="search-select-label">Tienda</InputLabel>
+                  <InputLabel 
+                  id="search-select-label" >Tienda</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
                     MenuProps={{ autoFocus: false }}
@@ -430,10 +463,11 @@ const useStyles = makeStyles((theme) => ({
                 </Grid>
               </Grid>
               </Grid>
-            <Grid item xs={12}/>
-            <Grid item xs={12}>
-                <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
-            onClick={handleCrear}>Crear</Button>
+            <Grid item xs={12}> 
+            <Button variant="contained" color="info" 
+            sx={{ marginRight: '8px' , backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem', marginLeft: '16px'}}
+            type='submit'
+            disabled={botonDeshabilitado}>Crear</Button>
             </Grid>
           </form>
         </Box>
