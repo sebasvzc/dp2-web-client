@@ -102,6 +102,8 @@ const useStyles = makeStyles((theme) => ({
     const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
     const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
+
+
     const handleCrear = () => {
       
     };
@@ -315,27 +317,76 @@ const useStyles = makeStyles((theme) => ({
       }));
     };
 
-    useEffect(() => {
-      console.log(selectedTienda)
-      if (formDatos.codigo.length !== 0
-        && selectedTienda.length !== 0
-        && selectedTipoCupon.length !== 0
-        && formDatos.sumilla.length !== 0
-        && formDatos.descripcionCompleta.length !== 0
-        && formDatos.terminosCondiciones.length !== 0
-        && formDatos.costoPuntos.length !== 0
-        && formDatos.cantidadInicial.length !== 0
-        && formDatos.ordenPriorizacion.length !== 0
-        && startDate.length !== 0
-        && files.length !== 0
-      ) {
-        setBackgroundBtnReg("#003B91");
-        setBotonDeshabilitado(false);
-      } else {
-        setBackgroundBtnReg("#CCCCCC");
-        setBotonDeshabilitado(true);
-      }
-    }, [formDatos.codigo,selectedTienda,selectedTipoCupon, formDatos.sumilla, 
+    const [mostrarTxtFile, setMostrarTxtFile] = useState("");
+    const [mostrarTxtEsLimitado, setMostrarTxtEsLimitado] = useState("");
+    const [mostrarTxtCodigo, setMostrarTxtCodigo] = useState("");
+    const [mostrarTxtSumilla, setMostrarTxtSumilla] = useState("");
+    const [mostrarTxtDescripcionCompleta, setMostrarTxtDescripcionCompleta] = useState("");
+    const [mostrarTxtTerminosCondiciones, setMostrarTxtTerminosCondiciones] = useState("");
+    const [mostrarTxtFechaExpiracion, setMostrarTxtFechaExpiracion] = useState("");
+    const [mostrarTxtCostoPuntos, setMostrarTxtCostoPuntos] = useState("");
+    const [mostrarTxtCantidadInicial, setMostrarTxtCantidadInicial] = useState("");
+    const [mostrarTxtOrdenPriorizacion, setMostrarTxtOrdenPriorizacion] = useState("");
+    const [mostrarTxtFidLocatario, setMostrarTxtFidLocatario] = useState("");
+    const [mostrarTxtFidTipoCupon, setMostrarTxtFidTipoCupon] = useState("");
+
+  useEffect(() => {
+    console.log(selectedTienda)
+    if (formDatos.codigo.length !== 0
+      && selectedTienda.length !== 0
+      && selectedTipoCupon.length !== 0
+      && formDatos.sumilla.length !== 0
+      && formDatos.descripcionCompleta.length !== 0
+      && formDatos.terminosCondiciones.length !== 0
+      && formDatos.costoPuntos.length !== 0
+      && formDatos.cantidadInicial.length !== 0
+      && formDatos.ordenPriorizacion.length !== 0
+      && startDate.length !== 0
+      && files.length !== 0
+    ) {
+      setBackgroundBtnReg("#003B91");
+      setBotonDeshabilitado(false);
+    } else {
+      setBackgroundBtnReg("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+    
+    if (!/\s/.test(formDatos.codigo)) {
+      setMostrarTxtCodigo("");
+    } else {
+      setMostrarTxtCodigo("El código no puede contener espacios en blanco");
+    }
+
+    if (!isNaN(formDatos.costoPuntos) && !/\s/.test(formDatos.costoPuntos)) {
+      setMostrarTxtCostoPuntos("");
+    } else {
+      setMostrarTxtCostoPuntos("Costo en puntos inválido");
+    }
+
+    if (!isNaN(formDatos.cantidadInicial) && !/\s/.test(formDatos.cantidadInicial)) {
+      setMostrarTxtCantidadInicial("");
+    } else {
+      setMostrarTxtCantidadInicial("Cantidad inicial inválida");
+    }
+
+    if (!isNaN(formDatos.ordenPriorizacion) && !/\s/.test(formDatos.ordenPriorizacion)) {
+      setMostrarTxtOrdenPriorizacion("");
+    } else {
+      setMostrarTxtOrdenPriorizacion("Orden de priorización inválido");
+    }
+
+    if (startDate !== null ) {
+      setMostrarTxtFechaExpiracion("");
+    } else {
+      setMostrarTxtFechaExpiracion("Fecha inválida");
+    }
+
+    if (files.length !== 0) {
+      setMostrarTxtFile("");
+    } else {
+      setMostrarTxtFile("Archivo inválido");
+    }
+  },[formDatos.codigo,selectedTienda,selectedTipoCupon, formDatos.sumilla, 
       formDatos.descripcionCompleta, formDatos.terminosCondiciones, formDatos.costoPuntos, 
       formDatos.cantidadInicial, formDatos.ordenPriorizacion,startDate,files]); // Cierra correctamente con un corchete    
 
@@ -347,6 +398,9 @@ const useStyles = makeStyles((theme) => ({
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Box sx={{ mt: 3 , borderRadius: '8px',  padding: '2%' , border: '2px solid #CCCCCC', backgroundColor: '#F5F5F5' }}>
+          <p>
+            <strong>(*) Todos los campos son obligatorios para poder crear un cupón</strong>
+          </p>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Grid container spacing={2}>
               <Grid item xs={12} >
@@ -362,6 +416,9 @@ const useStyles = makeStyles((theme) => ({
                 <TextField fullWidth 
                 onChange={handleChange} 
                 label="Código" name="codigo" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtCodigo} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
               </Grid>
               <Grid item xs={3}>
                 <FormControl fullWidth>
@@ -482,12 +539,21 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={3} >
                 <TextField fullWidth onChange={handleChange} label="Costo en Puntos" name="costoPuntos" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtCostoPuntos} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
               </Grid>
               <Grid item xs={3} >
                 <TextField fullWidth onChange={handleChange} label="Cantidad Inicial" name="cantidadInicial" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtCantidadInicial} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
               </Grid>
               <Grid item xs={3} >
                 <TextField fullWidth onChange={handleChange} label="Orden de Priorización" name="ordenPriorizacion" />
+                <input className="inputEspecialAC" type="text" value={mostrarTxtOrdenPriorizacion} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                disabled/>
               </Grid>
               </Grid>
             <Grid item xs={12}> 
