@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
         const formData = new FormData();
 
         formData.append("file", files[0].file)
-        formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
+        formData.append("esLimitado", esLimitado);
         formData.append("codigo", event.target.codigo.value);
         formData.append("sumilla", event.target.sumilla.value);
         formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
@@ -173,6 +173,11 @@ const useStyles = makeStyles((theme) => ({
     const updateFiles = (incommingFiles) => {
       console.log(typeof incommingFiles)
       setFiles(incommingFiles);
+    };
+    const [esLimitado, setEsLimitado] = useState('');
+
+    const handleLimitado = (event) => {
+      setEsLimitado(event.target.value);
     };
     const [startDate, setStartDate] = useState(dayjs());
     const [tiendas, setTiendas] = useState([]);
@@ -341,18 +346,39 @@ const useStyles = makeStyles((theme) => ({
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-        <Box sx={{ mt: 3 , borderRadius: '8px',  padding: '16px' }}>
+        <Box sx={{ mt: 3 , borderRadius: '8px',  padding: '2%' , border: '2px solid #CCCCCC', backgroundColor: '#F5F5F5' }}>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Grid container spacing={2}>
-              <Grid item xs={2}>
-                <FormControlLabel control={<Checkbox name="esLimitado" />} label="Es Limitado" />
+              <Grid item xs={12} >
+                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
+                    maxFiles={1} footer={false} localization="ES-es" accept="image/*"
+                    >
+                      {files.map((file) => (
+                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
+                      ))}
+                    </Dropzone>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField fullWidth 
                 onChange={handleChange} 
                 label="Código" name="codigo" />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
+                <FormControl fullWidth>
+                  <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
+                  <Select
+                    labelId="es-limitado-select-label"
+                    id="es-limitado-select"
+                    value={esLimitado}
+                    onChange={handleLimitado}
+                    label="Es Limitado"
+                  >
+                    <MenuItem value="1">Sí</MenuItem>
+                    <MenuItem value="0">No</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
                 <FormControl fullWidth>
                   <InputLabel 
                   id="search-select-label" >Tienda</InputLabel>
@@ -394,7 +420,7 @@ const useStyles = makeStyles((theme) => ({
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <FormControl fullWidth>
                   <InputLabel id="search-tipo-select-label">Tipo de Cupon</InputLabel>
                   <Select
@@ -437,50 +463,36 @@ const useStyles = makeStyles((theme) => ({
               <Grid item xs={12}>
                 <TextField fullWidth onChange={handleChange}  label="Sumilla" name="sumilla" />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <TextField fullWidth onChange={handleChange}  label="Descripción Completa" name="descripcionCompleta" multiline rows={4} />
               </Grid>
-
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <TextField fullWidth onChange={handleChange}  label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
               </Grid>
-              <Grid item xs={12}/>
-              <Grid container spacing={2} item xs={6}>
-                <Grid item xs={6} style={{ paddingBottom: 0 }}>
-                  <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                  <DatePicker
-                    label="Fecha expiracion"
-                    value={startDate}
-                    format="DD/MM/YYYY"
-                    onChange={setStartDate}
-                    sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                  />
-                  </LocalizationProvider>
-                </Grid>
-                <Grid item xs={6} style={{ paddingBottom: 0 }}>
-                  <TextField fullWidth onChange={handleChange} label="Costo en Puntos" name="costoPuntos" />
-                </Grid>
-                <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth onChange={handleChange} label="Cantidad Inicial" name="cantidadInicial" />
-                </Grid>
-                <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth onChange={handleChange} label="Orden de Priorización" name="ordenPriorizacion" />
-                </Grid>
+              <Grid item xs={3}>
+                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                <DatePicker
+                  label="Fecha expiracion"
+                  value={startDate}
+                  format="DD/MM/YYYY"
+                  onChange={setStartDate}
+                  sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                />
+                </LocalizationProvider>
               </Grid>
-              <Grid item xs={6}>
-                <Grid item xs={12} >
-                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
-                    maxFiles={1} footer={false} localization="ES-es" accept="image/*">
-                      {files.map((file) => (
-                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
-                      ))}
-                    </Dropzone>
-                </Grid>
+              <Grid item xs={3} >
+                <TextField fullWidth onChange={handleChange} label="Costo en Puntos" name="costoPuntos" />
+              </Grid>
+              <Grid item xs={3} >
+                <TextField fullWidth onChange={handleChange} label="Cantidad Inicial" name="cantidadInicial" />
+              </Grid>
+              <Grid item xs={3} >
+                <TextField fullWidth onChange={handleChange} label="Orden de Priorización" name="ordenPriorizacion" />
               </Grid>
               </Grid>
             <Grid item xs={12}> 
             <Button variant="contained" color="info" 
-            sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem'}}
+            sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
             type='submit'
             disabled={botonDeshabilitado}>Crear</Button>
             </Grid>
