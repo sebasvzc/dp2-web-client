@@ -7,7 +7,7 @@ export default function CuponesPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Nuevo Cupon | Plaza San Miguel </title>
       </Helmet>
 
       <CuponNew />

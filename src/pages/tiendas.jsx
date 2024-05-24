@@ -8,7 +8,7 @@ export default function TiendasPage() {
   return (
     <>
       <Helmet>
-        <title> Products | Minimal UI </title>
+        <title> Tiendas | Plaza San Miguel </title>
       </Helmet>
 
       <TiendasView />

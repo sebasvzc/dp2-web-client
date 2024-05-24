@@ -8,7 +8,7 @@ export default function ClientesPage() {
   return (
     <>
       <Helmet>
-        <title> Client | Minimal UI </title>
+        <title> Cliente | Plaza San Miguel </title>
       </Helmet>
 
       <ClienteView />
