@@ -64,7 +64,7 @@ export default function CuponDetail() {
   const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [fileUrl, setFileUrl] = useState('');
-  const filterName= useState('')
+  const filterName= useState("")
   const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
   const [totalClientsCupon, setTotalClientsCupon] = useState(10);
   const [cuponText, setCuponText] = useState('');
@@ -93,6 +93,7 @@ export default function CuponDetail() {
   const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
   const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
   const navigate=useNavigate();
+
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
     // eslint-disable-next-line no-shadow
