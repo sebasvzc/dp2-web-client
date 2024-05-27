@@ -36,12 +36,8 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
 
       }}
     >
-      {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1" style={{ color: "black" }}>
-        {numSelected} {numSelected > 1 ? "seleccionados" : "seleccionado"}
-      </Typography>
-      ) : (
-        <>
+   
+      
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
@@ -54,9 +50,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
       >
         <Iconify icon="eva:search-fill" style={{ width: 20, height: 20 }} />
       </Button>
-    </>
-        
-      )}
+   
 
     </Toolbar>
   );

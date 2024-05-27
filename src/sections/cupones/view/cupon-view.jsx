@@ -24,11 +24,14 @@ import CuponTableRow from '../cupon-table-row';
 import CuponTableHead from '../cupon-table-head';
 import CuponTableToolbar from '../cupon-table-toolbar';
 
+
+
 const useStyles = makeStyles((theme) => ({
   hideNavigationButton: {
     display: 'none !important', // Oculta el botón de navegación
   },
   paginationContainer: {
+
 
     display: "inline-block"
   },
@@ -36,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto', // Centra horizontalmente el componente
     maxWidth: 'fit-content', // Ajusta el ancho al contenido
   },
+  
 }));
 // ----------------------------------------------------------------------
 const scrollContainerStyle = {
@@ -442,10 +446,10 @@ export default function CuponView() {
                   justifyContent: 'center',
                   alignItems: 'center',
                   textAlign: 'center',
-                  marginLeft:'50%',
-                  height: '25%',
-                  marginTop: '15%', // Ajusta la distancia desde la parte superior
-                  marginBottom: '15%',
+                  height: 'auto', // Permite que el contenido se ajuste automáticamente
+                  mt: '10%', // Ajusta la distancia desde la parte superior
+                  mb: '10%', // Ajusta la distancia desde la parte inferior
+                  width: '100%', 
                 }}
               >
                 <CircularProgress color="primary" />
@@ -506,7 +510,7 @@ export default function CuponView() {
               count={totalCupones}
               rowsPerPage={pageSize}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[6, 12, 18]}
+              rowsPerPageOptions={[6]}
               onRowsPerPageChange={handleChangeRowsPerPage}
               labelRowsPerPage="Cupones por página"
               nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha
@@ -515,7 +519,6 @@ export default function CuponView() {
             />
             <Pagination count={ Math.ceil(totalCupones / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
           </Grid>
-
         </Grid>
 
       </Container>
