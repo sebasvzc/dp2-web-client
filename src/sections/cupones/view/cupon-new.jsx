@@ -72,22 +72,7 @@ const useStyles = makeStyles((theme) => ({
     const [imagePreview, setImagePreview] = useState('/public/a/tu/imagen.jpg');
     const [showFileUploader, setShowFileUploader] = useState(true);
 
-    const handleChange = (fileX) => {
-      setFile(fileX);
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        setImagePreview(e.target.result);
-      };
-
-      reader.readAsDataURL(fileX);
-      setShowFileUploader(false);
-    };
-
-    const handleImageClick = () => {
-      setShowFileUploader(true);
-    };
-
+    
     const handleDeleteImage = () => {
       setFile(null);
       setImagePreview(null);
