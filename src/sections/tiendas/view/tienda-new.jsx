@@ -329,7 +329,7 @@ const useStyles = makeStyles((theme) => ({
                     labelId="search-select-label"
                     id="search-select"
                     value={selectedTienda}
-                    label="Elegir Tienda"
+                    label="Elegir Categoría"
                     onChange={(e) => setSelectedTienda(e.target.value)}
                     // This prevents rendering empty string in Select's value
                     // if search text would exclude currently selected option.
@@ -339,7 +339,7 @@ const useStyles = makeStyles((theme) => ({
                       <TextField
                         size="small"
                         autoFocus
-                        placeholder="Busca una tienda por nombre..."
+                        placeholder="Busca categoría por nombre..."
                         fullWidth
                         value={searchTerm}
                         onChange={changeTermSearch}
@@ -365,6 +365,11 @@ const useStyles = makeStyles((theme) => ({
                 <TextField fullWidth 
                 
                 label="Locacion" name="locacion" />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField fullWidth 
+                
+                label="Descripción" name="descripcion" />
               </Grid>
               <Grid item xs={4}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
