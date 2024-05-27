@@ -287,9 +287,9 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
-    /*
-     const notFound = !tiendaData.length && !!filterName;
-     if (loading) {
+    
+    // const notFound = !tiendaData.length && !!filterName;
+    /* if (loading) {
       return (
         <Box
           sx={{
@@ -310,7 +310,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     } 
     */
     if (error) {
-      return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
+      return <div>Error al cargar datos de cupones</div>; // Manejar errores de obtención de datos
     }
     return (
       
