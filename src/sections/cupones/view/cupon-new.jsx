@@ -402,7 +402,7 @@ const useStyles = makeStyles((theme) => ({
                 onChange={handleChange} 
                 label="Código" name="codigo" />
                 <input className="inputEspecialAC" type="text" value={mostrarTxtCodigo} onChange={handleChange} 
-                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'transparent',outline: 'none'}}
                 disabled/>
               </Grid>
               <Grid item xs={3}>
@@ -525,19 +525,19 @@ const useStyles = makeStyles((theme) => ({
               <Grid item xs={3} >
                 <TextField fullWidth onChange={handleChange} label="Costo en Puntos" name="costoPuntos" />
                 <input className="inputEspecialAC" type="text" value={mostrarTxtCostoPuntos} onChange={handleChange} 
-                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'transparent',outline: 'none'}}
                 disabled/>
               </Grid>
               <Grid item xs={3} >
                 <TextField fullWidth onChange={handleChange} label="Cantidad Inicial" name="cantidadInicial" />
                 <input className="inputEspecialAC" type="text" value={mostrarTxtCantidadInicial} onChange={handleChange} 
-                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'transparent',outline: 'none'}}
                 disabled/>
               </Grid>
               <Grid item xs={3} >
                 <TextField fullWidth onChange={handleChange} label="Orden de Priorización" name="ordenPriorizacion" />
                 <input className="inputEspecialAC" type="text" value={mostrarTxtOrdenPriorizacion} onChange={handleChange} 
-                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none'}}
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'transparent',outline: 'none'}}
                 disabled/>
               </Grid>
               </Grid>
