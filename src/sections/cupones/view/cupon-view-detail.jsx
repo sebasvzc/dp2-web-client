@@ -1,9 +1,19 @@
+import dayjs from 'dayjs';
+import * as React from 'react';
+import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from 'react';
+import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Container from '@mui/material/Container';
+
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import SearchIcon from '@mui/icons-material/Search';
+import ListSubheader from '@mui/material/ListSubheader';
+import InputAdornment from '@mui/material/InputAdornment';
+import CircularProgress from '@mui/material/CircularProgress';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Button,
   Checkbox,
@@ -12,18 +22,9 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Select,
+  Select, Table, TableBody, TableContainer,
   TextField,
-} from '@mui/material';
-import ListSubheader from '@mui/material/ListSubheader';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Dropzone, FileMosaic } from '@files-ui/react';
-import * as React from 'react';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';  // Extiende dayjs con el plugin UTC
+} from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -31,25 +32,27 @@ import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
+import TablePagination from '@mui/material/TablePagination';
 import Iconify from '../../../components/iconify';
 
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
-import AppCurrentVisits from '../../overview/app-current-visits';
-
 
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
+import UserTableToolbar from '../../user/user-table-toolbar';
+import ClientCuponTableHead from '../cupon-client.table.head';
+import ClientCuponTableRow from '../client-cupon-table-row';
 
 
 dayjs.extend(utc);
 
 export default function CuponDetail() {
   const [view, setView] = useState('datos');
-  const { id } = useParams();
+  const { id: idParam } = useParams();
   const [editable, setEditable] = useState(false);
   const [editableImg, setEditableImg] = useState(false);
   const [order, setOrder] = useState('asc');
   const [searchName, setSearchName] = useState("all");
-  const [userData, setCuponData] = useState([]);
+  const [dataClients, setDataClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [habilitarCupones, setHabilitarCupones] = useState(true);
   const [selected, setSelected] = useState([]);
@@ -62,8 +65,8 @@ export default function CuponDetail() {
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [fileUrl, setFileUrl] = useState('');
   const filterName= useState('')
-
-  const [totalCupones, setTotalCupones] = useState(10);
+  const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
+  const [totalClientsCupon, setTotalClientsCupon] = useState(10);
   const [cuponText, setCuponText] = useState('');
   const [esLimitadoText, setEsLimitadoText] = useState(false);
   const [esLimitadoDesp, setEsLimitadoDesp] = useState(false);
@@ -88,23 +91,24 @@ export default function CuponDetail() {
   const [tipoCupones, setTipoCupones] = useState([]);
   const [selectedTipoCupon, setSelectedTipoCupon] = useState('');
   const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
-
+  const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
   const navigate=useNavigate();
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
     // eslint-disable-next-line no-shadow
     async function loadCuponData(searchTerm,searchTermTipoCupones) {
+      console.log("CuponData")
       setLoading(true);
       try {
         const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
-        console.log(id)
+        console.log(idParam)
         // Simulación de carga
         let response="";
         response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
           method: 'POST',
-          body: JSON.stringify({ id }),
+          body: JSON.stringify({ id:idParam }),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -153,6 +157,95 @@ export default function CuponDetail() {
 
         setSelectedTienda(data.detalles.locatario.id)
         setSelectedTipoCupon(data.detalles.tipoCupon.id)
+
+        console.log(idParam)
+        // Simulación de carga
+
+        if(searchName===""){
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+            method: 'GET',
+
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            },
+
+          });
+        }else{
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+            method: 'GET',
+
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            },
+
+          });
+        }
+
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data2 = await response.json();
+        console.log(data2)
+        if(data2.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data2.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if(data2.totalClientes){
+          setTotalClientsCupon(data2.totalClientes);
+        }
+
+        setDataClients(data2.clientesxCupon);
+
+        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
+          method: 'GET',
+
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data3 = await response.json();
+        console.log(data3)
+        if(data3.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data3.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if(data3){
+          console.log("Viendo data3");
+          console.log(data3);
+          const fechas = data3.usoDeCupones.map(item => item.fecha);
+          const cantidad = data3.usoDeCupones.map(item => item.cantidad);
+          setDataDash({ fechas, cantidad });
+
+        }
+
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch cupon data", err);
@@ -162,7 +255,9 @@ export default function CuponDetail() {
     }
 
     loadCuponData();
-  }, [id]);
+  }, [esLimitadoText, idParam, page, pageSize, searchName]);
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("funciona")
@@ -177,8 +272,10 @@ export default function CuponDetail() {
         console.log("No se ha enviado ningún archivo");
         // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
-      formData.append("id", id);
+
+      formData.append("id", idParam);
       formData.append("esLimitado", esLimitadoDesp);
+
       formData.append("codigo", event.target.codigo.value);
       formData.append("sumilla", event.target.sumilla.value);
       formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
@@ -232,9 +329,6 @@ export default function CuponDetail() {
       throw error;
     }
   };
-
-
-
   const handleSearch = async (e) => {
     e.preventDefault();
     const user = localStorage.getItem('user');
@@ -269,7 +363,6 @@ export default function CuponDetail() {
   const handleLimitado = (event) => {
     setEsLimitadoDesp(event.target.value);
   };
-
   const fetchAndSetView = async (newView) => {
     try {
       // Simulando una llamada a la API
@@ -285,6 +378,55 @@ export default function CuponDetail() {
       console.error('Error al obtener datos de la API:', error);
     }
   };
+  const handleSort = (event, id) => {
+    const isAsc = orderBy === id && order === 'asc';
+    console.log("Este es el id que ordena")
+    console.log(id)
+    if (id !== '') {
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(id);
+    }
+  };
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+    console.log("newSelected");
+    console.log(newSelected);
+    console.log(typeof newSelected);
+  };
+  const handleSelectAllClick = (event) => {
+
+    console.log(searchName)
+    if (event.target.checked) {
+      const newSelecteds = dataClients.map((n) => n.id);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+  const handleChangePage = (event, newPage) => {
+    console.log("new page", newPage+1)
+    setPage(newPage+1);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setPage(1);
+    setPageSize(parseInt(event.target.value, 10));
+  };
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Typography variant="h2">
@@ -293,7 +435,7 @@ export default function CuponDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '690px', paddingTop: 2 }}>
+          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '680px', paddingTop: 2 }}>
 
             <List component="nav" aria-label="opciones de navegación">
               <ListItemButton
@@ -644,11 +786,70 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ):(
+              <Grid container spacing={2}  >
+              <Grid xs={12} >
 
-              <Grid xs={12} md={6} lg={8}>
+                  <DashboardCuponClient dataDash={dataDash}/>
 
-                  <DashboardCuponClient />
+              </Grid>
+              <Grid xs={12}>
+                <Card>
+                  <UserTableToolbar
+                    numSelected={selected.length}
+                    filterName={filterName}
+                    onFilterName={handleSearch}
+                  />
 
+                    <TableContainer sx={{ overflow: 'unset' }}>
+                      <Table sx={{ minWidth: 800 }}>
+                        <ClientCuponTableHead
+                          order={order}
+                          orderBy={orderBy}
+                          rowCount={dataClients.length}
+                          numSelected={selected.length}
+                          onRequestSort={handleSort}
+                          onSelectAllClick={handleSelectAllClick}
+                          headLabel={[
+                            { id: 'nombre', label: 'Nombre' },
+                            { id: 'correo', label: 'Correo' },
+                            { id: 'telefono', label: 'Telefono' },
+                            { id: 'fechaCompra', label: 'Fecha de Compra'}
+
+                          ]}
+                        />
+                        <TableBody>
+                          {dataClients
+                            .map((row) => (
+                              <ClientCuponTableRow
+                                key={row.id}
+                                id={row.id}
+                                nombre={row.cliente.nombre}
+                                apellido={row.cliente.apellidoPaterno}
+                                email={row.cliente.email}
+                                telefono={row.cliente.telefono}
+                                fechaCompra={row.fechaCompra}
+                                selected={selected.indexOf(row.id) !== -1}
+                                handleClick={(event) => handleClick(event, row.id)}
+                              />
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+
+
+                  <TablePagination
+                    page={page-1}
+                    component="div"
+                    count={totalClientsCupon}
+                    rowsPerPage={pageSize}
+                    onPageChange={handleChangePage}
+                    labelRowsPerPage="Clientes por página"
+                    labelDisplayedRows={labelDisplayedRows}
+                    rowsPerPageOptions={[6, 12, 18]}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Card>
+              </Grid>
               </Grid>
               )}
               </Box >

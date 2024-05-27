@@ -342,19 +342,19 @@ const useStyles = makeStyles((theme) => ({
       setMostrarTxtCodigo("El código no puede contener espacios en blanco");
     }
 
-    if (!isNaN(formDatos.costoPuntos) && !/\s/.test(formDatos.costoPuntos)) {
+    if (!Number.isNaN(formDatos.costoPuntos) && !/\s/.test(formDatos.costoPuntos)) {
       setMostrarTxtCostoPuntos("");
     } else {
       setMostrarTxtCostoPuntos("Costo en puntos inválido");
     }
 
-    if (!isNaN(formDatos.cantidadInicial) && !/\s/.test(formDatos.cantidadInicial)) {
+    if (!Number.isNaN(formDatos.cantidadInicial) && !/\s/.test(formDatos.cantidadInicial)) {
       setMostrarTxtCantidadInicial("");
     } else {
       setMostrarTxtCantidadInicial("Cantidad inicial inválida");
     }
 
-    if (!isNaN(formDatos.ordenPriorizacion) && !/\s/.test(formDatos.ordenPriorizacion)) {
+    if (!Number.isNaN(formDatos.ordenPriorizacion) && !/\s/.test(formDatos.ordenPriorizacion)) {
       setMostrarTxtOrdenPriorizacion("");
     } else {
       setMostrarTxtOrdenPriorizacion("Orden de priorización inválido");

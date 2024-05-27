@@ -412,10 +412,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
             ]}
           />
           <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
-          <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
-            onClick={handleOpenModal} startIcon={<Iconify icon ="heroicons:user-16-solid"/>}>
-              Crear
-            </Button>
+
             <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
             disabled={botonDeshabilitado}
             onClick={handleOpenModalActivar} startIcon={<Iconify icon="eva:plus-fill" />}>
