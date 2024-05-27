@@ -436,10 +436,10 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
                   justifyContent: 'center',
                   alignItems: 'center',
                   textAlign: 'center',
-                  marginLeft:'50%',
-                  height: '25%',
-                  marginTop: '15%', // Ajusta la distancia desde la parte superior
-                  marginBottom: '15%',
+                  height: 'auto', // Permite que el contenido se ajuste automáticamente
+                  mt: '10%', // Ajusta la distancia desde la parte superior
+                  mb: '10%', // Ajusta la distancia desde la parte inferior
+                  width: '100%', 
                 }}
               >
                 <CircularProgress color="primary" />
@@ -502,7 +502,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
               count={totalClientes}
               rowsPerPage={pageSize}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[6, 12, 18]}
+              rowsPerPageOptions={[6]}
               onRowsPerPageChange={handleChangeRowsPerPage}
               labelRowsPerPage="Clientes por página"
               nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha

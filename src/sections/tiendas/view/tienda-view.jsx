@@ -287,6 +287,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
+    /*
      const notFound = !tiendaData.length && !!filterName;
      if (loading) {
       return (
@@ -307,7 +308,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
         </Box>
       );
     } 
-
+    */
     if (error) {
       return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
     }
@@ -395,10 +396,10 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
                   justifyContent: 'center',
                   alignItems: 'center',
                   textAlign: 'center',
-                  marginLeft:'50%',
-                  height: '25%',
-                  marginTop: '15%', // Ajusta la distancia desde la parte superior
-                  marginBottom: '15%',
+                  height: 'auto', // Permite que el contenido se ajuste automáticamente
+                  mt: '10%', // Ajusta la distancia desde la parte superior
+                  mb: '10%', // Ajusta la distancia desde la parte inferior
+                  width: '100%', 
                 }}
               >
                 <CircularProgress color="primary" />

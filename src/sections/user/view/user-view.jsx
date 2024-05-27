@@ -455,10 +455,10 @@ import UserTableToolbar from '../user-table-toolbar';
                   justifyContent: 'center',
                   alignItems: 'center',
                   textAlign: 'center',
-                  marginLeft:'50%',
-                  height: '25%',
-                  marginTop: '15%', // Ajusta la distancia desde la parte superior
-                  marginBottom: '15%',
+                  height: 'auto', // Permite que el contenido se ajuste automáticamente
+                  mt: '10%', // Ajusta la distancia desde la parte superior
+                  mb: '10%', // Ajusta la distancia desde la parte inferior
+                  width: '100%', 
                 }}
               >
                 <CircularProgress color="primary" />
@@ -518,7 +518,7 @@ import UserTableToolbar from '../user-table-toolbar';
               count={totalUsers}
               rowsPerPage={pageSize}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[6, 12, 18]}
+              rowsPerPageOptions={[6]}
               onRowsPerPageChange={handleChangeRowsPerPage}
               labelRowsPerPage="Usuarios por página"
               nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha
