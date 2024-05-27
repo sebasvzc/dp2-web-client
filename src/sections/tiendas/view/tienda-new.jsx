@@ -17,7 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from '@mui/material/InputAdornment';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
+import { DatePicker,LocalizationProvider,TimePicker  } from '@mui/x-date-pickers';
 
 dayjs.locale('es-mx');
 
@@ -170,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
       console.log(typeof incommingFiles)
       setFiles(incommingFiles);
     };
-    const [startDate, setStartDate] = useState(dayjs());
+    const [startTime, setStartTime] = useState(dayjs());
     const [tiendas, setTiendas] = useState([]);
     const [selectedTienda, setSelectedTienda] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -291,7 +291,7 @@ const useStyles = makeStyles((theme) => ({
       e.preventDefault();
       setSearchTermTipoTiendaes(e.target.value)
     };
-    console.log(startDate)
+
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
@@ -305,15 +305,24 @@ const useStyles = makeStyles((theme) => ({
           </p>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Grid container spacing={2}>
-              <Grid item xs={2}>
-                <FormControlLabel control={<Checkbox name="esLimitado" />} label="Es Limitado" />
+            <Grid item xs={12} >
+                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
+                    maxFiles={1} footer={false} localization="ES-es" accept="image/*"
+                    >
+                      {files.map((file) => (
+                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
+                      ))}
+                    </Dropzone>
               </Grid>
-              <Grid item xs={2}>
-                <TextField fullWidth label="Código" name="codigo" />
+              <Grid item xs={4}>
+                <TextField fullWidth 
+                
+                label="Nombre" name="nombre" />
               </Grid>
               <Grid item xs={4}>
                 <FormControl fullWidth>
-                  <InputLabel id="search-select-label">Tienda</InputLabel>
+                  <InputLabel 
+                  id="search-select-label" >Categoría</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
                     MenuProps={{ autoFocus: false }}
@@ -353,92 +362,38 @@ const useStyles = makeStyles((theme) => ({
                 </FormControl>
               </Grid>
               <Grid item xs={4}>
-                <FormControl fullWidth>
-                  <InputLabel id="search-tipo-select-label">Tipo de Tienda</InputLabel>
-                  <Select
-                    // Disables auto focus on MenuItems and allows TextField to be in focus
-                    MenuProps={{ autoFocus: false }}
-                    labelId="search-tipo-cupon-select-label"
-                    id="search-tipo-cupon-select"
-                    value={selectedTipoTienda}
-                    label="Elegir tipo de cupon"
-                    onChange={(e) => setSelectedTipoTienda(e.target.value)}
-
-                  >
-                    <ListSubheader>
-                      <TextField
-                        size="small"
-                        autoFocus
-                        placeholder="Busca un tipo de cupon por nombre..."
-                        fullWidth
-                        value={searchTermTipoTiendaes}
-                        onChange={changeTermSearchTipoTienda}
-                        onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <SearchIcon onClick={handleSearchTipoTienda} />
-                            </InputAdornment>
-                          )
-                        }}
-
-                      />
-                    </ListSubheader>
-                    {tipoTiendaes.map((option, i) => (
-                      <MenuItem key={i} value={option.id}>
-                        {option.nombre}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <TextField fullWidth 
+                
+                label="Locacion" name="locacion" />
               </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth label="Sumilla" name="sumilla" />
+              <Grid item xs={4}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                  <TimePicker
+                    label="Hora Apertura"
+                    value={startTime}
+                    onChange={setStartTime}
+                    sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                />
+                </LocalizationProvider>
               </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4} />
+              <Grid item xs={4}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                  <TimePicker
+                    label="Hora Cierre"
+                    value={startTime}
+                    onChange={setStartTime}
+                    sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                />
+                </LocalizationProvider>
               </Grid>
-
-              <Grid item xs={12}>
-                <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4} />
+              <Grid item xs={4}>
+                <TextField fullWidth 
+                
+                label="Aforo" name="aforo" />
               </Grid>
-              <Grid item xs={12}/>
-              <Grid container spacing={2} item xs={6}>
-                <Grid item xs={6} style={{ paddingBottom: 0 }}>
-                  <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                  <DatePicker
-                    label="Fecha expiracion"
-                    value={startDate}
-                    format="DD/MM/YYYY"
-                    onChange={setStartDate}
-                    sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                  />
-                  </LocalizationProvider>
-                </Grid>
-                <Grid item xs={6} style={{ paddingBottom: 0 }}>
-                  <TextField fullWidth label="Costo en Puntos" name="costoPuntos" />
-                </Grid>
-                <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" />
-                </Grid>
-                <Grid item xs={6} style={{ paddingTop: 0 }}>
-                  <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion" />
-                </Grid>
-              </Grid>
-              <Grid item xs={6}>
-                <Grid item xs={12} >
-                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
-                    maxFiles={1} footer={false} localization="ES-es" accept="image/*">
-                      {files.map((file) => (
-                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
-                      ))}
-                    </Dropzone>
-                </Grid>
-              </Grid>
-              </Grid>
-            <Grid item xs={12}/>
             <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary" >Crear</Button>
+            </Grid>
             </Grid>
           </form>
         </Box>
