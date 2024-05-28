@@ -234,8 +234,8 @@ export default function ClienteTableRow({
       >
         <MenuItem onClick={handleCloseMenu}>
            <IconButton onClick={handleOpenModalEdit}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
-          <span style={{ fontSize: 'smaller' }}>Editar</span>
+          <Iconify icon="mdi:eye" sx={{ mr: 1 }} />
+          <span style={{ fontSize: 'smaller' }}>Ver</span>
            </IconButton>
         </MenuItem>
       </Popover>

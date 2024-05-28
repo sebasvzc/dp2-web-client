@@ -301,6 +301,11 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     };
 
     const handleSearch = (e) => {
+      console.log("Esto llega a handleSearch")
+      console.log(e)
+      console.log("=========================")
+
+
       setSearchName(e)
       setPage(1);
       console.log(e);

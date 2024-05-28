@@ -15,6 +15,7 @@ export const CuponesPage = lazy(() => import('src/pages/cupones'));
 export const CuponNew = lazy(() => import('src/pages/cupon-nuevo'));
 export const CuponDetalle = lazy(() => import('src/pages/cupon-detalle'));
 export const ClientesPage = lazy(() => import('src/pages/clientes'));
+export const ClientesDetalle =lazy(() => import('src/pages/clientes-detalle'));
 export const CategoriasPage = lazy(() => import('src/pages/categorias'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
@@ -46,6 +47,9 @@ export default function RouterX() {
             
             <Route path="/categorias" element={<CategoriasPage/>}/>
             <Route path="/clientes" element={<ClientesPage/>}/>
+            <Route path="/clientes" >
+              <Route path="detalle/:id" element={<ClientesDetalle/>}/>
+            </Route>
 
             <Route path="/tienda" element={<TiendasPage/>}/>
             <Route path="/tienda">

@@ -17,6 +17,7 @@ export default function CuponTableToolbar({ numSelected, filterName, onFilterNam
   // Diego esto esta raro
 
   const handleIconClick = () => {
+
     onFilterName(localFilterName); // Llama a onFilterName con el valor actualizado
   };
 

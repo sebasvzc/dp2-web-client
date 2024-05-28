@@ -20,6 +20,10 @@ const getUsers = async (page,pageSize,searchName) => {
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
 
+    console.log("ESTE ES EL VALOR DE ESARCHNAME QUE LLEGA AL API")
+    console.log(searchName)
+    console.log("===============================")
+
     if(searchName===""){
       searchName="all";
     }
