@@ -17,6 +17,7 @@ import CardContent from '@mui/material/CardContent';
 // import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -75,7 +76,7 @@ export default function ClienteTableRow({
   const [open, setOpen] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
-  
+  const navigate = useNavigate();
   const [editedUser, setEditedUser] = useState({
     id,
     nombre,
@@ -130,8 +131,8 @@ export default function ClienteTableRow({
   };
 
   const handleOpenModalEdit = () => {
-    console.log("open edit es true")
-    setOpenEdit(true);
+
+    navigate(`/clientes/detalle/${id}`)
   };
 
   const handleCloseModalEdit = () => {
