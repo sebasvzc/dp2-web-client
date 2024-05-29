@@ -233,6 +233,12 @@ export default function TiendaTableRow({
       >
         <MenuItem onClick={handleCloseMenu}>
            <IconButton onClick={handleOpenModalEdit}>
+          <Iconify icon="mdi:eye" sx={{ mr: 1 }} />
+          <span style={{ fontSize: 'smaller' }}>Ver</span>
+           </IconButton>
+        </MenuItem>
+        <MenuItem onClick={handleCloseMenu}>
+           <IconButton onClick={handleOpenModalEdit}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
           <span style={{ fontSize: 'smaller' }}>Editar</span>
            </IconButton>
