@@ -16,6 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import CardContent from '@mui/material/CardContent';
 
 import Iconify from 'src/components/iconify';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -77,7 +78,7 @@ export default function TiendaTableRow({
                                        onEditTienda
                                      }) {
   const [open, setOpen] = useState(null);
-
+  const navigate = useNavigate();
   const classes = useStyles();
   
   const [editedTienda, setEditedTienda] = useState({
@@ -137,10 +138,9 @@ export default function TiendaTableRow({
     const { name, value } = e.target;
     setEditedTienda({ ...editedTienda, [name]: value });
   };
-
   const handleOpenModalEdit = () => {
-    console.log("open edit es true")
-    setOpenEdit(true);
+    console.log(id)
+    navigate(`/tienda/tienda-visualizar/${id}`);
   };
 
   const handleCloseModalEdit = () => {
@@ -231,13 +231,13 @@ export default function TiendaTableRow({
           sx: { width: 120 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={handleOpenModalEdit}>
            <IconButton onClick={handleOpenModalEdit}>
           <Iconify icon="mdi:eye" sx={{ mr: 1 }} />
           <span style={{ fontSize: 'smaller' }}>Ver</span>
            </IconButton>
         </MenuItem>
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={handleOpenModalEdit}>
            <IconButton onClick={handleOpenModalEdit}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
           <span style={{ fontSize: 'smaller' }}>Editar</span>
