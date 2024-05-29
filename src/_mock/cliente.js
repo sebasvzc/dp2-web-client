@@ -22,23 +22,24 @@ const getUsers = async (page,pageSize,searchName) => {
 
     console.log("ESTE ES EL VALOR DE ESARCHNAME QUE LLEGA AL API")
     console.log(searchName)
+    console.log(JSON.stringify({ searchText :searchName }))
+
     console.log("===============================")
 
-    if(searchName===""){
-      searchName="all";
-    }
+    
     const response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=${page}&pageSize=${pageSize}`, {
       method: 'POST',
       headers: {
+        
         'Accept': 'application/json',
+        'Content-Type':'application/json',
         'Authorization': `Bearer ${accessToken}`,
         'Refresh-Token': `Bearer ${refreshToken}`
       },
-      body:{
-        'active':3,
-        'searchText':searchName
-      }
+      body: JSON.stringify({ searchText :searchName })
+      
     });
+    console.log("Esta es la respuesta")
     console.log(response);
 
     if(response.status===403 || response.status===401){
@@ -51,6 +52,7 @@ const getUsers = async (page,pageSize,searchName) => {
     }
 
     const data = await response.json();
+    
     return data;
   } catch (error) {
 

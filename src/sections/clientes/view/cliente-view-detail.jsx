@@ -430,7 +430,7 @@ export default function CuponDetail() {
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Typography variant="h2">
-        {editable ? "Modificar Cupon" : "Visualizar Cupon"}
+        {editable ? "Visualizar Cliente" : "Visualizar Cliente"}
       </Typography>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
@@ -497,21 +497,7 @@ export default function CuponDetail() {
               <Box display="flex" justifyContent="flex-end" alignItems="center">
 
 
-                {!editable && (
-                  <Button
-                    variant="contained"
-
-                    sx={{
-                      marginTop: 5,
-                      marginRight: 2,
-                      backgroundColor: "#003B91"
-                    }} // Añade un margen derecho para separar botones si es necesario
-                    startIcon={<Iconify icon="ic:baseline-edit" />}
-                    onClick={() => setEditable(true)}
-                  >
-                    Editar
-                  </Button>
-                )}
+             
 
                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
@@ -561,9 +547,7 @@ export default function CuponDetail() {
                 </Box>
               ) : (
                 <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                  <p>
-                    <strong>(*) Todos los campos son obligatorios para poder modificar un cupón</strong>
-                  </p>
+                 
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
@@ -593,11 +577,7 @@ export default function CuponDetail() {
                           maxWidth="300px"
                           style={{ width: '100%', height: 'auto' }}
                         >
-                          <img
-                            src={urlImagenS3}
-                            alt="Imagen Predeterminada"
-                            style={{ width: '100%', height: 'auto' }}
-                          />
+                          
                           <Box
                             position="absolute"
                             top={0}
@@ -624,7 +604,7 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                     <FormControl fullWidth>
-                    <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
+                    <InputLabel id="es-limitado-select-label">Apellidos</InputLabel>
                     <Select
                       labelId="es-limitado-select-label"
                       id="es-limitado-select"
@@ -641,7 +621,7 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
+                        <InputLabel id="search-select-label" disabled={!editable}>Email</InputLabel>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
@@ -684,7 +664,7 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
+                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Telefono</InputLabel>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
