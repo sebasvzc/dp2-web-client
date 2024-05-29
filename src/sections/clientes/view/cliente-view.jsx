@@ -499,7 +499,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
             )}
           </Grid>
       </Box>
-        <Grid container justifyContent="center"> {/* Centra horizontalmente */}
+        <Grid container direction="column" justifyContent="center" alignItems="center"> {/* Centra horizontalmente */}
           <Grid item>
             <TablePagination
               page={page-1}
@@ -507,14 +507,17 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
               count={totalClientes}
               rowsPerPage={pageSize}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[6]}
+              rowsPerPageOptions={[6,12,18]}
               onRowsPerPageChange={handleChangeRowsPerPage}
               labelRowsPerPage="Clientes por página"
               nextIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la derecha
               backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
               labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
             />
-            <Pagination count={ Math.ceil(totalClientes / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
+            
+          </Grid>
+          <Grid item>
+          <Pagination count={ Math.ceil(totalClientes / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
           </Grid>
 
         </Grid>

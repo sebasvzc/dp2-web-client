@@ -451,7 +451,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             )}
           </Grid>
       </Box>
-        <Grid container justifyContent="center"> {/* Centra horizontalmente */}
+        <Grid container direction="column" justifyContent="center" alignItems="center"> {/* Centra horizontalmente */}
           <Grid item>
             <TablePagination
               page={page-1}
@@ -466,6 +466,8 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
               backIconButtonProps={{ className: classes.hideNavigationButton }} // Oculta la flecha de la izquierda
               labelDisplayedRows={labelDisplayedRows} // Personaliza el texto de las filas visualizadas
             />
+          </Grid>
+          <Grid item>
             <Pagination count={ Math.ceil(totalTiendas / pageSize)} showFirstButton showLastButton  onChange={handleChangePage}/>
           </Grid>
 
