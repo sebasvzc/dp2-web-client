@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import utc from 'dayjs/plugin/utc';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,35 +16,29 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
   Grid,
-  InputLabel,
+  Table,
+  Button,
+  Select,
   MenuItem,
-  Select, Table, TableBody, TableContainer,
-  TextField,
+  TableBody, TextField, InputLabel, FormControl,
+  TableContainer,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import Card from '@mui/material/Card';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-
 import { Spinner } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import TablePagination from '@mui/material/TablePagination';
+
+import Card from '@mui/material/Card';
+import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import TablePagination from '@mui/material/TablePagination';
+
 import Iconify from '../../../components/iconify';
-
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
-
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
+import ClientCuponTableRow from '../client-cupon-table-row';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import ClientCuponTableHead from '../cupon-client.table.head';
-import ClientCuponTableRow from '../client-cupon-table-row';
+import { getTiendas, getTipoCupones } from '../../../funciones/api';
+import DashboardCuponClient from '../../overview/dashboardCuponClient';
 
 dayjs.extend(utc);
 
@@ -57,7 +51,6 @@ export default function CuponDetail() {
   const [searchName, setSearchName] = useState("all");
   const [dataClients, setDataClients] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [habilitarCupones, setHabilitarCupones] = useState(true);
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
@@ -686,7 +679,7 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={true} />
+                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled />
                     </Grid>
                     <Grid item xs={3}>
                     <FormControl fullWidth>

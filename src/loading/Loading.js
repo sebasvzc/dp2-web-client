@@ -1,4 +1,3 @@
-import react from "@vitejs/plugin-react-swc";
 import { Spinner } from "reactstrap";
 import './Loading.css'
 

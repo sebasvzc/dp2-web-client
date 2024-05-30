@@ -1,24 +1,11 @@
+import { useState} from 'react';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import { useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Modal from '@mui/material/Modal';
 import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
-import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import CardContent from '@mui/material/CardContent';
-
-import Iconify from 'src/components/iconify';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
+
 
 
 // ----------------------------------------------------------------------
@@ -49,15 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function validarEmail(emailX) {
-  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regexEmail.test(emailX);
-}
-
-function validarNombre(nombre) {
-  const regexNombre = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/;
-  return regexNombre.test(nombre);
-}
 
 export default function   ClientCupoTableRow({
                                         id,

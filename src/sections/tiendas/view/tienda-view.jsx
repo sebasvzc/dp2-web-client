@@ -10,13 +10,10 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import { TextField, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
-import { DatePicker } from '@mui/lab';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -423,7 +420,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
                       handleClick={(event) => handleClick(event, row.id)}
                       activo={row.activo}
                       onEditTienda={handleCambio}
-                    />
+                     aforo={row.activo}/>
                   </Card>
                 </Grid>
               ))

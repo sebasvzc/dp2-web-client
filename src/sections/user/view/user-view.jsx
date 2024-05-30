@@ -1,5 +1,7 @@
+import { Spinner } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -9,8 +11,6 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
-import { TextField, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
-import { DatePicker } from '@mui/lab';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -18,14 +18,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
-import '../../../loading/Loading.css'
+import { TextField } from '@mui/material';
 
-import { Spinner } from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
 import obtenerUsuarios  from 'src/_mock/user';
 
 import Iconify from 'src/components/iconify';
 
+import '../../../loading/Loading.css'
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import UserTableToolbar from '../user-table-toolbar';
