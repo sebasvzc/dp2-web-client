@@ -31,8 +31,9 @@ import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-
+import Stack from '@mui/material/Stack';
 import TablePagination from '@mui/material/TablePagination';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Iconify from '../../../components/iconify';
 
 import { getCategoriaTiendas } from '../../../funciones/api';
@@ -379,15 +380,20 @@ export default function CuponDetail() {
     setPage(newPage+1);
   };
 
+  const handleBack = () => {
+    navigate('/tienda'); 
+  }
+
   const handleChangeRowsPerPage = (event) => {
     setPage(1);
     setPageSize(parseInt(event.target.value, 10));
   };
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Typography variant="h2">
-        {editable ? "Modificar Tienda" : "Modificar Tienda"}
-      </Typography>
+      <Stack direction="row" alignItems="center" spacing={2}>
+          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Tienda</Typography>
+      </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container   >
         
@@ -443,8 +449,7 @@ export default function CuponDetail() {
               </Box>
 
               
-                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+              <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
@@ -496,13 +501,10 @@ export default function CuponDetail() {
                         </Box>}
                         </Box>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <TextField fullWidth label="Nombre" name="nombre" defaultValue={nombreText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={3}>
-                  
-                    </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <FormControl fullWidth>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
@@ -544,17 +546,15 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
-                   
-                    <Grid item xs={12}>
+                    <Grid item xs={4}>
                       <TextField fullWidth label="Locacion" name="locacion" defaultValue={locacionText}
                                  disabled={!editable} />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                       <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
                                  defaultValue={descripcionText} disabled={!editable} />
-                    </Grid>
-                 
-                    <Grid item xs={3}>
+                    </Grid>     
+                    <Grid item xs={4}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <TimePicker
                           label="Hora Apertura"
@@ -565,7 +565,7 @@ export default function CuponDetail() {
                         />
                       </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <TimePicker
                           label="Hora Cierre"
@@ -576,7 +576,7 @@ export default function CuponDetail() {
                         />
                       </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <TextField fullWidth label="Aforo" name="aforo" defaultValue={aforoText}
                                  disabled={!editable} />
                     </Grid>
@@ -587,7 +587,7 @@ export default function CuponDetail() {
             </form>
 
           ) : (
-            <Box sx={{paddingTop:10}}>
+            <Box >
             {loading ? (
                 <Box
                   sx={{
