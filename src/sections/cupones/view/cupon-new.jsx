@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import {  FormControlLabel, Checkbox, CardMedia,CardContent,TextField, Button, Grid, Typography, Select, MenuItem, InputLabel, FormControl, Box, Container } from '@mui/material';
-
+import { Spinner } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import Card from '@mui/material/Card';
@@ -86,6 +87,8 @@ const useStyles = makeStyles((theme) => ({
 
     const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
     const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+    const [loading2,setLoading2]=useState(false);
+
 
     const handleCrear = () => {
       
@@ -98,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         const formData = new FormData();
-
+        
         formData.append("file", files[0].file)
         formData.append("esLimitado", esLimitado);
         formData.append("codigo", event.target.codigo.value);
@@ -117,6 +120,8 @@ const useStyles = makeStyles((theme) => ({
         }
 
          let response="";
+
+         setLoading2(true)
         response = await fetch(`http://localhost:3000/api/cupones/crear`, {
           method: 'POST',
           body: formData,
@@ -128,6 +133,8 @@ const useStyles = makeStyles((theme) => ({
           },
 
         });
+
+        setLoading2(false)
         if (response.status === 403 || response.status === 401) {
           localStorage.removeItem('user');
           window.location.reload();
@@ -150,6 +157,7 @@ const useStyles = makeStyles((theme) => ({
         navigate('/cupon');
         return data;
       } catch (error) {
+        setLoading2(false)
         console.error('Error fetching crear cupones:', error);
         throw error;
       }
@@ -460,6 +468,7 @@ const useStyles = makeStyles((theme) => ({
                   </Select>
                 </FormControl>
               </Grid>
+              {loading2 &&<Spinner id='loading' color='primary'/>}
               <Grid item xs={3}>
                 <FormControl fullWidth>
                   <InputLabel id="search-tipo-select-label">Tipo de Cupon</InputLabel>
@@ -543,7 +552,7 @@ const useStyles = makeStyles((theme) => ({
             <Button variant="contained" color="info" 
             sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
             type='submit'
-            disabled={botonDeshabilitado}>Crear</Button>
+            disabled={botonDeshabilitado || loading2}>Crear</Button>
             </Grid>
           </form>
         </Box>

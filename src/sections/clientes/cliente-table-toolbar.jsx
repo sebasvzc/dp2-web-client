@@ -41,7 +41,7 @@ export default function CuponTableToolbar({ numSelected, filterName, onFilterNam
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
-        placeholder="Buscar cliente por nombre"
+        placeholder="Buscar cliente por nombre, teléfono o correo"
         style={{ width: 500, height: 40, backgroundColor: "white" }}
       />
       <Button
