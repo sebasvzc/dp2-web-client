@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
+import { useState } from 'react';
 import utc from 'dayjs/plugin/utc';
-import { useState, useEffect } from 'react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -13,30 +13,21 @@ import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { TimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Grid,
   Button,
   Select,
   MenuItem,
-  TextField,
-  InputLabel, FormControl,
+  TextField, FormControl,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
-import TablePagination from '@mui/material/TablePagination';
 
 import Iconify from '../../../components/iconify';
-
-
 import { getCategoriaTiendas } from '../../../funciones/api';
 
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
 
-import UserTableToolbar from '../../user/user-table-toolbar';
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
 
 
 
@@ -133,7 +124,7 @@ export default function CuponDetail() {
         const data = await response.json();
         console.log(data)
         setEsLimitadoText(data.detalles.esLimitado)
-        
+
         console.log("Texto limitado")
         console.log(esLimitadoText)
         setNombreText(data.detalles.nombre)
@@ -150,7 +141,7 @@ export default function CuponDetail() {
         console.log(idParam)
         // Simulación de carga
 
-      
+
         if (response.status === 403 || response.status === 401) {
           localStorage.removeItem('user');
           window.location.reload();
@@ -310,13 +301,13 @@ export default function CuponDetail() {
     e.preventDefault();
     setSearchTerm(e.target.value)
   };
- 
+
   const changeTermSearchTipoCupon = async (e) => {
     e.preventDefault();
     setSearchTermTipoCupones(e.target.value)
   };
 
- 
+
   const fetchAndSetView = async (newView) => {
     try {
       // Simulando una llamada a la API
@@ -388,7 +379,7 @@ export default function CuponDetail() {
       </Typography>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container   >
-        
+
       <Grid item >
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -440,9 +431,9 @@ export default function CuponDetail() {
                 )}
               </Box>
 
-              
+
                 <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
@@ -472,7 +463,7 @@ export default function CuponDetail() {
                           maxWidth="300px"
                           style={{ width: '100%', height: 'auto' }}
                         >
-                          
+
                           <Box
                             position="absolute"
                             top={0}
@@ -497,9 +488,7 @@ export default function CuponDetail() {
                     <Grid item xs={3}>
                       <TextField fullWidth label="Nombre" name="nombre" defaultValue={nombreText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={3}>
-                  
-                    </Grid>
+                    <Grid item xs={3} />
                     <Grid item xs={3}>
                       <FormControl fullWidth>
                         <Select
@@ -542,7 +531,7 @@ export default function CuponDetail() {
                         </Select>
                       </FormControl>
                     </Grid>
-                   
+
                     <Grid item xs={12}>
                       <TextField fullWidth label="Locacion" name="locacion" defaultValue={locacionText}
                                  disabled={!editable} />
@@ -551,7 +540,7 @@ export default function CuponDetail() {
                       <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
                                  defaultValue={descripcionText} disabled={!editable} />
                     </Grid>
-                 
+
                     <Grid item xs={3}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <TimePicker
@@ -581,7 +570,7 @@ export default function CuponDetail() {
                   </Grid>
 
                 </Box>
-              
+
             </form>
 
           ) : (
@@ -605,10 +594,7 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  >
-             
-             
-              </Grid>
+              <Grid container spacing={2}   />
               )}
               </Box >
           )}

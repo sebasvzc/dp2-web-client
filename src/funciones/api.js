@@ -83,9 +83,7 @@ export async function getTipoCupones(token, refreshToken, searchTermTipoCupones)
 }
 export async function getCategoriaTiendas(token, refreshToken, searchTerm) {
   try {
-    const user = localStorage.getItem('user');
-    const userStringify = JSON.parse(user);
-    const { token, refreshToken } = userStringify;
+
     let response="";
     console.log(searchTerm)
     if(searchTerm===""){
