@@ -519,7 +519,7 @@ export default function CuponDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '680px', paddingTop: 2 }}>
+          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '900x', paddingTop: 2 }}>
 
             <List component="nav" aria-label="opciones de navegación">
               <ListItemButton
