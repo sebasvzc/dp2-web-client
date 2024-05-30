@@ -477,7 +477,7 @@ export default function TiendaDetail() {
                       <Button variant="contained" color="info" 
                       sx={{backgroundColor: '#003B91', color:"#FFFFFF" , fontSize: '1rem',
                       marginTop: '16px', marginBottom: '0px'}} type='submit' onClick={handleDescargarQR}>
-                      Descargar QR</Button>
+                      Generar QR</Button>
                     </Grid>
                   </Grid>
 
