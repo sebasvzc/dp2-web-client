@@ -5,7 +5,6 @@ import utc from 'dayjs/plugin/utc';
 import { useState, useEffect } from 'react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useParams, useNavigate } from 'react-router-dom';
-
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -499,8 +498,9 @@ export default function TiendaDetail() {
                     <Grid item xs={4}>
                       <Button variant="contained" color="info" 
                       sx={{backgroundColor: '#003B91', color:"#FFFFFF" , fontSize: '1rem',
-                      marginTop: '16px', marginBottom: '0px'}} type='submit' onClick={handleDescargarQR}>
-                      Generar QR</Button>
+                      marginTop: '16px', marginBottom: '0px'}} type='submit' onClick={handleDescargarQR}
+                      startIcon={<Iconify icon="material-symbols:download" />}>
+                      Descargar QR</Button>
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>
