@@ -61,8 +61,7 @@ export default function CuponDetail() {
   const [pageSize, setPageSize] = useState(6);
 
   const [orderBy, setOrderBy] = useState('id');
-  const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
-  const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
+  const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [fileUrl, setFileUrl] = useState('');
   const filterName= useState("")
@@ -98,6 +97,114 @@ export default function CuponDetail() {
   const handleBack = () => {
     navigate('/cupon'); 
   }
+
+  const [formDatos, setFormDatos] = useState({
+    codigo: '',  
+    sumilla: '',
+    descripcionCompleta: '',
+    terminosCondiciones: '',
+    costoPuntos: '',
+    cantidadInicial: '',
+    ordenPriorizacion: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "codigo":
+          setCuponText(value);
+          break;
+      case "ordenPriorizacion":
+          setOrdPriorizacionText(value);
+          break;
+      case "cantidadInicial":
+          setCantIniText(value);
+          break;
+      case "costoPuntos":
+          setCostoText(value);
+          break;
+      case "terminosCondiciones":
+          setTerminosText(value);
+          break;
+      case "descripcionCompleta":
+          setDescripcionText(value);
+          break;
+      case "sumilla":
+          setSumillaText(value);
+          break;
+      default:
+          break;
+  }
+}
+
+  const [mostrarTxtFile, setMostrarTxtFile] = useState("");
+  const [mostrarTxtEsLimitado, setMostrarTxtEsLimitado] = useState("");
+  const [mostrarTxtCodigo, setMostrarTxtCodigo] = useState("");
+  const [mostrarTxtSumilla, setMostrarTxtSumilla] = useState("");
+  const [mostrarTxtDescripcionCompleta, setMostrarTxtDescripcionCompleta] = useState("");
+  const [mostrarTxtTerminosCondiciones, setMostrarTxtTerminosCondiciones] = useState("");
+  const [mostrarTxtFechaExpiracion, setMostrarTxtFechaExpiracion] = useState("");
+  const [mostrarTxtCostoPuntos, setMostrarTxtCostoPuntos] = useState("");
+  const [mostrarTxtCantidadInicial, setMostrarTxtCantidadInicial] = useState("");
+  const [mostrarTxtOrdenPriorizacion, setMostrarTxtOrdenPriorizacion] = useState("");
+  const [mostrarTxtFidLocatario, setMostrarTxtFidLocatario] = useState("");
+  const [mostrarTxtFidTipoCupon, setMostrarTxtFidTipoCupon] = useState("");
+
+  useEffect(() => {
+    if ((cuponText.length !== 0)
+      && selectedTienda.length !== 0
+      && selectedTipoCupon.length !== 0
+      && sumillaText.length !== 0
+      && ordPriorizacionText.length !== 0
+      && descripcionText.length !== 0
+      && terminosText.length !== 0
+      && costoText.length !== 0
+      && cantIniText.length !== 0
+    ) {
+      setBackgroundBtnReg("#003B91");
+      setBotonDeshabilitado(false);
+    } else {
+      setBackgroundBtnReg("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+    
+    if (!/\s/.test(cuponText)) {
+      setMostrarTxtCodigo("");
+    } else {
+      setMostrarTxtCodigo("El código no puede contener espacios en blanco");
+    }
+
+    if (!Number.isNaN(costoText) && !/\s/.test(costoText)) {
+      setMostrarTxtCostoPuntos("");
+    } else {
+      setMostrarTxtCostoPuntos("Costo en puntos inválido");
+    }
+    
+    if (!Number.isNaN(cantIniText) && !/\s/.test(cantIniText)) {
+      setMostrarTxtCantidadInicial("");
+    } else {
+      setMostrarTxtCantidadInicial("Cantidad inicial inválida");
+    }
+    if (!Number.isNaN(ordPriorizacionText) && !/\s/.test(ordPriorizacionText)) {
+      setMostrarTxtOrdenPriorizacion("");
+    } else {
+      setMostrarTxtOrdenPriorizacion("Orden de priorización inválido");
+    }
+    /*
+    if (startDate !== null ) {
+      setMostrarTxtFechaExpiracion("");
+    } else {
+      setMostrarTxtFechaExpiracion("Fecha inválida");
+    }
+
+    if (files.length !== 0) {
+      setMostrarTxtFile("");
+    } else {
+      setMostrarTxtFile("Archivo inválido");
+    }
+    */
+  },[cuponText,selectedTienda, selectedTipoCupon,sumillaText,descripcionText,terminosText,costoText,cantIniText,ordPriorizacionText]); 
+  
 
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
