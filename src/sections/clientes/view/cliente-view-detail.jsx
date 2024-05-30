@@ -331,7 +331,7 @@ export default function CuponDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '680px', paddingTop: 2 }}>
+          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '900x', paddingTop: 2 }}>
 
             <List component="nav" aria-label="opciones de navegación">
               <ListItemButton
@@ -438,7 +438,7 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
+                <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
                  
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
