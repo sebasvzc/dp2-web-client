@@ -21,6 +21,7 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  Chip,
   InputLabel,
   MenuItem,
   Select, Table, TableBody, TableContainer,
@@ -60,7 +61,7 @@ export default function CuponDetail() {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
-
+  const [activo,setActivo]=useState(false)
   const [orderBy, setOrderBy] = useState('id');
   const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
   const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
@@ -148,6 +149,13 @@ export default function CuponDetail() {
           setEsLimitadoDesp("1")
         }else{
           setEsLimitadoDesp("0")
+        }
+        if(data.detalles.activo===true){
+          setActivo("Activo")
+        }
+
+        else{
+          setActivo("Baneado")
         }
         console.log("Texto limitado")
         console.log(esLimitadoText)
@@ -434,6 +442,10 @@ export default function CuponDetail() {
     setPage(1);
     setPageSize(parseInt(event.target.value, 10));
   };
+
+  console.log("Valor de activo:", activo);
+  const isActivo = activo === "Activo";
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Stack direction="row" alignItems="center" spacing={2}>
@@ -612,7 +624,9 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
+                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} InputProps={{
+                        readOnly: true,
+                      }}/>
                     </Grid>
                     <Grid item xs={3}>
                     <FormControl fullWidth>
@@ -717,15 +731,21 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
-                                 disabled={!editable} />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={6}>
                       <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} disabled={!editable} />
+                                 defaultValue={descripcionText} InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={6}>
                       <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} disabled={!editable} />
+                                 defaultValue={terminosText} InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={3}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -741,15 +761,30 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                       <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
-                                 disabled={!editable} />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={3}>
                       <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" defaultValue={cantIniText}
-                                 disabled={!editable} />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={3}>
                       <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
-                                 defaultValue={ordPriorizacionText} disabled={!editable} />
+                                 defaultValue={ordPriorizacionText} InputProps={{
+                                  readOnly: true,
+                                }}/>
+                    </Grid>
+                    <Grid item xs={12}>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Chip
+                          label={isActivo  ? "Cupón Activo" : "Cupón Inactivo"}
+                          color={isActivo  ? "success" : "default"}
+                          style={{ fontWeight: 'bold' }}
+                        />
+                        </Box>
                     </Grid>
                   </Grid>
 
