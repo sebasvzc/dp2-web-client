@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/es-mx';
 import * as React from 'react';
-import utc from 'dayjs/plugin/utc';
 import { useState, useEffect } from 'react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -9,31 +8,27 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
-import ListSubheader from '@mui/material/ListSubheader';
-import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Grid,
-  Button,
-  Select,
-  MenuItem, TextField, InputLabel, FormControl,
-} from '@mui/material';  // Extiende dayjs con el plugin UTC
+  Button, TextField,
+} from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import List from '@mui/material/List';
-import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import TablePagination from '@mui/material/TablePagination';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import Card from '@mui/material/Card';
 import Iconify from '../../../components/iconify';
-import UserTableToolbar from '../../user/user-table-toolbar';
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
+import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
+import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
 import DashboardCuponesMesCliente from '../../overview/DashboardCuponesMesCliente';
-
+import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
+import AppCurrentVisits from '../../overview/app-current-visits';
 
 dayjs.locale('es-mx');
 
@@ -58,6 +53,8 @@ export default function CuponDetail() {
   const [fileUrl, setFileUrl] = useState('');
   const filterName= useState("")
   const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
+  const [dataDashCategoria, setDataDashCategoria] = useState({  name:"",categoria: [], data: []  });
+  const [dataDashCanjeados, setDataDashCanejados] = useState({  fechas: [], cantidades: [] });
   const [totalClientsCupon, setTotalClientsCupon] = useState(10);
   const [cuponText, setCuponText] = useState('');
   const [esLimitadoText, setEsLimitadoText] = useState(false);
@@ -135,14 +132,14 @@ export default function CuponDetail() {
         
         setLoading(false)
         
-        const fullName = data.clientes[0].nombre+ " "+data.clientes[0].apellidoPaterno+ " "+data.clientes[0].apellidoMaterno
+        const fullName = `${data.clientes[0].nombre } ${data.clientes[0].apellidoPaterno } ${data.clientes[0].apellidoMaterno}`
         setNombreCompleto(fullName)
         setEmail(data.clientes[0].email)
         setTelefono(data.clientes[0].telefono)
         setGenero(data.clientes[0].genero)
-        setNacimiento(dayjs(data.clientes[0].fechaNacimiento).utc(true))
+        // setNacimiento(dayjs(data.clientes[0].fechaNacimiento).utc(true))
         setPuntos(data.clientes[0].puntos)
-        if(data.clientes[0].activo==true){
+        if(data.clientes[0].activo===true){
           setActivo("Activo")
         }
 
@@ -252,8 +249,102 @@ export default function CuponDetail() {
           // Por ejemplo:
           setDataDash(fechasPorCategoria);
         }
+         response = await fetch(`http://localhost:3000/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+          method: 'GET',
 
-        setLoading(false);
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("Cupon detalle x cliente")
+        const data4 = await response.json();
+        console.log(data4)
+        if(data4.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data4.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if (data4) {
+          console.log("Viendo data4");
+          console.log(data4);
+
+          const { cupones } = data4;
+
+          const agrupPorCategoria = {
+            name: cupones.name,
+            data: cupones.data,
+            categoria: cupones.categoria
+          };
+
+          console.log("Cupones por categoría:");
+          console.log(agrupPorCategoria);
+
+          // Aquí podrías usar `agrupPorCategoria` para actualizar el estado de tu componente
+          // Por ejemplo:
+          setDataDashCategoria([agrupPorCategoria]);
+        }
+        response = await fetch(`http://localhost:3000/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+          method: 'GET',
+
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("Cupon detalle x cliente")
+        const data5 = await response.json();
+        console.log(data5)
+        if(data5.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data5.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if (data5) {
+          console.log("Viendo data5");
+          console.log(data5);
+
+          const fechasPorCategoria = data5.cupones.map(categoria => ({
+            variable: categoria.variable,
+            fechas: categoria.data.map(item => item.fechaMesAnio),
+            cantidades: categoria.data.map(item => item.cantidad)
+          }));
+
+          console.log("Fechas y canjeados y usados:");
+          console.log(fechasPorCategoria);
+
+          // Aquí podrías usar `fechasPorCategoria` para actualizar el estado de tu componente
+          // Por ejemplo:
+          setDataDashCanejados(fechasPorCategoria);
+
+        }
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000); // Espera 1 segundo antes de poner setLoading(false)
 
       } catch (err) {
         console.error("Failed to fetch cupon data", err);
@@ -627,8 +718,8 @@ export default function CuponDetail() {
             </form>
 
           ) : (
-            <Box sx={{paddingTop:10}}>
-            {loading ? (
+            <Box sx={{ paddingTop: 10 }}>
+              {loading ? (
                 <Box
                   sx={{
                     display: 'flex',
@@ -646,41 +737,96 @@ export default function CuponDetail() {
                     Cargando...
                   </Typography>
                 </Box>
-              ):(
-              <Grid container spacing={2}>
-                <Grid xs={12}>
+              ) : (
 
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                        <DatePicker
-                          label="Fecha inicial"
-                          value={startDateStat}
-                          onChange={setStartDateStat}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                          <DatePicker
+                            label="Fecha inicial"
+                            value={startDateStat}
+                            onChange={setStartDateStat}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <DatePicker
+                            label="Fecha final"
+                            value={endDateStat}
+                            onChange={setEndDateStat}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <DatePicker
-                          label="Fecha final"
-                          value={endDateStat}
-                          onChange={setEndDateStat}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Grid>
-                    </Grid>
-                  </LocalizationProvider>
+                    </LocalizationProvider>
+                  </Grid>
+                  { /*
+                  <Grid  item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
+                    <Card
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        borderRadius: 2,
+                      }} >
+                    <DashboardCuponesMesCliente dataDash={dataDash} />
+                    </Card>
+                  </Grid>
+
+                  <Grid item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
+                    <Card
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        borderRadius: 2,
+                      }} >
+                    <DashboardCuponesCategoria dataDash={dataDash} />
+                    </Card>
+                  </Grid>
+                  */ }
+                  <Grid xs={12} md={6} lg={6}>
+                    <Card
+
+
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+                        my:4
+                      }} >
+                      <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                    </Card>
+                  </Grid>
+
+                  <Grid xs={12} md={6} lg={6}>
+                    <Card
+
+
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+                        my:4
+                      }} >
+                      <DashboardCuponesMesCliente dataDash={dataDash}/>
+                    </Card>
+                  </Grid>
+                  <Grid xs={12} md={6} lg={6}>
+                    <Card
+
+
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+                        my:4
+                      }} >
+                      <DashboardCuponesBarCuponesUsadosCanjeados dataDash={dataDashCanjeados}/>
+                    </Card>
+                  </Grid>
                 </Grid>
-
-
-                <Grid xs={6} sx={{paddingTop:5}}>
-
-                  <DashboardCuponesMesCliente dataDash={dataDash} />
-
-                </Grid>
-
-              </Grid>
-            )}
+              )}
             </Box>
           )}
         </Grid>

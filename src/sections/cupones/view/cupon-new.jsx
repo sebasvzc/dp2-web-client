@@ -1,24 +1,23 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/es-mx';
-import { useState, useEffect } from 'react';
 import * as React from "react";
-import { useNavigate } from 'react-router-dom';
-
-import { toast } from 'react-toastify';
-import {  FormControlLabel, Checkbox, CardMedia,CardContent,TextField, Button, Grid, Typography, Select, MenuItem, InputLabel, FormControl, Box, Container } from '@mui/material';
 import { Spinner } from 'reactstrap';
+import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Dropzone, FileMosaic } from "@files-ui/react";
-import Card from '@mui/material/Card';
+
 import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
-import ListSubheader from '@mui/material/ListSubheader';
 import SearchIcon from "@mui/icons-material/Search";
+import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
+import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, InputLabel, FormControl } from '@mui/material';
 
 dayjs.locale('es-mx');
 

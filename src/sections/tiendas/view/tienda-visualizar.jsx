@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import utc from 'dayjs/plugin/utc';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -15,30 +15,25 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
   Grid,
-  InputLabel,
+  Button,
+  Select,
   MenuItem,
-  Select, Table, TableBody, TableContainer,
   TextField,
+  InputLabel, FormControl,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
-import ListItemButton from '@mui/material/ListItemButton';
+import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
-
+import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
+
 import Iconify from '../../../components/iconify';
-
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
-
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import UserTableToolbar from '../../user/user-table-toolbar';
+import { getTiendas, getTipoCupones } from '../../../funciones/api';
+import DashboardCuponClient from '../../overview/dashboardCuponClient';
 
 
 
