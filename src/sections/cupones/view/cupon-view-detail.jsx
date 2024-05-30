@@ -505,21 +505,7 @@ export default function CuponDetail() {
               <Box display="flex" justifyContent="flex-end" alignItems="center">
 
 
-                {!editable && (
-                  <Button
-                    variant="contained"
-
-                    sx={{
-                      marginTop: 5,
-                      marginRight: 2,
-                      backgroundColor: "#003B91"
-                    }} // Añade un margen derecho para separar botones si es necesario
-                    startIcon={<Iconify icon="ic:baseline-edit" />}
-                    onClick={() => setEditable(true)}
-                  >
-                    Editar
-                  </Button>
-                )}
+             
 
                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
@@ -569,9 +555,7 @@ export default function CuponDetail() {
                 </Box>
               ) : (
                 <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                  <p>
-                    <strong>(*) Todos los campos son obligatorios para poder modificar un cupón</strong>
-                  </p>
+                 
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
