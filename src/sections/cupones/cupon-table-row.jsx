@@ -157,7 +157,8 @@ export default function CuponTableRow({
   };
 
   const handleCloseModalEdit = () => {
-    setOpenEdit(false);
+    console.log(id)
+    navigate(`/cupon/editar/${id}`);
   };
 
   const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
@@ -267,8 +268,8 @@ export default function CuponTableRow({
           <span style={{ fontSize: 'smaller' }}>Ver</span>
            </IconButton>
         </MenuItem>
-        <MenuItem onClick={handleOpenModalEdit}>
-           <IconButton onClick={handleOpenModalEdit}>
+        <MenuItem onClick={handleCloseModalEdit}>
+           <IconButton onClick={handleCloseModalEdit}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
           <span style={{ fontSize: 'smaller' }}>Editar</span>
            </IconButton>

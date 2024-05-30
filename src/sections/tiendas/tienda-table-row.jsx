@@ -144,7 +144,8 @@ export default function TiendaTableRow({
   };
 
   const handleCloseModalEdit = () => {
-    setOpenEdit(false);
+    console.log(id)
+    navigate(`/tienda/tienda-editar/${id}`);
   };
 
   const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
@@ -237,8 +238,8 @@ export default function TiendaTableRow({
           <span style={{ fontSize: 'smaller' }}>Ver</span>
            </IconButton>
         </MenuItem>
-        <MenuItem onClick={handleOpenModalEdit}>
-           <IconButton onClick={handleOpenModalEdit}>
+        <MenuItem onClick={handleCloseModalEdit}>
+           <IconButton onClick={handleCloseModalEdit}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
           <span style={{ fontSize: 'smaller' }}>Editar</span>
            </IconButton>
