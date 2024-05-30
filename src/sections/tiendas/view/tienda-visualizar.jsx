@@ -107,7 +107,7 @@ export default function TiendaDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/tiendas/detalleTiendaCompleto`, {
+        response = await fetch(`http://3.220.179.149/api/api/tiendas/detalleTiendaCompleto`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {

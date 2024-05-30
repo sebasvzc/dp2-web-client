@@ -103,7 +103,7 @@ export default function CuponDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/cupones/detalleTiendaCompleto`, {
+        response = await fetch(`http://3.220.179.149/api/api/cupones/detalleTiendaCompleto`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -174,7 +174,7 @@ export default function CuponDetail() {
 
         setDataClients(data2.clientesxCupon);
 
-        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
+        response = await fetch(`http://3.220.179.149/api/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -255,7 +255,7 @@ export default function CuponDetail() {
       }
 
       let response="";
-      response = await fetch(`http://localhost:3000/api/tiendas/modificar`, {
+      response = await fetch(`http://3.220.179.149/api/api/tiendas/modificar`, {
         method: 'POST',
         body: formData,
         headers: {

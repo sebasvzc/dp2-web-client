@@ -106,7 +106,7 @@ export default function CuponDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=1&pageSize=10`, {
+        response = await fetch(`http://3.220.179.149/api/api/client/listarClientesActivos?page=1&pageSize=10`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -151,7 +151,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://3.220.179.149/api/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -162,7 +162,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://3.220.179.149/api/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -204,7 +204,7 @@ export default function CuponDetail() {
         console.log(`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`);
         const endDateParam=`${endDateStat.date()}/${endDateStat.month()+1}/${endDateStat.year()}`;
         const startDateParam=`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`;
-        response = await fetch(`http://localhost:3000/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        response = await fetch(`http://3.220.179.149/api/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -249,7 +249,7 @@ export default function CuponDetail() {
           // Por ejemplo:
           setDataDash(fechasPorCategoria);
         }
-         response = await fetch(`http://localhost:3000/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+         response = await fetch(`http://3.220.179.149/api/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -296,7 +296,7 @@ export default function CuponDetail() {
           // Por ejemplo:
           setDataDashCategoria([agrupPorCategoria]);
         }
-        response = await fetch(`http://localhost:3000/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        response = await fetch(`http://3.220.179.149/api/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -376,7 +376,7 @@ export default function CuponDetail() {
 
 
       let response="";
-      response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
+      response = await fetch(`http://3.220.179.149/api/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
