@@ -18,8 +18,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
+import '../../../loading/Loading.css'
 
 import obtenerUsuarios  from 'src/_mock/user';
+
+import { Spinner } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Iconify from 'src/components/iconify';
 
@@ -62,6 +66,10 @@ import UserTableToolbar from '../user-table-toolbar';
     const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
     const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
     const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+
+
+    const [loading2,setLoading2]=useState(false);
+
 
 
     const classes = useStyles();
@@ -125,6 +133,8 @@ import UserTableToolbar from '../user-table-toolbar';
    
     const handleEnviar = async () => {
       try {
+
+        setLoading2(true)
         const response = await fetch('http://localhost:3000/api/user/invite', {
           method: 'POST',
           headers: {
@@ -133,7 +143,9 @@ import UserTableToolbar from '../user-table-toolbar';
           },
           body: JSON.stringify({ email }),
         });
+        setLoading2(false)
         const data = await response.json();
+        
         console.log(data); // Maneja la respuesta de la API según sea necesario
         if(data.success==="true"){
           console.log("entre a true")
@@ -162,6 +174,7 @@ import UserTableToolbar from '../user-table-toolbar';
         handleCloseModal(); // Cierra el modal después de enviar
         setEmail("");
       } catch (e) {
+        setLoading2(false)
         console.error('Error al enviar correo electrónico:', e);
         toast.error('Error: El correo ya se encuentra registrado', {
           position: "top-right",
@@ -348,7 +361,6 @@ import UserTableToolbar from '../user-table-toolbar';
       return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
     }
     return (
-      
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Usuarios</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
@@ -378,14 +390,16 @@ import UserTableToolbar from '../user-table-toolbar';
                   onChange={handleEmailChange}
                 />
               </DialogContent>
+              
               <DialogActions>
-                <Button onClick={handleCloseModal} color="error">
+                <Button onClick={handleCloseModal} color="error" disabled={loading2}>
                   Cancelar
                 </Button>
-                <Button onClick={handleEnviar} color="success">
+                <Button onClick={handleEnviar} color="success" disabled={loading2}>
                   Enviar
                 </Button>
               </DialogActions>
+              
             </Dialog>
             <Dialog open={openModalDesactivar} onClose={handleCloseModalDesactivar} 
              fullHeight maxHeight="md" >
@@ -417,7 +431,7 @@ import UserTableToolbar from '../user-table-toolbar';
             </Dialog>
           </Stack>
         </Stack>
-
+        {loading2 &&<Spinner id='loading' color='primary'/>}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
           <UserTableHead
             order={order}
@@ -510,8 +524,10 @@ import UserTableToolbar from '../user-table-toolbar';
             )}
           </Grid>
       </Box>
+      
         <Grid container direction="column" justifyContent="center" alignItems="center"> {/* Centra horizontalmente */}
           <Grid item>
+          
             <TablePagination
               page={page-1}
               component="div"
