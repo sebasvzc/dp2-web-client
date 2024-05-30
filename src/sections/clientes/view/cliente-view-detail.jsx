@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
+import 'dayjs/locale/es-mx';
 import * as React from 'react';
 import utc from 'dayjs/plugin/utc';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -12,37 +13,29 @@ import SearchIcon from '@mui/icons-material/Search';
 import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select, Table, TableBody, TableContainer,
-  TextField,
+  Button,
+  Select,
+  MenuItem, TextField, InputLabel, FormControl,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
-import ListItemButton from '@mui/material/ListItemButton';
+import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
-
+import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import Iconify from '../../../components/iconify';
-
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
-
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import UserTableToolbar from '../../user/user-table-toolbar';
+import { getTiendas, getTipoCupones } from '../../../funciones/api';
+import DashboardCuponesMesCliente from '../../overview/DashboardCuponesMesCliente';
 
 
-
-dayjs.extend(utc);
+dayjs.locale('es-mx');
 
 export default function CuponDetail() {
   const [view, setView] = useState('datos');
@@ -73,6 +66,8 @@ export default function CuponDetail() {
   const [descripcionText, setDescripcionText] = useState('');
   const [terminosText, setTerminosText] = useState('');
   const [fechaText, setFechaText] = useState('');
+  const [startDateStat, setStartDateStat] = useState(dayjs().subtract(5, 'month').startOf('month'));
+  const [endDateStat, setEndDateStat] = useState(dayjs().endOf('month'));
   const [costoText, setCostoText] = useState('');
   const [cantIniText, setCantIniText] = useState('');
   const [urlImagenS3 , setUrlImagenS3] = useState('');
@@ -148,7 +143,7 @@ export default function CuponDetail() {
         setSumillaText(data.detalles.sumilla)
         setDescripcionText(data.detalles.descripcionCompleta)
         setTerminosText(data.detalles.terminosCondiciones)
-        setFechaText(dayjs(data.detalles.fechaExpiracion).utc(true))
+
         setCostoText(data.detalles.costoPuntos)
         setCantIniText(data.detalles.cantidadInicial)
         setCantDisText(data.detalles.cantidadDisponible)
@@ -208,8 +203,14 @@ export default function CuponDetail() {
         }
 
         setDataClients(data2.clientesxCupon);
-
-        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
+        console.log("endDateStat")
+        console.log("startDateStat")
+        console.log(dayjs().subtract(6, 'month').startOf('month'));
+        console.log(dayjs().endOf('month'));
+        console.log(`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`);
+        const endDateParam=`${endDateStat.date()}/${endDateStat.month()+1}/${endDateStat.year()}`;
+        const startDateParam=`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`;
+        response = await fetch(`http://localhost:3000/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -227,7 +228,7 @@ export default function CuponDetail() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-
+        console.log("Cupon detalle x cliente")
         const data3 = await response.json();
         console.log(data3)
         if(data3.newToken){
@@ -237,13 +238,22 @@ export default function CuponDetail() {
           localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
           console.log("He puesto un nuevo token");
         }
-        if(data3){
+        if (data3) {
           console.log("Viendo data3");
           console.log(data3);
-          const fechas = data3.usoDeCupones.map(item => item.fecha);
-          const cantidad = data3.usoDeCupones.map(item => item.cantidad);
-          setDataDash({ fechas, cantidad });
 
+          const fechasPorCategoria = data3.cupones.map(categoria => ({
+              categoria: categoria.Categoria,
+              fechas: categoria.data.map(item => item.fechaMesAnio),
+              cantidades: categoria.data.map(item => item.cantidad)
+            }));
+
+          console.log("Fechas por categoría:");
+          console.log(fechasPorCategoria);
+
+          // Aquí podrías usar `fechasPorCategoria` para actualizar el estado de tu componente
+          // Por ejemplo:
+          setDataDash(fechasPorCategoria);
         }
 
         setLoading(false);
@@ -255,7 +265,7 @@ export default function CuponDetail() {
     }
 
     loadCuponData();
-  }, [esLimitadoText, idParam, page, pageSize, searchName]);
+  }, [esLimitadoText, idParam, page, pageSize, searchName,endDateStat,startDateStat]);
 
 
   const handleSubmit = async (event) => {
@@ -497,7 +507,7 @@ export default function CuponDetail() {
               <Box display="flex" justifyContent="flex-end" alignItems="center">
 
 
-             
+
 
                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
@@ -547,7 +557,7 @@ export default function CuponDetail() {
                 </Box>
               ) : (
                 <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
@@ -577,7 +587,7 @@ export default function CuponDetail() {
                           maxWidth="300px"
                           style={{ width: '100%', height: 'auto' }}
                         >
-                          
+
                           <Box
                             position="absolute"
                             top={0}
@@ -715,18 +725,7 @@ export default function CuponDetail() {
                       <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
                                  defaultValue={terminosText} disabled={!editable} />
                     </Grid>
-                    <Grid item xs={3}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                        <DatePicker
-                          label="Fecha expiracion"
-                          value={fechaText}
-                          format="DD/MM/YYYY"
-                          onChange={setStartDate}
-                          disabled={!editable}
-                          sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
+
                     <Grid item xs={3}>
                       <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
                                  disabled={!editable} />
@@ -766,38 +765,41 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  >
-              <Grid xs={12} >
+              <Grid container spacing={2}>
+                <Grid xs={12}>
 
-                  <DashboardCuponClient dataDash={dataDash}/>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <DatePicker
+                          label="Fecha inicial"
+                          value={startDateStat}
+                          onChange={setStartDateStat}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <DatePicker
+                          label="Fecha final"
+                          value={endDateStat}
+                          onChange={setEndDateStat}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Grid>
+                    </Grid>
+                  </LocalizationProvider>
+                </Grid>
+
+
+                <Grid xs={6} sx={{paddingTop:5}}>
+
+                  <DashboardCuponesMesCliente dataDash={dataDash} />
+
+                </Grid>
 
               </Grid>
-              <Grid xs={12}>
-                <Card>
-                  <UserTableToolbar
-                    numSelected={selected.length}
-                    filterName={filterName}
-                    onFilterName={handleSearch}
-                  />
-
-
-
-                  <TablePagination
-                    page={page-1}
-                    component="div"
-                    count={totalClientsCupon}
-                    rowsPerPage={pageSize}
-                    onPageChange={handleChangePage}
-                    labelRowsPerPage="Clientes por página"
-                    labelDisplayedRows={labelDisplayedRows}
-                    rowsPerPageOptions={[6, 12, 18]}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </Card>
-              </Grid>
-              </Grid>
-              )}
-              </Box >
+            )}
+            </Box>
           )}
         </Grid>
       </Grid>

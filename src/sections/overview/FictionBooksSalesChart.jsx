@@ -7,7 +7,7 @@ const FictionBooksSalesChart = () => {
       series: [
         {
           name: 'Deporte',
-          data: [440, 550, 410, 370, 220, 430, 210],
+          data: [0, 550, 410, 370, 220, 430, 210],
         },
         {
           name: 'Comida',
