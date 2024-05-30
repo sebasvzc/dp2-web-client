@@ -17,6 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import {
   Grid,
+  Chip,
   Button,
   Select,
   MenuItem,
@@ -26,12 +27,14 @@ import {
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
 
 import Iconify from '../../../components/iconify';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
@@ -54,7 +57,7 @@ export default function TiendaDetail() {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
-
+  const [activo,setActivo]=useState(false)
   const [orderBy, setOrderBy] = useState('id');
   const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
   const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
@@ -134,8 +137,12 @@ export default function TiendaDetail() {
 
         const data = await response.json();
         console.log(data)
-
-
+        if(data.detalles.activo===true){
+          setActivo("Activo")
+        }
+        else{
+          setActivo("Baneado")
+        }
         console.log(esLimitadoText)
         setTiendaText(data.detalles.nombre)
         setSelectedCategoria(data.detalles.categoriaTienda.id)
@@ -255,11 +262,19 @@ export default function TiendaDetail() {
     document.body.removeChild(link);
   };
 
+  console.log("Valor de activo:", activo);
+  const isActivo = activo === "Activo";
+
+  const handleBack = () => {
+    navigate('/tienda'); 
+  }
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Typography variant="h2">
-        {editable ? "Visualizar Tienda" : "Visualizar Tienda"}
-      </Typography>
+      <Stack direction="row" alignItems="center" spacing={2}>
+          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Tienda</Typography>
+      </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
@@ -396,12 +411,14 @@ export default function TiendaDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Nombre" defaultValue={tiendaText} disabled />
+                      <TextField fullWidth label="Nombre" defaultValue={tiendaText} InputProps={{
+                        readOnly: true,
+                      }}/>
                     </Grid>
 
                     <Grid item xs={4}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled >Categoria Tienda</InputLabel>
+                        <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
@@ -445,11 +462,15 @@ export default function TiendaDetail() {
 
                     <Grid item xs={4}>
                       <TextField fullWidth label="Locacion" name="locacion" defaultValue={locacionText}
-                                 disabled />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={12}>
                       <TextField fullWidth label="Descripción" name="descripcion" multiline rows={4}
-                                 defaultValue={descripcionText} disabled />
+                                 defaultValue={descripcionText} InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={4}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -471,7 +492,9 @@ export default function TiendaDetail() {
                     </Grid>
                     <Grid item xs={4}>
                       <TextField fullWidth label="Aforo" name="aforo" defaultValue={aforo}
-                                 disabled />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={4}>
                       <Button variant="contained" color="info" 
@@ -480,7 +503,15 @@ export default function TiendaDetail() {
                       Generar QR</Button>
                     </Grid>
                   </Grid>
-
+                  <Grid item xs={12}>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Chip
+                          label={isActivo  ? "Tienda Activa" : "Tienda Inactiva"}
+                          color={isActivo  ? "success" : "default"}
+                          style={{ fontWeight: 'bold' }}
+                        />
+                        </Box>
+                    </Grid>        
                 </Box>
               )}
             </form>

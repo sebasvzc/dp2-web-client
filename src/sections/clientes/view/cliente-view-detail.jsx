@@ -20,9 +20,10 @@ import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import Iconify from '../../../components/iconify';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
 import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
@@ -515,11 +516,16 @@ export default function CuponDetail() {
   console.log("Valor de activo:", activo);
   const isActivo = activo === "Activo";
 
+  const handleBack = () => {
+    navigate('/clientes'); 
+  }
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Typography variant="h2">
-        {editable ? "Visualizar Cliente" : "Visualizar Cliente"}
-      </Typography>
+      <Stack direction="row" alignItems="center" spacing={2}>
+          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cliente</Typography>
+      </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
