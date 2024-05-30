@@ -87,8 +87,6 @@ const useStyles = makeStyles((theme) => ({
     const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
     const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-
-
     const handleCrear = () => {
       
     };

@@ -100,6 +100,9 @@ const useStyles = makeStyles((theme) => ({
       // Lógica para manejar la submisión del formulario
     }; */
 
+    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+
     const handleSubmit = async (event) => {
       console.log("EntrandoSubmit")
       event.preventDefault();
@@ -178,6 +181,8 @@ const useStyles = makeStyles((theme) => ({
     const [tipoTiendaes, setTipoTiendaes] = useState([]);
     const [selectedTipoTienda, setSelectedTipoTienda] = useState('');
     const [searchTermTipoTiendaes, setSearchTermTipoTiendaes] = useState('');
+
+
 
     const getCategoriaTiendas = async () => {
       try {
@@ -295,7 +300,65 @@ const useStyles = makeStyles((theme) => ({
       e.preventDefault();
       setSearchTermTipoTiendaes(e.target.value)
     };
-    
+
+    const [formDatos, setFormDatos] = useState({
+      nombre: '',  
+      descripcion: '',
+      locacion: '',
+      aforo: '',
+    });
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormDatos((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    const [mostrarTxtNombre, setMostrarTxtNombre] = useState('');
+    const [mostrarTxtDescripcion, setMostrarTxtDescripcion] = useState('');
+    const [mostrarTxtLocacion, setMostrarTxtLocacion] = useState('');
+    const [mostrarTxtAforo, setMostrarTxtAforo] = useState('');
+    const [mostrarTxtApertura, setMostrarTxtApertura] = useState('');
+    const [mostrarTxtCierre, setMostrarTxtCierre] = useState('');
+
+
+    useEffect(() => {
+      const horaApertura = startTime.format("HH:mm:ss");
+      const horaCierre = endTime.format("HH:mm:ss");
+      const horaAperturaDate = new Date('1970-01-01T' + horaApertura);
+      const horaCierreDate = new Date('1970-01-01T' + horaCierre);
+      if (formDatos.nombre.length !== 0
+        && selectedTienda.length !== 0
+        && formDatos.aforo.length !== 0
+        && formDatos.descripcion.length !== 0
+        && formDatos.locacion.length !== 0
+        && startTime.length !== 0
+        && endTime.length !== 0
+        && files.length !== 0
+        && horaAperturaDate < horaCierreDate
+      ) {
+        setBackgroundBtnReg("#003B91");
+        setBotonDeshabilitado(false);
+      } else {
+        setBackgroundBtnReg("#CCCCCC");
+        setBotonDeshabilitado(true);
+      }
+      
+      console.log(horaAperturaDate);
+      console.log(horaCierreDate);
+
+    if (horaAperturaDate > horaCierreDate) {
+      setMostrarTxtApertura('La hora de apertura es mayor que la hora de cierre.');
+    }else {
+      setMostrarTxtApertura("");
+    }
+  
+    },[formDatos.nombre,selectedTienda,formDatos.aforo,
+      formDatos.descripcion, formDatos.locacion,startTime,endTime,files]); // Cierra correctamente con un corchete    
+  
+
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
@@ -320,7 +383,7 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={4}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Nombre" name="nombre" />
               </Grid>
               <Grid item xs={4}>
@@ -367,12 +430,12 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={4}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Locacion" name="locacion" />
               </Grid>
               <Grid item xs={12}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Descripción" name="descripcion" />
               </Grid>
               <Grid item xs={4}>
@@ -384,6 +447,9 @@ const useStyles = makeStyles((theme) => ({
                     sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
                 />
                 </LocalizationProvider>
+                <input className="inputEspecialAC" type="text" value={mostrarTxtApertura} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'transparent',outline: 'none'}}
+                disabled/>
               </Grid>
               <Grid item xs={4}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -397,11 +463,14 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={4}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Aforo" name="aforo" />
               </Grid>
             <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary" >Crear</Button>
+                <Button variant="contained" color="info" 
+            sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
+            type='submit'
+            disabled={botonDeshabilitado}>Crear</Button>
             </Grid>
             </Grid>
           </form>
