@@ -466,6 +466,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
                       apellidoPaterno={row.apellidoPaterno}
                       apellidoMaterno={row.apellidoMaterno}
                       puntos={row.puntos}
+                      telefono={row.telefono}
                       emailX={row.email}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}

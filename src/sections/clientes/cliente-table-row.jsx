@@ -61,7 +61,6 @@ function validarNombre(nombre) {
 
 export default function ClienteTableRow({
                                           nombre,
-                                          rol,
                                           id,
                                           genero,
                                           apellidoPaterno,
@@ -69,6 +68,7 @@ export default function ClienteTableRow({
                                           emailX,
                                           selected,
                                           puntos,
+                                          telefono,
                                           handleClick,
                                           activo,
                                           apellido,
@@ -84,7 +84,6 @@ export default function ClienteTableRow({
     apellido,
     apellidoPaterno,
     apellidoMaterno,
-    rol,
     email: emailX,
     activo,
     password: ""
@@ -206,6 +205,9 @@ export default function ClienteTableRow({
                 Puntos Ganados: {puntos}
               </Typography>
               <Typography variant="body2" color="text.secondary">
+                Telefono: {telefono}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
                 Email: {emailX}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -311,12 +313,12 @@ export default function ClienteTableRow({
 
 ClienteTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
-  rol: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   genero: PropTypes.string.isRequired,
   apellidoPaterno: PropTypes.string.isRequired,
   apellidoMaterno: PropTypes.string.isRequired,
   puntos: PropTypes.string.isRequired,
+  telefono: PropTypes.string.isRequired,
   emailX: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
