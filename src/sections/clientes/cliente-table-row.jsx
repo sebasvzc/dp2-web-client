@@ -68,6 +68,7 @@ export default function ClienteTableRow({
                                           apellidoMaterno,
                                           emailX,
                                           selected,
+                                          puntos,
                                           handleClick,
                                           activo,
                                           apellido,
@@ -199,13 +200,10 @@ export default function ClienteTableRow({
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
             <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
-                {nombre} {apellido}
+                {nombre} {apellidoPaterno}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {apellidoPaterno} {apellidoMaterno}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Genero: {genero}
+                Puntos Ganados: {puntos}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Email: {emailX}
@@ -318,6 +316,7 @@ ClienteTableRow.propTypes = {
   genero: PropTypes.string.isRequired,
   apellidoPaterno: PropTypes.string.isRequired,
   apellidoMaterno: PropTypes.string.isRequired,
+  puntos: PropTypes.string.isRequired,
   emailX: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
