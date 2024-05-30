@@ -121,7 +121,7 @@ export default function ClienteViewDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=1&pageSize=10`, {
+        response = await fetch(`http://3.220.179.149/api/api/client/listarClientesActivos?page=1&pageSize=10`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -226,7 +226,7 @@ export default function ClienteViewDetail() {
           setDataDash(fechasPorCategoria);
         }
 
-        response = await fetch(`http://localhost:3000/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        response = await fetch(`http://3.220.179.149/api/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -520,7 +520,7 @@ export default function ClienteViewDetail() {
 
 
       let response="";
-      response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
+      response = await fetch(`http://3.220.179.149/api/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
