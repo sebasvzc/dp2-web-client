@@ -33,6 +33,8 @@ import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
+import { Spinner } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Iconify from '../../../components/iconify';
@@ -49,7 +51,7 @@ dayjs.extend(utc);
 export default function CuponDetail() {
   const [view, setView] = useState('datos');
   const { id: idParam } = useParams();
-  const [editable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(true);
   const [editableImg, setEditableImg] = useState(false);
   const [order, setOrder] = useState('asc');
   const [searchName, setSearchName] = useState("all");
@@ -59,6 +61,8 @@ export default function CuponDetail() {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
+
+  const [loading2,setLoading2]=useState(false);
 
   const [orderBy, setOrderBy] = useState('id');
   const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
@@ -405,6 +409,8 @@ export default function CuponDetail() {
       }
 
       let response="";
+
+      setLoading2(true)
       response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
@@ -416,6 +422,7 @@ export default function CuponDetail() {
         },
 
       });
+      setLoading2(false)
       if (response.status === 403 || response.status === 401) {
         localStorage.removeItem('user');
         window.location.reload();
@@ -438,6 +445,7 @@ export default function CuponDetail() {
       setEditable(false);
       return data;
     } catch (error) {
+        setLoading2(false)
       console.error('Error fetching crear cupones:', error);
       throw error;
     }
@@ -547,65 +555,10 @@ export default function CuponDetail() {
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Cupón</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-      <Grid container spacing={5}  >
-        <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '680px', paddingTop: 2 }}>
-
-            <List component="nav" aria-label="opciones de navegación">
-              <ListItemButton
-                component="a"
-                onClick={() => setView('datos')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'datos' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'datos' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Datos" />
-              </ListItemButton>
-              <ListItemButton
-                component="a"
-                onClick={() => fetchAndSetView('estadisticas')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'estadisticas' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Estadísticas" />
-              </ListItemButton>
-            </List>
-          </Box>
-        </Grid>
-        <Grid item xs={9}>
+      {loading2 &&<Spinner id='loading' color='primary'/>}
+      <Grid container  >
+        
+        <Grid item >
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <Box display="flex" justifyContent="flex-end" alignItems="center">
@@ -634,7 +587,8 @@ export default function CuponDetail() {
                       variant="contained"
                       color="success"
                       sx={{ marginTop: 5, marginRight:2, backgroundColor: "#198754" }}
-                      startIcon={<Iconify icon="ic:baseline-save" />}
+                      startIcon={<Iconify icon="ic:baseline-save" /> }
+                      disabled={loading2}
                     >
                       Guardar
                     </Button>
@@ -675,9 +629,7 @@ export default function CuponDetail() {
                 </Box>
               ) : (
                 <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                  <p>
-                    <strong>(*) Todos los campos son obligatorios para poder modificar un cupón</strong>
-                  </p>
+                 
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
@@ -734,7 +686,7 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
+                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={true} />
                     </Grid>
                     <Grid item xs={3}>
                     <FormControl fullWidth>

@@ -430,7 +430,7 @@ export default function CuponDetail() {
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Typography variant="h2">
-        {editable ? "Editar Tienda" : "Editar Tienda"}
+        {editable ? "Modificar Tienda" : "Modificar Tienda"}
       </Typography>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container   >
