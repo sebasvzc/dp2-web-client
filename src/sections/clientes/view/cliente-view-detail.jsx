@@ -140,14 +140,20 @@ export default function CuponDetail() {
         
         setLoading(false)
         
-
-        setNombreCompleto(data.clientes[0].nombre )
+        const fullName = data.clientes[0].nombre+ " "+data.clientes[0].apellidoPaterno+ " "+data.clientes[0].apellidoMaterno
+        setNombreCompleto(fullName)
         setEmail(data.clientes[0].email)
         setTelefono(data.clientes[0].telefono)
         setGenero(data.clientes[0].genero)
         setNacimiento(dayjs(data.clientes[0].fechaNacimiento).utc(true))
         setPuntos(data.clientes[0].puntos)
-        setPuntos(data.clientes[0].activo)
+        if(data.clientes[0].activo==true){
+          setActivo("Activo")
+        }
+        else{
+          setActivo("Baneado")
+        }
+        
 
         // Simulación de carga
 
@@ -179,21 +185,7 @@ export default function CuponDetail() {
         // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
 
-      /*formData.append("id", idParam);
-      formData.append("esLimitado", esLimitadoDesp);
 
-      formData.append("codigo", event.target.codigo.value);
-      formData.append("sumilla", event.target.sumilla.value);
-      formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
-      formData.append("terminosCondiciones", event.target.terminosCondiciones.value);
-      formData.append("fechaExpiracion", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
-      formData.append("costoPuntos", event.target.costoPuntos.value);
-      formData.append("cantidadInicial", event.target.cantidadInicial.value);
-      formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
-      formData.append("fidLocatario", selectedTienda);
-      formData.append("fidTipoCupon", selectedTipoCupon); */
-      // eslint-disable-next-line no-restricted-syntax
-      
 
       let response="";
       response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
@@ -500,121 +492,25 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
+                      <TextField fullWidth label="Código" name="codigo" defaultValue={idParam} disabled={!editable} />
+                    </Grid>
+                    <Grid item xs={6}>
+                    <TextField fullWidth label="Nombre Completo" name="codigo" defaultValue={nombreCompleto} disabled={!editable} />
+
+                    </Grid>
+                    
+                    <Grid item xs={3}>
+                    <TextField fullWidth label="Teléfono" name="codigo" defaultValue={telefono} disabled={!editable} />
                     </Grid>
                     <Grid item xs={3}>
-                    <FormControl fullWidth>
-                    <InputLabel id="es-limitado-select-label">Apellidos</InputLabel>
-                    <Select
-                      labelId="es-limitado-select-label"
-                      id="es-limitado-select"
-                      disabled={!editable}
-                      value={esLimitadoDesp} // Usar esLimitadoText como valor seleccionado
-                      onChange={handleLimitado}
-                      label="Es Limitado"
-                    >
-                      <MenuItem value="1">Sí</MenuItem>
-                      <MenuItem value="0">No</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                    </Grid>
-                    <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled={!editable}>Email</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-
-                          labelId="search-select-label"
-                          id="search-select"
-                          disabled={!editable}
-                          value={selectedTienda}
-                          label="Elegir Tienda"
-                          onChange={(e) => setSelectedTienda(e.target.value)}
-                          // This prevents rendering empty string in Select's value
-                          // if search text would exclude currently selected option.
-
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca una tienda por nombre..."
-                              fullWidth
-                              value={searchTerm}
-                              onChange={changeTermSearch}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearch} />
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          </ListSubheader>
-                          {tiendas.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Telefono</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-                          labelId="search-tipo-cupon-select-label"
-                          id="search-tipo-cupon-select"
-                          value={selectedTipoCupon}
-                          disabled={!editable}
-                          label="Elegir tipo de cupon"
-                          onChange={(e) => setSelectedTipoCupon(e.target.value)}
-
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca un tipo de cupon por nombre..."
-                              fullWidth
-                              value={searchTermTipoCupones}
-                              onChange={changeTermSearchTipoCupon}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearchTipoCupon} />
-                                  </InputAdornment>
-                                ),
-                              }}
-
-                            />
-                          </ListSubheader>
-                          {tipoCupones.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
+                      <TextField fullWidth label="Correo" name="sumilla" defaultValue={email}
                                  disabled={!editable} />
                     </Grid>
                     <Grid item xs={6}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} disabled={!editable} />
+                    <TextField fullWidth label="Género" name="sumilla" defaultValue={genero}
+                                 disabled={!editable} />
                     </Grid>
-                    <Grid item xs={6}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} disabled={!editable} />
-                    </Grid>
+                   
                     <Grid item xs={3}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <DatePicker
@@ -628,17 +524,14 @@ export default function CuponDetail() {
                       </LocalizationProvider>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
+                      <TextField fullWidth label="Puntos" name="costoPuntos" defaultValue={puntos}
                                  disabled={!editable} />
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" defaultValue={cantIniText}
+                      <TextField fullWidth label="Estado" name="cantidadInicial" defaultValue={activo}
                                  disabled={!editable} />
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
-                                 defaultValue={ordPriorizacionText} disabled={!editable} />
-                    </Grid>
+                    
                   </Grid>
 
                 </Box>
