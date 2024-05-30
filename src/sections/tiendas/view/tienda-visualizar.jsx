@@ -206,6 +206,55 @@ export default function TiendaDetail() {
     }
   };
 
+  const [formDatos, setFormDatos] = useState({
+    tipo: "tienda",  
+    idReferencia: idParam,
+  });
+  
+  const handleDescargarQR = async (event) => {
+    event.preventDefault();
+    try {
+      const user = localStorage.getItem('user');
+      const userStringify = JSON.parse(user);
+      const { token, refreshToken } = userStringify;
+      const formData = new FormData();
+      console.log(idParam)
+      formData.append("tipo", "tienda");
+      formData.append("idReferencia", idParam)
+      // Simulación de carga
+      console.log(formDatos)
+      let response="";
+      response = await fetch(`http://localhost:3000/api/qr/generar`, {
+        method: 'POST',
+        body: JSON.stringify(formDatos),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+
+      });
+      const data = await response.json();
+      console.log("Respuesta JSON: ", data.qrCode);
+      descargarImagen(data.qrCode);
+      if (response.status === 403 || response.status === 401) {
+        localStorage.removeItem('user');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error fetching crear QR:', error);
+      throw error;
+    }
+  }
+
+  const descargarImagen = (url) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'qr_code.png'; // Puedes cambiar el nombre del archivo según sea necesario
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Typography variant="h2">
@@ -420,12 +469,16 @@ export default function TiendaDetail() {
                         />
                       </LocalizationProvider>
                     </Grid>
-
                     <Grid item xs={4}>
                       <TextField fullWidth label="Aforo" name="aforo" defaultValue={aforo}
                                  disabled />
                     </Grid>
-
+                    <Grid item xs={4}>
+                      <Button variant="contained" color="info" 
+                      sx={{backgroundColor: '#003B91', color:"#FFFFFF" , fontSize: '1rem',
+                      marginTop: '16px', marginBottom: '0px'}} type='submit' onClick={handleDescargarQR}>
+                      Descargar QR</Button>
+                    </Grid>
                   </Grid>
 
                 </Box>
