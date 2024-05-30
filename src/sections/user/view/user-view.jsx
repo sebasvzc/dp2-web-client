@@ -20,10 +20,9 @@ import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import '../../../loading/Loading.css'
 
-import obtenerUsuarios  from 'src/_mock/user';
-
 import { Spinner } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import obtenerUsuarios  from 'src/_mock/user';
 
 import Iconify from 'src/components/iconify';
 
