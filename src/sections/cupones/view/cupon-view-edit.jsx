@@ -33,6 +33,8 @@ import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
+import { Spinner } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Iconify from '../../../components/iconify';
@@ -44,13 +46,12 @@ import UserTableToolbar from '../../user/user-table-toolbar';
 import ClientCuponTableHead from '../cupon-client.table.head';
 import ClientCuponTableRow from '../client-cupon-table-row';
 
-
 dayjs.extend(utc);
 
 export default function CuponDetail() {
   const [view, setView] = useState('datos');
   const { id: idParam } = useParams();
-  const [editable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(true);
   const [editableImg, setEditableImg] = useState(false);
   const [order, setOrder] = useState('asc');
   const [searchName, setSearchName] = useState("all");
@@ -61,9 +62,10 @@ export default function CuponDetail() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
 
+  const [loading2,setLoading2]=useState(false);
+
   const [orderBy, setOrderBy] = useState('id');
-  const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
-  const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
+  const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [fileUrl, setFileUrl] = useState('');
   const filterName= useState("")
@@ -99,6 +101,114 @@ export default function CuponDetail() {
   const handleBack = () => {
     navigate('/cupon'); 
   }
+
+  const [formDatos, setFormDatos] = useState({
+    codigo: '',  
+    sumilla: '',
+    descripcionCompleta: '',
+    terminosCondiciones: '',
+    costoPuntos: '',
+    cantidadInicial: '',
+    ordenPriorizacion: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "codigo":
+          setCuponText(value);
+          break;
+      case "ordenPriorizacion":
+          setOrdPriorizacionText(value);
+          break;
+      case "cantidadInicial":
+          setCantIniText(value);
+          break;
+      case "costoPuntos":
+          setCostoText(value);
+          break;
+      case "terminosCondiciones":
+          setTerminosText(value);
+          break;
+      case "descripcionCompleta":
+          setDescripcionText(value);
+          break;
+      case "sumilla":
+          setSumillaText(value);
+          break;
+      default:
+          break;
+  }
+}
+
+  const [mostrarTxtFile, setMostrarTxtFile] = useState("");
+  const [mostrarTxtEsLimitado, setMostrarTxtEsLimitado] = useState("");
+  const [mostrarTxtCodigo, setMostrarTxtCodigo] = useState("");
+  const [mostrarTxtSumilla, setMostrarTxtSumilla] = useState("");
+  const [mostrarTxtDescripcionCompleta, setMostrarTxtDescripcionCompleta] = useState("");
+  const [mostrarTxtTerminosCondiciones, setMostrarTxtTerminosCondiciones] = useState("");
+  const [mostrarTxtFechaExpiracion, setMostrarTxtFechaExpiracion] = useState("");
+  const [mostrarTxtCostoPuntos, setMostrarTxtCostoPuntos] = useState("");
+  const [mostrarTxtCantidadInicial, setMostrarTxtCantidadInicial] = useState("");
+  const [mostrarTxtOrdenPriorizacion, setMostrarTxtOrdenPriorizacion] = useState("");
+  const [mostrarTxtFidLocatario, setMostrarTxtFidLocatario] = useState("");
+  const [mostrarTxtFidTipoCupon, setMostrarTxtFidTipoCupon] = useState("");
+
+  useEffect(() => {
+    if ((cuponText.length !== 0)
+      && selectedTienda.length !== 0
+      && selectedTipoCupon.length !== 0
+      && sumillaText.length !== 0
+      && ordPriorizacionText.length !== 0
+      && descripcionText.length !== 0
+      && terminosText.length !== 0
+      && costoText.length !== 0
+      && cantIniText.length !== 0
+    ) {
+      setBackgroundBtnReg("#003B91");
+      setBotonDeshabilitado(false);
+    } else {
+      setBackgroundBtnReg("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+    
+    if (!/\s/.test(cuponText)) {
+      setMostrarTxtCodigo("");
+    } else {
+      setMostrarTxtCodigo("El código no puede contener espacios en blanco");
+    }
+
+    if (!Number.isNaN(costoText) && !/\s/.test(costoText)) {
+      setMostrarTxtCostoPuntos("");
+    } else {
+      setMostrarTxtCostoPuntos("Costo en puntos inválido");
+    }
+    
+    if (!Number.isNaN(cantIniText) && !/\s/.test(cantIniText)) {
+      setMostrarTxtCantidadInicial("");
+    } else {
+      setMostrarTxtCantidadInicial("Cantidad inicial inválida");
+    }
+    if (!Number.isNaN(ordPriorizacionText) && !/\s/.test(ordPriorizacionText)) {
+      setMostrarTxtOrdenPriorizacion("");
+    } else {
+      setMostrarTxtOrdenPriorizacion("Orden de priorización inválido");
+    }
+    /*
+    if (startDate !== null ) {
+      setMostrarTxtFechaExpiracion("");
+    } else {
+      setMostrarTxtFechaExpiracion("Fecha inválida");
+    }
+
+    if (files.length !== 0) {
+      setMostrarTxtFile("");
+    } else {
+      setMostrarTxtFile("Archivo inválido");
+    }
+    */
+  },[cuponText,selectedTienda, selectedTipoCupon,sumillaText,descripcionText,terminosText,costoText,cantIniText,ordPriorizacionText]); 
+  
 
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
@@ -299,6 +409,8 @@ export default function CuponDetail() {
       }
 
       let response="";
+
+      setLoading2(true)
       response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
@@ -310,6 +422,7 @@ export default function CuponDetail() {
         },
 
       });
+      setLoading2(false)
       if (response.status === 403 || response.status === 401) {
         localStorage.removeItem('user');
         window.location.reload();
@@ -332,6 +445,7 @@ export default function CuponDetail() {
       setEditable(false);
       return data;
     } catch (error) {
+        setLoading2(false)
       console.error('Error fetching crear cupones:', error);
       throw error;
     }
@@ -438,74 +552,33 @@ export default function CuponDetail() {
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cupón</Typography>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Cupón</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-      <Grid container spacing={5}  >
-        <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '680px', paddingTop: 2 }}>
-
-            <List component="nav" aria-label="opciones de navegación">
-              <ListItemButton
-                component="a"
-                onClick={() => setView('datos')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'datos' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'datos' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Datos" />
-              </ListItemButton>
-              <ListItemButton
-                component="a"
-                onClick={() => fetchAndSetView('estadisticas')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'estadisticas' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Estadísticas" />
-              </ListItemButton>
-            </List>
-          </Box>
-        </Grid>
-        <Grid item xs={9}>
+      {loading2 &&<Spinner id='loading' color='primary'/>}
+      <Grid container  >
+        
+        <Grid item >
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <Box display="flex" justifyContent="flex-end" alignItems="center">
 
 
-             
+                {!editable && (
+                  <Button
+                    variant="contained"
+
+                    sx={{
+                      marginTop: 5,
+                      marginRight: 2,
+                      backgroundColor: "#003B91"
+                    }} // Añade un margen derecho para separar botones si es necesario
+                    startIcon={<Iconify icon="ic:baseline-edit" />}
+                    onClick={() => setEditable(true)}
+                  >
+                    Editar
+                  </Button>
+                )}
 
                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
@@ -514,7 +587,8 @@ export default function CuponDetail() {
                       variant="contained"
                       color="success"
                       sx={{ marginTop: 5, marginRight:2, backgroundColor: "#198754" }}
-                      startIcon={<Iconify icon="ic:baseline-save" />}
+                      startIcon={<Iconify icon="ic:baseline-save" /> }
+                      disabled={loading2}
                     >
                       Guardar
                     </Button>
@@ -612,7 +686,7 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
+                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={true} />
                     </Grid>
                     <Grid item xs={3}>
                     <FormControl fullWidth>
@@ -849,7 +923,6 @@ export default function CuponDetail() {
         </Grid>
       </Grid>
     </Container>
-
 
   );
 }

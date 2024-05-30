@@ -6,7 +6,6 @@ import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
@@ -34,15 +33,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import TablePagination from '@mui/material/TablePagination';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Iconify from '../../../components/iconify';
 
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import UserTableToolbar from '../../user/user-table-toolbar';
-import ClientCuponTableHead from '../cupon-client.table.head';
-import ClientCuponTableRow from '../client-cupon-table-row';
+
 
 
 dayjs.extend(utc);
@@ -95,10 +92,6 @@ export default function CuponDetail() {
   const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
   const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
   const navigate=useNavigate();
-
-  const handleBack = () => {
-    navigate('/cupon'); 
-  }
 
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
@@ -436,10 +429,9 @@ export default function CuponDetail() {
   };
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cupón</Typography>
-      </Stack>
+      <Typography variant="h2">
+        {editable ? "Visualizar Tienda" : "Visualizar Tienda"}
+      </Typography>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
@@ -585,11 +577,7 @@ export default function CuponDetail() {
                           maxWidth="300px"
                           style={{ width: '100%', height: 'auto' }}
                         >
-                          <img
-                            src={urlImagenS3}
-                            alt="Imagen Predeterminada"
-                            style={{ width: '100%', height: 'auto' }}
-                          />
+                          
                           <Box
                             position="absolute"
                             top={0}
@@ -616,7 +604,7 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                     <FormControl fullWidth>
-                    <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
+                    <InputLabel id="es-limitado-select-label">Apellidos</InputLabel>
                     <Select
                       labelId="es-limitado-select-label"
                       id="es-limitado-select"
@@ -633,7 +621,7 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
+                        <InputLabel id="search-select-label" disabled={!editable}>Email</InputLabel>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
@@ -676,7 +664,7 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
+                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Telefono</InputLabel>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
@@ -792,41 +780,6 @@ export default function CuponDetail() {
                     onFilterName={handleSearch}
                   />
 
-                    <TableContainer sx={{ overflow: 'unset' }}>
-                      <Table sx={{ minWidth: 800 }}>
-                        <ClientCuponTableHead
-                          order={order}
-                          orderBy={orderBy}
-                          rowCount={dataClients.length}
-                          numSelected={selected.length}
-                          onRequestSort={handleSort}
-                          onSelectAllClick={handleSelectAllClick}
-                          headLabel={[
-                            { id: 'nombre', label: 'Nombre' },
-                            { id: 'correo', label: 'Correo' },
-                            { id: 'telefono', label: 'Telefono' },
-                            { id: 'fechaCompra', label: 'Fecha de Compra'}
-
-                          ]}
-                        />
-                        <TableBody>
-                          {dataClients
-                            .map((row) => (
-                              <ClientCuponTableRow
-                                key={row.id}
-                                id={row.id}
-                                nombre={row.cliente.nombre}
-                                apellido={row.cliente.apellidoPaterno}
-                                email={row.cliente.email}
-                                telefono={row.cliente.telefono}
-                                fechaCompra={row.fechaCompra}
-                                selected={selected.indexOf(row.id) !== -1}
-                                handleClick={(event) => handleClick(event, row.id)}
-                              />
-                            ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
 
 
                   <TablePagination
@@ -853,3 +806,45 @@ export default function CuponDetail() {
 
   );
 }
+/**
+ * 
+ *  <TableBody>
+                          {dataClients
+                            .map((row) => (
+                              <ClientCuponTableRow
+                                key={row.id}
+                                id={row.id}
+                                nombre={row.cliente.nombre}
+                                apellido={row.cliente.apellidoPaterno}
+                                email={row.cliente.email}
+                                telefono={row.cliente.telefono}
+                                fechaCompra={row.fechaCompra}
+                                selected={selected.indexOf(row.id) !== -1}
+                                handleClick={(event) => handleClick(event, row.id)}
+                              />
+                            ))}
+                        </TableBody>
+
+
+
+
+
+
+
+
+                        <ClientCuponTableHead
+                          order={order}
+                          orderBy={orderBy}
+                          rowCount={dataClients.length}
+                          numSelected={selected.length}
+                          onRequestSort={handleSort}
+                          onSelectAllClick={handleSelectAllClick}
+                          headLabel={[
+                            { id: 'nombre', label: 'Nombre' },
+                            { id: 'correo', label: 'Correo' },
+                            { id: 'telefono', label: 'Telefono' },
+                            { id: 'fechaCompra', label: 'Fecha de Compra'}
+
+                          ]}
+                        />
+ */

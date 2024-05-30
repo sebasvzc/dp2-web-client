@@ -20,12 +20,10 @@ const getUsers = async (page,pageSize,searchName) => {
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
 
-    console.log("ESTE ES EL VALOR DE ESARCHNAME QUE LLEGA AL API")
+    console.log("Este es el primer valor de  searchText")
     console.log(searchName)
-    console.log(JSON.stringify({ searchText :searchName }))
-
-    console.log("===============================")
-
+   
+    if(searchName==="all"){searchName=""}
     
     const response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=${page}&pageSize=${pageSize}`, {
       method: 'POST',

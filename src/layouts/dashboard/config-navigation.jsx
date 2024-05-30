@@ -96,11 +96,7 @@ export default function NavBar() {
       icon: icon('ic_analytics'),
     },
 
-    {
-      title: 'Mantenimiento',
-
-      icon: icon('ic_config'),
-      subMenu: [
+    
         {
           title: 'Gestión de Usuarios',
           path: '/user',
@@ -132,8 +128,8 @@ export default function NavBar() {
           icon: icon('ic_tienda'),
         },
         // Otras opciones de submenú...
-      ],
-    },{
+
+    {
       title: 'Cerrar sesión',
       icon: <ExitToAppIcon />,
       onClick: () => handleLogout(), // Define la función handleLogout para cerrar sesión

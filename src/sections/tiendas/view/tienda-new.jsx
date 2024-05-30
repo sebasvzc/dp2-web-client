@@ -100,34 +100,38 @@ const useStyles = makeStyles((theme) => ({
       // Lógica para manejar la submisión del formulario
     }; */
 
+    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+
     const handleSubmit = async (event) => {
-      /*
+      console.log("EntrandoSubmit")
       event.preventDefault();
       try {
+        console.log("1")
         const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         const formData = new FormData();
 
         formData.append("file", files[0].file)
-        formData.append("esLimitado", event.target.esLimitado.checked ? "1" : "0");
-        formData.append("codigo", event.target.codigo.value);
-        formData.append("sumilla", event.target.sumilla.value);
-        formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
-        formData.append("terminosCondiciones", event.target.terminosCondiciones.value);
-        formData.append("fechaExpiracion", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
-        formData.append("costoPuntos", event.target.costoPuntos.value);
-        formData.append("cantidadInicial", event.target.cantidadInicial.value);
-        formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
-        formData.append("fidLocatario", selectedTienda);
-        formData.append("fidTipoTienda", selectedTipoTienda);
+        formData.append("nombre", event.target.nombre.value);
+        formData.append("descripcion", event.target.descripcion.value);
+        formData.append("locacion", event.target.locacion.value);
+        const horaApertura = startTime.format("HH:mm:ss");
+        const horaCierre = endTime.format("HH:mm:ss");
+        formData.append("horaApertura", horaApertura);
+        formData.append("horaCierre", horaCierre);
+        formData.append("aforo", event.target.aforo.value);
+        formData.append("fidCategoriaTienda", selectedTienda);
+        console.log(formData.append)
         // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
         }
-
-         let response="";
-        response = await fetch(`http://localhost:3000/api/cupones/crear`, {
+        
+        let response="";
+        console.log("Respuesta", response);
+        response = await fetch(`http://localhost:3000/api/tiendas/crear`, {
           method: 'POST',
           body: formData,
           headers: {
@@ -138,6 +142,7 @@ const useStyles = makeStyles((theme) => ({
           },
 
         });
+        console.log("Respuesta", response);
         if (response.status === 403 || response.status === 401) {
           localStorage.removeItem('user');
           window.location.reload();
@@ -146,9 +151,8 @@ const useStyles = makeStyles((theme) => ({
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-
         const data = await response.json();
-        toast.success('Tienda creado exitosamente', {
+        toast.success('Tienda creada exitosamente', {
           position: "top-right",
           hideProgressBar: false,
           closeOnClick: true,
@@ -157,13 +161,12 @@ const useStyles = makeStyles((theme) => ({
           progress: undefined,
           theme: "colored"
         });
-        navigate('/cupon');
+        navigate('/tienda');
         return data;
       } catch (error) {
-        console.error('Error fetching crear cupones:', error);
+        console.error('Error fetching crear tiendas:', error);
         throw error;
       }
-      */
     };
     const [files, setFiles] = React.useState([]);
     const updateFiles = (incommingFiles) => {
@@ -171,6 +174,7 @@ const useStyles = makeStyles((theme) => ({
       setFiles(incommingFiles);
     };
     const [startTime, setStartTime] = useState(dayjs());
+    const [endTime, setEndTime] = useState(dayjs());
     const [tiendas, setTiendas] = useState([]);
     const [selectedTienda, setSelectedTienda] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -178,8 +182,9 @@ const useStyles = makeStyles((theme) => ({
     const [selectedTipoTienda, setSelectedTipoTienda] = useState('');
     const [searchTermTipoTiendaes, setSearchTermTipoTiendaes] = useState('');
 
-    const getTiendas = async () => {
-      /*
+
+
+    const getCategoriaTiendas = async () => {
       try {
         const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
@@ -187,7 +192,7 @@ const useStyles = makeStyles((theme) => ({
         let response="";
         console.log(searchTerm)
         if(searchTerm===""){
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -196,7 +201,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -222,9 +227,9 @@ const useStyles = makeStyles((theme) => ({
         console.error('Error fetching cupones:', error);
         throw error;
       }
-      */
     };
 
+    
     const getTipoTiendaes = async () => {
       /*
       try {
@@ -271,16 +276,20 @@ const useStyles = makeStyles((theme) => ({
       }
       */
     };
+  
+    
     const handleSearch = async (e) => {
       e.preventDefault();
-      const results = await getTiendas();
-      console.log("viendo resultados", results.tiendas)
-      setTiendas(results.tiendas);
+      const results = await getCategoriaTiendas();
+      console.log("viendo resultados", results)
+      setTiendas(results);
     };
+    
     const changeTermSearch = async (e) => {
       e.preventDefault();
       setSearchTerm(e.target.value)
     };
+    
     const handleSearchTipoTienda = async (e) => {
       e.preventDefault();
       const results = await getTipoTiendaes();
@@ -291,6 +300,64 @@ const useStyles = makeStyles((theme) => ({
       e.preventDefault();
       setSearchTermTipoTiendaes(e.target.value)
     };
+
+    const [formDatos, setFormDatos] = useState({
+      nombre: '',  
+      descripcion: '',
+      locacion: '',
+      aforo: '',
+    });
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormDatos((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    const [mostrarTxtNombre, setMostrarTxtNombre] = useState('');
+    const [mostrarTxtDescripcion, setMostrarTxtDescripcion] = useState('');
+    const [mostrarTxtLocacion, setMostrarTxtLocacion] = useState('');
+    const [mostrarTxtAforo, setMostrarTxtAforo] = useState('');
+    const [mostrarTxtApertura, setMostrarTxtApertura] = useState('');
+    const [mostrarTxtCierre, setMostrarTxtCierre] = useState('');
+
+
+    useEffect(() => {
+      const horaApertura = startTime.format("HH:mm:ss");
+      const horaCierre = endTime.format("HH:mm:ss");
+      const horaAperturaDate = new Date('1970-01-01T' + horaApertura);
+      const horaCierreDate = new Date('1970-01-01T' + horaCierre);
+      if (formDatos.nombre.length !== 0
+        && selectedTienda.length !== 0
+        && formDatos.aforo.length !== 0
+        && formDatos.descripcion.length !== 0
+        && formDatos.locacion.length !== 0
+        && startTime.length !== 0
+        && endTime.length !== 0
+        && files.length !== 0
+        && horaAperturaDate < horaCierreDate
+      ) {
+        setBackgroundBtnReg("#003B91");
+        setBotonDeshabilitado(false);
+      } else {
+        setBackgroundBtnReg("#CCCCCC");
+        setBotonDeshabilitado(true);
+      }
+      
+      console.log(horaAperturaDate);
+      console.log(horaCierreDate);
+
+    if (horaAperturaDate > horaCierreDate) {
+      setMostrarTxtApertura('La hora de apertura es mayor que la hora de cierre.');
+    }else {
+      setMostrarTxtApertura("");
+    }
+  
+    },[formDatos.nombre,selectedTienda,formDatos.aforo,
+      formDatos.descripcion, formDatos.locacion,startTime,endTime,files]); // Cierra correctamente con un corchete    
+  
 
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
@@ -316,7 +383,7 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={4}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Nombre" name="nombre" />
               </Grid>
               <Grid item xs={4}>
@@ -363,12 +430,12 @@ const useStyles = makeStyles((theme) => ({
               </Grid>
               <Grid item xs={4}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Locacion" name="locacion" />
               </Grid>
               <Grid item xs={12}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Descripción" name="descripcion" />
               </Grid>
               <Grid item xs={4}>
@@ -380,24 +447,30 @@ const useStyles = makeStyles((theme) => ({
                     sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
                 />
                 </LocalizationProvider>
+                <input className="inputEspecialAC" type="text" value={mostrarTxtApertura} onChange={handleChange} 
+                style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'transparent',outline: 'none'}}
+                disabled/>
               </Grid>
               <Grid item xs={4}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                   <TimePicker
                     label="Hora Cierre"
-                    value={startTime}
-                    onChange={setStartTime}
+                    value={endTime}
+                    onChange={setEndTime}
                     sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
                 />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={4}>
                 <TextField fullWidth 
-                
+                onChange={handleChange}
                 label="Aforo" name="aforo" />
               </Grid>
             <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary" >Crear</Button>
+                <Button variant="contained" color="info" 
+            sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
+            type='submit'
+            disabled={botonDeshabilitado}>Crear</Button>
             </Grid>
             </Grid>
           </form>

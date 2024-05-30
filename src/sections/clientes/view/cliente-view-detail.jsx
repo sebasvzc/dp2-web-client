@@ -78,6 +78,14 @@ export default function CuponDetail() {
     setFiles(incommingFiles);
   };
   const previewImage = document.querySelector("#previewImage");
+  const [nombreCompleto,setNombreCompleto]=useState('')
+  const [email,setEmail]=useState('')
+  const [telefono,setTelefono]=useState(0)
+  const [genero,setGenero]=useState('')
+  const [nacimiento,setNacimiento]=useState(dayjs())
+  const [puntos,setPuntos]=useState(0)
+  const [activo,setActivo]=useState(false)
+  
   const [startDate, setStartDate] = useState(dayjs());
   const [tiendas, setTiendas] = useState([]);
   const [selectedTienda, setSelectedTienda] = useState('');
@@ -101,7 +109,7 @@ export default function CuponDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
+        response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=1&pageSize=10`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -120,40 +128,29 @@ export default function CuponDetail() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const results =  await getTiendas(token,refreshToken,searchTerm);
-        console.log("viendo resultados", results.tiendas)
-        setTiendas(results.tiendas);
-
-
-        const resultsTipo =  await getTipoCupones(token,refreshToken,searchTermTipoCupones);
-        console.log("viendo resultados", resultsTipo.tipoCupones)
-        setTipoCupones(resultsTipo.tipoCupones);
-
+      
         const data = await response.json();
-        console.log(data)
-        setEsLimitadoText(data.detalles.esLimitado)
-        if(data.detalles.esLimitado){
-          setEsLimitadoDesp("1")
-        }else{
-          setEsLimitadoDesp("0")
+        console.log('ESTA ES LA DATA DE CLIENTE')
+        console.log(data.clientes[0])
+        
+        setLoading(false)
+        
+        const fullName = data.clientes[0].nombre+ " "+data.clientes[0].apellidoPaterno+ " "+data.clientes[0].apellidoMaterno
+        setNombreCompleto(fullName)
+        setEmail(data.clientes[0].email)
+        setTelefono(data.clientes[0].telefono)
+        setGenero(data.clientes[0].genero)
+        setNacimiento(dayjs(data.clientes[0].fechaNacimiento).utc(true))
+        setPuntos(data.clientes[0].puntos)
+        if(data.clientes[0].activo==true){
+          setActivo("Activo")
         }
-        console.log("Texto limitado")
-        console.log(esLimitadoText)
-        setCuponText(data.detalles.codigo)
-        setSumillaText(data.detalles.sumilla)
-        setDescripcionText(data.detalles.descripcionCompleta)
-        setTerminosText(data.detalles.terminosCondiciones)
 
-        setCostoText(data.detalles.costoPuntos)
-        setCantIniText(data.detalles.cantidadInicial)
-        setCantDisText(data.detalles.cantidadDisponible)
-        setOrdPriorizacionText(data.detalles.ordenPriorizacion)
-        setUrlImagenS3(data.image);
+        else{
+          setActivo("Baneado")
+        }
+        
 
-        setSelectedTienda(data.detalles.locatario.id)
-        setSelectedTipoCupon(data.detalles.tipoCupon.id)
-
-        console.log(idParam)
         // Simulación de carga
 
         if(searchName===""){
@@ -257,6 +254,7 @@ export default function CuponDetail() {
         }
 
         setLoading(false);
+
       } catch (err) {
         console.error("Failed to fetch cupon data", err);
 
@@ -265,6 +263,7 @@ export default function CuponDetail() {
     }
 
     loadCuponData();
+
   }, [esLimitadoText, idParam, page, pageSize, searchName,endDateStat,startDateStat]);
 
 
@@ -283,23 +282,7 @@ export default function CuponDetail() {
         // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
 
-      formData.append("id", idParam);
-      formData.append("esLimitado", esLimitadoDesp);
 
-      formData.append("codigo", event.target.codigo.value);
-      formData.append("sumilla", event.target.sumilla.value);
-      formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
-      formData.append("terminosCondiciones", event.target.terminosCondiciones.value);
-      formData.append("fechaExpiracion", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
-      formData.append("costoPuntos", event.target.costoPuntos.value);
-      formData.append("cantidadInicial", event.target.cantidadInicial.value);
-      formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
-      formData.append("fidLocatario", selectedTienda);
-      formData.append("fidTipoCupon", selectedTipoCupon);
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
 
       let response="";
       response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
@@ -506,9 +489,6 @@ export default function CuponDetail() {
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <Box display="flex" justifyContent="flex-end" alignItems="center">
 
-
-
-
                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
                     <Button
@@ -610,134 +590,36 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled={!editable} />
+                      <TextField fullWidth label="Código" name="codigo" defaultValue={idParam} disabled={!editable} />
+                    </Grid>
+                    <Grid item xs={6}>
+                    <TextField fullWidth label="Nombre Completo" name="codigo" defaultValue={nombreCompleto} disabled={!editable} />
+
+                    </Grid>
+                    
+                    <Grid item xs={3}>
+                    <TextField fullWidth label="Teléfono" name="codigo" defaultValue={telefono} disabled={!editable} />
                     </Grid>
                     <Grid item xs={3}>
-                    <FormControl fullWidth>
-                    <InputLabel id="es-limitado-select-label">Apellidos</InputLabel>
-                    <Select
-                      labelId="es-limitado-select-label"
-                      id="es-limitado-select"
-                      disabled={!editable}
-                      value={esLimitadoDesp} // Usar esLimitadoText como valor seleccionado
-                      onChange={handleLimitado}
-                      label="Es Limitado"
-                    >
-                      <MenuItem value="1">Sí</MenuItem>
-                      <MenuItem value="0">No</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                    </Grid>
-                    <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled={!editable}>Email</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-
-                          labelId="search-select-label"
-                          id="search-select"
-                          disabled={!editable}
-                          value={selectedTienda}
-                          label="Elegir Tienda"
-                          onChange={(e) => setSelectedTienda(e.target.value)}
-                          // This prevents rendering empty string in Select's value
-                          // if search text would exclude currently selected option.
-
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca una tienda por nombre..."
-                              fullWidth
-                              value={searchTerm}
-                              onChange={changeTermSearch}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearch} />
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          </ListSubheader>
-                          {tiendas.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Telefono</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-                          labelId="search-tipo-cupon-select-label"
-                          id="search-tipo-cupon-select"
-                          value={selectedTipoCupon}
-                          disabled={!editable}
-                          label="Elegir tipo de cupon"
-                          onChange={(e) => setSelectedTipoCupon(e.target.value)}
-
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca un tipo de cupon por nombre..."
-                              fullWidth
-                              value={searchTermTipoCupones}
-                              onChange={changeTermSearchTipoCupon}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearchTipoCupon} />
-                                  </InputAdornment>
-                                ),
-                              }}
-
-                            />
-                          </ListSubheader>
-                          {tipoCupones.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
+                      <TextField fullWidth label="Correo" name="sumilla" defaultValue={email}
                                  disabled={!editable} />
                     </Grid>
                     <Grid item xs={6}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} disabled={!editable} />
+                    <TextField fullWidth label="Género" name="sumilla" defaultValue={genero}
+                                 disabled={!editable} />
                     </Grid>
 
+
+
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
+                      <TextField fullWidth label="Puntos" name="costoPuntos" defaultValue={puntos}
                                  disabled={!editable} />
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" defaultValue={cantIniText}
+                      <TextField fullWidth label="Estado" name="cantidadInicial" defaultValue={activo}
                                  disabled={!editable} />
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
-                                 defaultValue={ordPriorizacionText} disabled={!editable} />
-                    </Grid>
+                    
                   </Grid>
 
                 </Box>
@@ -808,45 +690,3 @@ export default function CuponDetail() {
 
   );
 }
-/**
- * 
- *  <TableBody>
-                          {dataClients
-                            .map((row) => (
-                              <ClientCuponTableRow
-                                key={row.id}
-                                id={row.id}
-                                nombre={row.cliente.nombre}
-                                apellido={row.cliente.apellidoPaterno}
-                                email={row.cliente.email}
-                                telefono={row.cliente.telefono}
-                                fechaCompra={row.fechaCompra}
-                                selected={selected.indexOf(row.id) !== -1}
-                                handleClick={(event) => handleClick(event, row.id)}
-                              />
-                            ))}
-                        </TableBody>
-
-
-
-
-
-
-
-
-                        <ClientCuponTableHead
-                          order={order}
-                          orderBy={orderBy}
-                          rowCount={dataClients.length}
-                          numSelected={selected.length}
-                          onRequestSort={handleSort}
-                          onSelectAllClick={handleSelectAllClick}
-                          headLabel={[
-                            { id: 'nombre', label: 'Nombre' },
-                            { id: 'correo', label: 'Correo' },
-                            { id: 'telefono', label: 'Telefono' },
-                            { id: 'fechaCompra', label: 'Fecha de Compra'}
-
-                          ]}
-                        />
- */

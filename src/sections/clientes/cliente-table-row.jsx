@@ -61,13 +61,14 @@ function validarNombre(nombre) {
 
 export default function ClienteTableRow({
                                           nombre,
-                                          rol,
                                           id,
                                           genero,
                                           apellidoPaterno,
                                           apellidoMaterno,
                                           emailX,
                                           selected,
+                                          puntos,
+                                          telefono,
                                           handleClick,
                                           activo,
                                           apellido,
@@ -83,7 +84,6 @@ export default function ClienteTableRow({
     apellido,
     apellidoPaterno,
     apellidoMaterno,
-    rol,
     email: emailX,
     activo,
     password: ""
@@ -199,13 +199,13 @@ export default function ClienteTableRow({
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
             <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
-                {nombre} {apellido}
+                {nombre} {apellidoPaterno}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {apellidoPaterno} {apellidoMaterno}
+                Puntos Ganados: {puntos}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Genero: {genero}
+                Telefono: {telefono}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Email: {emailX}
@@ -313,11 +313,12 @@ export default function ClienteTableRow({
 
 ClienteTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
-  rol: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   genero: PropTypes.string.isRequired,
   apellidoPaterno: PropTypes.string.isRequired,
   apellidoMaterno: PropTypes.string.isRequired,
+  puntos: PropTypes.string.isRequired,
+  telefono: PropTypes.string.isRequired,
   emailX: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
