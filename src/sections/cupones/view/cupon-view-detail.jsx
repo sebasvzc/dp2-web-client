@@ -6,6 +6,7 @@ import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
@@ -41,6 +42,7 @@ import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import ClientCuponTableHead from '../cupon-client.table.head';
 import ClientCuponTableRow from '../client-cupon-table-row';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 dayjs.extend(utc);
@@ -93,6 +95,10 @@ export default function CuponDetail() {
   const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
   const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
   const navigate=useNavigate();
+
+  const handleBack = () => {
+    navigate('/cupon'); 
+  }
 
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
@@ -430,9 +436,10 @@ export default function CuponDetail() {
   };
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Typography variant="h2">
-        {editable ? "Modificar Cupon" : "Visualizar Cupon"}
-      </Typography>
+      <Stack direction="row" alignItems="center" spacing={2}>
+          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cupón</Typography>
+      </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
