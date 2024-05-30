@@ -10,7 +10,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
-  Grid,
+  Grid, Chip,
   Button, TextField,
 } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';  // Extiende dayjs con el plugin UTC
@@ -511,6 +511,10 @@ export default function CuponDetail() {
     setPage(1);
     setPageSize(parseInt(event.target.value, 10));
   };
+
+  console.log("Valor de activo:", activo);
+  const isActivo = activo === "Activo";
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Typography variant="h2">
@@ -680,37 +684,54 @@ export default function CuponDetail() {
                         </Box>}
                         </Box>
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={idParam} disabled={!editable} />
+                    <Grid item xs={2}>
+                      <TextField fullWidth label="Código" name="codigo" defaultValue={idParam} 
+                      InputProps={{
+                        readOnly: true,
+                      }}/>
                     </Grid>
                     <Grid item xs={6}>
-                    <TextField fullWidth label="Nombre Completo" name="codigo" defaultValue={nombreCompleto} disabled={!editable} />
-
+                    <TextField fullWidth label="Nombre Completo" name="codigo" defaultValue={nombreCompleto} 
+                    InputProps={{
+                      readOnly: true,
+                    }}/>
                     </Grid>
                     
-                    <Grid item xs={3}>
-                    <TextField fullWidth label="Teléfono" name="codigo" defaultValue={telefono} disabled={!editable} />
+                    <Grid item xs={4}>
+                    <TextField fullWidth label="Teléfono" name="codigo" defaultValue={telefono} InputProps={{
+                        readOnly: true,
+                      }}/>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <TextField fullWidth label="Correo" name="sumilla" defaultValue={email}
-                                 disabled={!editable} />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                     <TextField fullWidth label="Género" name="sumilla" defaultValue={genero}
-                                 disabled={!editable} />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
 
 
 
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <TextField fullWidth label="Puntos" name="costoPuntos" defaultValue={puntos}
-                                 disabled={!editable} />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Estado" name="cantidadInicial" defaultValue={activo}
-                                 disabled={!editable} />
+                    <Grid item xs={12}>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Chip
+                          label={isActivo  ? "Cliente Activo" : "Cliente Inactivo"}
+                          color={isActivo  ? "success" : "default"}
+                          style={{ fontWeight: 'bold' }}
+                        />
+                        </Box>
                     </Grid>
-                    
                   </Grid>
 
                 </Box>
