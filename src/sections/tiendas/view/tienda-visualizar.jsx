@@ -16,7 +16,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, TimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Grid,
+
   Table,
+
+  Chip,
+  Button,
   Select,
   MenuItem,
   TextField, TableBody, InputLabel, FormControl, TableContainer,
@@ -24,9 +28,17 @@ import {
 // Importa el plugin UTC para manejar correctamente las fechas UTC
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
+
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
+
+
+import Iconify from '../../../components/iconify';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import UserTableToolbar from '../../user/user-table-toolbar';
 import { getCategoriaTiendas } from '../../../funciones/api';
@@ -52,7 +64,7 @@ export default function TiendaDetail() {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
-
+  const [activo,setActivo]=useState(false)
   const [orderBy, setOrderBy] = useState('id');
   const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
   const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
@@ -135,8 +147,12 @@ export default function TiendaDetail() {
 
         const data = await response.json();
         console.log(data)
-
-
+        if(data.detalles.activo===true){
+          setActivo("Activo")
+        }
+        else{
+          setActivo("Baneado")
+        }
         console.log(esLimitadoText)
         setTiendaText(data.detalles.nombre)
         setSelectedCategoria(data.detalles.categoriaTienda.id)
@@ -314,6 +330,7 @@ export default function TiendaDetail() {
     }
   };
 
+
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -353,11 +370,70 @@ export default function TiendaDetail() {
     setPage(1);
     setPageSize(parseInt(event.target.value, 10));
   };
+
+  const [formDatos, setFormDatos] = useState({
+    tipo: "tienda",  
+    idReferencia: idParam,
+  });
+  
+  const handleDescargarQR = async (event) => {
+    event.preventDefault();
+    try {
+      const user = localStorage.getItem('user');
+      const userStringify = JSON.parse(user);
+      const { token, refreshToken } = userStringify;
+      const formData = new FormData();
+      console.log(idParam)
+      formData.append("tipo", "tienda");
+      formData.append("idReferencia", idParam)
+      // Simulación de carga
+      console.log(formDatos)
+      let response="";
+      response = await fetch(`http://localhost:3000/api/qr/generar`, {
+        method: 'POST',
+        body: JSON.stringify(formDatos),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+
+      });
+      const data = await response.json();
+      console.log("Respuesta JSON: ", data.qrCode);
+      descargarImagen(data.qrCode);
+      if (response.status === 403 || response.status === 401) {
+        localStorage.removeItem('user');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error fetching crear QR:', error);
+      throw error;
+    }
+  }
+
+  const descargarImagen = (url) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'qr_code.png'; // Puedes cambiar el nombre del archivo según sea necesario
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  console.log("Valor de activo:", activo);
+  const isActivo = activo === "Activo";
+
+  const handleBack = () => {
+    navigate('/tienda'); 
+  }
+
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Typography variant="h2">
-        {editable ? "Visualizar Tienda" : "Visualizar Tienda"}
-      </Typography>
+      <Stack direction="row" alignItems="center" spacing={2}>
+          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Tienda</Typography>
+      </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
@@ -465,12 +541,14 @@ export default function TiendaDetail() {
 
                     </Grid>
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Nombre" defaultValue={tiendaText} disabled />
+                      <TextField fullWidth label="Nombre" defaultValue={tiendaText} InputProps={{
+                        readOnly: true,
+                      }}/>
                     </Grid>
 
                     <Grid item xs={4}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled >Categoria Tienda</InputLabel>
+                        <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
@@ -514,11 +592,15 @@ export default function TiendaDetail() {
 
                     <Grid item xs={4}>
                       <TextField fullWidth label="Locacion" name="locacion" defaultValue={locacionText}
-                                 disabled />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={12}>
                       <TextField fullWidth label="Descripción" name="descripcion" multiline rows={4}
-                                 defaultValue={descripcionText} disabled />
+                                 defaultValue={descripcionText} InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
                     <Grid item xs={4}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -538,14 +620,29 @@ export default function TiendaDetail() {
                         />
                       </LocalizationProvider>
                     </Grid>
-
                     <Grid item xs={4}>
                       <TextField fullWidth label="Aforo" name="aforo" defaultValue={aforo}
-                                 disabled />
+                                 InputProps={{
+                                  readOnly: true,
+                                }}/>
                     </Grid>
-
+                    <Grid item xs={4}>
+                      <Button variant="contained" color="info" 
+                      sx={{backgroundColor: '#003B91', color:"#FFFFFF" , fontSize: '1rem',
+                      marginTop: '16px', marginBottom: '0px'}} type='submit' onClick={handleDescargarQR}
+                      startIcon={<Iconify icon="material-symbols:download" />}>
+                      Descargar QR</Button>
+                    </Grid>
                   </Grid>
-
+                  <Grid item xs={12}>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Chip
+                          label={isActivo  ? "Tienda Activa" : "Tienda Inactiva"}
+                          color={isActivo  ? "success" : "default"}
+                          style={{ fontWeight: 'bold' }}
+                        />
+                        </Box>
+                    </Grid>        
                 </Box>
               )}
             </form>
@@ -675,45 +772,3 @@ export default function TiendaDetail() {
 
   );
 }
-/**
- * 
- *  <TableBody>
-                          {dataClients
-                            .map((row) => (
-                              <ClientCuponTableRow
-                                key={row.id}
-                                id={row.id}
-                                nombre={row.cliente.nombre}
-                                apellido={row.cliente.apellidoPaterno}
-                                email={row.cliente.email}
-                                telefono={row.cliente.telefono}
-                                fechaCompra={row.fechaCompra}
-                                selected={selected.indexOf(row.id) !== -1}
-                                handleClick={(event) => handleClick(event, row.id)}
-                              />
-                            ))}
-                        </TableBody>
-
-
-
-
-
-
-
-
-                        <ClientCuponTableHead
-                          order={order}
-                          orderBy={orderBy}
-                          rowCount={dataClients.length}
-                          numSelected={selected.length}
-                          onRequestSort={handleSort}
-                          onSelectAllClick={handleSelectAllClick}
-                          headLabel={[
-                            { id: 'nombre', label: 'Nombre' },
-                            { id: 'correo', label: 'Correo' },
-                            { id: 'telefono', label: 'Telefono' },
-                            { id: 'fechaCompra', label: 'Fecha de Compra'}
-
-                          ]}
-                        />
- */
