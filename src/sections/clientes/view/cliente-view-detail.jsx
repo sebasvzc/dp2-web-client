@@ -16,20 +16,19 @@ import {
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import List from '@mui/material/List';
+import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Stack from '@mui/material/Stack';
-import Card from '@mui/material/Card';
-import Iconify from '../../../components/iconify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+import Iconify from '../../../components/iconify';
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
-import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
 import DashboardCuponesMesCliente from '../../overview/DashboardCuponesMesCliente';
-import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
-import AppCurrentVisits from '../../overview/app-current-visits';
+import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
 
 dayjs.locale('es-mx');
 

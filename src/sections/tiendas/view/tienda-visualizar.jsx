@@ -17,9 +17,9 @@ import { DatePicker, TimePicker, LocalizationProvider } from '@mui/x-date-picker
 import {
   Grid,
 
-  Table,
-
   Chip,
+
+  Table,
   Button,
   Select,
   MenuItem,
@@ -28,18 +28,13 @@ import {
 // Importa el plugin UTC para manejar correctamente las fechas UTC
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
-
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
-
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TablePagination from '@mui/material/TablePagination';
 
-
 import Iconify from '../../../components/iconify';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 import UserTableToolbar from '../../user/user-table-toolbar';
 import { getCategoriaTiendas } from '../../../funciones/api';
 import TiendaClienteTableRow from "../tienda-cliente-table-row";

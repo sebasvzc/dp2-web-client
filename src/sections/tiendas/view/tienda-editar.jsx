@@ -1,4 +1,4 @@
-/*import dayjs from 'dayjs';
+/* import dayjs from 'dayjs';
 import * as React from 'react';
 import { useState,useEffect } from 'react';
 import utc from 'dayjs/plugin/utc';
@@ -99,7 +99,7 @@ export default function CuponDetail() {
           const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
-      
+
           let response="";
           response = await fetch(`http://localhost:3000/api/tiendas/detalleTiendaCompleto`, {
           method: 'POST',
@@ -110,21 +110,21 @@ export default function CuponDetail() {
             'Authorization': `Bearer ${token}`,
             'Refresh-Token': `Bearer ${refreshToken}`
           },
-  
+
           });
 
-        
+
           if (response.status === 403 || response.status === 401) {
             localStorage.removeItem('user');
             window.location.reload();
           }
-  
+
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
           const data = await response.json();
            console.log(data)
-           
+
           setTiendaText(data.detalles.nombre)
           setSelectedCategoria(data.detalles.categoriaTienda.nombre)
           setLocacionText(data.detalles.locacion)
@@ -136,7 +136,7 @@ export default function CuponDetail() {
           console.log('ESTA ES EL SECELTED CATEGORIA')
           console.log(selectedCategoria)
 
-  
+
         }catch(error){
            console.log(data)
 
@@ -303,7 +303,7 @@ export default function CuponDetail() {
   };
 
   const handleBack = () => {
-    navigate('/tienda'); 
+    navigate('/tienda');
   }
 
   const handleChangeRowsPerPage = (event) => {
@@ -370,9 +370,9 @@ export default function CuponDetail() {
                 )}
               </Box>
 
-              
+
               <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
@@ -425,7 +425,7 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={4}>
-                  
+
                       <TextField fullWidth label="Nombre" defaultValue={tiendaText} disabled />
                     </Grid>
 
@@ -464,13 +464,13 @@ export default function CuponDetail() {
                               }}
                             />
                           </ListSubheader>
-                          
+
                         </Select>
                       </FormControl>
                     </Grid>
 
                     <Grid item xs={4}>
-                  
+
                       <TextField fullWidth label="Locacion" name="locacion" defaultValue={locacionText}
                                  disabled />
                     </Grid>
@@ -498,7 +498,7 @@ export default function CuponDetail() {
                     </Grid>
 
                     <Grid item xs={4}>
-                    
+
                       <TextField fullWidth label="Aforo" name="aforo" defaultValue={aforoText}
                                  disabled />
                     </Grid>
@@ -540,8 +540,7 @@ export default function CuponDetail() {
 
 
   );
-}
-*/
+} */
 
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -724,16 +723,14 @@ export default function TiendaDetail() {
       }
 
       formData.append("id", idParam);
-      //formData.append("file", files[0].file)
+      // formData.append("file", files[0].file)
       formData.append("nombre", event.target.nombre.value);
       formData.append("descripcion", event.target.descripcion.value);
       formData.append("locacion", event.target.locacion.value);
-      const horaApertura = startTime.format("HH:mm:ss");
-      const horaCierre = endTime.format("HH:mm:ss");
       formData.append("horaApertura", horaApertura);
       formData.append("horaCierre", horaCierre);
       formData.append("aforo", event.target.aforo.value);
-      formData.append("fidCategoriaTienda", selectedTienda);
+      
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
@@ -828,10 +825,10 @@ export default function TiendaDetail() {
       </Typography>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container  >
-        
+
         <Grid item >
           {view === 'datos' ? (
-            <form encType="multipart/form-data" onSubmit={handleSubmit}> 
+            <form encType="multipart/form-data" onSubmit={handleSubmit}>
               {!editable && (
                   <Button
                     variant="contained"
@@ -894,7 +891,7 @@ export default function TiendaDetail() {
                 </Box>
               ) : (
                 <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+
                   <Grid container spacing={2}>
                     <Grid item xs={12} >
                       <Box display="flex" justifyContent="center" alignItems="center">
