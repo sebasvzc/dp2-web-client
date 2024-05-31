@@ -22,20 +22,14 @@ import {
   TextField, FormControl,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import Card from '@mui/material/Card';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Iconify from '../../../components/iconify';
-
 import IconButton from '@mui/material/IconButton';
-import TablePagination from '@mui/material/TablePagination';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import Iconify from '../../../components/iconify';
 import { getCategoriaTiendas } from '../../../funciones/api';
 
-import UserTableToolbar from '../../user/user-table-toolbar';
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
+
 
 
 
