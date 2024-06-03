@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import utc from 'dayjs/plugin/utc';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -25,7 +26,7 @@ import {
   MenuItem,
   TextField, TableBody, InputLabel, FormControl, TableContainer,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
-import PropTypes from 'prop-types'; // Importa PropTypes de React
+
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -271,6 +272,8 @@ export default function TiendaDetail() {
     loadTiendaData();
   }, [endDateStat, esLimitadoText, idParam, page, pageSize, searchName, startDateStat]);
 
+
+  // eslint-disable-next-line react/prop-types
   const InformativeBox = ({ text }) => (
     <Box
       sx={{
