@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-
+import InfoIcon from '@mui/icons-material/Info';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -25,7 +25,7 @@ import {
   MenuItem,
   TextField, TableBody, InputLabel, FormControl, TableContainer,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
-// Importa el plugin UTC para manejar correctamente las fechas UTC
+import PropTypes from 'prop-types'; // Importa PropTypes de React
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -271,7 +271,20 @@ export default function TiendaDetail() {
     loadTiendaData();
   }, [endDateStat, esLimitadoText, idParam, page, pageSize, searchName, startDateStat]);
 
-
+  const InformativeBox = ({ text }) => (
+    <Box
+      sx={{
+        backgroundColor: '#f4f4f4',
+        padding: '16px',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <InfoIcon sx={{ marginRight: '8px', color: '#ffa000' }} />
+      <Typography variant="body1">{text}</Typography>
+    </Box>
+  );
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -504,6 +517,7 @@ export default function TiendaDetail() {
                     marginTop: '15%', // Ajusta la distancia desde la parte superior
                     marginBottom: '15%',
                   }}
+                  
                 >
                   <CircularProgress color="primary" />
                   <Typography variant="h6" sx={{ mt: 1 }}>
@@ -511,15 +525,29 @@ export default function TiendaDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+                <Box  sx={{ mt: 3 , borderRadius: '8px',  padding: '2%'  }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} >
+                    <Grid item xs={12}>
+                    <Box display="flex" alignItems="center">
+                      <Typography variant="h2" component="div" sx={{ marginRight: 2 }}>
+                        {tiendaText}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Tienda Activa" : "Tienda Inactiva"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
+                    </Grid>
+                    <Grid item xs={4} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
-                        border: '1px solid',
-                        borderColor: '#A6B0BB',
-                        borderRadius: '8px', // Puedes ajustar el valor para más o menos redondeado
-                      }}>
+                          border: '1px solid',
+                          borderColor: '#A6B0BB',
+                          borderRadius: '8px',
+                          width: '100%', // Ancho fijo del contenedor
+                          height: '350px', // Alto fijo del contenedor
+                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                        }}>
                         <Box
                           position="relative"
                           width="100%"
@@ -533,110 +561,123 @@ export default function TiendaDetail() {
                           />
                         </Box>
                       </Box>
+                    </Grid>
+                    <Grid item xs={8} container spacing={2}>
+                      <Grid item xs={6}>
+                        <FormControl fullWidth>
+                          <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+                            labelId="search-select-label"
+                            id="search-select"
+                            disabled={!editable}
+                            value={selectedCategoria}
+                            label="Elegir Tienda"
+                            onChange={(e) => setSelectedCategoria(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
 
+                          >
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Busca una categoria por nombre..."
+                                fullWidth
+                                value={searchTerm}
+                                onChange={changeTermSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleSearch} />
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                            </ListSubheader>
+                            {categorias.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Locacion" disabled name="locacion" defaultValue={locacionText}
+                                  InputProps={{
+                                    readOnly: true,
+                                  }}/>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField fullWidth label="Descripción" disabled name="descripcion" multiline rows={4}
+                                  defaultValue={descripcionText} InputProps={{
+                                    readOnly: true,
+                                  }}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                          <TimePicker disabled
+                            label="Hora Apertura"
+                            value={horaApertura}
+                            sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                          <TimePicker disabled
+                            label="Hora Cierre"
+                            value={horaCierre}
+                            sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Aforo" disabled name="aforo" defaultValue={aforo}
+                                  InputProps={{
+                                    readOnly: true,
+                                  }}/>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Nombre" disabled defaultValue={tiendaText} InputProps={{
-                        readOnly: true,
-                      }}/>
+                    <Grid item xs={11.5}>
+                      <Box
+                        sx={{
+                          backgroundColor: '#f4f4f4',
+                          padding: '16px',
+                          borderRadius: '8px',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <InfoIcon sx={{ marginRight: '8px', color: '#ffa000' }} />
+                        <Typography variant="body1">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500.</Typography>
+                        
+                      </Box>
                     </Grid>
+                    <Grid item xs={0.5}>
+                    <Button
+                        variant="contained"
+                        color="warning"
+                        sx={{ 
+                          backgroundColor: '#ffa000', // Color de fondo blanco
+                          color: "#000000", // Color de texto azul
+                          width: '40px', // Ajusta el ancho del botón para hacerlo circular
+                          height: '40px', // Ajusta la altura del botón para hacerlo circular
+                          borderRadius: '50%', // Hace que el borde sea redondo para formar un círculo
 
-                    <Grid item xs={4}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-                          labelId="search-select-label"
-                          id="search-select"
-                          disabled={!editable}
-                          value={selectedCategoria}
-                          label="Elegir Tienda"
-                          onChange={(e) => setSelectedCategoria(e.target.value)}
-                          // This prevents rendering empty string in Select's value
-                          // if search text would exclude currently selected option.
-
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca una categoria por nombre..."
-                              fullWidth
-                              value={searchTerm}
-                              onChange={changeTermSearch}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearch} />
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          </ListSubheader>
-                          {categorias.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          padding: 0, // Elimina el relleno interno del botón
+                          minWidth: 0,
+                        }}
+                        type='submit'
+                        onClick={handleDescargarQR}
+                      ><Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', margin: 'auto' }} /></Button>      
                     </Grid>
-
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Locacion" disabled name="locacion" defaultValue={locacionText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Descripción" disabled name="descripcion" multiline rows={4}
-                                 defaultValue={descripcionText} InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                        <TimePicker disabled
-                          label="Hora Apertura"
-                          value={horaApertura}
-                          sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                        <TimePicker disabled
-                          label="Hora Cierre"
-                          value={horaCierre}
-                          sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Aforo" disabled name="aforo" defaultValue={aforo}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Button variant="contained" color="info" 
-                      sx={{backgroundColor: '#003B91', color:"#FFFFFF" , fontSize: '1rem',
-                      marginTop: '16px', marginBottom: '0px'}} type='submit' onClick={handleDescargarQR}
-                      startIcon={<Iconify icon="material-symbols:download" />}>
-                      Descargar QR</Button>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Box display="flex" justifyContent="flex-end">
-                      <Chip
-                          label={isActivo  ? "Tienda Activa" : "Tienda Inactiva"}
-                          color={isActivo  ? "success" : "default"}
-                          style={{ fontWeight: 'bold' }}
-                        />
-                        </Box>
-                    </Grid>        
+                  </Grid>   
                 </Box>
               )}
             </form>
@@ -757,7 +798,7 @@ export default function TiendaDetail() {
                 </Grid>
               </Grid>
               )}
-              </Box >
+            </Box >
           )}
         </Grid>
       </Grid>
