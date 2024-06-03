@@ -624,7 +624,7 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} InputProps={{
+                      <TextField fullWidth label="Código" name="codigo" disabled defaultValue={cuponText} InputProps={{
                         readOnly: true,
                       }}/>
                     </Grid>
@@ -730,22 +730,15 @@ export default function CuponDetail() {
                       </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
+                      <TextField fullWidth label="Sumilla" disabled name="sumilla" defaultValue={sumillaText} />
                     </Grid>
                     <Grid item xs={6}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} InputProps={{
-                                  readOnly: true,
-                                }}/>
+                      <TextField fullWidth label="Descripción Completa" disabled name="descripcionCompleta" multiline rows={4}
+                                 defaultValue={descripcionText} />
                     </Grid>
                     <Grid item xs={6}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} InputProps={{
-                                  readOnly: true,
-                                }}/>
+                      <TextField fullWidth label="Términos y Condiciones" disabled name="terminosCondiciones" multiline rows={4}
+                                 defaultValue={terminosText} />
                     </Grid>
                     <Grid item xs={3}>
                       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -761,21 +754,15 @@ export default function CuponDetail() {
                     </Grid>
                     <Grid item xs={3}>
                       <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
+                                disabled/>
                     </Grid>
                     <Grid item xs={3}>
                       <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" defaultValue={cantIniText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
+                                disabled/>
                     </Grid>
                     <Grid item xs={3}>
                       <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
-                                 defaultValue={ordPriorizacionText} InputProps={{
-                                  readOnly: true,
-                                }}/>
+                                 defaultValue={ordPriorizacionText} disabled/>
                     </Grid>
                     <Grid item xs={12}>
                     <Box display="flex" justifyContent="flex-end">

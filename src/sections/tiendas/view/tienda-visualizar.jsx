@@ -536,7 +536,7 @@ export default function TiendaDetail() {
 
                     </Grid>
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Nombre" defaultValue={tiendaText} InputProps={{
+                      <TextField fullWidth label="Nombre" disabled defaultValue={tiendaText} InputProps={{
                         readOnly: true,
                       }}/>
                     </Grid>
@@ -547,7 +547,6 @@ export default function TiendaDetail() {
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
-
                           labelId="search-select-label"
                           id="search-select"
                           disabled={!editable}
@@ -586,13 +585,13 @@ export default function TiendaDetail() {
                     </Grid>
 
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Locacion" name="locacion" defaultValue={locacionText}
+                      <TextField fullWidth label="Locacion" disabled name="locacion" defaultValue={locacionText}
                                  InputProps={{
                                   readOnly: true,
                                 }}/>
                     </Grid>
                     <Grid item xs={12}>
-                      <TextField fullWidth label="Descripción" name="descripcion" multiline rows={4}
+                      <TextField fullWidth label="Descripción" disabled name="descripcion" multiline rows={4}
                                  defaultValue={descripcionText} InputProps={{
                                   readOnly: true,
                                 }}/>
@@ -616,7 +615,7 @@ export default function TiendaDetail() {
                       </LocalizationProvider>
                     </Grid>
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Aforo" name="aforo" defaultValue={aforo}
+                      <TextField fullWidth label="Aforo" disabled name="aforo" defaultValue={aforo}
                                  InputProps={{
                                   readOnly: true,
                                 }}/>

@@ -690,43 +690,29 @@ export default function CuponDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={2}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={idParam} 
+                      <TextField fullWidth label="Código" name="codigo" disabled defaultValue={idParam} 
                       InputProps={{
                         readOnly: true,
                       }}/>
                     </Grid>
                     <Grid item xs={6}>
-                    <TextField fullWidth label="Nombre Completo" name="codigo" defaultValue={nombreCompleto} 
+                    <TextField fullWidth label="Nombre Completo" name="codigo" disabled defaultValue={nombreCompleto} 
                     InputProps={{
                       readOnly: true,
                     }}/>
                     </Grid>
                     
                     <Grid item xs={4}>
-                    <TextField fullWidth label="Teléfono" name="codigo" defaultValue={telefono} InputProps={{
-                        readOnly: true,
-                      }}/>
+                    <TextField fullWidth label="Teléfono" name="codigo" disabled defaultValue={telefono}/>
                     </Grid>
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Correo" name="sumilla" defaultValue={email}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
+                      <TextField fullWidth label="Correo" name="correo" disabled defaultValue={email}/>
                     </Grid>
                     <Grid item xs={4}>
-                    <TextField fullWidth label="Género" name="sumilla" defaultValue={genero}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
+                    <TextField fullWidth label="Género" name="genero" disabled defaultValue={genero}/>
                     </Grid>
-
-
-
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Puntos" name="costoPuntos" defaultValue={puntos}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
+                      <TextField fullWidth label="Puntos" name="costoPuntos" disabled defaultValue={puntos}/>
                     </Grid>
                     <Grid item xs={12}>
                     <Box display="flex" justifyContent="flex-end">
