@@ -281,7 +281,7 @@ export default function TiendaDetail() {
         alignItems: 'center',
       }}
     >
-      <InfoIcon sx={{ marginRight: '8px', color: '#ffa000' }} />
+      <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
       <Typography variant="body1">{text}</Typography>
     </Box>
   );
@@ -652,7 +652,7 @@ export default function TiendaDetail() {
                           alignItems: 'center',
                         }}
                       >
-                        <InfoIcon sx={{ marginRight: '8px', color: '#ffa000' }} />
+                        <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
                         <Typography variant="body1">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500.</Typography>
                         
                       </Box>
@@ -662,8 +662,8 @@ export default function TiendaDetail() {
                         variant="contained"
                         color="warning"
                         sx={{ 
-                          backgroundColor: '#ffa000', // Color de fondo blanco
-                          color: "#000000", // Color de texto azul
+                          backgroundColor: '#808080', // Color de fondo blanco
+                          color: "#FFFFFF", // Color de texto azul
                           width: '40px', // Ajusta el ancho del botón para hacerlo circular
                           height: '40px', // Ajusta la altura del botón para hacerlo circular
                           borderRadius: '50%', // Hace que el borde sea redondo para formar un círculo
