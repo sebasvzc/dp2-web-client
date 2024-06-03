@@ -534,8 +534,7 @@ export default function CuponDetail() {
       <Grid container spacing={5}  >
         <Grid item xs={3}>
         <Box sx={{ borderRight: 1, borderColor: 'divider', height: '950px', paddingTop: 2 }}>
-
-            <List component="nav" aria-label="opciones de navegación">
+          <List component="nav" aria-label="opciones de navegación">
               <ListItemButton
                 component="a"
                 onClick={() => setView('datos')}
@@ -586,7 +585,7 @@ export default function CuponDetail() {
               >
                 <ListItemText primary="Estadísticas" />
               </ListItemButton>
-            </List>
+          </List>
           </Box>
         </Grid>
         <Grid item xs={9}>
@@ -649,7 +648,7 @@ export default function CuponDetail() {
                         </Box>
                       </Box>
                     </Grid>
-                    <Grid item xs={8} container spacing={2}>
+                    <Grid item xs={9} container spacing={2}>
                       <Grid item xs={2}>
                         <TextField fullWidth label="Código" name="codigo" disabled defaultValue={idParam} />
                       </Grid>  
