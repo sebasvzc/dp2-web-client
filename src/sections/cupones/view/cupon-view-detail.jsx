@@ -116,7 +116,10 @@ export default function CuponDetail() {
         let response="";
         response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
           method: 'POST',
-          body: JSON.stringify({ id:idParam }),
+          body: JSON.stringify({
+            id:idParam,
+            permission:"Gestion de Cupones"
+          }),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -177,7 +180,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -188,7 +191,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -224,7 +227,7 @@ export default function CuponDetail() {
 
         setDataClients(data2.clientesxCupon);
 
-        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
+        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
           method: 'GET',
 
           headers: {

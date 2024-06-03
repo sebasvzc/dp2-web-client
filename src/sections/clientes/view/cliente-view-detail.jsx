@@ -151,7 +151,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -162,7 +162,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -372,7 +372,7 @@ export default function CuponDetail() {
         console.log("No se ha enviado ningún archivo");
         // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
-
+      formData.append("permission","Gestion de Cupones");
 
 
       let response="";

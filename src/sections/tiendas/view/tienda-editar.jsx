@@ -730,7 +730,7 @@ export default function TiendaDetail() {
       formData.append("horaApertura", horaApertura);
       formData.append("horaCierre", horaCierre);
       formData.append("aforo", event.target.aforo.value);
-      
+
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);

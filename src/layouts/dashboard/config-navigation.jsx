@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -77,7 +77,18 @@ NavItem.propTypes = {
 
 
 export default function NavBar() {
-  const { logoutUser } = useAuth(); // Asegúrate de que tu hook useAuth proporcione la función logout
+  const { logoutUser,getPermissions } = useAuth(); // Asegúrate de que tu hook useAuth proporcione la función logout
+  const [permissions, setPermissions] = useState([]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    const fetchPermissions = async () => {
+      const perms = await getPermissions();
+      console.log("Raw permissions:", perms);
+      setPermissions(perms.permissions.map(perm => perm.permission.nombre));
+    };
+    await fetchPermissions();
+  }, [getPermissions]);
 
   const handleLogout = () => {
     console.log("cerrar sesion")
@@ -94,6 +105,7 @@ export default function NavBar() {
       title: 'dashboard',
       path: '/',
       icon: icon('ic_analytics'),
+      permission: 'Dashboard',
     },
 
     
@@ -101,31 +113,37 @@ export default function NavBar() {
           title: 'Gestión de Usuarios',
           path: '/user',
           icon: icon('ic_user'),
+          permission: 'Gestion de Usuarios',
         },
         {
           title: 'Gestión de Cupones',
           path: '/cupon',
           icon: icon('ic_cupon'),
+          permission: 'Gestion de Cupones',
         },
         {
           title: 'Gestión de Eventos',
           path: '/eventos',
           icon: icon('ic_evento'),
+          permission: 'Gestion de Eventos',
         },
         {
           title: 'Gestión de Clientes',
           path: '/clientes',
           icon: icon('ic_cliente'),
+          permission: 'Gestion de Clientes',
         },
         {
           title: 'Gestión de Categorías',
           path: '/categorias',
           icon: icon('ic_categoria'),
+          permission: 'Gestion de Categorías',
         },
         {
           title: 'Gestión de Tiendas',
           path: '/tienda',
           icon: icon('ic_tienda'),
+          permission: 'Gestion de Tiendas',
         },
         // Otras opciones de submenú...
 
@@ -136,9 +154,13 @@ export default function NavBar() {
     },
 
   ];
+  const filteredNavConfig = navConfig.filter(item =>
+
+    !item.permission || permissions.includes(item.permission)
+  );
   return (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
+      {filteredNavConfig.map((item) => (
         <NavItem key={item.title} item={item} />
       ))}
     </Stack>

@@ -272,7 +272,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -283,7 +283,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -319,7 +319,7 @@ export default function CuponDetail() {
 
         setDataClients(data2.clientesxCupon);
 
-        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
+        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -402,7 +402,7 @@ export default function CuponDetail() {
       }
 
       let response="";
-
+      formData.append("permission","Gestion de Cupones");
       setLoading2(true)
       response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
         method: 'POST',

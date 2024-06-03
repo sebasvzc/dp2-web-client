@@ -93,35 +93,41 @@ import UserTableToolbar from '../user-table-toolbar';
 
   // Llama a la función obtenerUsuarios para obtener y mostrar los datos de usuarios
     useEffect(() => {
-
-    const fetchData = async () => {
+      console.log("useEffect is running");
+      console.log("page:", page);
+      console.log("pageSize:", pageSize);
+      console.log("habilitarUsuarios:", habilitarUsuarios);
+      console.log("searchName:", searchName);
+      const fetchData = async () => {
         try {
-          setLoading(true); // Indicar que la carga ha finalizado
-          const data = await obtenerUsuarios(page,pageSize,searchName); // Obtener los datos de usuarios
-          console.log(data.users)
-          if(data.newToken){
+          setLoading(true); // Indicate that loading has started
+          const data = await obtenerUsuarios(page, pageSize, searchName); // Fetch user data
+          console.log(data.users);
+
+          if (data.newToken) {
             const storedUser = localStorage.getItem('user');
             const userX = JSON.parse(storedUser);
             userX.token = data.newToken;
-            localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+            localStorage.setItem('user', JSON.stringify(userX)); // Update the user in local storage
             console.log("He puesto un nuevo token");
           }
-          console.log(data.totalUsers)
-          if(data.totalUsers){
+
+          if (data.totalUsers) {
             setTotalUsers(data.totalUsers);
           }
-          setUserData(data.users); // Actualizar el estado con los datos obtenidos
-          setLoading(false); // Indicar que la carga ha finalizado
 
+          setUserData(data.users); // Update state with fetched user data
         } catch (err) {
-          setError(err); // Manejar errores de obtención de datos
-          setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+          setError(err); // Handle fetch errors
+        } finally {
+          setLoading(false); // Indicate that loading has finished, whether fetch succeeded or failed
         }
       };
 
-      fetchData(); // Llamar a la función para obtener los datos al montar el componente
-      console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalUsers, habilitarUsuarios,searchName]);
+      fetchData(); // Call the async function synchronously
+
+      console.log("searchName despues de buscar", searchName);
+    }, [page, pageSize, habilitarUsuarios, searchName]);
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
