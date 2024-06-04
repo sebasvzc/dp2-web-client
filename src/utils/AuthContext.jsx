@@ -30,12 +30,37 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('user');
   }, []);
+  const getPermissions = useCallback(async () => {
+
+    console.log("userX");
+
+    const userX=  localStorage.getItem('user');
+    console.log(userX);
+    const userStringify = JSON.parse(userX);
+    console.log(userStringify.token);
+    const accessToken = userStringify.token;
+    const {refreshToken} = userStringify;
+    const response = await fetch(`http://localhost:3000/api/user/listarpermisos`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Refresh-Token': `Bearer ${refreshToken}`
+      }
+    });
+
+    const data = await response.json();
+    console.log("datapermission");
+    console.log(data);
+    return data;
+  }, []);
 
   const contextData = useMemo(() => ({
     user,
     loginUser,
     logoutUser,
-  }), [user, loginUser, logoutUser]);
+    getPermissions
+  }), [user, loginUser, logoutUser,getPermissions]);
 
   return (
     <AuthContext.Provider value={contextData}>

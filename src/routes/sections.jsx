@@ -30,44 +30,44 @@ export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'
 
 // ----------------------------------------------------------------------
 
-export default function RouterX() {
-  return(
+  export default function RouterX() {
+    return(
 
-      <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/register" element={<RegisterPage/>}/>
-          <Route path="/ForgottenPassword" element={<ForgottenPasswordPage/>}/>
-          <Route path="/CodeValidation" element={<CodeValidationPage/>}/>
-          <Route path="/NewPassword" element={<NuevaContrasenaPage/>}/>
-          <Route element={<PrivateRoutes />}>
-            <Route path="/" element={<IndexPage/>}/>
-            <Route path="/user" element={<UserPage/>}/>
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/register" element={<RegisterPage/>}/>
+            <Route path="/ForgottenPassword" element={<ForgottenPasswordPage/>}/>
+            <Route path="/CodeValidation" element={<CodeValidationPage/>}/>
+            <Route path="/NewPassword" element={<NuevaContrasenaPage/>}/>
+            <Route element={<PrivateRoutes />}>
+              <Route path="/" element={<IndexPage/>}/>
+              <Route path="/user" element={<UserPage/>}/>
 
-            <Route path="/cupon" element={<CuponesPage/>}/>
-            <Route path="/cupon">
-              <Route path="cupon-new" element={<CuponNew/>}/>
-              <Route path="detalle/:id" element={<CuponDetalle />} />
-              <Route path="editar/:id" element={<CuponEditar />} />
+              <Route path="/cupon" element={<CuponesPage/>}/>
+              <Route path="/cupon">
+                <Route path="cupon-new" element={<CuponNew/>}/>
+                <Route path="detalle/:id" element={<CuponDetalle />} />
+                <Route path="editar/:id" element={<CuponEditar />} />
+              </Route>
+
+              <Route path="/categorias" element={<CategoriasPage/>}/>
+              <Route path="/clientes" element={<ClientesPage/>}/>
+              <Route path="/clientes" >
+                <Route path="detalle/:id" element={<ClientesDetalle/>}/>
+              </Route>
+
+              <Route path="/tienda" element={<TiendasPage/>}/>
+              <Route path="/tienda">
+                <Route path="tienda-new" element={<TiendaNew/>}/>
+                <Route path="tienda-visualizar/:id" element={<TiendaVisualizar/>}/>
+                <Route path="tienda-editar/:id" element={<TiendaEditar/>}/>
+              </Route>
+
+              <Route path="*" element={<Page404/>}/>
             </Route>
-            
-            <Route path="/categorias" element={<CategoriasPage/>}/>
-            <Route path="/clientes" element={<ClientesPage/>}/>
-            <Route path="/clientes" >
-              <Route path="detalle/:id" element={<ClientesDetalle/>}/>
-            </Route>
+          </Routes>
+        </AuthProvider>
 
-            <Route path="/tienda" element={<TiendasPage/>}/>
-            <Route path="/tienda">
-              <Route path="tienda-new" element={<TiendaNew/>}/>
-              <Route path="tienda-visualizar/:id" element={<TiendaVisualizar/>}/>
-              <Route path="tienda-editar/:id" element={<TiendaEditar/>}/>
-            </Route>
-
-            <Route path="*" element={<Page404/>}/>
-          </Route>
-        </Routes>
-      </AuthProvider>
-
-  )
-}
+    )
+  }

@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
         for (const [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
         }
-
+        formData.append("permission","Gestion de Cupones");
          let response="";
 
          setLoading2(true)

@@ -98,7 +98,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
             localStorage.setItem('tienda', JSON.stringify(tiendaX)); // Actualiza el usuario en el almacenamiento local
             console.log("He puesto un nuevo token");
           }
-          console.log(data.totalTiendas)
+
           if(data.totalTiendas){
             setTotalTiendas(data.totalTiendas);
           }
@@ -113,7 +113,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalTiendas, habilitarTiendas,searchName]);
+    }, [page, pageSize, habilitarTiendas,searchName]);
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);

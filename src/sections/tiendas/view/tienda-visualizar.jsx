@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import utc from 'dayjs/plugin/utc';
 import { useState, useEffect } from 'react';
-import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useParams, useNavigate } from 'react-router-dom';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import InfoIcon from '@mui/icons-material/Info';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -13,31 +14,34 @@ import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker, TimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Grid,
+
   Chip,
+
+  Table,
   Button,
   Select,
   MenuItem,
-  TextField,
-  InputLabel, FormControl,
+  TextField, TableBody, InputLabel, FormControl, TableContainer,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
-import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
+
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TablePagination from '@mui/material/TablePagination';
 
 import Iconify from '../../../components/iconify';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UserTableToolbar from '../../user/user-table-toolbar';
-import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
-import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
+import { getCategoriaTiendas } from '../../../funciones/api';
+import TiendaClienteTableRow from "../tienda-cliente-table-row";
+import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
+import DashboardCuponesTiendaEspecifica from '../../overview/DashboardCuponesTiendaEspecifica';
+
 
 
 
@@ -50,7 +54,7 @@ export default function TiendaDetail() {
   const [editableImg, setEditableImg] = useState(false);
   const [order, setOrder] = useState('asc');
   const [searchName, setSearchName] = useState("all");
-  const [dataClients, setDataClients] = useState([]);
+  const [dataCupones, setDataCupones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [habilitarCupones, setHabilitarCupones] = useState(true);
   const [selected, setSelected] = useState([]);
@@ -64,7 +68,8 @@ export default function TiendaDetail() {
   const [fileUrl, setFileUrl] = useState('');
   const filterName= useState("")
   const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
-  const [totalClientsCupon, setTotalClientsCupon] = useState(10);
+  const [dataDashCupones, setDataDashCupones] = useState({  fechas: [], cantidades: [] });
+  const [totalCupones, setTotalCupones] = useState(10);
   const [tiendaText, setTiendaText] = useState('');
   const [esLimitadoText, setEsLimitadoText] = useState(false);
   const [esLimitadoDesp, setEsLimitadoDesp] = useState(false);
@@ -74,6 +79,8 @@ export default function TiendaDetail() {
   const [horaCierre, setHoraCierre] = useState(dayjs());
   const [horaApertura, setHoraApertura] = useState(dayjs());
   const [locacionText, setLocacionText] = useState('');
+  const [startDateStat, setStartDateStat] = useState(dayjs().subtract(5, 'month').startOf('month'));
+  const [endDateStat, setEndDateStat] = useState(dayjs().endOf('month'));
   const [aforo, setAforo] = useState('');
   const [fechaText, setFechaText] = useState('');
   const [costoText, setCostoText] = useState('');
@@ -146,6 +153,7 @@ export default function TiendaDetail() {
         setTiendaText(data.detalles.nombre)
         setSelectedCategoria(data.detalles.categoriaTienda.id)
         setLocacionText(data.detalles.locacion)
+        setUrlImagenS3(data.image)
         setDescripcionText(data.detalles.descripcion)
         console.log("hora apretura")
         console.log(dayjs(data.detalles.horaApertura, 'HH:mm:ss'))
@@ -155,7 +163,104 @@ export default function TiendaDetail() {
         setAforo(data.detalles.aforo)
         console.log(idParam)
         // Simulación de carga
+        const endDateParam=`${endDateStat.date()}/${endDateStat.month()+1}/${endDateStat.year()}`;
+        const startDateParam=`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`;
+        response = await fetch(`http://localhost:3000/api/tiendas/listarCuponesMesxTienda?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+          method: 'GET',
 
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("Cupon detalle x cliente")
+        const data5 = await response.json();
+        console.log(data5)
+        if(data5.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data5.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if (data5) {
+          console.log("Viendo data5");
+          console.log(data5);
+
+          const fechasPorCategoria = data5.cupones.map(categoria => ({
+            variable: categoria.variable,
+            fechas: categoria.data.map(item => item.fechaMesAnio),
+            cantidades: categoria.data.map(item => item.cantidad)
+          }));
+
+          console.log("Fechas y canjeados y usados:");
+          console.log(fechasPorCategoria);
+
+          // Aquí podrías usar `fechasPorCategoria` para actualizar el estado de tu componente
+          // Por ejemplo:
+          setDataDashCupones(fechasPorCategoria);
+
+        }
+
+
+        if(searchName===""){
+          response = await fetch(`http://localhost:3000/api/tiendas/listarcuponesxtienda?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+            method: 'GET',
+
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            },
+
+          });
+        }else{
+          response = await fetch(`http://localhost:3000/api/tiendas/listarcuponesxtienda?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+            method: 'GET',
+
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            },
+
+          });
+        }
+
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const dataCupon = await response.json();
+        console.log("dataCupon de tablas")
+        console.log(dataCupon)
+        if(dataCupon.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = dataCupon.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if(dataCupon.totalCupones){
+          setTotalCupones(dataCupon.totalCupones);
+        }
+
+        setDataCupones(dataCupon.cuponesXTienda);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch cupon data", err);
@@ -165,9 +270,24 @@ export default function TiendaDetail() {
     }
 
     loadTiendaData();
-  }, [esLimitadoText, idParam, page, pageSize, searchName]);
+  }, [endDateStat, esLimitadoText, idParam, page, pageSize, searchName, startDateStat]);
 
 
+  // eslint-disable-next-line react/prop-types
+  const InformativeBox = ({ text }) => (
+    <Box
+      sx={{
+        backgroundColor: '#f4f4f4',
+        padding: '16px',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
+      <Typography variant="body1">{text}</Typography>
+    </Box>
+  );
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -210,6 +330,56 @@ export default function TiendaDetail() {
     } catch (error) {
       console.error('Error al obtener datos de la API:', error);
     }
+  };
+  const handleSort = (event, id) => {
+    const isAsc = orderBy === id && order === 'asc';
+    console.log("Este es el id que ordena")
+    console.log(id)
+    if (id !== '') {
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(id);
+    }
+  };
+
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+    console.log("newSelected");
+    console.log(newSelected);
+    console.log(typeof newSelected);
+  };
+  const handleSelectAllClick = (event) => {
+
+    console.log(searchName)
+    if (event.target.checked) {
+      const newSelecteds = dataCupones.map((n) => n.id);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+  const handleChangePage = (event, newPage) => {
+    console.log("new page", newPage+1)
+    setPage(newPage+1);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setPage(1);
+    setPageSize(parseInt(event.target.value, 10));
   };
 
   const [formDatos, setFormDatos] = useState({
@@ -267,6 +437,7 @@ export default function TiendaDetail() {
   const handleBack = () => {
     navigate('/tienda'); 
   }
+
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
@@ -349,6 +520,7 @@ export default function TiendaDetail() {
                     marginTop: '15%', // Ajusta la distancia desde la parte superior
                     marginBottom: '15%',
                   }}
+                  
                 >
                   <CircularProgress color="primary" />
                   <Typography variant="h6" sx={{ mt: 1 }}>
@@ -356,162 +528,159 @@ export default function TiendaDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+                <Box  sx={{ mt: 3 , borderRadius: '8px',  padding: '2%'  }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} >
-                      <Box display="flex" justifyContent="center" alignItems="center">
-                      {editableImg ? <Dropzone
-                          onChange={updateFiles}
-                          value={files}
-                          label="Arrastra y suelta tus archivos"
-                          maxFiles={1}
-                          footer={false}
-                          localization="ES-es"
-                          accept="image/*"
-                          disabled={!editable}
-                        >
-                          {files.map((file, index) => (
-                            // Asegura que cada FileMosaic tiene una key única
-                            <FileMosaic
-                              {...file}
-                              key={file.name + index}
-                              preview
-                              localization="ES-es"
-                              style={{ width: '80%' }}
-                            />
-                          ))}
-                        </Dropzone> : <Box
+                    <Grid item xs={12}>
+                    <Box display="flex" alignItems="center">
+                      <Typography variant="h2" component="div" sx={{ marginRight: 2 }}>
+                        {tiendaText}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Tienda Activa" : "Tienda Inactiva"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
+                    </Grid>
+                    <Grid item xs={4} >
+                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                          border: '1px solid',
+                          borderColor: '#A6B0BB',
+                          borderRadius: '8px',
+                          width: '100%', // Ancho fijo del contenedor
+                          height: '350px', // Alto fijo del contenedor
+                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                        }}>
+                        <Box
                           position="relative"
                           width="100%"
                           maxWidth="300px"
-                          style={{ width: '100%', height: 'auto' }}
+                          style={{ width: '100%', height: 'auto'}}
                         >
+                          <img
+                            src={urlImagenS3}
+                            alt="Imagen Predeterminada"
+                            style={{ width: '100%', height: 'auto' }}
+                          />
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={8} container spacing={2}>
+                      <Grid item xs={6}>
+                        <FormControl fullWidth>
+                          <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+                            labelId="search-select-label"
+                            id="search-select"
+                            disabled={!editable}
+                            value={selectedCategoria}
+                            label="Elegir Tienda"
+                            onChange={(e) => setSelectedCategoria(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
 
-                          <Box
-                            position="absolute"
-                            top={0}
-                            left={0}
-                            right={0}
-                            bottom={0}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            bgcolor="rgba(0, 0, 0, 0.2)"
                           >
-                            {editable && (
-                              <IconButton onClick={handleChangeImage} disabled style={{ color: 'white', fontSize: 16 }}>
-                                <Iconify icon="ic:baseline-edit" style={{ color: 'white', fontSize: '2rem' }} />
-                                Cambiar Imagen
-                              </IconButton>
-                            )}
-                          </Box>
-                        </Box>}
-                        </Box>
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Busca una categoria por nombre..."
+                                fullWidth
+                                value={searchTerm}
+                                onChange={changeTermSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleSearch} />
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                            </ListSubheader>
+                            {categorias.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Locacion" disabled name="locacion" defaultValue={locacionText}
+                                  InputProps={{
+                                    readOnly: true,
+                                  }}/>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField fullWidth label="Descripción" disabled name="descripcion" multiline rows={4}
+                                  defaultValue={descripcionText} InputProps={{
+                                    readOnly: true,
+                                  }}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                          <TimePicker disabled
+                            label="Hora Apertura"
+                            value={horaApertura}
+                            sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                          <TimePicker disabled
+                            label="Hora Cierre"
+                            value={horaCierre}
+                            sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Aforo" disabled name="aforo" defaultValue={aforo}
+                                  InputProps={{
+                                    readOnly: true,
+                                  }}/>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Nombre" defaultValue={tiendaText} InputProps={{
-                        readOnly: true,
-                      }}/>
+                    <Grid item xs={11.5}>
+                      <Box
+                        sx={{
+                          backgroundColor: '#f4f4f4',
+                          padding: '16px',
+                          borderRadius: '8px',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
+                        <Typography variant="body1">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500.</Typography>
+                        
+                      </Box>
                     </Grid>
+                    <Grid item xs={0.5}>
+                    <Button
+                        variant="contained"
+                        color="warning"
+                        sx={{ 
+                          backgroundColor: '#808080', // Color de fondo blanco
+                          color: "#FFFFFF", // Color de texto azul
+                          width: '40px', // Ajusta el ancho del botón para hacerlo circular
+                          height: '40px', // Ajusta la altura del botón para hacerlo circular
+                          borderRadius: '50%', // Hace que el borde sea redondo para formar un círculo
 
-                    <Grid item xs={4}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-
-                          labelId="search-select-label"
-                          id="search-select"
-                          disabled={!editable}
-                          value={selectedCategoria}
-                          label="Elegir Tienda"
-                          onChange={(e) => setSelectedCategoria(e.target.value)}
-                          // This prevents rendering empty string in Select's value
-                          // if search text would exclude currently selected option.
-
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca una categoria por nombre..."
-                              fullWidth
-                              value={searchTerm}
-                              onChange={changeTermSearch}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearch} />
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          </ListSubheader>
-                          {categorias.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          padding: 0, // Elimina el relleno interno del botón
+                          minWidth: 0,
+                        }}
+                        type='submit'
+                        onClick={handleDescargarQR}
+                      ><Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', margin: 'auto' }} /></Button>      
                     </Grid>
-
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Locacion" name="locacion" defaultValue={locacionText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Descripción" name="descripcion" multiline rows={4}
-                                 defaultValue={descripcionText} InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                        <TimePicker disabled
-                          label="Hora Apertura"
-                          value={horaApertura}
-                          sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                        <TimePicker disabled
-                          label="Hora Cierre"
-                          value={horaCierre}
-                          sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Aforo" name="aforo" defaultValue={aforo}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Button variant="contained" color="info" 
-                      sx={{backgroundColor: '#003B91', color:"#FFFFFF" , fontSize: '1rem',
-                      marginTop: '16px', marginBottom: '0px'}} type='submit' onClick={handleDescargarQR}
-                      startIcon={<Iconify icon="material-symbols:download" />}>
-                      Descargar QR</Button>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Box display="flex" justifyContent="flex-end">
-                      <Chip
-                          label={isActivo  ? "Tienda Activa" : "Tienda Inactiva"}
-                          color={isActivo  ? "success" : "default"}
-                          style={{ fontWeight: 'bold' }}
-                        />
-                        </Box>
-                    </Grid>        
+                  </Grid>   
                 </Box>
               )}
             </form>
@@ -538,15 +707,101 @@ export default function TiendaDetail() {
                 </Box>
               ):(
               <Grid container spacing={2}  >
-              <Grid xs={12} >
+                <Grid item xs={12}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <DatePicker
+                          label="Fecha inicial"
+                          value={startDateStat}
+                          onChange={setStartDateStat}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <DatePicker
+                          label="Fecha final"
+                          value={endDateStat}
+                          onChange={setEndDateStat}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Grid>
+                    </Grid>
+                  </LocalizationProvider>
+                </Grid>
+                <Grid xs={12} md={12} lg={12}>
+                  <Card
 
-                  <FictionBooksSalesChart/>
 
-              </Grid>
+                    sx={{
+                      px: 3,
+                      py: 5,
+                      mx:2,
+                      my:4
+                    }} >
+                    <DashboardCuponesTiendaEspecifica dataDash={dataDashCupones}/>
+                  </Card>
+                </Grid>
+                <Grid xs={12}>
+                  <Card>
+                    <UserTableToolbar
+                      numSelected={selected.length}
+                      filterName={filterName}
+                      onFilterName={handleSearch}
+                    />
 
+                    <TableContainer sx={{ overflow: 'unset' }}>
+                      <Table sx={{ minWidth: 800 }}>
+                        <ClientCuponTableHead
+                          order={order}
+                          orderBy={orderBy}
+                          rowCount={dataCupones.length}
+                          numSelected={selected.length}
+                          onRequestSort={handleSort}
+                          onSelectAllClick={handleSelectAllClick}
+                          headLabel={[
+                            { id: 'nombre', label: 'Codigo del Cupon' },
+                            { id: 'fidCliente', label: 'Cliente' },
+                            { id: 'usado', label: 'Usado' },
+                            { id: 'fechaCompra', label: 'Fecha de Compra'}
+
+                          ]}
+                        />
+                        <TableBody>
+                          {dataCupones
+                            .map((row) => (
+                              <TiendaClienteTableRow
+                                key={row.id}
+                                id={row.id}
+                                nombre={row.cupon.codigo}
+                                nombreCliente={`${row.cliente.nombre} ${row.cliente.apellidoPaterno}`} // Concatenación de cupon.codigo y cliente.nombre
+                                usado={row.usado}
+                                fechaCompra={row.fechaCompra}
+                                selected={selected.indexOf(row.id) !== -1}
+                                handleClick={(event) => handleClick(event, row.id)}
+                              />
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+
+
+                    <TablePagination
+                      page={page-1}
+                      component="div"
+                      count={totalCupones}
+                      rowsPerPage={pageSize}
+                      onPageChange={handleChangePage}
+                      labelRowsPerPage="Cupones por página"
+                      labelDisplayedRows={labelDisplayedRows}
+                      rowsPerPageOptions={[6, 12, 18]}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </Card>
+                </Grid>
               </Grid>
               )}
-              </Box >
+            </Box >
           )}
         </Grid>
       </Grid>

@@ -116,7 +116,10 @@ export default function CuponDetail() {
         let response="";
         response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
           method: 'POST',
-          body: JSON.stringify({ id:idParam }),
+          body: JSON.stringify({
+            id:idParam,
+            permission:"Gestion de Cupones"
+          }),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -177,7 +180,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -188,7 +191,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -224,7 +227,7 @@ export default function CuponDetail() {
 
         setDataClients(data2.clientesxCupon);
 
-        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?idParam=${idParam}`, {
+        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -569,225 +572,181 @@ export default function CuponDetail() {
                 <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
                  
                   <Grid container spacing={2}>
-                    <Grid item xs={12} >
-                      <Box display="flex" justifyContent="center" alignItems="center">
-                      {editableImg ? <Dropzone
-                          onChange={updateFiles}
-                          value={files}
-                          label="Arrastra y suelta tus archivos"
-                          maxFiles={1}
-                          footer={false}
-                          localization="ES-es"
-                          accept="image/*"
-                          disabled={!editable}
-                        >
-                          {files.map((file, index) => (
-                            // Asegura que cada FileMosaic tiene una key única
-                            <FileMosaic
-                              {...file}
-                              key={file.name + index}
-                              preview
-                              localization="ES-es"
-                              style={{ width: '80%' }}
-                            />
-                          ))}
-                        </Dropzone> : <Box
+                    
+                    <Grid item xs={12}>
+                    <Box display="flex" alignItems="center">
+                      <Typography variant="h2" component="div" sx={{ marginRight: 2 }}>
+                        {cuponText}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Cupón Activo" : "Cupón Inactivo"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
+                    </Grid>
+                    <Grid item xs={4} >
+                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                          border: '1px solid',
+                          borderColor: '#A6B0BB',
+                          borderRadius: '8px',
+                          width: '100%', // Ancho fijo del contenedor
+                          height: '350px', // Alto fijo del contenedor
+                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                        }}>
+                        <Box
                           position="relative"
                           width="100%"
                           maxWidth="300px"
-                          style={{ width: '100%', height: 'auto' }}
+                          style={{ width: '100%', height: 'auto'}}
                         >
                           <img
                             src={urlImagenS3}
                             alt="Imagen Predeterminada"
                             style={{ width: '100%', height: 'auto' }}
                           />
-                          <Box
-                            position="absolute"
-                            top={0}
-                            left={0}
-                            right={0}
-                            bottom={0}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            bgcolor="rgba(0, 0, 0, 0.2)"
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={8} container spacing={2}>
+                      <Grid item xs={4}>
+                        <FormControl fullWidth>
+                          <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+
+                            labelId="search-select-label"
+                            id="search-select"
+                            disabled={!editable}
+                            value={selectedTienda}
+                            label="Elegir Tienda"
+                            onChange={(e) => setSelectedTienda(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
+
                           >
-                            {editable && (
-                              <IconButton onClick={handleChangeImage} disabled={!editable} style={{ color: 'white', fontSize: 16 }}>
-                                <Iconify icon="ic:baseline-edit" style={{ color: 'white', fontSize: '2rem' }} />
-                                Cambiar Imagen
-                              </IconButton>
-                            )}
-                          </Box>
-                        </Box>}
-                        </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} InputProps={{
-                        readOnly: true,
-                      }}/>
-                    </Grid>
-                    <Grid item xs={3}>
-                    <FormControl fullWidth>
-                    <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
-                    <Select
-                      labelId="es-limitado-select-label"
-                      id="es-limitado-select"
-                      disabled={!editable}
-                      value={esLimitadoDesp} // Usar esLimitadoText como valor seleccionado
-                      onChange={handleLimitado}
-                      label="Es Limitado"
-                    >
-                      <MenuItem value="1">Sí</MenuItem>
-                      <MenuItem value="0">No</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                    </Grid>
-                    <Grid item xs={3}>
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Busca una tienda por nombre..."
+                                fullWidth
+                                value={searchTerm}
+                                onChange={changeTermSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleSearch} />
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                            </ListSubheader>
+                            {tiendas.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={4}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
+                      <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
+                      <Select
+                        labelId="es-limitado-select-label"
+                        id="es-limitado-select"
+                        disabled={!editable}
+                        value={esLimitadoDesp} // Usar esLimitadoText como valor seleccionado
+                        onChange={handleLimitado}
+                        label="Es Limitado"
+                      >
+                        <MenuItem value="1">Sí</MenuItem>
+                        <MenuItem value="0">No</MenuItem>
+                      </Select>
+                    </FormControl>
 
-                          labelId="search-select-label"
-                          id="search-select"
-                          disabled={!editable}
-                          value={selectedTienda}
-                          label="Elegir Tienda"
-                          onChange={(e) => setSelectedTienda(e.target.value)}
-                          // This prevents rendering empty string in Select's value
-                          // if search text would exclude currently selected option.
+                      </Grid>
+                      <Grid item xs={4}>
+                        <FormControl fullWidth>
+                          <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+                            labelId="search-tipo-cupon-select-label"
+                            id="search-tipo-cupon-select"
+                            value={selectedTipoCupon}
+                            disabled={!editable}
+                            label="Elegir tipo de cupon"
+                            onChange={(e) => setSelectedTipoCupon(e.target.value)}
 
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca una tienda por nombre..."
-                              fullWidth
-                              value={searchTerm}
-                              onChange={changeTermSearch}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearch} />
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          </ListSubheader>
-                          {tiendas.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-                          labelId="search-tipo-cupon-select-label"
-                          id="search-tipo-cupon-select"
-                          value={selectedTipoCupon}
-                          disabled={!editable}
-                          label="Elegir tipo de cupon"
-                          onChange={(e) => setSelectedTipoCupon(e.target.value)}
+                          >
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Busca un tipo de cupon por nombre..."
+                                fullWidth
+                                value={searchTermTipoCupones}
+                                onChange={changeTermSearchTipoCupon}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleSearchTipoCupon} />
+                                    </InputAdornment>
+                                  ),
+                                }}
 
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca un tipo de cupon por nombre..."
-                              fullWidth
-                              value={searchTermTipoCupones}
-                              onChange={changeTermSearchTipoCupon}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearchTipoCupon} />
-                                  </InputAdornment>
-                                ),
-                              }}
-
-                            />
-                          </ListSubheader>
-                          {tipoCupones.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                        <DatePicker
-                          label="Fecha expiracion"
-                          value={fechaText}
-                          format="DD/MM/YYYY"
-                          onChange={setStartDate}
-                          disabled={!editable}
-                          sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" defaultValue={cantIniText}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
-                                 defaultValue={ordPriorizacionText} InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={12}>
-                    <Box display="flex" justifyContent="flex-end">
-                      <Chip
-                          label={isActivo  ? "Cupón Activo" : "Cupón Inactivo"}
-                          color={isActivo  ? "success" : "default"}
-                          style={{ fontWeight: 'bold' }}
-                        />
-                        </Box>
-                    </Grid>
+                              />
+                            </ListSubheader>
+                            {tipoCupones.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField fullWidth label="Sumilla" disabled name="sumilla" defaultValue={sumillaText} />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Descripción Completa" disabled name="descripcionCompleta" multiline rows={4}
+                                  defaultValue={descripcionText} />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Términos y Condiciones" disabled name="terminosCondiciones" multiline rows={4}
+                                  defaultValue={terminosText} />
+                      </Grid>
+                      <Grid item xs={3}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                          <DatePicker
+                            label="Fecha expiracion"
+                            value={fechaText}
+                            format="DD/MM/YYYY"
+                            onChange={setStartDate}
+                            disabled={!editable}
+                            sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
+                                  disabled/>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" defaultValue={cantIniText}
+                                  disabled/>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
+                                  defaultValue={ordPriorizacionText} disabled/>
+                      </Grid>
                   </Grid>
-
+                  </Grid>
                 </Box>
               )}
             </form>

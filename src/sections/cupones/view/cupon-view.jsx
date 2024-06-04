@@ -102,7 +102,6 @@ export default function CuponView() {
             localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
             console.log("He puesto un nuevo token");
           }
-          console.log(data.totalCupones)
           if(data.totalCupones){
             setTotalCupones(data.totalCupones);
           }
@@ -117,7 +116,7 @@ export default function CuponView() {
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalCupones, habilitarCupones,searchName]);
+    }, [page, pageSize, habilitarCupones,searchName]);
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
@@ -195,7 +194,10 @@ export default function CuponView() {
             'Authorization': `Bearer ${accessToken}`,
             'Refresh-Token': `Bearer ${refreshToken}`
             },
-          body: JSON.stringify({ selected }),
+          body: JSON.stringify({
+            selected,
+            permission:"Gestion de Cupones"
+          }),
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario
@@ -227,7 +229,10 @@ export default function CuponView() {
             'Authorization': `Bearer ${accessToken}`,
             'Refresh-Token': `Bearer ${refreshToken}`
           },
-          body: JSON.stringify({ selected })
+          body: JSON.stringify({
+            selected,
+            permission:"Gestion de Cupones"
+          }),
         });
         const data = await response.json();
         console.log(data); // Maneja la respuesta de la API según sea necesario

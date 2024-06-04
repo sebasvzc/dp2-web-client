@@ -16,20 +16,19 @@ import {
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import List from '@mui/material/List';
+import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Stack from '@mui/material/Stack';
-import Card from '@mui/material/Card';
-import Iconify from '../../../components/iconify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+import Iconify from '../../../components/iconify';
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
-import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
 import DashboardCuponesMesCliente from '../../overview/DashboardCuponesMesCliente';
-import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
-import AppCurrentVisits from '../../overview/app-current-visits';
+import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
 
 dayjs.locale('es-mx');
 
@@ -77,6 +76,8 @@ export default function CuponDetail() {
   };
   const previewImage = document.querySelector("#previewImage");
   const [nombreCompleto,setNombreCompleto]=useState('')
+  const [nombre,setNombre]=useState('')
+  const [apellido,setApellido]=useState('')
   const [email,setEmail]=useState('')
   const [telefono,setTelefono]=useState(0)
   const [genero,setGenero]=useState('')
@@ -135,6 +136,9 @@ export default function CuponDetail() {
         
         const fullName = `${data.clientes[0].nombre } ${data.clientes[0].apellidoPaterno } ${data.clientes[0].apellidoMaterno}`
         setNombreCompleto(fullName)
+        setNombre(data.clientes[0].nombre)
+        const fullMName = `${data.clientes[0].apellidoPaterno } ${data.clientes[0].apellidoMaterno}`
+        setApellido(fullMName)
         setEmail(data.clientes[0].email)
         setTelefono(data.clientes[0].telefono)
         setGenero(data.clientes[0].genero)
@@ -152,7 +156,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -163,7 +167,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -373,7 +377,7 @@ export default function CuponDetail() {
         console.log("No se ha enviado ningún archivo");
         // Manejar el caso donde no se ha enviado ningún archivo si es necesario
       }
-
+      formData.append("permission","Gestion de Cupones");
 
 
       let response="";
@@ -529,9 +533,8 @@ export default function CuponDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '900x', paddingTop: 2 }}>
-
-            <List component="nav" aria-label="opciones de navegación">
+        <Box sx={{ borderRight: 1, borderColor: 'divider', height: '950px', paddingTop: 2 }}>
+          <List component="nav" aria-label="opciones de navegación">
               <ListItemButton
                 component="a"
                 onClick={() => setView('datos')}
@@ -582,42 +585,13 @@ export default function CuponDetail() {
               >
                 <ListItemText primary="Estadísticas" />
               </ListItemButton>
-            </List>
+          </List>
           </Box>
         </Grid>
         <Grid item xs={9}>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-
-                {editable && ( // Renderiza estos botones solo si 'editable' es true
-                  <>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="success"
-                      sx={{ marginTop: 5, marginRight:2, backgroundColor: "#198754" }}
-                      startIcon={<Iconify icon="ic:baseline-save" />}
-                    >
-                      Guardar
-                    </Button>
-
-                    <Button
-                      variant="contained"
-                      color="error"
-                      startIcon={<Iconify icon="ic:baseline-cancel" />}
-                      sx={{ marginTop: 5, backgroundColor: "#DC3545" }}
-                      onClick={() => {
-                        setEditable(false);
-                        setEditableImg(false); // Cambia 'editableImg' a false para "cancelar" adicionalmente
-                      }} // Opcional: Cambia 'editable' a false para "cancelar"
-                    >
-                      Cancelar
-                    </Button>
-                  </>
-                )}
-              </Box>
-
+              
               {loading ? (
                 <Box
                   sx={{
@@ -637,109 +611,68 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, overflowY: 'auto', maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-
+                <Box  sx={{ mt: 3 , borderRadius: '8px',  padding: '2%'  }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} >
-                      <Box display="flex" justifyContent="center" alignItems="center">
-                      {editableImg ? <Dropzone
-                          onChange={updateFiles}
-                          value={files}
-                          label="Arrastra y suelta tus archivos"
-                          maxFiles={1}
-                          footer={false}
-                          localization="ES-es"
-                          accept="image/*"
-                          disabled={!editable}
-                        >
-                          {files.map((file, index) => (
-                            // Asegura que cada FileMosaic tiene una key única
-                            <FileMosaic
-                              {...file}
-                              key={file.name + index}
-                              preview
-                              localization="ES-es"
-                              style={{ width: '80%' }}
-                            />
-                          ))}
-                        </Dropzone> : <Box
+                    <Grid item xs={12}>
+                    <Box display="flex" alignItems="center">
+                      <Typography variant="h2" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
+                        {nombreCompleto}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
+                    </Grid>
+                    <Grid item xs={3} >
+                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                          border: '1px solid',
+                          borderColor: '#A6B0BB',
+                          borderRadius: '8px',
+                          width: '100%', // Ancho fijo del contenedor
+                          height: '200px', // Alto fijo del contenedor
+                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                        }}>
+                        <Box
                           position="relative"
                           width="100%"
                           maxWidth="300px"
-                          style={{ width: '100%', height: 'auto' }}
+                          style={{ width: '100%', height: 'auto'}}
                         >
-
-                          <Box
-                            position="absolute"
-                            top={0}
-                            left={0}
-                            right={0}
-                            bottom={0}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            bgcolor="rgba(0, 0, 0, 0.2)"
-                          >
-                            {editable && (
-                              <IconButton onClick={handleChangeImage} disabled={!editable} style={{ color: 'white', fontSize: 16 }}>
-                                <Iconify icon="ic:baseline-edit" style={{ color: 'white', fontSize: '2rem' }} />
-                                Cambiar Imagen
-                              </IconButton>
-                            )}
-                          </Box>
-                        </Box>}
+                          <img
+                            src={urlImagenS3}
+                            alt="Imagen Predeterminada"
+                            style={{ width: '100%', height: 'auto' }}
+                          />
                         </Box>
+                      </Box>
                     </Grid>
-                    <Grid item xs={2}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={idParam} 
-                      InputProps={{
-                        readOnly: true,
-                      }}/>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <TextField fullWidth label="Nombre Completo" name="codigo" defaultValue={nombreCompleto} 
-                    InputProps={{
-                      readOnly: true,
-                    }}/>
-                    </Grid>
-                    
-                    <Grid item xs={4}>
-                    <TextField fullWidth label="Teléfono" name="codigo" defaultValue={telefono} InputProps={{
-                        readOnly: true,
-                      }}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Correo" name="sumilla" defaultValue={email}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                    <TextField fullWidth label="Género" name="sumilla" defaultValue={genero}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-
-
-
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Puntos" name="costoPuntos" defaultValue={puntos}
-                                 InputProps={{
-                                  readOnly: true,
-                                }}/>
-                    </Grid>
-                    <Grid item xs={12}>
-                    <Box display="flex" justifyContent="flex-end">
-                      <Chip
-                          label={isActivo  ? "Cliente Activo" : "Cliente Inactivo"}
-                          color={isActivo  ? "success" : "default"}
-                          style={{ fontWeight: 'bold' }}
-                        />
-                        </Box>
+                    <Grid item xs={9} container spacing={2}>
+                      <Grid item xs={2}>
+                        <TextField fullWidth label="Código" name="codigo" disabled defaultValue={idParam} />
+                      </Grid>  
+                      <Grid item xs={5}>
+                        <TextField fullWidth label="Nombres" name="nombres" disabled defaultValue={nombre} />
+                      </Grid>  
+                      <Grid item xs={5}>
+                        <TextField fullWidth label="Apellidos" name="apellidos" disabled defaultValue={apellido} />
+                      </Grid>   
+                      <Grid item xs={6}>
+                      <TextField fullWidth label="Teléfono" name="codigo" disabled defaultValue={telefono}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Correo" name="correo" disabled defaultValue={email}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                      <TextField fullWidth label="Género" name="genero" disabled defaultValue={genero}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField fullWidth label="Puntos" name="costoPuntos" disabled defaultValue={puntos}/>
+                      </Grid>
+                      
                     </Grid>
                   </Grid>
-
                 </Box>
               )}
             </form>
