@@ -695,6 +695,7 @@ export default function TiendaDetail() {
         setHoraApertura(dayjs(data.detalles.horaApertura, 'HH:mm:ss'))
         setHoraCierre(dayjs(data.detalles.horaApertura, 'HH:mm:ss'))
         setAforo(data.detalles.aforo)
+        setUrlImagenS3(data.image);
         console.log(idParam)
         // Simulación de carga
 
@@ -727,17 +728,20 @@ export default function TiendaDetail() {
       }
 
       formData.append("id", idParam);
-      //formData.append("file", files[0].file)
+      formData.append("file", files[0].file)
       formData.append("nombre", event.target.nombre.value);
       formData.append("descripcion", event.target.descripcion.value);
       formData.append("locacion", event.target.locacion.value);
-      const horaApertura = startTime.format("HH:mm:ss");
-      const horaCierre = endTime.format("HH:mm:ss");
+      //const horaApertura = startTime.format("HH:mm:ss");
+      //const horaCierre = endTime.format("HH:mm:ss");
       formData.append("horaApertura", horaApertura);
       formData.append("horaCierre", horaCierre);
       formData.append("aforo", event.target.aforo.value);
-      formData.append("fidCategoriaTienda", selectedTienda);
+      formData.append("fidCategoriaTienda", selectedCategoria);
       // eslint-disable-next-line no-restricted-syntax
+      console.log('ESTE ES EL MODIFICAR TIENDA')
+      console.log(formData)
+
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
@@ -950,7 +954,7 @@ export default function TiendaDetail() {
                         </Box>
                     </Grid>
                     <Grid item xs={4}>
-                      <TextField fullWidth label="Nombre" defaultValue={tiendaText} disabled={!editable} />
+                      <TextField fullWidth label="Nombre" name="nombre" defaultValue={tiendaText} disabled={!editable} />
                     </Grid>
 
                     <Grid item xs={4}>
@@ -965,6 +969,7 @@ export default function TiendaDetail() {
                           disabled={!editable}
                           value={selectedCategoria}
                           label="Elegir Tienda"
+                          name=""
                           onChange={(e) => setSelectedCategoria(e.target.value)}
                           // This prevents rendering empty string in Select's value
                           // if search text would exclude currently selected option.
@@ -1030,7 +1035,11 @@ export default function TiendaDetail() {
                     </Grid>
 
                   </Grid>
-
+                  <img
+                            src={urlImagenS3}
+                            alt="Imagen Predeterminada"
+                            style={{ width: '100%', height: 'auto' }}
+                          />
                 </Box>
               )}
             </form>
