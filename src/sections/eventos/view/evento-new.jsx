@@ -373,7 +373,7 @@ const useStyles = makeStyles((theme) => ({
               <Grid item xs={4}>
                 <TextField fullWidth 
                 onChange={handleChange}
-                label="Locacion" name="locacion" />
+                label="Código" name="codigo" />
               </Grid>
               
             </Grid>
