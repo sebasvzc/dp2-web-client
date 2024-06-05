@@ -156,47 +156,6 @@ export default function EventoTableRow({
     navigate(`/tienda/tienda-editar/${id}`);
   };
 
-  const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
-  const [mostrarTxtApp, setMostrarTxtApp] = useState("");
-  const [mostrarTxtCorreo, setMostrarTxtCorreo] = useState("");
-
-
-  const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
-  const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
-
-  /*
-  useEffect(() => {
-    const tieneAlMenosUnNumero = true;
-    const tieneAlMenosUnaMayuscula = true;
-  
-
-    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula
-      && editedEvento.email.length!==0 && validarEmail(editedEvento.email)
-      && editedEvento.nombre.length!==0 && validarNombre(editedEvento.nombre)
-      && editedEvento.apellido.length!==0 && validarNombre(editedEvento.apellido)){
-      setBackgroundBtnMod("#003B91");
-      setBotonDeshabilitado(false);
-    }else{
-      setBackgroundBtnMod("#CCCCCC");
-      setBotonDeshabilitado(true);
-    }
-    if ((editedEvento.nombre.length!==0 && validarNombre(editedEvento.nombre)) || editedEvento.nombre.length===0) {
-      setMostrarTxtNomb("");
-    } else {
-      setMostrarTxtNomb("Nombre inválido");
-    }
-    if ((editedEvento.apellido.length!==0 && validarNombre(editedEvento.apellido)) || editedEvento.apellido.length===0 ) {
-      setMostrarTxtApp("");
-    } else {
-      setMostrarTxtApp("Apellido Paterno inválido");
-    }
-    if ((editedEvento.email.length!==0 && validarEmail(editedEvento.email)) || editedEvento.email.length===0) {
-      setMostrarTxtCorreo("");
-    } else {
-      setMostrarTxtCorreo("Correo inválido");
-    }
-  }, [editedEvento.nombre,editedEvento.email,editedEvento.apellido,editedEvento.password]);
-  */
 
   return (
     <>
@@ -253,73 +212,7 @@ export default function EventoTableRow({
            </IconButton>
         </MenuItem>
       </Popover>
-      {/* Modal para editar usuario */}
-      <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title" >
-        <div className={classes.modalContainer}>
-        <Typography variant="h6" style={{ marginBottom: "20px" }}>Modificar Usuario</Typography>
-          <Stack direction="column" spacing={1}>
-            <TextField
-              name="nombre"
-              label="Nombre"
-              value={editedEvento.nombre}
-              onChange={handleInputChange}
-              fullWidth
-              margin="normal"
-            />
-            <input className="inputEspecialAC" type="text" value={mostrarTxtNomb} onChange={handleInputChange} 
-            style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-            disabled/>
-           
-          <TextField
-            name="locacion"
-            label="Locación"
-            value={editedEvento.locacion}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <input className="inputEspecialAC" type="text" value={mostrarTxtApp} onChange={handleInputChange} 
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
-          
-          <TextField
-            name="rol"
-            label="Rol"
-            value={editedEvento.rol}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-           <input className="inputEspecialAC" type="text"
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
-         
-          <TextField
-            name="descripcion"
-            label="Descripción"
-            value={editedEvento.descripcion}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <input className="inputEspecialAC" type="text" value={mostrarTxtCorreo} onChange={handleInputChange} 
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
-         
-          </Stack>
-         <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
-          <Button color="error" variant="contained" style={{backgroundColor: '#DC3545'}} onClick={handleCloseModalEdit}>
-            Cancelar
-          </Button>
-          <Button color="success" variant="contained"
-            onClick={handleGuardarCambios}
-            style={{ backgroundColor: backgroundBtnMod, mt: 3 , color: "white", marginLeft: '10px'}}
-            disabled={botonDeshabilitado}>
-            Guardar
-          </Button>
-        </div>
-        </div>
-      </Modal>
+      
     </>
   );
 }
@@ -332,7 +225,6 @@ EventoTableRow.propTypes = {
   descripcion: PropTypes.string.isRequired,
   fechaInicio: PropTypes.string.isRequired,
   fechaFin: PropTypes.string.isRequired,
-  fidLugar: PropTypes.string.isRequired,
   fidTipoEvento: PropTypes.string.isRequired,
   fidTienda: PropTypes.string.isRequired,
   puntosOtorgados: PropTypes.string.isRequired,

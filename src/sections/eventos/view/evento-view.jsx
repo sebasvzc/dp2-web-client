@@ -283,6 +283,15 @@ import EventoTableToolbar from '../evento-table-toolbar';
    const handleEmailChange = (event) => {
      setEmail(event.target.value);
    };
+
+   const formatearFecha = (fechaISO) => {
+    const fecha = new Date(fechaISO);
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son 0-11
+    const año = fecha.getFullYear();
+    return `${dia}/${mes}/${año}`;
+  };
+
    // const notFound = !userData.length && !!filterName;
    /* if (loading) {
      return (
@@ -406,14 +415,14 @@ import EventoTableToolbar from '../evento-table-toolbar';
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <EventoTableRow
                       nombre={row.nombre}
-                      rol={row.rol}
+                      descripcion={row.descripcion}
                       id={row.id}
-                      genero={row.genero}
-                      apellidoPaterno={row.apellidoPaterno}
-                      apellidoMaterno={row.apellidoMaterno}
-                      puntos={row.puntos}
-                      telefono={row.telefono}
-                      emailX={row.email}
+                      fechaInicio={formatearFecha(row.fechaInicio)}
+                      fechaFin={formatearFecha(row.fechaFin)}
+                      puntosOtorgados={row.puntosOtorgados}
+                      edadPromedio={row.edadPromedio}
+                      generoPromedio={row.generoPromedio}
+                      ordenPriorizacion={row.ordenPriorizacion}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       activo={row.activo}
