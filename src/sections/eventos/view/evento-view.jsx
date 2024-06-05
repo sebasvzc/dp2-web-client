@@ -137,7 +137,9 @@ import EventoTableToolbar from '../evento-table-toolbar';
 
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
           },
           body: JSON.stringify({ selected }),
         });
@@ -168,7 +170,9 @@ import EventoTableToolbar from '../evento-table-toolbar';
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
           },
           body: JSON.stringify({ selected }),
         });
