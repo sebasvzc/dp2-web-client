@@ -40,7 +40,7 @@ export default function EventoTableToolbar({ numSelected, filterName, onFilterNa
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
-        placeholder="Buscar tienda por nombre"
+        placeholder="Buscar evento por nombre"
         style={{ width: 500, height: 40, backgroundColor: "white" }}
       />
       <Button

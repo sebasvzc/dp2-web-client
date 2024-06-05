@@ -3,8 +3,6 @@ import {Route, Routes} from 'react-router-dom'
 
 import PrivateRoutes from '../utils/PrivateRoutes'
 import { AuthProvider } from '../utils/AuthContext'
-import EventoView from 'src/sections/eventos/view/evento-view';
-import { EventoNew } from 'src/sections/eventos/view';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 // export const BlogPage = lazy(() => import('src/pages/blog'));
@@ -69,7 +67,7 @@ export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'
                 <Route path="tienda-editar/:id" element={<TiendaEditar/>}/>
               </Route>
 
-              <Route path="/evento" element={<TiendasPage/>}/>
+              <Route path="/evento" element={<EventosPage/>}/>
               <Route path="/evento">
                 <Route path="evento-new" element={<EventoNew/>}/>
               </Route>
