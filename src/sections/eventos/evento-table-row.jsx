@@ -62,13 +62,17 @@ export default function EventoTableRow({
                                        selected,
                                        id,
                                        nombre,
-                                       fidCategoriaEvento,
+                                       fechaInicio,
+                                       fechaFin,
                                        descripcion,
-                                       locacion,
-                                       horaApertura,
-                                       horaCierre,
-                                       aforo,
+                                       fidLugar,
+                                       fidTipoEvento,
+                                       fidTienda,
                                        rutaFoto,
+                                       puntosOtorgados,
+                                       edadPromedio,
+                                       generoPromedio,
+                                       ordenPriorizacion,
                                        activo,
                                        usuarioCreacion,
                                        usuarioActualizacion,
@@ -84,18 +88,22 @@ export default function EventoTableRow({
   const [editedEvento, setEditedEvento] = useState({
     id,
     nombre,
-    fidCategoriaEvento,
+    fechaInicio,
+    fechaFin,
     descripcion,
-    locacion,
-    horaApertura,
-    horaCierre,
-    aforo,
+    fidLugar,
+    fidTipoEvento,
+    fidTienda,
     rutaFoto,
+    puntosOtorgados,
+    edadPromedio,
+    generoPromedio,
+    ordenPriorizacion,
     activo,
     usuarioCreacion,
     usuarioActualizacion,
     createdAt,
-    updatedAt
+    updatedAt,
   });
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedEvento)
@@ -204,10 +212,10 @@ export default function EventoTableRow({
                 {nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Locación: {locacion}
+                Descripción: {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Descripción: {descripcion}
+                Fecha: {fechaInicio} - {fechaFin}
               </Typography>
               <Typography variant="body2" color="text.secondary">
               <span className={activo ? classes.activo : classes.inactivo}>
@@ -320,12 +328,17 @@ EventoTableRow.propTypes = {
   selected : PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   nombre: PropTypes.string.isRequired,
-  fidCategoriaEvento: PropTypes.string.isRequired,
+  fidLugar: PropTypes.string.isRequired,
   descripcion: PropTypes.string.isRequired,
-  locacion: PropTypes.string.isRequired,
-  horaApertura: PropTypes.string.isRequired,
-  horaCierre: PropTypes.string.isRequired,
-  aforo: PropTypes.string.isRequired,
+  fechaInicio: PropTypes.string.isRequired,
+  fechaFin: PropTypes.string.isRequired,
+  fidLugar: PropTypes.string.isRequired,
+  fidTipoEvento: PropTypes.string.isRequired,
+  fidTienda: PropTypes.string.isRequired,
+  puntosOtorgados: PropTypes.string.isRequired,
+  edadPromedio: PropTypes.string.isRequired,
+  generoPromedio: PropTypes.string.isRequired,
+  ordenPriorizacion: PropTypes.string.isRequired,
   rutaFoto: PropTypes.string.isRequired,
   activo: PropTypes.string.isRequired,
   usuarioCreacion: PropTypes.string.isRequired,
