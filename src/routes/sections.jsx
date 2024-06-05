@@ -5,10 +5,9 @@ import PrivateRoutes from '../utils/PrivateRoutes'
 import { AuthProvider } from '../utils/AuthContext'
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-// export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
-// export const ProductsPage = lazy(() => import('src/pages/products'));
+
 export const TiendasPage = lazy(() => import('src/pages/tiendas'));
 export const TiendaNew = lazy(() => import('src/pages/tienda-nueva'));
 export const TiendaVisualizar = lazy(() => import('src/pages/tienda-visualizar'));

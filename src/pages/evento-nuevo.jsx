@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { EventoNew } from 'src/routes/sections/eventos/view';
+import { EventoNew } from 'src/sections/eventos/view';
 
 // ----------------------------------------------------------------------
 
