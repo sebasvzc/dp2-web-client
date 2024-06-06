@@ -41,6 +41,7 @@ import Iconify from '../../../components/iconify';
 import { getTipoEventos,getLugarEvento,getTiendaEvento, } from '../../../funciones/api';
 import DashboardEventosCategorCliente from '../../overview/DashboardEventosCategorCliente';
 import DashboardEventosAsistentes from '../../overview/DashboardEventosAsistentes';
+import DashboardAsistentes from '../../overview/DashboardAsistentes';
 import DashboardGeneroEdad from '../../overview/DashboardGeneroEdad';
 
 dayjs.extend(utc);
@@ -696,7 +697,9 @@ export default function EventoDetail() {
               ):(
               <Grid container spacing={2}  >
 
-                <Grid item xs={4} md={4} lg={4}>
+                <Grid item xs={4} md={4} lg={4} container>
+
+                  <Grid item xs={12} md={12} lg={12} >
                   <Card
 
 
@@ -714,6 +717,26 @@ export default function EventoDetail() {
                         </Grid>
                       </Grid>
                   </Card>
+                  </Grid>
+                  <Grid item xs={12} md={12} lg={12} >
+                    <Card
+
+
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+                        my:4,
+                        border: "1px solid #BFC0C1",
+                        backgroundColor: '#F9FAFB',
+                      }} >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <DashboardAsistentes dataDash={dataDashEventos}/>
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
                 </Grid>
                 <Grid item xs={8} md={8} lg={8}>
                   <Card

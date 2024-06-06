@@ -68,7 +68,7 @@ const DashboardGeneroEdad = ({ dataDash }) => {
 
   return (
     <div > {/* Ajusta el padding superior y centra el texto */}
-      <h4 style={{ textAlign: 'center' }}>Indicador de asistencia</h4>
+      <h4 style={{ textAlign: 'center' }}>Distribución de personas inscritas por edad y género</h4>
       <div id="dashboard-bar-genre-age"  />
       {/* Aplica el borde */}
     </div>
