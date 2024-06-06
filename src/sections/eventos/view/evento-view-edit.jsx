@@ -612,6 +612,8 @@ export default function EventoEdit() {
                         label="Fecha inicio"
                         value={startDate}
                         disabled={!editable}
+                        onChange={(newValue) => setStartDate(newValue)}
+                        renderInput={(params) => <TextField {...params} />}
                         format="DD/MM/YYYY"
                         sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
                       />
@@ -623,6 +625,8 @@ export default function EventoEdit() {
                         label="Fecha fin"
                         value={endDate}
                         disabled={!editable}
+                        onChange={(newValue) => setEndDate(newValue)}
+                        renderInput={(params) => <TextField {...params} />}
                         format="DD/MM/YYYY"
                         sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
                       />
