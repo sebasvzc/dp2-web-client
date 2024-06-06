@@ -2,46 +2,49 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/es-mx';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Dropzone, FileMosaic } from '@files-ui/react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Grid, Chip,
-  Button, TextField,
-} from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';  // Extiende dayjs con el plugin UTC
+  Table, TextField, TableBody, TableContainer,
+} from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import TablePagination from '@mui/material/TablePagination';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-import Iconify from '../../../components/iconify';
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
+import ClientCuponTableRow from '../../cupones/client-cupon-table-row';
+import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
 import DashboardCuponesMesCliente from '../../overview/DashboardCuponesMesCliente';
-import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
 import DashboardEventosCategorCliente from '../../overview/DashboardEventosCategorCliente';
+import CuponxClienteTableRow from '../cupon-cliente-table-row';
 
 dayjs.locale('es-mx');
 
-export default function CuponDetail() {
+export default function ClienteViewDetail() {
   const [view, setView] = useState('datos');
   const { id: idParam } = useParams();
   const [editable, setEditable] = useState(false);
   const [editableImg, setEditableImg] = useState(false);
   const [order, setOrder] = useState('asc');
   const [searchName, setSearchName] = useState("all");
-  const [dataClients, setDataClients] = useState([]);
+  const [dataCupones, setDataCupones] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingDashCuponCateg, setLoadingDashCuponCateg] = useState(true);
+  const [loadingDashEventoCateg, setLoadingDashEventoCateg] = useState(true);
+  const [loadingtableCupon, setLoadingTableCupon] = useState(true);
   const [habilitarCupones, setHabilitarCupones] = useState(true);
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
@@ -67,6 +70,14 @@ export default function CuponDetail() {
   const [fechaText, setFechaText] = useState('');
   const [startDateStat, setStartDateStat] = useState(dayjs().subtract(5, 'month').startOf('month'));
   const [endDateStat, setEndDateStat] = useState(dayjs().endOf('month'));
+  const [startDateStatCupon, setStartDateStatCupon] = useState(dayjs().subtract(5, 'month').startOf('month'));
+  const [endDateStatCupon, setEndDateStatCupon] = useState(dayjs().endOf('month'));
+  const [startDateStatEvento, setStartDateStatEvento] = useState(dayjs().subtract(5, 'month').startOf('month'));
+  const [endDateStatEvento, setEndDateStatEvento] = useState(dayjs().endOf('month'));
+  const [startDateStatBarra, setStartDateStatBarra] = useState(dayjs().subtract(5, 'month').startOf('month'));
+  const [endDateStatBarra, setEndDateStatBarra] = useState(dayjs().endOf('month'));
+  const [startDateStatTable, setStartDateStatTable] = useState(dayjs().subtract(5, 'month').startOf('month'));
+  const [endDateStatTable, setEndDateStatTable] = useState(dayjs().endOf('month'));
   const [costoText, setCostoText] = useState('');
   const [cantIniText, setCantIniText] = useState('');
   const [urlImagenS3 , setUrlImagenS3] = useState('');
@@ -153,65 +164,20 @@ export default function CuponDetail() {
         else{
           setActivo("Baneado")
         }
-        
 
+        const endDateParam=`${endDateStat.date()}/${endDateStat.month()+1}/${endDateStat.year()}`;
+        const startDateParam=`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`;
         // Simulación de carga
 
-        if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
-            method: 'GET',
 
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`,
-              'Refresh-Token': `Bearer ${refreshToken}`
-            },
-
-          });
-        }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
-            method: 'GET',
-
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`,
-              'Refresh-Token': `Bearer ${refreshToken}`
-            },
-
-          });
-        }
-
-        if (response.status === 403 || response.status === 401) {
-          localStorage.removeItem('user');
-          window.location.reload();
-        }
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data2 = await response.json();
-        console.log(data2)
-        if(data2.newToken){
-          const storedUser = localStorage.getItem('user');
-          const userX = JSON.parse(storedUser);
-          userX.token = data2.newToken;
-          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
-          console.log("He puesto un nuevo token");
-        }
-        if(data2.totalClientes){
-          setTotalClientsCupon(data2.totalClientes);
-        }
-
-        setDataClients(data2.clientesxCupon);
         console.log("endDateStat")
         console.log("startDateStat")
         console.log(dayjs().subtract(6, 'month').startOf('month'));
         console.log(dayjs().endOf('month'));
         console.log(`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`);
-        const endDateParam=`${endDateStat.date()}/${endDateStat.month()+1}/${endDateStat.year()}`;
-        const startDateParam=`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`;
-        response = await fetch(`http://localhost:3000/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        const endDateParamBarra=`${endDateStatBarra.date()}/${endDateStatBarra.month()+1}/${endDateStatBarra.year()}`;
+        const startDateParamBarra=`${startDateStatBarra.date()}/${startDateStatBarra.month()+1}/${startDateStatBarra.year()}`;
+        response = await fetch(`http://localhost:3000/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParamBarra}&startDate=${startDateParamBarra}`, {
           method: 'GET',
 
           headers: {
@@ -253,59 +219,13 @@ export default function CuponDetail() {
           );
 
           console.log("Fechas por categoría:");
-          console.log(fechasPorCategoria);
+          console.log(JSON.stringify(fechasPorCategoria));
 
           // Aquí podrías usar `fechasPorCategoria` para actualizar el estado de tu componente
           // Por ejemplo:
           setDataDash(fechasPorCategoria);
         }
-         response = await fetch(`http://localhost:3000/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
-          method: 'GET',
 
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Refresh-Token': `Bearer ${refreshToken}`
-          },
-
-        });
-        if (response.status === 403 || response.status === 401) {
-          localStorage.removeItem('user');
-          window.location.reload();
-        }
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        console.log("Cupon detalle x cliente")
-        const data4 = await response.json();
-        console.log(data4)
-        if(data4.newToken){
-          const storedUser = localStorage.getItem('user');
-          const userX = JSON.parse(storedUser);
-          userX.token = data4.newToken;
-          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
-          console.log("He puesto un nuevo token");
-        }
-        if (data4) {
-          console.log("Viendo data4");
-          console.log(data4);
-
-          const { cupones } = data4;
-
-          const agrupPorCategoria = {
-            name: cupones.name,
-            data: cupones.data,
-            categoria: cupones.categoria
-          };
-
-          console.log("Cupones por categoría:");
-          console.log(agrupPorCategoria);
-
-          // Aquí podrías usar `agrupPorCategoria` para actualizar el estado de tu componente
-          // Por ejemplo:
-          setDataDashCategoria([agrupPorCategoria]);
-        }
         response = await fetch(`http://localhost:3000/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
@@ -338,67 +258,22 @@ export default function CuponDetail() {
           console.log("Viendo data5");
           console.log(data5);
 
-          const fechasPorCategoria = data5.cupones.map(categoria => ({
+          const fechasDetPorCategoria = data5.cupones.map(categoria => ({
             variable: categoria.variable,
             fechas: categoria.data.map(item => item.fechaMesAnio),
             cantidades: categoria.data.map(item => item.cantidad)
           }));
 
           console.log("Fechas y canjeados y usados:");
-          console.log(fechasPorCategoria);
+          console.log(JSON.stringify(fechasDetPorCategoria));
 
           // Aquí podrías usar `fechasPorCategoria` para actualizar el estado de tu componente
           // Por ejemplo:
-          setDataDashCanejados(fechasPorCategoria);
+          setDataDashCanejados(fechasDetPorCategoria);
 
         }
-        response = await fetch(`http://localhost:3000/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
-          method: 'GET',
 
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Refresh-Token': `Bearer ${refreshToken}`
-          },
-
-        });
-        if (response.status === 403 || response.status === 401) {
-          localStorage.removeItem('user');
-          window.location.reload();
-        }
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        console.log("Evento detalle x cliente")
-        const data6 = await response.json();
-        console.log(data6)
-        if(data6.newToken){
-          const storedUser = localStorage.getItem('user');
-          const userX = JSON.parse(storedUser);
-          userX.token = data6.newToken;
-          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
-          console.log("He puesto un nuevo token");
-        }
-        if (data6) {
-          console.log("Viendo data6");
-          console.log(data6);
-
-          const { eventos } = data6;
-
-          const eventosagrupPorCategoria = {
-            name: eventos.name,
-            data: eventos.data,
-            categoria: eventos.categoria
-          };
-
-          console.log("Eventos por categoría:");
-          console.log(eventosagrupPorCategoria);
-
-          // Aquí podrías usar `agrupPorCategoria` para actualizar el estado de tu componente
-          // Por ejemplo:
-          setDataDashCategoriaEventos([eventosagrupPorCategoria]);
-        }
+        
         setTimeout(() => {
           setLoading(false);
         }, 1000); // Espera 1 segundo antes de poner setLoading(false)
@@ -412,8 +287,220 @@ export default function CuponDetail() {
 
     loadCuponData();
 
-  }, [esLimitadoText, idParam, page, pageSize, searchName,endDateStat,startDateStat]);
+  }, [esLimitadoText, idParam,endDateStat,startDateStat,endDateStatBarra,startDateStatBarra]);
 
+  useEffect(() => {
+    // Suponiendo que tienes una función para cargar datos de un cupón por su id
+    setLoadingDashEventoCateg(true);
+    // eslint-disable-next-line no-shadow
+    async function loadDashEventonCateg(searchTerm, searchTermTipoCupones) {
+      try {
+        const user = localStorage.getItem('user');
+        const userStringify = JSON.parse(user);
+        const { token, refreshToken } = userStringify;
+        console.log(idParam)
+      let responseEventoCateg="";
+      const endDateParamEvento=`${endDateStatEvento.date()}/${endDateStatEvento.month()+1}/${endDateStatEvento.year()}`;
+      const startDateParamEvento=`${startDateStatEvento.date()}/${startDateStatEvento.month()+1}/${startDateStatEvento.year()}`;
+      responseEventoCateg = await fetch(`http://localhost:3000/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParamEvento}&startDate=${startDateParamEvento}`, {
+        method: 'GET',
+
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'Refresh-Token': `Bearer ${refreshToken}`
+        },
+
+      });
+      if (responseEventoCateg.status === 403 || responseEventoCateg.status === 401) {
+        localStorage.removeItem('user');
+        window.location.reload();
+      }
+
+      if (!responseEventoCateg.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log("Evento detalle x cliente")
+      const data6 = await responseEventoCateg.json();
+      console.log(data6)
+      if(data6.newToken){
+        const storedUser = localStorage.getItem('user');
+        const userX = JSON.parse(storedUser);
+        userX.token = data6.newToken;
+        localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+        console.log("He puesto un nuevo token");
+      }
+      if (data6) {
+        console.log("Viendo data6");
+        console.log(data6);
+
+        const { eventos } = data6;
+
+        const eventosagrupPorCategoria = {
+          name: eventos.name,
+          data: eventos.data,
+          categoria: eventos.categoria
+        };
+
+        console.log("Eventos por categoría:");
+        console.log(eventosagrupPorCategoria);
+
+        // Aquí podrías usar `agrupPorCategoria` para actualizar el estado de tu componente
+        // Por ejemplo:
+        setDataDashCategoriaEventos([eventosagrupPorCategoria]);
+      }
+        setLoadingDashEventoCateg(false);
+      } catch (err) {
+          console.error("Failed to fetch cupon data", err);
+
+          setLoadingDashEventoCateg(false);
+        }
+    }
+      loadDashEventonCateg();
+  }, [endDateStatEvento, idParam, startDateStatEvento]);
+
+  useEffect(() => {
+    // Suponiendo que tienes una función para cargar datos de un cupón por su id
+    setLoadingDashCuponCateg(true);
+    // eslint-disable-next-line no-shadow
+    async function loadDashCuponCateg(searchTerm, searchTermTipoCupones) {
+      try {
+        const user = localStorage.getItem('user');
+        const userStringify = JSON.parse(user);
+        const { token, refreshToken } = userStringify;
+        console.log(idParam)
+        let responseCuponCateg="";
+        const endDateParam=`${endDateStatCupon.date()}/${endDateStatCupon.month()+1}/${endDateStatCupon.year()}`;
+        const startDateParam=`${startDateStatCupon.date()}/${startDateStatCupon.month()+1}/${startDateStatCupon.year()}`;
+        responseCuponCateg = await fetch(`http://localhost:3000/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+          method: 'GET',
+
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (responseCuponCateg.status === 403 || responseCuponCateg.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!responseCuponCateg.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("Cupon detalle x cliente")
+        const data4 = await responseCuponCateg.json();
+        console.log(data4)
+        if(data4.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data4.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if (data4) {
+          console.log("Viendo data4");
+          console.log(data4);
+
+          const { cupones } = data4;
+
+          const agrupPorCategoria = {
+            name: cupones.name,
+            data: cupones.data,
+            categoria: cupones.categoria
+          };
+
+          console.log("Cupones por categoría:");
+          console.log(agrupPorCategoria);
+
+          // Aquí podrías usar `agrupPorCategoria` para actualizar el estado de tu componente
+          // Por ejemplo:
+          setDataDashCategoria([agrupPorCategoria]);
+        }
+
+        setLoadingDashCuponCateg(false);
+      } catch (err) {
+        console.error("Failed to fetch cupon data", err);
+
+        setLoadingDashCuponCateg(false);
+      }
+    }
+    loadDashCuponCateg();
+  }, [endDateStatCupon, idParam, startDateStatCupon]);
+
+  useEffect(() => {
+    // Suponiendo que tienes una función para cargar datos de un cupón por su id
+    setLoadingTableCupon(true);
+    // eslint-disable-next-line no-shadow
+    async function loadTableData(searchTerm, searchTermTipoCupones) {
+      try {
+        const user = localStorage.getItem('user');
+        const userStringify = JSON.parse(user);
+        const { token, refreshToken } = userStringify;
+        console.log(idParam)
+        let responseTable="";
+        const endDateParam=`${endDateStatTable.date()}/${endDateStatTable.month()+1}/${endDateStatTable.year()}`;
+        const startDateParam=`${startDateStatTable.date()}/${startDateStatTable.month()+1}/${startDateStatTable.year()}`;
+
+        if(searchName===""){
+          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+            method: 'GET',
+
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            },
+
+          });
+        }else{
+          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+            method: 'GET',
+
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            },
+
+          });
+        }
+
+        if (responseTable.status === 403 || responseTable.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!responseTable.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data2 = await responseTable.json();
+        console.log(data2)
+        if(data2.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data2.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if(data2.totalCupones){
+          setTotalClientsCupon(data2.totalCupones);
+        }
+        console.log(data2.cuponesXCliente)
+        setDataCupones(data2.cuponesXCliente);
+
+        setLoadingTableCupon(false);
+      } catch (err) {
+        console.error("Failed to fetch cupon data", err);
+
+        setLoadingTableCupon(false);
+      }
+    }
+    loadTableData();
+  }, [endDateStatTable, idParam, page, pageSize, searchName, startDateStatTable]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -553,7 +640,7 @@ export default function CuponDetail() {
 
     console.log(searchName)
     if (event.target.checked) {
-      const newSelecteds = dataClients.map((n) => n.id);
+      const newSelecteds = dataCupones.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -796,16 +883,16 @@ export default function CuponDetail() {
                               <Grid item xs={12} sm={6}>
                                 <DatePicker
                                   label="Fecha inicial"
-                                  value={startDateStat}
-                                  onChange={setStartDateStat}
+                                  value={startDateStatCupon}
+                                  onChange={setStartDateStatCupon}
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
                               <Grid item xs={12} sm={6}>
                                 <DatePicker
                                   label="Fecha final"
-                                  value={endDateStat}
-                                  onChange={setEndDateStat}
+                                  value={endDateStatCupon}
+                                  onChange={setEndDateStatCupon}
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
@@ -813,7 +900,27 @@ export default function CuponDetail() {
                           </LocalizationProvider>
                         </Grid>
                         <Grid item xs={12}>
-                          <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                          {loadingDashCuponCateg ? (
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                height: '25%',
+                                marginTop: '15%', // Ajusta la distancia desde la parte superior
+                                marginBottom: '15%',
+                              }}
+                            >
+                              <CircularProgress color="primary" />
+                              <Typography variant="h6" sx={{ mt: 1 }}>
+                                Cargando...
+                              </Typography>
+                            </Box>
+                          ) : (
+                            <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                          )}
                         </Grid>
                       </Grid>
 
@@ -839,16 +946,16 @@ export default function CuponDetail() {
                               <Grid item xs={12} sm={6}>
                                 <DatePicker
                                   label="Fecha inicial"
-                                  value={startDateStat}
-                                  onChange={setStartDateStat}
+                                  value={startDateStatEvento}
+                                  onChange={setStartDateStatEvento}
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
                               <Grid item xs={12} sm={6}>
                                 <DatePicker
                                   label="Fecha final"
-                                  value={endDateStat}
-                                  onChange={setEndDateStat}
+                                  value={endDateStatEvento}
+                                  onChange={setEndDateStatEvento}
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
@@ -856,7 +963,28 @@ export default function CuponDetail() {
                           </LocalizationProvider>
                         </Grid>
                         <Grid item xs={12}>
-                          <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                          {loadingDashEventoCateg ? (
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                height: '25%',
+                                marginTop: '15%', // Ajusta la distancia desde la parte superior
+                                marginBottom: '15%',
+                              }}
+                            >
+                              <CircularProgress color="primary" />
+                              <Typography variant="h6" sx={{ mt: 1 }}>
+                                Cargando...
+                              </Typography>
+                            </Box>
+                          ) : (
+                            <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                          )}
+
                         </Grid>
                       </Grid>
 
@@ -878,9 +1006,124 @@ export default function CuponDetail() {
                       <DashboardCuponesMesCliente dataDash={dataDash}/>
                     </Card>
                   </Grid>
+                  <Grid item xs={12} md={12} lg={12}>
+                    <Card
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+                        my:4,
+                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
+                        border: "1px solid #BFC0C1",
+                        backgroundColor: '#F9FAFB',
+                      }} >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sm={6}>
+                                <DatePicker
+                                  label="Fecha inicial"
+                                  value={startDateStatTable}
+                                  onChange={setStartDateStatTable}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
+                                <DatePicker
+                                  label="Fecha final"
+                                  value={endDateStatTable}
+                                  onChange={setEndDateStatTable}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
+                            </Grid>
+                          </LocalizationProvider>
+                        </Grid>
+                        <Grid item xs={12}>
+
+                          <Grid item xs={12}>
+                            {loadingtableCupon ? (
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  textAlign: 'center',
+                                  height: '25%',
+                                  marginTop: '15%', // Ajusta la distancia desde la parte superior
+                                  marginBottom: '15%',
+                                }}
+                              >
+                                <CircularProgress color="primary" />
+                                <Typography variant="h6" sx={{ mt: 1 }}>
+                                  Cargando...
+                                </Typography>
+                              </Box>
+                            ) : (
+                              <Card >
+                                <div> {/* Ajusta el padding superior y centra el texto */}
+                                  <h4 style={{ textAlign: 'center' }}>Lista de Cupones Canjeados</h4>
+                                </div>
+                                <TableContainer sx={{ overflow: 'unset' }}>
+                                  <Table sx={{ minWidth: 800 }}>
+                                    <ClientCuponTableHead
+                                      order={order}
+                                      orderBy={orderBy}
+                                      rowCount={dataCupones.length}
+                                      numSelected={selected.length}
+                                      onRequestSort={handleSort}
+                                      headLabel={[
+                                        { id: 'codigo', label: 'Código de Cupon' },
+                                        { id: 'categoria', label: 'Categoria' },
+                                        { id: 'tienda', label: 'Tienda' },
+                                        { id: 'fechaCompra', label: 'Fecha de Canje' },
+                                        { id: 'fechaExpiracion', label: 'Fecha de Expiracion' },
+                                      ]}
+                                    />
+                                    <TableBody>
+                                      {dataCupones
+                                        .map((row) => (
+                                          <CuponxClienteTableRow
+                                            key={row.id}
+                                            id={row.id}
+                                            codigo={row.cupon.codigo}
+                                            categoria={row.cupon.locatario.categoriaTienda.nombre}
+                                            tienda={row.cupon.locatario.nombre}
+                                            fechaCompra={row.fechaCompra}
+                                            fechaExpiracion={row.cupon.fechaExpiracion}
+                                            selected={selected.indexOf(row.id) !== -1}
+                                            handleClick={(event) => handleClick(event, row.id)}
+                                          />
+                                        ))}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+
+
+                                <TablePagination
+                                  page={page - 1}
+                                  component="div"
+                                  count={totalClientsCupon}
+                                  rowsPerPage={pageSize}
+                                  onPageChange={handleChangePage}
+                                  labelRowsPerPage="Cupones por página"
+                                  labelDisplayedRows={labelDisplayedRows}
+                                  rowsPerPageOptions={[6, 12, 18]}
+                                  onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                              </Card>
+                            )}
+                          </Grid>
+
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
 
                 </Grid>
-              )}
+                )}
             </Box>
           )}
         </Grid>
@@ -888,5 +1131,5 @@ export default function CuponDetail() {
     </Container>
 
 
-  );
+);
 }
