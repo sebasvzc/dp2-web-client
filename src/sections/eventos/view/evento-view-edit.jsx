@@ -228,7 +228,7 @@ export default function EventoEdit() {
       }
 
       const data = await response.json();
-      toast.success('Tienda modificada exitosamente', {
+      toast.success('Evento modificado exitosamente', {
         position: "top-right",
         hideProgressBar: false,
         closeOnClick: true,
