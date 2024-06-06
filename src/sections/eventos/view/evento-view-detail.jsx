@@ -207,7 +207,7 @@ export default function EventoDetail() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getLugarEvento(token,refreshToken,searchLugar);
-    //console.log("viendo lugares", results.lugares)
+    // console.log("viendo lugares", results.lugares)
     setLugar(results.lugar);
   };
 
@@ -222,7 +222,7 @@ export default function EventoDetail() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getTiendaEvento(token,refreshToken,searchTienda);
-    //console.log("viendo tiendas", results.tiendas)
+    // console.log("viendo tiendas", results.tiendas)
     setTienda(results.locatario);
   };
 
@@ -367,9 +367,8 @@ export default function EventoDetail() {
         <Grid item xs={9}>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-                
-              </Box>
+              <Box display="flex" justifyContent="flex-end" alignItems="center" />
+
 
               {loading ? (
                 <Box
@@ -618,9 +617,7 @@ export default function EventoDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  >
-              
-              </Grid>
+                <Grid container spacing={2} />
               )}
               </Box >
           )}
