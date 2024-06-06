@@ -374,13 +374,6 @@ const useStyles = makeStyles((theme) => ({
       }));
     };
 
-    const [mostrarTxtNombre, setMostrarTxtNombre] = useState('');
-    const [mostrarTxtDescripcion, setMostrarTxtDescripcion] = useState('');
-    const [mostrarTxtLocacion, setMostrarTxtLocacion] = useState('');
-    const [mostrarTxtAforo, setMostrarTxtAforo] = useState('');
-    const [mostrarTxtApertura, setMostrarTxtApertura] = useState('');
-    const [mostrarTxtCierre, setMostrarTxtCierre] = useState('');
-
 
     /* useEffect(() => {
       if (formDatos.nombre.length !== 0
@@ -445,14 +438,14 @@ const useStyles = makeStyles((theme) => ({
                 </Grid>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
-                          <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
+                          <InputLabel id="search-select-label-tipo-evento" disabled={!editable}>Tipo Evento</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}
-
                             labelId="search-select-label-tipo-evento"
                             id="search-select-tipo-evento"
                             value={selectedEvento}
+                            disabled={!editable}
                             label="Tipo de Evento"
                             onChange={(e) => setSelectedEvento(e.target.value)}
                             // This prevents rendering empty string in Select's value
@@ -600,7 +593,7 @@ const useStyles = makeStyles((theme) => ({
                 onChange={handleChange}
                 label="Puntos Otorgados" name="puntosOtorgados" />
               </Grid>
-              <Grid item xs={3}>
+              {/*<Grid item xs={3}>
                 <TextField fullWidth 
                 onChange={handleChange}
                 label="Edad Promedio" name="edadPromedio" />
@@ -614,7 +607,7 @@ const useStyles = makeStyles((theme) => ({
                 <TextField fullWidth 
                 onChange={handleChange}
                 label="Orden Priorización" name="ordenPriorizacion" />
-              </Grid>
+              </Grid>*/}
             </Grid>
             <Grid item xs={12}> 
             <Button variant="contained" color="info" 

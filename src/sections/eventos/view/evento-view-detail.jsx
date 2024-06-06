@@ -128,9 +128,9 @@ export default function EventoDetail() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-       // const results =  await getTipoEventos(token,refreshToken,searchTerm);
-        //console.log("viendo resultados", results)
-        //setTipoEventos(results);
+        const resultsTipo =  await getTipoEventos(token,refreshToken,searchTerm);
+        console.log("viendo resultados", resultsTipo.tipoEventos)
+        setEventos(resultsTipo.tipoEventos);
 
         const data = await response.json();
         console.log(data)
@@ -153,7 +153,8 @@ export default function EventoDetail() {
         setUrlImagenS3(data.image);
 
         //setSelectedTienda(data.detalles.locatario.id)
-        //setSelectedEvento(data.detalles.tipoEvento.id)
+        console.log("TipoEvento: ",data.detalles.tipoEvento.id)
+        setSelectedEvento(data.detalles.tipoEvento.id)
 
         console.log(idParam)
         setLoading(false);
@@ -175,7 +176,6 @@ export default function EventoDetail() {
   };
 
   const handleSearch = async (e) => {
-    /*
     e.preventDefault();
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
@@ -183,7 +183,6 @@ export default function EventoDetail() {
     const results = await getTipoEventos(token,refreshToken,searchTerm);
     console.log("viendo resultados", results.tipoEventos)
     setEventos(results.tipoEventos);
-    */
   };
 
   const fetchAndSetView = async (newView) => {
@@ -392,48 +391,81 @@ export default function EventoDetail() {
                       </Box>
                     </Grid>
                     <Grid item xs={8} container spacing={2}>
-                      <Grid item xs={4}>
+                      <Grid item xs={6}>
                         <TextField fullWidth label="Código" name="codigo" 
                         disabled defaultValue={codigoText}/>
                       </Grid>
-                      <Grid item xs={4}>
-                        <TextField fullWidth label="Nombre" name="nombre" 
-                        disabled defaultValue={nombreText}/>
-                      </Grid>
-                      <Grid item xs={4}>
-                      
+                      <Grid item xs={6}>
+                      <FormControl fullWidth>
+                          <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+
+                            labelId="search-select-label-tipo-evento"
+                            id="search-select-tipo-evento"
+                            value={selectedEvento}
+                            disabled={!editable}
+                            label="Tipo de Evento"
+                            onChange={(e) => setSelectedEvento(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
+
+                          >
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Buscar tipo por nombre..."
+                                fullWidth
+                                value={searchTerm}
+                                onChange={changeTermSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleSearch} />
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                            </ListSubheader>
+                            {eventos.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                  </FormControl>
                       </Grid>
                       <Grid item xs={12}>
                         <TextField fullWidth  label="Descripción Completa" name="descripcion" 
                         multiline rows={3} disabled defaultValue={descripcionText}/>
                       </Grid>
-                    </Grid>       
-                    <Grid item xs={3}>
+                      <Grid item xs={6}>
                       <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
                       <DatePicker
                         label="Fecha inicio"
                         value={startDate}
+                        disabled={!editable}
                         format="DD/MM/YYYY"
                         sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
                       />
                       </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6}>
                       <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
                       <DatePicker
                         label="Fecha fin"
                         value={endDate}
+                        disabled={!editable}
                         format="DD/MM/YYYY"
                         sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
                       />
                       </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={3}>
-                    
-                    </Grid>
-                    <Grid item xs={3}>
-                    </Grid>
-                    <Grid item xs={3}>
+                    </Grid>       
+                    <Grid item xs={4}>
                       <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
                         disabled defaultValue={puntosOtorgadosText}/>
                     </Grid>
