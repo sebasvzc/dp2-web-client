@@ -179,7 +179,7 @@ export default function ClienteViewDetail() {
         console.log(`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`);
         const endDateParamBarra=`${endDateStatBarra.date()}/${endDateStatBarra.month()+1}/${endDateStatBarra.year()}`;
         const startDateParamBarra=`${startDateStatBarra.date()}/${startDateStatBarra.month()+1}/${startDateStatBarra.year()}`;
-        response = await fetch(`http://localhost:3000/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParamBarra}&startDate=${startDateParamBarra}`, {
+        response = await fetch(`http://3.220.179.149/api/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParamBarra}&startDate=${startDateParamBarra}`, {
           method: 'GET',
 
           headers: {
@@ -314,7 +314,7 @@ export default function ClienteViewDetail() {
       let responseEventoCateg="";
       const endDateParamEvento=`${endDateStatEvento.date()}/${endDateStatEvento.month()+1}/${endDateStatEvento.year()}`;
       const startDateParamEvento=`${startDateStatEvento.date()}/${startDateStatEvento.month()+1}/${startDateStatEvento.year()}`;
-      responseEventoCateg = await fetch(`http://localhost:3000/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParamEvento}&startDate=${startDateParamEvento}`, {
+      responseEventoCateg = await fetch(`http://3.220.179.149/api/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParamEvento}&startDate=${startDateParamEvento}`, {
         method: 'GET',
 
         headers: {
@@ -426,7 +426,7 @@ export default function ClienteViewDetail() {
         let responseCuponCateg="";
         const endDateParam=`${endDateStatCupon.date()}/${endDateStatCupon.month()+1}/${endDateStatCupon.year()}`;
         const startDateParam=`${startDateStatCupon.date()}/${startDateStatCupon.month()+1}/${startDateStatCupon.year()}`;
-        responseCuponCateg = await fetch(`http://localhost:3000/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        responseCuponCateg = await fetch(`http://3.220.179.149/api/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {

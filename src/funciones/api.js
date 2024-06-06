@@ -131,7 +131,7 @@ export async function getTipoEventos(token, refreshToken, searchTerm) {
     let response="";
     console.log("Viendo get tipo eventos:", searchTerm)
     if(searchTerm==="" || searchTerm===undefined ){
-      response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
+      response = await fetch(`http://3.220.179.149/api/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -140,7 +140,7 @@ export async function getTipoEventos(token, refreshToken, searchTerm) {
         }
       });
     }else{
-      response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
+      response = await fetch(`http://3.220.179.149/api/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -172,7 +172,7 @@ export async function getLugarEvento(token, refreshToken, searchTerm) {
   try {
     let response="";
     if(searchTerm==="" || searchTerm===undefined ){
-      response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
+      response = await fetch(`http://3.220.179.149/api/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -181,7 +181,7 @@ export async function getLugarEvento(token, refreshToken, searchTerm) {
         }
       });
     }else{
-      response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=${searchTerm}&page=1&pageSize=10`, {
+      response = await fetch(`http://3.220.179.149/api/api/lugares/listarLugares?query=${searchTerm}&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -213,7 +213,7 @@ export async function getTiendaEvento(token, refreshToken, searchTerm) {
   try {
     let response="";
     if(searchTerm==="" || searchTerm===undefined ){
-      response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
+      response = await fetch(`http://3.220.179.149/api/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -222,7 +222,7 @@ export async function getTiendaEvento(token, refreshToken, searchTerm) {
         }
       });
     }else{
-      response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
+      response = await fetch(`http://3.220.179.149/api/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

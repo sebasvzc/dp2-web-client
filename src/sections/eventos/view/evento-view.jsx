@@ -133,7 +133,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
       try {
         console.log('SOY EL SELECTED')
         console.log(JSON.stringify({ selected }) )
-        const response = await fetch('http://localhost:3000/api/eventos/deshabilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/eventos/deshabilitar', {
           method: 'POST',
 
           headers: {
@@ -167,7 +167,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/eventos/habilitar', {
+        const response = await fetch('http://3.220.179.149/api/api/eventos/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
