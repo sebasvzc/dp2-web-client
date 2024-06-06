@@ -79,6 +79,8 @@ export default function EventoDetail() {
   const [tiendas, setTiendas] = useState([]);
   const [selectedTienda, setSelectedTienda] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchLugar, setSearchLugar] = useState('');
+  const [searchTienda, setSearchTienda] = useState('');
   const [tipoEventos, setTipoEventos] = useState([]);
   const [selectedTipoEvento, setSelectedTipoEvento] = useState('');
   const [searchTermTipoEventos, setSearchTermTipoEventos] = useState('');
@@ -129,8 +131,16 @@ export default function EventoDetail() {
           throw new Error('Network response was not ok');
         }
         const resultsTipo =  await getTipoEventos(token,refreshToken,searchTerm);
-        console.log("viendo resultados", resultsTipo.tipoEventos)
+        console.log("viendo eventos owo", resultsTipo.tipoEventos)
         setEventos(resultsTipo.tipoEventos);
+
+        const resultsTienda =  await getTiendaEvento(token,refreshToken,searchTerm);
+        console.log("viendo eventos owo", resultsTienda.locatorio)
+        setEventos(resultsTienda.tipoEventos);
+
+        const resultsLugar =  await getLugarEvento(token,refreshToken,searchTerm);
+        console.log("viendo eventos owo", resultsLugar.lugar)
+        setEventos(resultsLugar.tipoEventos);
 
         const data = await response.json();
         console.log(data)
@@ -152,9 +162,10 @@ export default function EventoDetail() {
         setEndDate(dayjs(data.detalles.fechaFin).utc(true))
         setUrlImagenS3(data.image);
 
-        //setSelectedTienda(data.detalles.locatario.id)
-        console.log("TipoEvento: ",data.detalles.tipoEvento.id)
+        console.log("Datos de data:", data.detalles)
         setSelectedEvento(data.detalles.tipoEvento.id)
+        setSelectedLugar(data.detalles.lugar.id)
+        setSelectedTienda(data.detalles.locatario.id)
 
         console.log(idParam)
         setLoading(false);
@@ -183,6 +194,36 @@ export default function EventoDetail() {
     const results = await getTipoEventos(token,refreshToken,searchTerm);
     console.log("viendo resultados", results.tipoEventos)
     setEventos(results.tipoEventos);
+  };
+
+  const changeLugarSearch = async (e) => {
+    e.preventDefault();
+    setSearchLugar(e.target.value)
+  };
+  
+  const handleLugarEvento = async (e) => {
+    e.preventDefault();
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const { token, refreshToken } = userStringify;
+    const results = await getLugarEvento(token,refreshToken,searchLugar);
+    console.log("viendo lugares", results.lugares)
+    setLugar(results.lugares);
+  };
+
+  const changeTiendaSearch = async (e) => {
+    e.preventDefault();
+    setSearchTienda(e.target.value)
+  };
+  
+  const handleTiendaEvento = async (e) => {
+    e.preventDefault();
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const { token, refreshToken } = userStringify;
+    const results = await getTiendaEvento(token,refreshToken,searchTienda);
+    console.log("viendo tiendas", results.tiendas)
+    setTienda(results.tiendas);
   };
 
   const fetchAndSetView = async (newView) => {
@@ -253,10 +294,6 @@ export default function EventoDetail() {
   console.log("Valor de activo:", activo);
   const isActivo = activo === "Activo";
 
-  const handleCrear = () => {
-    navigate('/evento'); // Redirige al usuario a la ruta especificada
-  };
-  
   const changeTermSearch = async (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value)
@@ -401,7 +438,6 @@ export default function EventoDetail() {
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}
-
                             labelId="search-select-label-tipo-evento"
                             id="search-select-tipo-evento"
                             value={selectedEvento}
@@ -443,6 +479,92 @@ export default function EventoDetail() {
                         multiline rows={3} disabled defaultValue={descripcionText}/>
                       </Grid>
                       <Grid item xs={6}>
+                      <FormControl fullWidth>
+                        <InputLabel 
+                        id="search-select-label-ubicacion" >Ubicación</InputLabel>
+                        <Select
+                          // Disables auto focus on MenuItems and allows TextField to be in focus
+                          MenuProps={{ autoFocus: false }}
+                          labelId="search-select-label-ubicacion"
+                          id="search-select-ubicacion"
+                          value={selectedLugar}
+                          disabled={!editable}
+                          label="Elegir Ubicacion"
+                          onChange={(e) => setSelectedLugar(e.target.value)}
+                          // This prevents rendering empty string in Select's value
+                          // if search text would exclude currently selected option.
+
+                        >
+                          <ListSubheader>
+                            <TextField
+                              size="small"
+                              autoFocus
+                              placeholder="Buscar lugar por nombre..."
+                              fullWidth
+                              value={searchLugar}
+                              onChange={changeLugarSearch}
+                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <SearchIcon onClick={handleLugarEvento} />
+                                  </InputAdornment>
+                                )
+                              }}
+                            />
+                          </ListSubheader>
+                          {lugar.map((option, i) => (
+                            <MenuItem key={i} value={option.id}>
+                              {option.nombre}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl fullWidth>
+                          <InputLabel 
+                          id="search-select-label-tienda" >Tienda</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+                            labelId="search-select-label-tienda"
+                            id="search-select-tienda"
+                            value={selectedTienda}
+                            disabled={!editable}
+                            label="Elegir Tienda"
+                            onChange={(e) => setSelectedTienda(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
+
+                          >
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Buscar tienda por nombre..."
+                                fullWidth
+                                value={searchTienda}
+                                onChange={changeTiendaSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleTiendaEvento} />
+                                    </InputAdornment>
+                                  )
+                                }}
+                              />
+                            </ListSubheader>
+                            {tienda.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6}>
                       <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
                       <DatePicker
                         label="Fecha inicio"
@@ -464,11 +586,12 @@ export default function EventoDetail() {
                       />
                       </LocalizationProvider>
                     </Grid>
+                    
                     </Grid>       
                     <Grid item xs={4}>
                       <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
                         disabled defaultValue={puntosOtorgadosText}/>
-                    </Grid>
+                    </Grid>   
                   </Grid>
                 </Box>
               )}

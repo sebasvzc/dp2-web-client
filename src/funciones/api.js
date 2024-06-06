@@ -87,7 +87,7 @@ export async function getCategoriaTiendas(token, refreshToken, searchTerm) {
 
     let response="";
     console.log(searchTerm)
-    if(searchTerm===""){
+    if(searchTerm==="" || searchTerm === undefined){
       response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=all&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
@@ -129,8 +129,8 @@ export async function getTipoEventos(token, refreshToken, searchTerm) {
 
   try {
     let response="";
-    console.log(searchTerm)
-    if(searchTerm===""){
+    console.log("Viendo get tipo eventos:", searchTerm)
+    if(searchTerm==="" || searchTerm===undefined ){
       response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
@@ -171,7 +171,7 @@ export async function getTipoEventos(token, refreshToken, searchTerm) {
 export async function getLugarEvento(token, refreshToken, searchTerm) {
   try {
     let response="";
-    if(searchTerm===""){
+    if(searchTerm==="" || searchTerm===undefined ){
       response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
@@ -212,7 +212,7 @@ export async function getLugarEvento(token, refreshToken, searchTerm) {
 export async function getTiendaEvento(token, refreshToken, searchTerm) {
   try {
     let response="";
-    if(searchTerm===""){
+    if(searchTerm==="" || searchTerm===undefined ){
       response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
         method: 'GET',
         headers: {
