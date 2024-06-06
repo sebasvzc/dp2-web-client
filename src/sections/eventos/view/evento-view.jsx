@@ -433,6 +433,7 @@ import EventoTableToolbar from '../evento-table-toolbar';
                       fechaInicio={formatearFecha(row.fechaInicio)}
                       fechaFin={formatearFecha(row.fechaFin)}
                       puntosOtorgados={row.puntosOtorgados}
+                      rutaFoto={row.rutaFoto}
                       edadPromedio={row.edadPromedio}
                       generoPromedio={row.generoPromedio}
                       ordenPriorizacion={row.ordenPriorizacion}

@@ -381,15 +381,15 @@ const useStyles = makeStyles((theme) => ({
     const [mostrarTxtApertura, setMostrarTxtApertura] = useState('');
     const [mostrarTxtCierre, setMostrarTxtCierre] = useState('');
 
-    
-    useEffect(() => {
+
+    /* useEffect(() => {
       if (formDatos.nombre.length !== 0
         && formDatos.codigo.length !== 0
         && formDatos.descripcion.length !== 0
         && selectedEvento.length !== 0
         && selectedLugar.length !== 0
         && selectedTienda.length !== 0
-        && formDatos.puntosOtorgados.length !== 0
+        && formDatos.puntosOtorgados !== 0
         && formDatos.generoPromedio.length !== 0
         && formDatos.ordenPriorizacion.length !== 0
         && formDatos.edadPromedio.length !== 0
@@ -408,8 +408,7 @@ const useStyles = makeStyles((theme) => ({
     },[formDatos.nombre,formDatos.codigo,selectedEvento,selectedTienda,selectedLugar,
       formDatos.descripcion,startDate,endDate,files,
       formDatos.puntosOtorgados,formDatos.edadPromedio,formDatos.generoPromedio,
-      formDatos.ordenPriorizacion]); // Cierra correctamente con un corchete    
-    
+      formDatos.ordenPriorizacion]); */
 
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
@@ -446,13 +445,13 @@ const useStyles = makeStyles((theme) => ({
                 </Grid>
                 <Grid item xs={4}>
                         <FormControl fullWidth>
-                          <InputLabel id="search-select-label">Tipo Evento</InputLabel>
+                          <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}
 
-                            labelId="search-select-label"
-                            id="search-select"
+                            labelId="search-select-label-tipo-evento"
+                            id="search-select-tipo-evento"
                             value={selectedEvento}
                             label="Tipo de Evento"
                             onChange={(e) => setSelectedEvento(e.target.value)}
@@ -515,14 +514,14 @@ const useStyles = makeStyles((theme) => ({
               <Grid item xs={3}>
                 <FormControl fullWidth>
                   <InputLabel 
-                  id="search-select-label" >Ubicación</InputLabel>
+                  id="search-select-label-ubicacion" >Ubicación</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
                     MenuProps={{ autoFocus: false }}
-                    labelId="search-select-label"
-                    id="search-select"
+                    labelId="search-select-label-ubicacion"
+                    id="search-select-ubicacion"
                     value={selectedLugar}
-                    label="Elegir Lugar"
+                    label="Elegir Ubicacion"
                     onChange={(e) => setSelectedLugar(e.target.value)}
                     // This prevents rendering empty string in Select's value
                     // if search text would exclude currently selected option.
@@ -557,12 +556,12 @@ const useStyles = makeStyles((theme) => ({
               <Grid item xs={3}>
                 <FormControl fullWidth>
                   <InputLabel 
-                  id="search-select-label" >Tienda</InputLabel>
+                  id="search-select-label-tienda" >Tienda</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
                     MenuProps={{ autoFocus: false }}
-                    labelId="search-select-label"
-                    id="search-select"
+                    labelId="search-select-label-tienda"
+                    id="search-select-tienda"
                     value={selectedTienda}
                     label="Elegir Tienda"
                     onChange={(e) => setSelectedTienda(e.target.value)}
@@ -621,7 +620,8 @@ const useStyles = makeStyles((theme) => ({
             <Button variant="contained" color="info" 
             sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
             type='submit'
-            disabled={botonDeshabilitado || loading2}>Crear</Button>
+            // disabled={botonDeshabilitado || loading2}
+              >Crear</Button>
             </Grid>
           </form>
         </Box>
