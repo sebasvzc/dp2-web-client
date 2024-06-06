@@ -194,7 +194,7 @@ export default function TiendaDetail() {
       formData.append("horaApertura", horaApertura.format('HH:mm:ss'));
       formData.append("horaCierre", horaCierre.format('HH:mm:ss'));
       formData.append("aforo", event.target.aforo.value);
-      console.log("Vamos a ver si salen las horas gaaaa: ", horaApertura)
+      formData.append("fidCategoriaTienda", selectedCategoria);
       // eslint-disable-next-line no-restricted-syntax
       console.log('ESTE ES EL MODIFICAR TIENDA')
       console.log(formData)
@@ -389,7 +389,7 @@ export default function TiendaDetail() {
 
                       <Grid item xs={6}>
                         <FormControl fullWidth>
-                          <InputLabel id="search-select-label" disabled >Categoria Tienda</InputLabel>
+                          <InputLabel id="search-select-label" disabled >Categoria</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}
