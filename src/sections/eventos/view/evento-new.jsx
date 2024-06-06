@@ -98,9 +98,9 @@ const useStyles = makeStyles((theme) => ({
     }; */
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs());
-    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
+    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#003B91");
     const [editable, setEditable] = useState(false);
-    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
     const [loading2,setLoading2]=useState(false);
 
     const handleSubmit = async (event) => {
@@ -375,7 +375,7 @@ const useStyles = makeStyles((theme) => ({
       }));
     };
 
-
+/*
     useEffect(() => {
       const isNonEmptyString = (value) => typeof value === 'string' && value.trim().length > 0;
       const isNonZeroNumber = (value) => typeof value === 'number' && value !== 0;
@@ -389,9 +389,6 @@ const useStyles = makeStyles((theme) => ({
         isNonEmptyArray(selectedLugar) &&
         isNonEmptyArray(selectedTienda) &&
         isNonZeroNumber(formDatos.puntosOtorgados) &&
-        isNonEmptyString(formDatos.generoPromedio) &&
-        isNonEmptyString(formDatos.ordenPriorizacion) &&
-        isNonEmptyString(formDatos.edadPromedio) &&
         startDate && endDate && (new Date(startDate) < new Date(endDate)) &&
         isNonEmptyArray(files)
       ) {
@@ -407,7 +404,7 @@ const useStyles = makeStyles((theme) => ({
       formDatos.puntosOtorgados, formDatos.edadPromedio, formDatos.generoPromedio,
       formDatos.ordenPriorizacion
     ]);
-    
+    */
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
@@ -616,8 +613,7 @@ const useStyles = makeStyles((theme) => ({
             <Grid item xs={12}> 
             <Button variant="contained" color="info" 
             sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
-            type='submit'
-            // disabled={botonDeshabilitado || loading2}
+            type='submit' disabled={botonDeshabilitado}
               >Crear</Button>
             </Grid>
           </form>
