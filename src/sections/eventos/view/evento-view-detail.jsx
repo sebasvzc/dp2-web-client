@@ -128,9 +128,9 @@ export default function EventoDetail() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const results =  await getTipoEventos(token,refreshToken,searchTerm);
-        console.log("viendo resultados", results)
-        setTipoEventos(results);
+       // const results =  await getTipoEventos(token,refreshToken,searchTerm);
+        //console.log("viendo resultados", results)
+        //setTipoEventos(results);
 
         const data = await response.json();
         console.log(data)
@@ -156,11 +156,9 @@ export default function EventoDetail() {
         //setSelectedEvento(data.detalles.tipoEvento.id)
 
         console.log(idParam)
-        // Simulación de carga
-      
+        setLoading(false);
       }catch (err) {
         console.error("Failed to fetch cupon data", err);
-        setLoading(false);
       }
     }
       loadEventoData();
@@ -177,6 +175,7 @@ export default function EventoDetail() {
   };
 
   const handleSearch = async (e) => {
+    /*
     e.preventDefault();
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
@@ -184,6 +183,7 @@ export default function EventoDetail() {
     const results = await getTipoEventos(token,refreshToken,searchTerm);
     console.log("viendo resultados", results.tipoEventos)
     setEventos(results.tipoEventos);
+    */
   };
 
   const fetchAndSetView = async (newView) => {
@@ -391,55 +391,53 @@ export default function EventoDetail() {
                         </Box>
                       </Box>
                     </Grid>
-              <Grid item xs={8} container spacing={2}>
-                <Grid item xs={4}>
-                  <TextField fullWidth label="Código" name="codigo" 
-                  disabled defaultValue={codigoText}/>
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField fullWidth label="Nombre" name="nombre" 
-                  disabled defaultValue={nombreText}/>
-                </Grid>
-                <Grid item xs={4}>
-                 
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth  label="Descripción Completa" name="descripcion" 
-                  multiline rows={3} disabled defaultValue={descripcionText}/>
-                </Grid>
-              </Grid>       
-              <Grid item xs={3}>
-                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                <DatePicker
-                  label="Fecha inicio"
-                  value={startDate}
-                  format="DD/MM/YYYY"
-                  sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={3}>
-                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                <DatePicker
-                  label="Fecha fin"
-                  value={endDate}
-                  format="DD/MM/YYYY"
-                  sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={3}>
-               
-              </Grid>
-              <Grid item xs={3}>
-               
-              </Grid>
-              <Grid item xs={3}>
-                <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
-                  disabled defaultValue={puntosOtorgadosText}/>
-              </Grid>
-            </Grid>
-                 
+                    <Grid item xs={8} container spacing={2}>
+                      <Grid item xs={4}>
+                        <TextField fullWidth label="Código" name="codigo" 
+                        disabled defaultValue={codigoText}/>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <TextField fullWidth label="Nombre" name="nombre" 
+                        disabled defaultValue={nombreText}/>
+                      </Grid>
+                      <Grid item xs={4}>
+                      
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField fullWidth  label="Descripción Completa" name="descripcion" 
+                        multiline rows={3} disabled defaultValue={descripcionText}/>
+                      </Grid>
+                    </Grid>       
+                    <Grid item xs={3}>
+                      <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                      <DatePicker
+                        label="Fecha inicio"
+                        value={startDate}
+                        format="DD/MM/YYYY"
+                        sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                      />
+                      </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                      <DatePicker
+                        label="Fecha fin"
+                        value={endDate}
+                        format="DD/MM/YYYY"
+                        sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                      />
+                      </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={3}>
+                    
+                    </Grid>
+                    <Grid item xs={3}>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
+                        disabled defaultValue={puntosOtorgadosText}/>
+                    </Grid>
+                  </Grid>
                 </Box>
               )}
             </form>
