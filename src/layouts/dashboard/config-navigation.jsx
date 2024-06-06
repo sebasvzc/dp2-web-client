@@ -128,7 +128,7 @@ export default function NavBar() {
         },
         {
           title: 'Gestión de Eventos',
-          path: '/eventos',
+          path: '/evento',
           icon: icon('ic_evento'),
           permission: 'Gestion de Eventos',
         },

@@ -5,10 +5,9 @@ import PrivateRoutes from '../utils/PrivateRoutes'
 import { AuthProvider } from '../utils/AuthContext'
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-// export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
-// export const ProductsPage = lazy(() => import('src/pages/products'));
+
 export const TiendasPage = lazy(() => import('src/pages/tiendas'));
 export const TiendaNew = lazy(() => import('src/pages/tienda-nueva'));
 export const TiendaVisualizar = lazy(() => import('src/pages/tienda-visualizar'));
@@ -18,6 +17,9 @@ export const CuponesPage = lazy(() => import('src/pages/cupones'));
 export const CuponNew = lazy(() => import('src/pages/cupon-nuevo'));
 export const CuponDetalle = lazy(() => import('src/pages/cupon-detalle'));
 export const CuponEditar = lazy(() => import('src/pages/cupon-editar'))
+
+export const EventosPage = lazy(() => import('src/pages/eventos'));
+export const EventoNew = lazy(() => import('src/pages/evento-nuevo'));
 
 export const ClientesPage = lazy(() => import('src/pages/clientes'));
 export const ClientesDetalle =lazy(() => import('src/pages/clientes-detalle'));
@@ -62,6 +64,11 @@ export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'
                 <Route path="tienda-new" element={<TiendaNew/>}/>
                 <Route path="tienda-visualizar/:id" element={<TiendaVisualizar/>}/>
                 <Route path="tienda-editar/:id" element={<TiendaEditar/>}/>
+              </Route>
+
+              <Route path="/evento" element={<EventosPage/>}/>
+              <Route path="/evento">
+                <Route path="evento-new" element={<EventoNew/>}/>
               </Route>
 
               <Route path="*" element={<Page404/>}/>
