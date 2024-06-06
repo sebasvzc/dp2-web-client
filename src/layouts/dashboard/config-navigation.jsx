@@ -80,14 +80,19 @@ export default function NavBar() {
   const { logoutUser,getPermissions } = useAuth(); // Asegúrate de que tu hook useAuth proporcione la función logout
   const [permissions, setPermissions] = useState([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
+
+  useEffect(() => {
     const fetchPermissions = async () => {
-      const perms = await getPermissions();
-      console.log("Raw permissions:", perms);
-      setPermissions(perms.permissions.map(perm => perm.permission.nombre));
+      try {
+        const perms = await getPermissions();
+        console.log("Raw permissions:", perms);
+        setPermissions(perms.permissions.map(perm => perm.permission.nombre));
+      } catch (error) {
+        console.error("Error fetching permissions:", error);
+      }
     };
-    await fetchPermissions();
+
+    fetchPermissions();
   }, [getPermissions]);
 
   const handleLogout = () => {

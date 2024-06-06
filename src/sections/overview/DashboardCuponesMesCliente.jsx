@@ -19,21 +19,28 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
     const options = {
       series,
       chart: {
-        type: 'bar',
         height: 350,
-        stacked: true
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false, // Set horizontal to false to make bars vertical
+        type: 'line',
+        zoom: {
+          enabled: false
         },
+        toolbar: {
+          show: false
+        }
+      },
+      colors:  [ '#003B91','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'],
+      dataLabels: {
+        enabled: true,
       },
       stroke: {
-        width: 1,
-        colors: ['#fff'],
+        curve: 'smooth'
       },
-      title: {
-        text: 'Cantidad de cupones usado agrupados por mes',
+      markers: {
+        size: 0.5, // Tamaño del marcador
+        strokeWidth: 0, // Ancho del borde del marcador (puedes ajustar esto si es necesario)
+        hover: {
+          size: 5 // Tamaño del marcador al pasar el ratón por encima (opcional)
+        }
       },
       xaxis: {
         title: {
@@ -41,33 +48,19 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
         },
         categories,
       },
+
       yaxis: {
         title: {
-          text: 'Número de cupones',
+          text: 'Cupones canjeados'
         },
-        labels: {
-          formatter (val) {
-            return val.toFixed(0);
-          }
-        }
-      },
-      tooltip: {
-        y: {
-          formatter (val) {
-            return `${val.toFixed(0)  } cupones`;
-          }
-        }
-      },
-      fill: {
-        opacity: 1
       },
       legend: {
-
         position: 'top',
-        horizontalAlign: 'left',
-        offsetX: 40
-      },
-    };
+        horizontalAlign: 'right',
+        floating: true,
+      }
+
+  };
 
     const chart = new ApexCharts(document.querySelector('#dashboard-cupones-mes-clientes'), options);
     chart.render();
