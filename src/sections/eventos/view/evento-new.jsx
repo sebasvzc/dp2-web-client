@@ -119,9 +119,6 @@ const useStyles = makeStyles((theme) => ({
         formData.append("fechaInicio", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
         formData.append("fechaFin", endDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
         formData.append("puntosOtorgados", event.target.puntosOtorgados.value);
-        formData.append("edadPromedio", event.target.edadPromedio.value);
-        formData.append("generoPromedio", event.target.generoPromedio.value);
-        formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
         formData.append("fidTienda", selectedTienda);
         formData.append("fidLugar", selectedLugar);
         formData.append("fidTipoEvento", selectedEvento);
