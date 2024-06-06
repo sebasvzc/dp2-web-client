@@ -465,7 +465,7 @@ export default function EventoEdit() {
                     <Grid item xs={8} container spacing={2}>
                     <Grid item xs={2}>
                         <TextField fullWidth label="Código" name="codigo" 
-                        disabled={!editable} defaultValue={codigoText}/>
+                        disabled defaultValue={codigoText}/>
                       </Grid>
                       <Grid item xs={5}>
                         <TextField fullWidth label="Nombre" name="nombre" 
