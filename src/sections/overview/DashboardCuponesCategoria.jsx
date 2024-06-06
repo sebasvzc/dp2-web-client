@@ -12,26 +12,30 @@ const DashboardCuponesCategoria = ({ dataDash }) => {
 
 
     const options = {
-      series: [{
-        name: dataDash[0].name,
-        data: dataDash[0].data,
-      }],
+      series: dataDash[0].data,
       chart: {
-        height: 350,
-        type: 'radar',
+
+        type: 'pie',
       },
-      title: {
-        text: 'Radar de Categorías Preferidas en Cupones',
+      labels: dataDash[0].categoria,
+      legend: {
+        position: 'top', // Establece la posición de la leyenda a la izquierda
       },
-      yaxis: {
-        stepSize: 20,
-      },
-      xaxis: {
-        categories: dataDash[0].categoria,
-      }
+      colors: [ '#003B91','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'], // Paleta de colores personalizada
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'top'
+          }
+        }
+      }]
     };
 
-    const chart = new ApexCharts(document.querySelector('#dashboard-cupones-categorias-clientes'), options);
+    const chart = new ApexCharts(document.querySelector('#dashboard-pie-chart'), options);
     chart.render();
 
     return () => {
@@ -39,7 +43,13 @@ const DashboardCuponesCategoria = ({ dataDash }) => {
     };
   }, [dataDash]);
 
-  return <div id="dashboard-cupones-categorias-clientes" />;
+  return (
+    <div > {/* Ajusta el padding superior y centra el texto */}
+      <h3 style={{ textAlign: 'center' }}>Gráfico Circular de Cupones Canjeados por Categorías Principales</h3>
+      <div id="dashboard-pie-chart"  />
+      {/* Aplica el borde */}
+    </div>
+  );
 };
 
 DashboardCuponesCategoria.propTypes = {

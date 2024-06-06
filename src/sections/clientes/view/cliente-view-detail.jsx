@@ -753,7 +753,10 @@ export default function CuponDetail() {
                         px: 3,
                         py: 5,
                         mx:2,
-                        my:4
+                        my:4,
+                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
+                        border: "1px solid #BFC0C1",
+                        backgroundColor: '#F9FAFB',
                       }} >
                       <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
                     </Card>
@@ -767,7 +770,7 @@ export default function CuponDetail() {
                         px: 3,
                         py: 5,
                         mx:2,
-                        my:4
+                        my:2
                       }} >
                       <DashboardCuponesMesCliente dataDash={dataDash}/>
                     </Card>
