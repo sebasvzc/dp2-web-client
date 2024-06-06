@@ -165,14 +165,14 @@ const useStyles = makeStyles((theme) => ({
     const [startTime, setStartTime] = useState(dayjs());
     const [endTime, setEndTime] = useState(dayjs());
     const [eventos, setEventos] = useState([]);
-    const [selectedEvento, setSelectedEvento] = useState('');
+    const [lugar, setLugar] = useState([]);
+    const [selectedEvento, setSelectedLugar] = useState('');
+    const [selectedLugar, setSelectedEvento] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [tipoEventos, setTipoEventos] = useState([]);
     const [selectedTipoEvento, setSelectedTipoEvento] = useState('');
     const [searchTermTipoEventoes, setSearchTermTipoEventoes] = useState('');
 
-
-//getTipoEventos
     const getTipoEventos = async () => {
 
       try {
@@ -219,9 +219,7 @@ const useStyles = makeStyles((theme) => ({
       }
     };
 
-    
-    const getTipoEventoes = async () => {
-      /*
+    const getLugarEvento = async () => {
       try {
         const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
@@ -229,7 +227,7 @@ const useStyles = makeStyles((theme) => ({
         let response="";
         console.log(searchTermTipoEventoes)
         if(searchTerm===""){
-          response = await fetch(`http://localhost:3000/api/tipocupones/listartipocupones?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -238,7 +236,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tipocupones/listartipocupones?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -264,7 +262,6 @@ const useStyles = makeStyles((theme) => ({
         console.error('Error fetching cupones:', error);
         throw error;
       }
-      */
     };
   
     const handleCrear = () => {
@@ -283,9 +280,13 @@ const useStyles = makeStyles((theme) => ({
       setSearchTerm(e.target.value)
     };
     
-    const handleSearchTipoEvento = async (e) => {
-      
+    const handleLugarEvento = async (e) => {
+      e.preventDefault();
+      const results = await getLugarEvento();
+      console.log("viendo resultados", results.lugares)
+      setLugarEvento(results.lugares);
     };
+
     const changeTermSearchTipoEvento = async (e) => {
       e.preventDefault();
       setSearchTermTipoEventoes(e.target.value)
@@ -452,9 +453,46 @@ const useStyles = makeStyles((theme) => ({
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={3}>
-                <TextField fullWidth 
-                onChange={handleChange}
-                label="Lugar Evento" name="puntosOtorgados" />
+                <FormControl fullWidth>
+                  <InputLabel 
+                  id="search-select-label" >Ubicación</InputLabel>
+                  <Select
+                    // Disables auto focus on MenuItems and allows TextField to be in focus
+                    MenuProps={{ autoFocus: false }}
+                    labelId="search-select-label"
+                    id="search-select"
+                    value={selectedLugar}
+                    label="Elegir Lugar"
+                    onChange={(e) => setSelectedLugar(e.target.value)}
+                    // This prevents rendering empty string in Select's value
+                    // if search text would exclude currently selected option.
+
+                  >
+                    <ListSubheader>
+                      <TextField
+                        size="small"
+                        autoFocus
+                        placeholder="Busca una tienda por nombre..."
+                        fullWidth
+                        value={searchTerm}
+                        onChange={changeTermSearch}
+                        onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SearchIcon onClick={handleLugarEvento} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    </ListSubheader>
+                    {lugar.map((option, i) => (
+                      <MenuItem key={i} value={option.id}>
+                        {option.nombre}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={3}>
                 <TextField fullWidth 
