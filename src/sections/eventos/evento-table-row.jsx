@@ -148,12 +148,12 @@ export default function EventoTableRow({
   };
   const handleOpenModalEdit = () => {
     console.log(id)
-    navigate(`/tienda/tienda-visualizar/${id}`);
+    navigate(`/evento/detalle/${id}`);
   };
 
   const handleCloseModalEdit = () => {
     console.log(id)
-    navigate(`/tienda/tienda-editar/${id}`);
+    //navigate(`/evento/evento-editar/${id}`);
   };
 
 
