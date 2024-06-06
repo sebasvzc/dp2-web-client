@@ -111,7 +111,7 @@ export default function EventoDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/eventos/detalleEventoCompleto`, {
+        response = await fetch(`http://3.220.179.149/api/api/eventos/detalleEventoCompleto`, {
           method: 'POST',
           body: JSON.stringify({
             id:idParam,

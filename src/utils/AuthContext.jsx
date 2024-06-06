@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     console.log(userStringify.token);
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
-    const response = await fetch(`http://localhost:3000/api/user/listarpermisos`, {
+    const response = await fetch(`http://3.220.179.149/api/api/user/listarpermisos`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
