@@ -195,7 +195,7 @@ export default function ClienteTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} 
           style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="public/assets/images/avatars/avatar_2.jpg"  alt="Avatar"
+            <img src="/assets/images/avatars/avatar_2.jpg"  alt="Avatar"
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
             <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
