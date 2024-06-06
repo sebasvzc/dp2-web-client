@@ -112,6 +112,20 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         const formData = new FormData();
 
+        formData.append("file", files[0].file)
+        formData.append("codigo", event.target.codigo.value);
+        formData.append("nombre", event.target.nombre.value);
+        formData.append("descripcion", event.target.descripcion.value);
+        formData.append("fechaInicio", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
+        formData.append("fechaFin", endDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
+        formData.append("puntosOtorgados", event.target.puntosOtorgados.value);
+        formData.append("edadPromedio", event.target.edadPromedio.value);
+        formData.append("generoPromedio", event.target.generoPromedio.value);
+        formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
+        formData.append("fidTienda", selectedTienda);
+        formData.append("fidLugar", selectedLugar);
+        formData.append("fidTipoEvento", selectedEvento);
+
         console.log(formData.append)
         // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of formData.entries()) {
@@ -166,12 +180,13 @@ const useStyles = makeStyles((theme) => ({
     const [endTime, setEndTime] = useState(dayjs());
     const [eventos, setEventos] = useState([]);
     const [lugar, setLugar] = useState([]);
-    const [selectedEvento, setSelectedLugar] = useState('');
-    const [selectedLugar, setSelectedEvento] = useState('');
+    const [tienda, setTienda] = useState([]);
+    const [selectedEvento, setSelectedEvento] = useState('');
+    const [selectedLugar, setSelectedLugar] = useState('');
+    const [selectedTienda, setSelectedTienda] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [tipoEventos, setTipoEventos] = useState([]);
-    const [selectedTipoEvento, setSelectedTipoEvento] = useState('');
-    const [searchTermTipoEventoes, setSearchTermTipoEventoes] = useState('');
+    const [searchLugar, setSearchLugar] = useState('');
+    const [searchTienda, setSearchTienda] = useState('');
 
     const getTipoEventos = async () => {
 
@@ -225,7 +240,6 @@ const useStyles = makeStyles((theme) => ({
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         let response="";
-        console.log(searchTermTipoEventoes)
         if(searchTerm===""){
           response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
             method: 'GET',
@@ -237,6 +251,50 @@ const useStyles = makeStyles((theme) => ({
           });
         }else{
           response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=${searchTerm}&page=1&pageSize=10`, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            }
+          });
+        }
+
+
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching cupones:', error);
+        throw error;
+      }
+    };
+
+    const getTiendaEvento = async () => {
+      try {
+        const user = localStorage.getItem('user');
+        const userStringify = JSON.parse(user);
+        const { token, refreshToken } = userStringify;
+        let response="";
+        if(searchTerm===""){
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Refresh-Token': `Bearer ${refreshToken}`
+            }
+          });
+        }else{
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -279,17 +337,29 @@ const useStyles = makeStyles((theme) => ({
       e.preventDefault();
       setSearchTerm(e.target.value)
     };
+
+    const changeLugarSearch = async (e) => {
+      e.preventDefault();
+      setSearchLugar(e.target.value)
+    };
     
     const handleLugarEvento = async (e) => {
       e.preventDefault();
       const results = await getLugarEvento();
       console.log("viendo resultados", results.lugares)
-      setLugarEvento(results.lugares);
+      setLugar(results.lugares);
     };
 
-    const changeTermSearchTipoEvento = async (e) => {
+    const changeTiendaSearch = async (e) => {
       e.preventDefault();
-      setSearchTermTipoEventoes(e.target.value)
+      setSearchTienda(e.target.value)
+    };
+    
+    const handleTiendaEvento = async (e) => {
+      e.preventDefault();
+      const results = await getTiendaEvento();
+      console.log("viendo resultados", results.tiendas)
+      setTienda(results.tiendas);
     };
 
     const [formDatos, setFormDatos] = useState({
@@ -314,21 +384,22 @@ const useStyles = makeStyles((theme) => ({
     const [mostrarTxtApertura, setMostrarTxtApertura] = useState('');
     const [mostrarTxtCierre, setMostrarTxtCierre] = useState('');
 
-    /*
+    
     useEffect(() => {
-      const horaApertura = startTime.format("HH:mm:ss");
-      const horaCierre = endTime.format("HH:mm:ss");
-      const horaAperturaDate = new Date(`1970-01-01T${  horaApertura}`);
-      const horaCierreDate = new Date(`1970-01-01T${  horaCierre}`);
       if (formDatos.nombre.length !== 0
-        && selectedEvento.length !== 0
-        && formDatos.aforo.length !== 0
+        && formDatos.codigo.length !== 0
         && formDatos.descripcion.length !== 0
-        && formDatos.locacion.length !== 0
-        && startTime.length !== 0
-        && endTime.length !== 0
+        && selectedEvento.length !== 0
+        && selectedLugar.length !== 0
+        && selectedTienda.length !== 0
+        && formDatos.puntosOtorgados.length !== 0
+        && formDatos.generoPromedio.length !== 0
+        && formDatos.ordenPriorizacion.length !== 0
+        && formDatos.edadPromedio.length !== 0
+        && startDate.length !== 0
+        && endDate.length !== 0
         && files.length !== 0
-        && horaAperturaDate < horaCierreDate
+        && startDate < endDate
       ) {
         setBackgroundBtnReg("#003B91");
         setBotonDeshabilitado(false);
@@ -336,19 +407,12 @@ const useStyles = makeStyles((theme) => ({
         setBackgroundBtnReg("#CCCCCC");
         setBotonDeshabilitado(true);
       }
-      
-      console.log(horaAperturaDate);
-      console.log(horaCierreDate);
 
-    if (horaAperturaDate > horaCierreDate) {
-      setMostrarTxtApertura('La hora de apertura es mayor que la hora de cierre.');
-    }else {
-      setMostrarTxtApertura("");
-    }
-  
-    },[formDatos.nombre,selectedEvento,formDatos.aforo,
-      formDatos.descripcion, formDatos.locacion,startTime,endTime,files]); // Cierra correctamente con un corchete    
-    */
+    },[formDatos.nombre,formDatos.codigo,selectedEvento,selectedTienda,selectedLugar,
+      formDatos.descripcion,startDate,endDate,files,
+      formDatos.puntosOtorgados,formDatos.edadPromedio,formDatos.generoPromedio,
+      formDatos.ordenPriorizacion]); // Cierra correctamente con un corchete    
+    
 
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
@@ -403,7 +467,7 @@ const useStyles = makeStyles((theme) => ({
                               <TextField
                                 size="small"
                                 autoFocus
-                                placeholder="Buscar el tipo por nombre..."
+                                placeholder="Buscar tipo por nombre..."
                                 fullWidth
                                 value={searchTerm}
                                 onChange={changeTermSearch}
@@ -426,10 +490,9 @@ const useStyles = makeStyles((theme) => ({
                         </FormControl>
                       </Grid>
                 <Grid item xs={12}>
-                  <TextField fullWidth onChange={handleChange}  label="Descripción Completa" name="descripcionCompleta" multiline rows={3} />
+                  <TextField fullWidth onChange={handleChange}  label="Descripción Completa" name="descripcion" multiline rows={3} />
                 </Grid>
-              </Grid>
-              
+              </Grid>       
               <Grid item xs={3}>
                 <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
                 <DatePicker
@@ -472,10 +535,10 @@ const useStyles = makeStyles((theme) => ({
                       <TextField
                         size="small"
                         autoFocus
-                        placeholder="Busca una tienda por nombre..."
+                        placeholder="Buscar lugar por nombre..."
                         fullWidth
-                        value={searchTerm}
-                        onChange={changeTermSearch}
+                        value={searchLugar}
+                        onChange={changeLugarSearch}
                         onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
                         InputProps={{
                           startAdornment: (
@@ -495,9 +558,46 @@ const useStyles = makeStyles((theme) => ({
                 </FormControl>
               </Grid>
               <Grid item xs={3}>
-                <TextField fullWidth 
-                onChange={handleChange}
-                label="Tienda" name="puntosOtorgados" />
+                <FormControl fullWidth>
+                  <InputLabel 
+                  id="search-select-label" >Tienda</InputLabel>
+                  <Select
+                    // Disables auto focus on MenuItems and allows TextField to be in focus
+                    MenuProps={{ autoFocus: false }}
+                    labelId="search-select-label"
+                    id="search-select"
+                    value={selectedTienda}
+                    label="Elegir Tienda"
+                    onChange={(e) => setSelectedTienda(e.target.value)}
+                    // This prevents rendering empty string in Select's value
+                    // if search text would exclude currently selected option.
+
+                  >
+                    <ListSubheader>
+                      <TextField
+                        size="small"
+                        autoFocus
+                        placeholder="Buscar tienda por nombre..."
+                        fullWidth
+                        value={searchTienda}
+                        onChange={changeTiendaSearch}
+                        onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SearchIcon onClick={handleTiendaEvento} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    </ListSubheader>
+                    {tienda.map((option, i) => (
+                      <MenuItem key={i} value={option.id}>
+                        {option.nombre}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={3}>
                 <TextField fullWidth 
@@ -517,7 +617,7 @@ const useStyles = makeStyles((theme) => ({
               <Grid item xs={3}>
                 <TextField fullWidth 
                 onChange={handleChange}
-                label="Orden Priorización" name="ordenPriorización" />
+                label="Orden Priorización" name="ordenPriorizacion" />
               </Grid>
             </Grid>
             <Grid item xs={12}> 
