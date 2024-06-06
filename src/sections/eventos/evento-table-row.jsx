@@ -166,11 +166,11 @@ export default function EventoTableRow({
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={rutaFoto} alt="Avatar"
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
-            <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
-              <Typography variant="h6" component="div">
+            <div style={{ marginLeft: 16, maxWidth: '60%' }}>
+              <Typography variant="h6" component="div" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {nombre}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 Descripción: {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
