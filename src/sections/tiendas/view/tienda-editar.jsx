@@ -31,14 +31,14 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Stack from '@mui/material/Stack';
+import { MarginOutlined } from '@mui/icons-material';
 import Iconify from '../../../components/iconify';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Stack from '@mui/material/Stack';
-import { MarginOutlined } from '@mui/icons-material';
 
 
 
@@ -199,9 +199,6 @@ export default function TiendaDetail() {
       console.log('ESTE ES EL MODIFICAR TIENDA')
       console.log(formData)
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
 
       let response="";
       response = await fetch(`http://localhost:3000/api/tiendas/modificar`, {

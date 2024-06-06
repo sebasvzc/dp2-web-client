@@ -205,9 +205,6 @@ export default function EventoEdit() {
       formData.append("fidTipoEvento", selectedEvento);
       console.log(formData)
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
 
       let response="";
       response = await fetch(`http://localhost:3000/api/eventos/modificar`, {
@@ -275,7 +272,7 @@ export default function EventoEdit() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getLugarEvento(token,refreshToken,searchLugar);
-    //console.log("viendo lugares", results.lugares)
+    // console.log("viendo lugares", results.lugares)
     setLugar(results.lugar);
   };
 
@@ -290,7 +287,7 @@ export default function EventoEdit() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getTiendaEvento(token,refreshToken,searchTienda);
-    //console.log("viendo tiendas", results.tiendas)
+    // console.log("viendo tiendas", results.tiendas)
     setTienda(results.locatario);
   };
 
@@ -664,9 +661,8 @@ export default function EventoEdit() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  >
-              
-              </Grid>
+                <Grid container spacing={2} />
+
               )}
               </Box >
           )}
