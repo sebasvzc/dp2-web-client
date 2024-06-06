@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Dropzone, FileMosaic } from "@files-ui/react";
-
 import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,7 +13,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import {TimePicker,LocalizationProvider  } from '@mui/x-date-pickers';
+import {TimePicker, DatePicker, LocalizationProvider  } from '@mui/x-date-pickers';
 import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, InputLabel, FormControl } from '@mui/material';
 
 dayjs.locale('es-mx');
@@ -97,9 +96,11 @@ const useStyles = makeStyles((theme) => ({
       event.preventDefault();
       // Lógica para manejar la submisión del formulario
     }; */
-
+    const [startDate, setStartDate] = useState(dayjs());
+    const [endDate, setEndDate] = useState(dayjs());
     const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
     const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+    const [loading2,setLoading2]=useState(false);
 
     const handleSubmit = async (event) => {
       console.log("EntrandoSubmit")
@@ -166,14 +167,14 @@ const useStyles = makeStyles((theme) => ({
     const [eventos, setEventos] = useState([]);
     const [selectedEvento, setSelectedEvento] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [tipoEventoes, setTipoEventoes] = useState([]);
+    const [tipoEventos, setTipoEventos] = useState([]);
     const [selectedTipoEvento, setSelectedTipoEvento] = useState('');
     const [searchTermTipoEventoes, setSearchTermTipoEventoes] = useState('');
 
 
+//getTipoEventos
+    const getTipoEventos = async () => {
 
-    const getCategoriaEventos = async () => {
-      /*
       try {
         const user = localStorage.getItem('user');
         const userStringify = JSON.parse(user);
@@ -181,7 +182,7 @@ const useStyles = makeStyles((theme) => ({
         let response="";
         console.log(searchTerm)
         if(searchTerm===""){
-          response = await fetch(`http://localhost:3000/api/categoriaEvento/listarCategoriaEventosWeb?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -190,7 +191,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/categoriaEvento/listarCategoriaEventosWeb?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -272,8 +273,9 @@ const useStyles = makeStyles((theme) => ({
     
     const handleSearch = async (e) => {
       e.preventDefault();
-      const results = await getCategoriaEventos();
-      
+      const results = await getTipoEventos();
+      console.log("viendo resultados", results.tipoEventos)
+      setEventos(results.tipoEventos);
     };
     
     const changeTermSearch = async (e) => {
@@ -360,22 +362,131 @@ const useStyles = makeStyles((theme) => ({
           </p>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Grid container spacing={2}>
-            <Grid item xs={12} >
-                    <Dropzone onChange={updateFiles} value={files} label="Arrastra y suelta tus archivos" 
+              <Grid item xs={3} >
+                    <Dropzone onChange={updateFiles} value={files} label="Arrastra una imagen" 
                     maxFiles={1} footer={false} localization="ES-es" accept="image/*"
                     >
                       {files.map((file) => (
-                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '70%'}}/>
+                        <FileMosaic {...file} preview   localization="ES-es" style={{width: '50%'}}/>
                       ))}
                     </Dropzone>
               </Grid>
-              
-              <Grid item xs={4}>
-                <TextField fullWidth 
-                onChange={handleChange}
-                label="Código" name="codigo" />
+              <Grid item xs={9} container spacing={2}>
+                <Grid item xs={4}>
+                  <TextField fullWidth 
+                  onChange={handleChange}
+                  label="Código" name="codigo" />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField fullWidth 
+                  onChange={handleChange}
+                  label="Nombre" name="nombre" />
+                </Grid>
+                <Grid item xs={4}>
+                        <FormControl fullWidth>
+                          <InputLabel id="search-select-label">Tipo Evento</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+
+                            labelId="search-select-label"
+                            id="search-select"
+                            value={selectedEvento}
+                            label="Tipo de Evento"
+                            onChange={(e) => setSelectedEvento(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
+
+                          >
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Buscar el tipo por nombre..."
+                                fullWidth
+                                value={searchTerm}
+                                onChange={changeTermSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleSearch} />
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                            </ListSubheader>
+                            {eventos.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                <Grid item xs={12}>
+                  <TextField fullWidth onChange={handleChange}  label="Descripción Completa" name="descripcionCompleta" multiline rows={3} />
+                </Grid>
               </Grid>
               
+              <Grid item xs={3}>
+                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                <DatePicker
+                  label="Fecha inicio"
+                  value={startDate}
+                  format="DD/MM/YYYY"
+                  onChange={setStartDate}
+                  sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={3}>
+                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                <DatePicker
+                  label="Fecha fin"
+                  value={endDate}
+                  format="DD/MM/YYYY"
+                  onChange={setEndDate}
+                  sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={3}>
+                <TextField fullWidth 
+                onChange={handleChange}
+                label="Lugar Evento" name="puntosOtorgados" />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField fullWidth 
+                onChange={handleChange}
+                label="Tienda" name="puntosOtorgados" />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField fullWidth 
+                onChange={handleChange}
+                label="Puntos Otorgados" name="puntosOtorgados" />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField fullWidth 
+                onChange={handleChange}
+                label="Edad Promedio" name="edadPromedio" />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField fullWidth 
+                onChange={handleChange}
+                label="Género Promedio" name="generoPromedio" />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField fullWidth 
+                onChange={handleChange}
+                label="Orden Priorización" name="ordenPriorización" />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}> 
+            <Button variant="contained" color="info" 
+            sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
+            type='submit'
+            disabled={botonDeshabilitado || loading2}>Crear</Button>
             </Grid>
           </form>
         </Box>
