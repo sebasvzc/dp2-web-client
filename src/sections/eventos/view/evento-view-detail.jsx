@@ -39,6 +39,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Iconify from '../../../components/iconify';
 
 import { getTipoEventos,getLugarEvento,getTiendaEvento, } from '../../../funciones/api';
+import DashboardEventosCategorCliente from '../../overview/DashboardEventosCategorCliente';
+import DashboardEventosAsistentes from '../../overview/DashboardEventosAsistentes';
+import DashboardGeneroEdad from '../../overview/DashboardGeneroEdad';
 
 dayjs.extend(utc);
 
@@ -61,6 +64,8 @@ export default function EventoDetail() {
   const [fileUrl, setFileUrl] = useState('');
   const filterName= useState("")
   const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
+  const [dataDashEventos, setDataDashEventos] = useState({ totalAsistencia: 1, totalInscritos: 1});
+  const [dataDashEventosAgrupEdadAsist, setDataDashEventosAgrupEdadAsist] = useState([]);
   const [totalClientsEvento, setTotalClientsEvento] = useState(10);
   const [codigoText, setCodigoText] = useState('');
   const [nombreText, setNombreText] = useState('');
@@ -168,6 +173,78 @@ export default function EventoDetail() {
         setSelectedTienda(data.detalles.locatario.id)
 
         console.log(idParam)
+
+        let responseEventoAsist="";
+        responseEventoAsist = await fetch(`http://localhost:3000/api/eventos/listarAsistencia?idParam=${idParam}`, {
+          method: 'GET',
+
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (responseEventoAsist.status === 403 || responseEventoAsist.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!responseEventoAsist.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("Evento Asistnecia")
+        const data6 = await responseEventoAsist.json();
+        console.log(data6)
+        if(data6.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data6.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if (data6) {
+          console.log("Viendo asistencia de evento");
+          console.log(data6);
+
+        }
+        setDataDashEventos({ totalAsistencia: data6.totalAsistio, totalInscritos: data6.totalEventos})
+
+        let responseEventoAsistAgrupEdad="";
+        responseEventoAsistAgrupEdad = await fetch(`http://localhost:3000/api/eventos/asitenciaXGeneroAgrupEdad?idParam=${idParam}`, {
+          method: 'GET',
+
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (responseEventoAsistAgrupEdad.status === 403 || responseEventoAsistAgrupEdad.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!responseEventoAsistAgrupEdad.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("Evento Asistnecia")
+        const data10 = await responseEventoAsistAgrupEdad.json();
+        console.log(data10)
+        if(data10.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data10.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if (data10) {
+          console.log("Viendo asistencia de evento agrupada por edad y genero");
+          console.log(data10);
+
+        }
+        setDataDashEventosAgrupEdadAsist(data10)
         setLoading(false);
       }catch (err) {
         console.error("Failed to fetch cupon data", err);
@@ -207,7 +284,7 @@ export default function EventoDetail() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getLugarEvento(token,refreshToken,searchLugar);
-    //console.log("viendo lugares", results.lugares)
+    // console.log("viendo lugares", results.lugares)
     setLugar(results.lugar);
   };
 
@@ -222,7 +299,7 @@ export default function EventoDetail() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getTiendaEvento(token,refreshToken,searchTienda);
-    //console.log("viendo tiendas", results.tiendas)
+    // console.log("viendo tiendas", results.tiendas)
     setTienda(results.locatario);
   };
 
@@ -619,7 +696,48 @@ export default function EventoDetail() {
                 </Box>
               ):(
               <Grid container spacing={2}  >
-              
+
+                <Grid item xs={4} md={4} lg={4}>
+                  <Card
+
+
+                    sx={{
+                      px: 3,
+                      py: 5,
+                      mx:2,
+                      my:4,
+                      border: "1px solid #BFC0C1",
+                      backgroundColor: '#F9FAFB',
+                      }} >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <DashboardEventosAsistentes dataDash={dataDashEventos}/>
+                        </Grid>
+                      </Grid>
+                  </Card>
+                </Grid>
+                <Grid item xs={8} md={8} lg={8}>
+                  <Card
+
+
+                    sx={{
+                      px: 3,
+                      py: 5,
+                      mx:2,
+                      my:4,
+                      border: "1px solid #BFC0C1",
+                      backgroundColor: '#F9FAFB',
+                    }} >
+                    <Grid container spacing={2}>
+
+                      <Grid item xs={12}>
+                      <DashboardGeneroEdad dataDash={dataDashEventosAgrupEdadAsist}/>
+                      </Grid>
+
+                    </Grid>
+
+                  </Card>
+                </Grid>
               </Grid>
               )}
               </Box >

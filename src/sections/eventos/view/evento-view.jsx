@@ -101,7 +101,6 @@ import EventoTableToolbar from '../evento-table-toolbar';
             localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
             console.log("He puesto un nuevo token");
           }
-          console.log(data.totalEventos)
           if(data.totalEventos){
             setTotalEventos(data.totalEventos);
           }
@@ -116,7 +115,7 @@ import EventoTableToolbar from '../evento-table-toolbar';
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalEventos, habilitarEventos,searchName]);
+    }, [page, pageSize, habilitarEventos,searchName]);
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
