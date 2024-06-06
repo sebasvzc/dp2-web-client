@@ -656,7 +656,7 @@ export default function TiendaDetail() {
                         }}
                       >
                         <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
-                        <Typography variant="body1">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500.</Typography>
+                        <Typography variant="body1">Descarga el QR para poder brindarle puntos a los clientes por visitar tu tienda.</Typography>
                         
                       </Box>
                     </Grid>
