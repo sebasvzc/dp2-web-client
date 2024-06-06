@@ -153,7 +153,7 @@ export default function EventoTableRow({
 
   const handleCloseModalEdit = () => {
     console.log(id)
-    //navigate(`/evento/evento-editar/${id}`);
+    navigate(`/evento/editar/${id}`);
   };
 
 

@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import utc from 'dayjs/plugin/utc';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,199 +16,90 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
-  Grid,
-  Table,
   Button,
-  Select,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Chip,
+  InputLabel,
   MenuItem,
-  TableBody, TextField, InputLabel, FormControl,
-  TableContainer,
+  Select, Table, TableBody, TableContainer,
+  TextField,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import { Spinner } from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
-
-import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import TablePagination from '@mui/material/TablePagination';
+import List from '@mui/material/List';
+import Card from '@mui/material/Card';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 
+import TablePagination from '@mui/material/TablePagination';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Iconify from '../../../components/iconify';
-//import ClientCuponTableRow from '../evento-cupon-table-row';
-import UserTableToolbar from '../../user/user-table-toolbar';
-//import ClientCuponTableHead from '../cupon-client.table.head';
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
-import DashboardCuponClient from '../../overview/dashboardCuponClient';
+
+import { getTipoEventos,getLugarEvento,getTiendaEvento, } from '../../../funciones/api';
 
 dayjs.extend(utc);
 
-export default function EventoDetail() {
-  /*
+export default function EventoEdit() {
   const [view, setView] = useState('datos');
   const { id: idParam } = useParams();
-  const [editable, setEditable] = useState(true);
+  const [editable, setEditable] = useState(false);
   const [editableImg, setEditableImg] = useState(false);
   const [order, setOrder] = useState('asc');
   const [searchName, setSearchName] = useState("all");
   const [dataClients, setDataClients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [habilitarEventos, setHabilitarEventos] = useState(true);
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
-
-  const [loading2,setLoading2]=useState(false);
-
+  const [activo,setActivo]=useState(false)
   const [orderBy, setOrderBy] = useState('id');
-  const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
-  const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+  const [urlImagenS3 , setUrlImagenS3] = useState('');
   const [fileUrl, setFileUrl] = useState('');
   const filterName= useState("")
   const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
-  const [totalClientsCupon, setTotalClientsCupon] = useState(10);
-  const [cuponText, setCuponText] = useState('');
-  const [esLimitadoText, setEsLimitadoText] = useState(false);
-  const [esLimitadoDesp, setEsLimitadoDesp] = useState(false);
-  const [sumillaText, setSumillaText] = useState('');
+  const [totalClientsEvento, setTotalClientsEvento] = useState(10);
+  const [codigoText, setCodigoText] = useState('');
+  const [nombreText, setNombreText] = useState('');
   const [descripcionText, setDescripcionText] = useState('');
-  const [terminosText, setTerminosText] = useState('');
-  const [fechaText, setFechaText] = useState('');
-  const [costoText, setCostoText] = useState('');
-  const [cantIniText, setCantIniText] = useState('');
-  const [urlImagenS3 , setUrlImagenS3] = useState('');
-  const [cantDisText, setCantDisText] = useState('');
-  const [ordPriorizacionText, setOrdPriorizacionText] = useState('');
+  const [puntosOtorgadosText, setPuntosOtorgadosText] = useState('');
+  const [selectedLugar, setSelectedLugar] = useState('');
+  const [selectedEvento, setSelectedEvento] = useState('');
+  const [loading2,setLoading2]=useState(false);
   const [files, setFiles] = React.useState([]);
   const updateFiles = (incommingFiles) => {
     setFiles(incommingFiles);
   };
   const previewImage = document.querySelector("#previewImage");
   const [startDate, setStartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState('');
   const [tiendas, setTiendas] = useState([]);
   const [selectedTienda, setSelectedTienda] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [tipoCupones, setTipoCupones] = useState([]);
-  const [selectedTipoCupon, setSelectedTipoCupon] = useState('');
-  const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
+  const [searchLugar, setSearchLugar] = useState('');
+  const [searchTienda, setSearchTienda] = useState('');
+  const [tipoEventos, setTipoEventos] = useState([]);
+  const [selectedTipoEvento, setSelectedTipoEvento] = useState('');
+  const [searchTermTipoEventos, setSearchTermTipoEventos] = useState('');
   const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
   const navigate=useNavigate();
 
+  const [eventos, setEventos] = useState([]);
+  const [lugar, setLugar] = useState([]);
+  const [tienda, setTienda] = useState([]);
+
   const handleBack = () => {
-    navigate('/cupon'); 
+    navigate('/evento'); 
   }
-
-  const [formDatos, setFormDatos] = useState({
-    codigo: '',  
-    sumilla: '',
-    descripcionCompleta: '',
-    terminosCondiciones: '',
-    costoPuntos: '',
-    cantidadInicial: '',
-    ordenPriorizacion: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "codigo":
-          setCuponText(value);
-          break;
-      case "ordenPriorizacion":
-          setOrdPriorizacionText(value);
-          break;
-      case "cantidadInicial":
-          setCantIniText(value);
-          break;
-      case "costoPuntos":
-          setCostoText(value);
-          break;
-      case "terminosCondiciones":
-          setTerminosText(value);
-          break;
-      case "descripcionCompleta":
-          setDescripcionText(value);
-          break;
-      case "sumilla":
-          setSumillaText(value);
-          break;
-      default:
-          break;
-  }
-}
-
-  const [mostrarTxtFile, setMostrarTxtFile] = useState("");
-  const [mostrarTxtEsLimitado, setMostrarTxtEsLimitado] = useState("");
-  const [mostrarTxtCodigo, setMostrarTxtCodigo] = useState("");
-  const [mostrarTxtSumilla, setMostrarTxtSumilla] = useState("");
-  const [mostrarTxtDescripcionCompleta, setMostrarTxtDescripcionCompleta] = useState("");
-  const [mostrarTxtTerminosCondiciones, setMostrarTxtTerminosCondiciones] = useState("");
-  const [mostrarTxtFechaExpiracion, setMostrarTxtFechaExpiracion] = useState("");
-  const [mostrarTxtCostoPuntos, setMostrarTxtCostoPuntos] = useState("");
-  const [mostrarTxtCantidadInicial, setMostrarTxtCantidadInicial] = useState("");
-  const [mostrarTxtOrdenPriorizacion, setMostrarTxtOrdenPriorizacion] = useState("");
-  const [mostrarTxtFidLocatario, setMostrarTxtFidLocatario] = useState("");
-  const [mostrarTxtFidTipoCupon, setMostrarTxtFidTipoCupon] = useState("");
-
-  useEffect(() => {
-    if ((cuponText.length !== 0)
-      && selectedTienda.length !== 0
-      && selectedTipoCupon.length !== 0
-      && sumillaText.length !== 0
-      && ordPriorizacionText.length !== 0
-      && descripcionText.length !== 0
-      && terminosText.length !== 0
-      && costoText.length !== 0
-      && cantIniText.length !== 0
-    ) {
-      setBackgroundBtnReg("#003B91");
-      setBotonDeshabilitado(false);
-    } else {
-      setBackgroundBtnReg("#CCCCCC");
-      setBotonDeshabilitado(true);
-    }
-    
-    if (!/\s/.test(cuponText)) {
-      setMostrarTxtCodigo("");
-    } else {
-      setMostrarTxtCodigo("El código no puede contener espacios en blanco");
-    }
-
-    if (!Number.isNaN(costoText) && !/\s/.test(costoText)) {
-      setMostrarTxtCostoPuntos("");
-    } else {
-      setMostrarTxtCostoPuntos("Costo en puntos inválido");
-    }
-    
-    if (!Number.isNaN(cantIniText) && !/\s/.test(cantIniText)) {
-      setMostrarTxtCantidadInicial("");
-    } else {
-      setMostrarTxtCantidadInicial("Cantidad inicial inválida");
-    }
-    if (!Number.isNaN(ordPriorizacionText) && !/\s/.test(ordPriorizacionText)) {
-      setMostrarTxtOrdenPriorizacion("");
-    } else {
-      setMostrarTxtOrdenPriorizacion("Orden de priorización inválido");
-    }
-    /*
-    if (startDate !== null ) {
-      setMostrarTxtFechaExpiracion("");
-    } else {
-      setMostrarTxtFechaExpiracion("Fecha inválida");
-    }
-
-    if (files.length !== 0) {
-      setMostrarTxtFile("");
-    } else {
-      setMostrarTxtFile("Archivo inválido");
-    }
-    
-  },[cuponText,selectedTienda, selectedTipoCupon,sumillaText,descripcionText,terminosText,costoText,cantIniText,ordPriorizacionText]); 
-  
 
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
     // eslint-disable-next-line no-shadow
-    async function loadCuponData(searchTerm,searchTermTipoCupones) {
-      console.log("CuponData")
+    async function loadEventoData(searchTerm) {
+      console.log("EventoData")
       setLoading(true);
       try {
         const user = localStorage.getItem('user');
@@ -217,9 +108,12 @@ export default function EventoDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
+        response = await fetch(`http://localhost:3000/api/eventos/detalleEventoCompleto`, {
           method: 'POST',
-          body: JSON.stringify({ id:idParam }),
+          body: JSON.stringify({
+            id:idParam,
+            permission:"Gestion de Eventos"
+          }),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -236,142 +130,57 @@ export default function EventoDetail() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const results =  await getTiendas(token,refreshToken,searchTerm);
-        console.log("viendo resultados", results.tiendas)
-        setTiendas(results.tiendas);
+        const resultsTipo =  await getTipoEventos(token,refreshToken,searchTerm);
+        console.log("viendo eventos uwu", resultsTipo.tipoEventos)
+        setEventos(resultsTipo.tipoEventos);
 
+        const resultsTienda =  await getTiendaEvento(token,refreshToken,searchTerm);
+        console.log("viendo tiendas uwu", resultsTienda.tiendas)
+        setTienda(resultsTienda.tiendas);
 
-        const resultsTipo =  await getTipoCupones(token,refreshToken,searchTermTipoCupones);
-        console.log("viendo resultados", resultsTipo.tipoCupones)
-        setTipoCupones(resultsTipo.tipoCupones);
+        const resultsLugar =  await getLugarEvento(token,refreshToken,searchTerm);
+        console.log("viendo luagres uwu", resultsLugar.lugares)
+        setLugar(resultsLugar.lugares);
 
         const data = await response.json();
         console.log(data)
-        setEsLimitadoText(data.detalles.esLimitado)
-        if(data.detalles.esLimitado){
-          setEsLimitadoDesp("1")
-        }else{
-          setEsLimitadoDesp("0")
+
+        if(data.detalles.activo===true){
+          setActivo("Activo")
         }
-        console.log("Texto limitado")
-        console.log(esLimitadoText)
-        setCuponText(data.detalles.codigo)
-        setSumillaText(data.detalles.sumilla)
-        setDescripcionText(data.detalles.descripcionCompleta)
-        setTerminosText(data.detalles.terminosCondiciones)
-        setFechaText(dayjs(data.detalles.fechaExpiracion).utc(true))
-        setCostoText(data.detalles.costoPuntos)
-        setCantIniText(data.detalles.cantidadInicial)
-        setCantDisText(data.detalles.cantidadDisponible)
-        setOrdPriorizacionText(data.detalles.ordenPriorizacion)
+        else{
+          setActivo("Baneado")
+        }
+        console.log("Datos: ",data.detalles)
+
+        setCodigoText(data.detalles.codigo)
+        setNombreText(data.detalles.nombre)
+        setUrlImagenS3(data.image)
+        setDescripcionText(data.detalles.descripcion)
+        setPuntosOtorgadosText(data.detalles.puntosOtorgados)
+        setStartDate(dayjs(data.detalles.fechaInicio).utc(true))
+        setEndDate(dayjs(data.detalles.fechaFin).utc(true))
         setUrlImagenS3(data.image);
 
+        console.log("Datos de data:", data.detalles)
+        setSelectedEvento(data.detalles.tipoEvento.id)
+        setSelectedLugar(data.detalles.lugar.id)
         setSelectedTienda(data.detalles.locatario.id)
-        setSelectedTipoCupon(data.detalles.tipoCupon.id)
 
         console.log(idParam)
-        // Simulación de carga
-
-        if(searchName===""){
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
-            method: 'GET',
-
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`,
-              'Refresh-Token': `Bearer ${refreshToken}`
-            },
-
-          });
-        }else{
-          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
-            method: 'GET',
-
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`,
-              'Refresh-Token': `Bearer ${refreshToken}`
-            },
-
-          });
-        }
-
-        if (response.status === 403 || response.status === 401) {
-          localStorage.removeItem('user');
-          window.location.reload();
-        }
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data2 = await response.json();
-        console.log(data2)
-        if(data2.newToken){
-          const storedUser = localStorage.getItem('user');
-          const userX = JSON.parse(storedUser);
-          userX.token = data2.newToken;
-          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
-          console.log("He puesto un nuevo token");
-        }
-        if(data2.totalClientes){
-          setTotalClientsCupon(data2.totalClientes);
-        }
-
-        setDataClients(data2.clientesxCupon);
-
-        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
-          method: 'GET',
-
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Refresh-Token': `Bearer ${refreshToken}`
-          },
-
-        });
-        if (response.status === 403 || response.status === 401) {
-          localStorage.removeItem('user');
-          window.location.reload();
-        }
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data3 = await response.json();
-        console.log(data3)
-        if(data3.newToken){
-          const storedUser = localStorage.getItem('user');
-          const userX = JSON.parse(storedUser);
-          userX.token = data3.newToken;
-          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
-          console.log("He puesto un nuevo token");
-        }
-        if(data3){
-          console.log("Viendo data3");
-          console.log(data3);
-          const fechas = data3.usoDeCupones.map(item => item.fecha);
-          const cantidad = data3.usoDeCupones.map(item => item.cantidad);
-          setDataDash({ fechas, cantidad });
-
-        }
-
         setLoading(false);
-      } catch (err) {
+      }catch (err) {
         console.error("Failed to fetch cupon data", err);
-
-        setLoading(false);
       }
     }
-
-    loadCuponData();
-  }, [esLimitadoText, idParam, page, pageSize, searchName]);
+      loadEventoData();
+  }, [idParam, page, pageSize, searchName]);
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("funciona")
+    console.log('HOLA')
+    console.log(event)
     try {
       const user = localStorage.getItem('user');
       const userStringify = JSON.parse(user);
@@ -385,27 +194,23 @@ export default function EventoDetail() {
       }
 
       formData.append("id", idParam);
-      formData.append("esLimitado", esLimitadoDesp);
-
       formData.append("codigo", event.target.codigo.value);
-      formData.append("sumilla", event.target.sumilla.value);
-      formData.append("descripcionCompleta", event.target.descripcionCompleta.value);
-      formData.append("terminosCondiciones", event.target.terminosCondiciones.value);
-      formData.append("fechaExpiracion", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
-      formData.append("costoPuntos", event.target.costoPuntos.value);
-      formData.append("cantidadInicial", event.target.cantidadInicial.value);
-      formData.append("ordenPriorizacion", event.target.ordenPriorizacion.value);
-      formData.append("fidLocatario", selectedTienda);
-      formData.append("fidTipoCupon", selectedTipoCupon);
-      // eslint-disable-next-line no-restricted-syntax
+      formData.append("nombre", event.target.nombre.value);
+      formData.append("descripcion", event.target.descripcion.value);
+      formData.append("fechaInicio", startDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
+      formData.append("fechaFin", endDate.format("YYYY-MM-DD"));  // Asegúrate de que startDate es manejado correctamente
+      formData.append("puntosOtorgados", event.target.puntosOtorgados.value);
+      formData.append("fidTienda", selectedTienda);
+      formData.append("fidLugar", selectedLugar);
+      formData.append("fidTipoEvento", selectedEvento);
+      console.log(formData)
+
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
 
       let response="";
-      formData.append("permission","Gestion de Cupones");
-      setLoading2(true)
-      response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
+      response = await fetch(`http://localhost:3000/api/eventos/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -416,7 +221,6 @@ export default function EventoDetail() {
         },
 
       });
-      setLoading2(false)
       if (response.status === 403 || response.status === 401) {
         localStorage.removeItem('user');
         window.location.reload();
@@ -427,7 +231,7 @@ export default function EventoDetail() {
       }
 
       const data = await response.json();
-      toast.success('Cupon modificado exitosamente', {
+      toast.success('Tienda modificada exitosamente', {
         position: "top-right",
         hideProgressBar: false,
         closeOnClick: true,
@@ -439,45 +243,57 @@ export default function EventoDetail() {
       setEditable(false);
       return data;
     } catch (error) {
-        setLoading2(false)
       console.error('Error fetching crear cupones:', error);
       throw error;
     }
   };
+
+
+  const handleChangeImage = async (e) => {
+    e.preventDefault();
+    setEditableImg(true);
+  };
+
   const handleSearch = async (e) => {
     e.preventDefault();
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
-    const results = await getTiendas(token,refreshToken,searchTerm);
-    console.log("viendo resultados", results.tiendas)
-    setTiendas(results.tiendas);
+    const results = await getTipoEventos(token,refreshToken,searchTerm);
+    console.log("viendo resultados", results.tipoEventos)
+    setEventos(results.tipoEventos);
   };
-  const handleChangeImage = async (e) => {
+
+  const changeLugarSearch = async (e) => {
     e.preventDefault();
-    setEditableImg(true);
+    setSearchLugar(e.target.value)
   };
-  const changeTermSearch = async (e) => {
-    e.preventDefault();
-    setSearchTerm(e.target.value)
-  };
-  const handleSearchTipoCupon = async (e) => {
+  
+  const handleLugarEvento = async (e) => {
     e.preventDefault();
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
-    const results = await getTipoCupones(token,refreshToken,searchTermTipoCupones);
-    console.log("viendo resultados", results.tipoCupones)
-    setTipoCupones(results.tipoCupones);
-  };
-  const changeTermSearchTipoCupon = async (e) => {
-    e.preventDefault();
-    setSearchTermTipoCupones(e.target.value)
+    const results = await getLugarEvento(token,refreshToken,searchLugar);
+    //console.log("viendo lugares", results.lugares)
+    setLugar(results.lugar);
   };
 
-  const handleLimitado = (event) => {
-    setEsLimitadoDesp(event.target.value);
+  const changeTiendaSearch = async (e) => {
+    e.preventDefault();
+    setSearchTienda(e.target.value)
   };
+  
+  const handleTiendaEvento = async (e) => {
+    e.preventDefault();
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const { token, refreshToken } = userStringify;
+    const results = await getTiendaEvento(token,refreshToken,searchTienda);
+    //console.log("viendo tiendas", results.tiendas)
+    setTienda(results.locatario);
+  };
+
   const fetchAndSetView = async (newView) => {
     try {
       // Simulando una llamada a la API
@@ -542,29 +358,34 @@ export default function EventoDetail() {
     setPage(1);
     setPageSize(parseInt(event.target.value, 10));
   };
+
+  console.log("Valor de activo:", activo);
+  const isActivo = activo === "Activo";
+
+  const changeTermSearch = async (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value)
+  };
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Cupón</Typography>
+          <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Evento</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
-      {loading2 &&<Spinner id='loading' color='primary'/>}
-      <Grid container  >
-        
+      <Grid container >
+       
         <Grid item >
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-
-
-                {!editable && (
+              {!editable && (
                   <Button
                     variant="contained"
 
                     sx={{
                       marginTop: 5,
-                      marginRight: 2,
+                      marginLeft: 5,
                       backgroundColor: "#003B91"
                     }} // Añade un margen derecho para separar botones si es necesario
                     startIcon={<Iconify icon="ic:baseline-edit" />}
@@ -573,8 +394,7 @@ export default function EventoDetail() {
                     Editar
                   </Button>
                 )}
-
-                {editable && ( // Renderiza estos botones solo si 'editable' es true
+                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
                     <Button
                       type="submit"
@@ -601,8 +421,6 @@ export default function EventoDetail() {
                     </Button>
                   </>
                 )}
-              </Box>
-
               {loading ? (
                 <Box
                   sx={{
@@ -623,95 +441,98 @@ export default function EventoDetail() {
                 </Box>
               ) : (
                 <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
                   <Grid container spacing={2}>
-                    <Grid item xs={12} >
-                      <Box display="flex" justifyContent="center" alignItems="center">
-                      {editableImg ? <Dropzone
-                          onChange={updateFiles}
-                          value={files}
-                          label="Arrastra y suelta tus archivos"
-                          maxFiles={1}
-                          footer={false}
-                          localization="ES-es"
-                          accept="image/*"
-                          disabled={!editable}
-                        >
-                          {files.map((file, index) => (
-                            // Asegura que cada FileMosaic tiene una key única
-                            <FileMosaic
-                              {...file}
-                              key={file.name + index}
-                              preview
-                              localization="ES-es"
-                              style={{ width: '80%' }}
-                            />
-                          ))}
-                        </Dropzone> : <Box
+                    <Grid item xs={4} >
+                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                          border: '1px solid',
+                          borderColor: '#A6B0BB',
+                          borderRadius: '8px',
+                          width: '100%', // Ancho fijo del contenedor
+                          height: '350px', // Alto fijo del contenedor
+                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                        }}>
+                        <Box
                           position="relative"
                           width="100%"
                           maxWidth="300px"
-                          style={{ width: '100%', height: 'auto' }}
+                          style={{ width: '100%', height: 'auto'}}
                         >
                           <img
                             src={urlImagenS3}
                             alt="Imagen Predeterminada"
                             style={{ width: '100%', height: 'auto' }}
                           />
-                          <Box
-                            position="absolute"
-                            top={0}
-                            left={0}
-                            right={0}
-                            bottom={0}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            bgcolor="rgba(0, 0, 0, 0.2)"
-                          >
-                            {editable && (
-                              <IconButton onClick={handleChangeImage} disabled={!editable} style={{ color: 'white', fontSize: 16 }}>
-                                <Iconify icon="ic:baseline-edit" style={{ color: 'white', fontSize: '2rem' }} />
-                                Cambiar Imagen
-                              </IconButton>
-                            )}
-                          </Box>
-                        </Box>}
                         </Box>
+                      </Box>
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled />
-                    </Grid>
-                    <Grid item xs={3}>
-                    <FormControl fullWidth>
-                    <InputLabel id="es-limitado-select-label">Es Limitado</InputLabel>
-                    <Select
-                      labelId="es-limitado-select-label"
-                      id="es-limitado-select"
-                      disabled={!editable}
-                      value={esLimitadoDesp} // Usar esLimitadoText como valor seleccionado
-                      onChange={handleLimitado}
-                      label="Es Limitado"
-                    >
-                      <MenuItem value="1">Sí</MenuItem>
-                      <MenuItem value="0">No</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                    </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={8} container spacing={2}>
+                    <Grid item xs={2}>
+                        <TextField fullWidth label="Código" name="codigo" 
+                        disabled={!editable} defaultValue={codigoText}/>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <TextField fullWidth label="Nombre" name="nombre" 
+                        disabled={!editable} defaultValue={nombreText}/>
+                      </Grid>
+                      <Grid item xs={5}>
                       <FormControl fullWidth>
-                        <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
+                          <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+                            labelId="search-select-label-tipo-evento"
+                            id="search-select-tipo-evento"
+                            value={selectedEvento}
+                            disabled={!editable}
+                            label="Tipo de Evento"
+                            onChange={(e) => setSelectedEvento(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
+
+                          >
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Buscar tipo por nombre..."
+                                fullWidth
+                                value={searchTerm}
+                                onChange={changeTermSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleSearch} />
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                            </ListSubheader>
+                            {eventos.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                  </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField fullWidth  label="Descripción Completa" name="descripcion" 
+                        multiline rows={3} disabled={!editable} defaultValue={descripcionText}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                      <FormControl fullWidth>
+                        <InputLabel 
+                        id="search-select-label-ubicacion" >Ubicación</InputLabel>
                         <Select
                           // Disables auto focus on MenuItems and allows TextField to be in focus
                           MenuProps={{ autoFocus: false }}
-
-                          labelId="search-select-label"
-                          id="search-select"
+                          labelId="search-select-label-ubicacion"
+                          id="search-select-ubicacion"
+                          value={selectedLugar}
                           disabled={!editable}
-                          value={selectedTienda}
-                          label="Elegir Tienda"
-                          onChange={(e) => setSelectedTienda(e.target.value)}
+                          label="Elegir Ubicacion"
+                          onChange={(e) => setSelectedLugar(e.target.value)}
                           // This prevents rendering empty string in Select's value
                           // if search text would exclude currently selected option.
 
@@ -720,107 +541,100 @@ export default function EventoDetail() {
                             <TextField
                               size="small"
                               autoFocus
-                              placeholder="Busca una tienda por nombre..."
+                              placeholder="Buscar lugar por nombre..."
                               fullWidth
-                              value={searchTerm}
-                              onChange={changeTermSearch}
+                              value={searchLugar}
+                              onChange={changeLugarSearch}
                               onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
                               InputProps={{
                                 startAdornment: (
                                   <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearch} />
+                                    <SearchIcon onClick={handleLugarEvento} />
                                   </InputAdornment>
-                                ),
+                                )
                               }}
                             />
                           </ListSubheader>
-                          {tiendas.map((option, i) => (
+                          {lugar.map((option, i) => (
                             <MenuItem key={i} value={option.id}>
                               {option.nombre}
                             </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <InputLabel id="search-tipo-select-label" disabled={!editable}>Tipo de Cupon</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-                          labelId="search-tipo-cupon-select-label"
-                          id="search-tipo-cupon-select"
-                          value={selectedTipoCupon}
-                          disabled={!editable}
-                          label="Elegir tipo de cupon"
-                          onChange={(e) => setSelectedTipoCupon(e.target.value)}
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl fullWidth>
+                          <InputLabel 
+                          id="search-select-label-tienda" >Tienda</InputLabel>
+                          <Select
+                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            MenuProps={{ autoFocus: false }}
+                            labelId="search-select-label-tienda"
+                            id="search-select-tienda"
+                            value={selectedTienda}
+                            disabled={!editable}
+                            label="Elegir Tienda"
+                            onChange={(e) => setSelectedTienda(e.target.value)}
+                            // This prevents rendering empty string in Select's value
+                            // if search text would exclude currently selected option.
 
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Busca un tipo de cupon por nombre..."
-                              fullWidth
-                              value={searchTermTipoCupones}
-                              onChange={changeTermSearchTipoCupon}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleSearchTipoCupon} />
-                                  </InputAdornment>
-                                ),
-                              }}
-
-                            />
-                          </ListSubheader>
-                          {tipoCupones.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Sumilla" name="sumilla" defaultValue={sumillaText}
-                                 disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField fullWidth label="Descripción Completa" name="descripcionCompleta" multiline rows={4}
-                                 defaultValue={descripcionText} disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField fullWidth label="Términos y Condiciones" name="terminosCondiciones" multiline rows={4}
-                                 defaultValue={terminosText} disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={3}>
-                      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                        <DatePicker
-                          label="Fecha expiracion"
-                          value={fechaText}
-                          format="DD/MM/YYYY"
-                          onChange={setStartDate}
-                          disabled={!editable}
-                          sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                        />
+                          >
+                            <ListSubheader>
+                              <TextField
+                                size="small"
+                                autoFocus
+                                placeholder="Buscar tienda por nombre..."
+                                fullWidth
+                                value={searchTienda}
+                                onChange={changeTiendaSearch}
+                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <SearchIcon onClick={handleTiendaEvento} />
+                                    </InputAdornment>
+                                  )
+                                }}
+                              />
+                            </ListSubheader>
+                            {tienda.map((option, i) => (
+                              <MenuItem key={i} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6}>
+                      <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                      <DatePicker
+                        label="Fecha inicio"
+                        value={startDate}
+                        disabled={!editable}
+                        format="DD/MM/YYYY"
+                        sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                      />
                       </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Costo en Puntos" name="costoPuntos" defaultValue={costoText}
-                                 disabled={!editable} />
+                    <Grid item xs={6}>
+                      <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                      <DatePicker
+                        label="Fecha fin"
+                        value={endDate}
+                        disabled={!editable}
+                        format="DD/MM/YYYY"
+                        sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                      />
+                      </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Cantidad Inicial" name="cantidadInicial" defaultValue={cantIniText}
-                                 disabled={!editable} />
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
-                                 defaultValue={ordPriorizacionText} disabled={!editable} />
-                    </Grid>
+                    
+                    </Grid>       
+                    <Grid item xs={4}>
+                      <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
+                        disabled={!editable} defaultValue={puntosOtorgadosText}/>
+                    </Grid>   
                   </Grid>
-
                 </Box>
               )}
             </form>
@@ -847,69 +661,7 @@ export default function EventoDetail() {
                 </Box>
               ):(
               <Grid container spacing={2}  >
-              <Grid xs={12} >
-
-                  <DashboardCuponClient dataDash={dataDash}/>
-
-              </Grid>
-              <Grid xs={12}>
-                <Card>
-                  <UserTableToolbar
-                    numSelected={selected.length}
-                    filterName={filterName}
-                    onFilterName={handleSearch}
-                  />
-
-                    <TableContainer sx={{ overflow: 'unset' }}>
-                      <Table sx={{ minWidth: 800 }}>
-                        <ClientCuponTableHead
-                          order={order}
-                          orderBy={orderBy}
-                          rowCount={dataClients.length}
-                          numSelected={selected.length}
-                          onRequestSort={handleSort}
-                          onSelectAllClick={handleSelectAllClick}
-                          headLabel={[
-                            { id: 'nombre', label: 'Nombre' },
-                            { id: 'correo', label: 'Correo' },
-                            { id: 'telefono', label: 'Telefono' },
-                            { id: 'fechaCompra', label: 'Fecha de Compra'}
-
-                          ]}
-                        />
-                        <TableBody>
-                          {dataClients
-                            .map((row) => (
-                              <ClientCuponTableRow
-                                key={row.id}
-                                id={row.id}
-                                nombre={row.cliente.nombre}
-                                apellido={row.cliente.apellidoPaterno}
-                                email={row.cliente.email}
-                                telefono={row.cliente.telefono}
-                                fechaCompra={row.fechaCompra}
-                                selected={selected.indexOf(row.id) !== -1}
-                                handleClick={(event) => handleClick(event, row.id)}
-                              />
-                            ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-
-
-                  <TablePagination
-                    page={page-1}
-                    component="div"
-                    count={totalClientsCupon}
-                    rowsPerPage={pageSize}
-                    onPageChange={handleChangePage}
-                    labelRowsPerPage="Clientes por página"
-                    labelDisplayedRows={labelDisplayedRows}
-                    rowsPerPageOptions={[6, 12, 18]}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </Card>
-              </Grid>
+              
               </Grid>
               )}
               </Box >
@@ -918,5 +670,6 @@ export default function EventoDetail() {
       </Grid>
     </Container>
 
-  ); */
+
+  );
 }
