@@ -376,21 +376,24 @@ const useStyles = makeStyles((theme) => ({
     };
 
 
-    /* useEffect(() => {
-      if (formDatos.nombre.length !== 0
-        && formDatos.codigo.length !== 0
-        && formDatos.descripcion.length !== 0
-        && selectedEvento.length !== 0
-        && selectedLugar.length !== 0
-        && selectedTienda.length !== 0
-        && formDatos.puntosOtorgados !== 0
-        && formDatos.generoPromedio.length !== 0
-        && formDatos.ordenPriorizacion.length !== 0
-        && formDatos.edadPromedio.length !== 0
-        && startDate.length !== 0
-        && endDate.length !== 0
-        && files.length !== 0
-        && startDate < endDate
+    useEffect(() => {
+      const isNonEmptyString = (value) => typeof value === 'string' && value.trim().length > 0;
+      const isNonZeroNumber = (value) => typeof value === 'number' && value !== 0;
+      const isNonEmptyArray = (value) => Array.isArray(value) && value.length > 0;
+    
+      if (
+        isNonEmptyString(formDatos.nombre) &&
+        isNonEmptyString(formDatos.codigo) &&
+        isNonEmptyString(formDatos.descripcion) &&
+        isNonEmptyArray(selectedEvento) &&
+        isNonEmptyArray(selectedLugar) &&
+        isNonEmptyArray(selectedTienda) &&
+        isNonZeroNumber(formDatos.puntosOtorgados) &&
+        isNonEmptyString(formDatos.generoPromedio) &&
+        isNonEmptyString(formDatos.ordenPriorizacion) &&
+        isNonEmptyString(formDatos.edadPromedio) &&
+        startDate && endDate && (new Date(startDate) < new Date(endDate)) &&
+        isNonEmptyArray(files)
       ) {
         setBackgroundBtnReg("#003B91");
         setBotonDeshabilitado(false);
@@ -398,12 +401,13 @@ const useStyles = makeStyles((theme) => ({
         setBackgroundBtnReg("#CCCCCC");
         setBotonDeshabilitado(true);
       }
-
-    },[formDatos.nombre,formDatos.codigo,selectedEvento,selectedTienda,selectedLugar,
-      formDatos.descripcion,startDate,endDate,files,
-      formDatos.puntosOtorgados,formDatos.edadPromedio,formDatos.generoPromedio,
-      formDatos.ordenPriorizacion]); */
-
+    }, [
+      formDatos.nombre, formDatos.codigo, selectedEvento, selectedTienda, selectedLugar,
+      formDatos.descripcion, startDate, endDate, files,
+      formDatos.puntosOtorgados, formDatos.edadPromedio, formDatos.generoPromedio,
+      formDatos.ordenPriorizacion
+    ]);
+    
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
