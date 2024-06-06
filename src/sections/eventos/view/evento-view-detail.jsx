@@ -131,16 +131,16 @@ export default function EventoDetail() {
           throw new Error('Network response was not ok');
         }
         const resultsTipo =  await getTipoEventos(token,refreshToken,searchTerm);
-        console.log("viendo eventos owo", resultsTipo.tipoEventos)
+        console.log("viendo eventos uwu", resultsTipo.tipoEventos)
         setEventos(resultsTipo.tipoEventos);
 
         const resultsTienda =  await getTiendaEvento(token,refreshToken,searchTerm);
-        console.log("viendo eventos owo", resultsTienda.locatorio)
-        setEventos(resultsTienda.tipoEventos);
+        console.log("viendo tiendas uwu", resultsTienda.tiendas)
+        setTienda(resultsTienda.tiendas);
 
         const resultsLugar =  await getLugarEvento(token,refreshToken,searchTerm);
-        console.log("viendo eventos owo", resultsLugar.lugar)
-        setEventos(resultsLugar.tipoEventos);
+        console.log("viendo luagres uwu", resultsLugar.lugares)
+        setLugar(resultsLugar.lugares);
 
         const data = await response.json();
         console.log(data)
@@ -207,8 +207,8 @@ export default function EventoDetail() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getLugarEvento(token,refreshToken,searchLugar);
-    console.log("viendo lugares", results.lugares)
-    setLugar(results.lugares);
+    //console.log("viendo lugares", results.lugares)
+    setLugar(results.lugar);
   };
 
   const changeTiendaSearch = async (e) => {
@@ -222,8 +222,8 @@ export default function EventoDetail() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getTiendaEvento(token,refreshToken,searchTienda);
-    console.log("viendo tiendas", results.tiendas)
-    setTienda(results.tiendas);
+    //console.log("viendo tiendas", results.tiendas)
+    setTienda(results.locatario);
   };
 
   const fetchAndSetView = async (newView) => {
