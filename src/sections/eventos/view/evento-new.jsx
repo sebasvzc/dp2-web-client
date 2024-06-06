@@ -443,14 +443,13 @@ const useStyles = makeStyles((theme) => ({
                 </Grid>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
-                          <InputLabel id="search-select-label-tipo-evento" disabled={!editable}>Tipo Evento</InputLabel>
+                          <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}
                             labelId="search-select-label-tipo-evento"
                             id="search-select-tipo-evento"
                             value={selectedEvento}
-                            disabled={!editable}
                             label="Tipo de Evento"
                             onChange={(e) => setSelectedEvento(e.target.value)}
                             // This prevents rendering empty string in Select's value
