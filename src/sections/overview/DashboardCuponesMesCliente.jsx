@@ -79,9 +79,8 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
 };
 DashboardCuponesMesCliente.propTypes = {
   dataDash: PropTypes.arrayOf(PropTypes.shape({
-    categoria: PropTypes.string.isRequired,
-    fechas: PropTypes.arrayOf(PropTypes.string).isRequired,
-    cantidades: PropTypes.arrayOf(PropTypes.number).isRequired,
+    fechas: PropTypes.string.isRequired,
+    cantidades: PropTypes.number.isRequired,
   })).isRequired,
 };
 export default DashboardCuponesMesCliente;
