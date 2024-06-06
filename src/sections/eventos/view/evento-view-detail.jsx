@@ -444,9 +444,8 @@ export default function EventoDetail() {
         <Grid item xs={9}>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-                
-              </Box>
+              <Box display="flex" justifyContent="flex-end" alignItems="center" />
+
 
               {loading ? (
                 <Box

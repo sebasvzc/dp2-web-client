@@ -31,14 +31,14 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Stack from '@mui/material/Stack';
+import { MarginOutlined } from '@mui/icons-material';
 import Iconify from '../../../components/iconify';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Stack from '@mui/material/Stack';
-import { MarginOutlined } from '@mui/icons-material';
 
 
 
@@ -194,14 +194,11 @@ export default function TiendaDetail() {
       formData.append("horaApertura", horaApertura.format('HH:mm:ss'));
       formData.append("horaCierre", horaCierre.format('HH:mm:ss'));
       formData.append("aforo", event.target.aforo.value);
-      console.log("Vamos a ver si salen las horas gaaaa: ", horaApertura)
+      formData.append("fidCategoriaTienda", selectedCategoria);
       // eslint-disable-next-line no-restricted-syntax
       console.log('ESTE ES EL MODIFICAR TIENDA')
       console.log(formData)
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
 
       let response="";
       response = await fetch(`http://localhost:3000/api/tiendas/modificar`, {
@@ -392,7 +389,7 @@ export default function TiendaDetail() {
 
                       <Grid item xs={6}>
                         <FormControl fullWidth>
-                          <InputLabel id="search-select-label" disabled >Categoria Tienda</InputLabel>
+                          <InputLabel id="search-select-label" disabled >Categoria</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}

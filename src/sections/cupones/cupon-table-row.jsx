@@ -234,7 +234,7 @@ export default function CuponTableRow({
                 {codigo}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Sumilla: {sumilla}
+                {sumilla}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Fecha de Vencimiento: {fechaFormateada}

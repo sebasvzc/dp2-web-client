@@ -202,7 +202,7 @@ export default function ClienteTableRow({
                 {nombre} {apellidoPaterno}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Puntos Ganados: {puntos}
+                Puntos: {puntos}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Telefono: {telefono}

@@ -98,8 +98,9 @@ const useStyles = makeStyles((theme) => ({
     }; */
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs());
-    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
-    const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+    const [backgroundBtnReg, setBackgroundBtnReg] = useState("#003B91");
+    const [editable, setEditable] = useState(false);
+    const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
     const [loading2,setLoading2]=useState(false);
 
     const handleSubmit = async (event) => {
@@ -374,22 +375,22 @@ const useStyles = makeStyles((theme) => ({
       }));
     };
 
-
-    /* useEffect(() => {
-      if (formDatos.nombre.length !== 0
-        && formDatos.codigo.length !== 0
-        && formDatos.descripcion.length !== 0
-        && selectedEvento.length !== 0
-        && selectedLugar.length !== 0
-        && selectedTienda.length !== 0
-        && formDatos.puntosOtorgados !== 0
-        && formDatos.generoPromedio.length !== 0
-        && formDatos.ordenPriorizacion.length !== 0
-        && formDatos.edadPromedio.length !== 0
-        && startDate.length !== 0
-        && endDate.length !== 0
-        && files.length !== 0
-        && startDate < endDate
+/*
+    useEffect(() => {
+      const isNonEmptyString = (value) => typeof value === 'string' && value.trim().length > 0;
+      const isNonZeroNumber = (value) => typeof value === 'number' && value !== 0;
+      const isNonEmptyArray = (value) => Array.isArray(value) && value.length > 0;
+    
+      if (
+        isNonEmptyString(formDatos.nombre) &&
+        isNonEmptyString(formDatos.codigo) &&
+        isNonEmptyString(formDatos.descripcion) &&
+        isNonEmptyArray(selectedEvento) &&
+        isNonEmptyArray(selectedLugar) &&
+        isNonEmptyArray(selectedTienda) &&
+        isNonZeroNumber(formDatos.puntosOtorgados) &&
+        startDate && endDate && (new Date(startDate) < new Date(endDate)) &&
+        isNonEmptyArray(files)
       ) {
         setBackgroundBtnReg("#003B91");
         setBotonDeshabilitado(false);
@@ -397,12 +398,13 @@ const useStyles = makeStyles((theme) => ({
         setBackgroundBtnReg("#CCCCCC");
         setBotonDeshabilitado(true);
       }
-
-    },[formDatos.nombre,formDatos.codigo,selectedEvento,selectedTienda,selectedLugar,
-      formDatos.descripcion,startDate,endDate,files,
-      formDatos.puntosOtorgados,formDatos.edadPromedio,formDatos.generoPromedio,
-      formDatos.ordenPriorizacion]); */
-
+    }, [
+      formDatos.nombre, formDatos.codigo, selectedEvento, selectedTienda, selectedLugar,
+      formDatos.descripcion, startDate, endDate, files,
+      formDatos.puntosOtorgados, formDatos.edadPromedio, formDatos.generoPromedio,
+      formDatos.ordenPriorizacion
+    ]);
+    */
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
        <Stack direction="row" alignItems="center" spacing={2}>
@@ -438,14 +440,13 @@ const useStyles = makeStyles((theme) => ({
                 </Grid>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
-                          <InputLabel id="search-select-label-tipo-evento" disabled={!editable}>Tipo Evento</InputLabel>
+                          <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}
                             labelId="search-select-label-tipo-evento"
                             id="search-select-tipo-evento"
                             value={selectedEvento}
-                            disabled={!editable}
                             label="Tipo de Evento"
                             onChange={(e) => setSelectedEvento(e.target.value)}
                             // This prevents rendering empty string in Select's value
@@ -593,7 +594,7 @@ const useStyles = makeStyles((theme) => ({
                 onChange={handleChange}
                 label="Puntos Otorgados" name="puntosOtorgados" />
               </Grid>
-              {/*<Grid item xs={3}>
+              { /* <Grid item xs={3}>
                 <TextField fullWidth 
                 onChange={handleChange}
                 label="Edad Promedio" name="edadPromedio" />
@@ -607,13 +608,12 @@ const useStyles = makeStyles((theme) => ({
                 <TextField fullWidth 
                 onChange={handleChange}
                 label="Orden Priorización" name="ordenPriorizacion" />
-              </Grid>*/}
+              </Grid> */ }
             </Grid>
             <Grid item xs={12}> 
             <Button variant="contained" color="info" 
             sx={{backgroundColor: backgroundBtnReg, color:"#FFFFFF" , fontSize: '1rem',marginTop: '16px', marginBottom: '0px'}}
-            type='submit'
-            // disabled={botonDeshabilitado || loading2}
+            type='submit' disabled={botonDeshabilitado}
               >Crear</Button>
             </Grid>
           </form>

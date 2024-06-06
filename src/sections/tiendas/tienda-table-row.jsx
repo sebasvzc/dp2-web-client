@@ -204,10 +204,10 @@ export default function TiendaTableRow({
                 {nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Locación: {locacion}
+                {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Descripción: {descripcion}
+                Ubicación: {locacion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
               <span className={activo ? classes.activo : classes.inactivo}>
