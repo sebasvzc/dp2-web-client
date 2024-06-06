@@ -161,7 +161,7 @@ export default function EventoEdit() {
         setStartDate(dayjs(data.detalles.fechaInicio).utc(true))
         setEndDate(dayjs(data.detalles.fechaFin).utc(true))
         setUrlImagenS3(data.image);
-
+        setFiles(data.image);
         console.log("Datos de data:", data.detalles)
         setSelectedEvento(data.detalles.tipoEvento.id)
         setSelectedLugar(data.detalles.lugar.id)
