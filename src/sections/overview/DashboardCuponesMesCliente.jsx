@@ -6,47 +6,42 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
   useEffect(() => {
     console.log("-----------------------------------------------------------------");
     console.log(dataDash);
-    const series = dataDash.map(item => ({
-      name: item.categoria,
-      data: item.cantidades,
-    }));
-
-    const categories = dataDash.length > 0 ? dataDash[0].fechas : [];
+    const seriesData = dataDash.map(item => item.cantidades);
+    const categoriesData = dataDash.map(item => item.fechas);
     console.log("series");
-    console.log(series);
+    console.log(seriesData);
     console.log("categorias");
-    console.log(categories);
+    console.log(categoriesData);
     const options = {
-      series,
+      series: [{
+        name: "Cupones",
+        data: seriesData
+      }],
       chart: {
-        height: 350,
-        type: 'line',
-        zoom: {
-          enabled: false
-        },
-        toolbar: {
-          show: false
-        }
+        type: 'bar',
+        height: 350
       },
       colors:  [ '#003B91','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'],
       dataLabels: {
-        enabled: true,
+        enabled: false
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%',
+          endingShape: 'rounded'
+        },
       },
       stroke: {
-        curve: 'smooth'
-      },
-      markers: {
-        size: 0.5, // Tamaño del marcador
-        strokeWidth: 0, // Ancho del borde del marcador (puedes ajustar esto si es necesario)
-        hover: {
-          size: 5 // Tamaño del marcador al pasar el ratón por encima (opcional)
-        }
+        show: true,
+        width: 2,
+        colors: ['transparent']
       },
       xaxis: {
         title: {
           text: 'Fecha de compra',
         },
-        categories,
+        categories:categoriesData,
       },
 
       yaxis: {
@@ -54,10 +49,15 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
           text: 'Cupones canjeados'
         },
       },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        floating: true,
+      fill: {
+        opacity: 1
+      },
+      tooltip: {
+        y: {
+          formatter (val) {
+            return `${val  } cupones`
+          }
+        }
       }
 
   };
@@ -70,7 +70,12 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
     };
   }, [dataDash]);
 
-  return <div id="dashboard-cupones-mes-clientes" />;
+  return (
+    <div > {/* Ajusta el padding superior y centra el texto */}
+      <h4 style={{ textAlign: 'center' }}>Cupones por mes y año de la fecha de Canje</h4>
+      <div id="dashboard-cupones-mes-clientes" />
+    </div>
+  );
 };
 DashboardCuponesMesCliente.propTypes = {
   dataDash: PropTypes.arrayOf(PropTypes.shape({

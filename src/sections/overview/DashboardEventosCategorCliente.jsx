@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import PropTypes from 'prop-types';
 
-const DashboardCuponesCategoria = ({ dataDash }) => {
+const DashboardEventosCategorCliente = ({ dataDash }) => {
   useEffect(() => {
 
     console.log("-----------------------------------------------------------------");
-    console.log("dataDashCategoriaAgrup");
+    console.log("dataDashCategoriaAgrupEvento");
     console.log(dataDash);
 
 
@@ -35,7 +35,7 @@ const DashboardCuponesCategoria = ({ dataDash }) => {
       }]
     };
 
-    const chart = new ApexCharts(document.querySelector('#dashboard-pie-chart'), options);
+    const chart = new ApexCharts(document.querySelector('#dashboard-pie-chart-evento-cliente'), options);
     chart.render();
 
     return () => {
@@ -45,14 +45,14 @@ const DashboardCuponesCategoria = ({ dataDash }) => {
 
   return (
     <div > {/* Ajusta el padding superior y centra el texto */}
-      <h4 style={{ textAlign: 'center' }}>Gráfico Circular de Cupones Canjeados por Categorías Principales</h4>
-      <div id="dashboard-pie-chart"  />
+      <h4 style={{ textAlign: 'center' }}>Gráfico Circular de Eventos por Categorías</h4>
+      <div id="dashboard-pie-chart-evento-cliente"  />
       {/* Aplica el borde */}
     </div>
   );
 };
 
-DashboardCuponesCategoria.propTypes = {
+DashboardEventosCategorCliente.propTypes = {
   dataDash: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     categoria: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -60,5 +60,5 @@ DashboardCuponesCategoria.propTypes = {
   })).isRequired,
 };
 
-export default DashboardCuponesCategoria;
+export default DashboardEventosCategorCliente;
 

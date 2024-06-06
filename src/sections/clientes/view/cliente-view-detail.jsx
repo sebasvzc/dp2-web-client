@@ -29,6 +29,7 @@ import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
 import DashboardCuponesMesCliente from '../../overview/DashboardCuponesMesCliente';
 import DashboardCuponesBarCuponesUsadosCanjeados from '../../overview/DashboardCuponesBarCuponesUsadosCanjeados';
+import DashboardEventosCategorCliente from '../../overview/DashboardEventosCategorCliente';
 
 dayjs.locale('es-mx');
 
@@ -54,6 +55,7 @@ export default function CuponDetail() {
   const filterName= useState("")
   const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
   const [dataDashCategoria, setDataDashCategoria] = useState({  name:"",categoria: [], data: []  });
+  const [dataDashCategoriaEventos, setDataDashCategoriaEventos] = useState({  name:"",categoria: [], data: []  });
   const [dataDashCanjeados, setDataDashCanejados] = useState({  fechas: [], cantidades: [] });
   const [totalClientsCupon, setTotalClientsCupon] = useState(10);
   const [cuponText, setCuponText] = useState('');
@@ -241,11 +243,14 @@ export default function CuponDetail() {
           console.log("Viendo data3");
           console.log(data3);
 
-          const fechasPorCategoria = data3.cupones.map(categoria => ({
-              categoria: categoria.Categoria,
-              fechas: categoria.data.map(item => item.fechaMesAnio),
-              cantidades: categoria.data.map(item => item.cantidad)
-            }));
+          const fechasPorCategoria = data3.cupones.map(item =>
+            (
+              {
+                fechas: item.fechaMesAnio,
+                cantidades:item.cantidad
+              }
+            )
+          );
 
           console.log("Fechas por categoría:");
           console.log(fechasPorCategoria);
@@ -346,6 +351,53 @@ export default function CuponDetail() {
           // Por ejemplo:
           setDataDashCanejados(fechasPorCategoria);
 
+        }
+        response = await fetch(`http://localhost:3000/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+          method: 'GET',
+
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Refresh-Token': `Bearer ${refreshToken}`
+          },
+
+        });
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+        }
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("Evento detalle x cliente")
+        const data6 = await response.json();
+        console.log(data6)
+        if(data6.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data6.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el usuario en el almacenamiento local
+          console.log("He puesto un nuevo token");
+        }
+        if (data6) {
+          console.log("Viendo data6");
+          console.log(data6);
+
+          const { eventos } = data6;
+
+          const eventosagrupPorCategoria = {
+            name: eventos.name,
+            data: eventos.data,
+            categoria: eventos.categoria
+          };
+
+          console.log("Eventos por categoría:");
+          console.log(eventosagrupPorCategoria);
+
+          // Aquí podrías usar `agrupPorCategoria` para actualizar el estado de tu componente
+          // Por ejemplo:
+          setDataDashCategoriaEventos([eventosagrupPorCategoria]);
         }
         setTimeout(() => {
           setLoading(false);
@@ -700,28 +752,7 @@ export default function CuponDetail() {
               ) : (
 
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                          <DatePicker
-                            label="Fecha inicial"
-                            value={startDateStat}
-                            onChange={setStartDateStat}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <DatePicker
-                            label="Fecha final"
-                            value={endDateStat}
-                            onChange={setEndDateStat}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </Grid>
-                      </Grid>
-                    </LocalizationProvider>
-                  </Grid>
+
                   { /*
                   <Grid  item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
                     <Card
@@ -745,7 +776,7 @@ export default function CuponDetail() {
                     </Card>
                   </Grid>
                   */ }
-                  <Grid xs={12} md={6} lg={6}>
+                  <Grid item xs={12} md={6} lg={6}>
                     <Card
 
 
@@ -758,11 +789,37 @@ export default function CuponDetail() {
                         border: "1px solid #BFC0C1",
                         backgroundColor: '#F9FAFB',
                       }} >
-                      <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sm={6}>
+                                <DatePicker
+                                  label="Fecha inicial"
+                                  value={startDateStat}
+                                  onChange={setStartDateStat}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
+                                <DatePicker
+                                  label="Fecha final"
+                                  value={endDateStat}
+                                  onChange={setEndDateStat}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
+                            </Grid>
+                          </LocalizationProvider>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                        </Grid>
+                      </Grid>
+
                     </Card>
                   </Grid>
-
-                  <Grid xs={12} md={6} lg={6}>
+                  <Grid item xs={12} md={6} lg={6}>
                     <Card
 
 
@@ -770,24 +827,58 @@ export default function CuponDetail() {
                         px: 3,
                         py: 5,
                         mx:2,
-                        my:2
+                        my:4,
+                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
+                        border: "1px solid #BFC0C1",
+                        backgroundColor: '#F9FAFB',
+                      }} >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sm={6}>
+                                <DatePicker
+                                  label="Fecha inicial"
+                                  value={startDateStat}
+                                  onChange={setStartDateStat}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
+                                <DatePicker
+                                  label="Fecha final"
+                                  value={endDateStat}
+                                  onChange={setEndDateStat}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
+                            </Grid>
+                          </LocalizationProvider>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                        </Grid>
+                      </Grid>
+
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} md={12} lg={12}>
+                    <Card
+
+
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+
+                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
+                        border: "1px solid #BFC0C1",
+                        backgroundColor: '#F9FAFB',
                       }} >
                       <DashboardCuponesMesCliente dataDash={dataDash}/>
                     </Card>
                   </Grid>
-                  <Grid xs={12} md={6} lg={6}>
-                    <Card
 
-
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        mx:2,
-                        my:4
-                      }} >
-                      <DashboardCuponesBarCuponesUsadosCanjeados dataDash={dataDashCanjeados}/>
-                    </Card>
-                  </Grid>
                 </Grid>
               )}
             </Box>
