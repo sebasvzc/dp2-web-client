@@ -99,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs());
     const [backgroundBtnReg, setBackgroundBtnReg] = useState("#CCCCCC");
+    const [editable, setEditable] = useState(false);
     const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
     const [loading2,setLoading2]=useState(false);
 
