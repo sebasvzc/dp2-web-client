@@ -20,6 +20,8 @@ export const CuponEditar = lazy(() => import('src/pages/cupon-editar'))
 
 export const EventosPage = lazy(() => import('src/pages/eventos'));
 export const EventoNew = lazy(() => import('src/pages/evento-nuevo'));
+export const EventoDetalle = lazy(() => import('src/pages/evento-detalle'));
+export const EventoEditar= lazy(() => import('src/pages/evento-editar'));
 
 export const ClientesPage = lazy(() => import('src/pages/clientes'));
 export const ClientesDetalle =lazy(() => import('src/pages/clientes-detalle'));
@@ -69,6 +71,8 @@ export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'
               <Route path="/evento" element={<EventosPage/>}/>
               <Route path="/evento">
                 <Route path="evento-new" element={<EventoNew/>}/>
+                <Route path="detalle/:id" element={<EventoDetalle />} />
+                <Route path="editar/:id" element={<EventoEditar />} />
               </Route>
 
               <Route path="*" element={<Page404/>}/>

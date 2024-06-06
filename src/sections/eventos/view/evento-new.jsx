@@ -444,7 +444,7 @@ const useStyles = makeStyles((theme) => ({
                   label="Nombre" name="nombre" />
                 </Grid>
                 <Grid item xs={4}>
-                        <FormControl fullWidth>
+                  <FormControl fullWidth>
                           <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
@@ -483,8 +483,8 @@ const useStyles = makeStyles((theme) => ({
                               </MenuItem>
                             ))}
                           </Select>
-                        </FormControl>
-                      </Grid>
+                  </FormControl>
+                </Grid>
                 <Grid item xs={12}>
                   <TextField fullWidth onChange={handleChange}  label="Descripción Completa" name="descripcion" multiline rows={3} />
                 </Grid>

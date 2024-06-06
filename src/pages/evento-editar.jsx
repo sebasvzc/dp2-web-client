@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { EventoView } from 'src/sections/eventos/view';
+import { EventoEdit } from 'src/sections/eventos/view';
 
 // ----------------------------------------------------------------------
 
@@ -7,10 +7,10 @@ export default function EventosPage() {
   return (
     <>
       <Helmet>
-        <title> Evento | Plaza San Miguel </title>
+        <title> Detalle Evento | Plaza San Miguel </title>
       </Helmet>
 
-      <EventoView />
+      <EventoEdit />
     </>
   );
 }
