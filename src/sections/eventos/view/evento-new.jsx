@@ -594,7 +594,7 @@ const useStyles = makeStyles((theme) => ({
                 onChange={handleChange}
                 label="Puntos Otorgados" name="puntosOtorgados" />
               </Grid>
-              { /*<Grid item xs={3}>
+              { /* <Grid item xs={3}>
                 <TextField fullWidth 
                 onChange={handleChange}
                 label="Edad Promedio" name="edadPromedio" />
@@ -608,7 +608,7 @@ const useStyles = makeStyles((theme) => ({
                 <TextField fullWidth 
                 onChange={handleChange}
                 label="Orden Priorización" name="ordenPriorizacion" />
-              </Grid>*/ }
+              </Grid> */ }
             </Grid>
             <Grid item xs={12}> 
             <Button variant="contained" color="info" 
