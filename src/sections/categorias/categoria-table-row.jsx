@@ -200,7 +200,7 @@ export default function CuponTableRow({
                 {nombre} {apellido}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Rol: {rol}
+                {rol}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Email: {emailX}

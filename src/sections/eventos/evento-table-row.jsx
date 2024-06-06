@@ -166,12 +166,12 @@ export default function EventoTableRow({
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={rutaFoto} alt="Avatar"
                  style={{ width: 100, height: 100, borderRadius: '50%' }} />
-            <div style={{ marginLeft: 16, maxWidth: '60%' }}>
+            <div style={{ marginLeft: 16, maxWidth: '65%' }}>
               <Typography variant="h6" component="div" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {nombre}
               </Typography>
-              <Typography variant="body2" color="text.secondary" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                Descripción: {descripcion}
+              <Typography variant="body2" color="text.secondary" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden', WebkitLineClamp: 2 }}>
+                {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Fecha: {fechaInicio} - {fechaFin}
@@ -184,7 +184,7 @@ export default function EventoTableRow({
             </div>
           </div>
           <IconButton onClick={handleOpenMenu} sx={{ position: 'absolute', top: 10, right: 10 }}>
-          <Iconify icon="eva:more-vertical-fill" />
+            <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </CardContent>
       </Card>
