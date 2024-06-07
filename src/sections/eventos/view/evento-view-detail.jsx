@@ -176,7 +176,7 @@ export default function EventoDetail() {
         console.log(idParam)
 
         let responseEventoAsist="";
-        responseEventoAsist = await fetch(`http://localhost:3000/api/eventos/listarAsistencia?idParam=${idParam}`, {
+        responseEventoAsist = await fetch(`http://3.220.179.149/api/api/eventos/listarAsistencia?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -212,7 +212,7 @@ export default function EventoDetail() {
         setDataDashEventos({ totalAsistencia: data6.totalAsistio, totalInscritos: data6.totalEventos})
 
         let responseEventoAsistAgrupEdad="";
-        responseEventoAsistAgrupEdad = await fetch(`http://localhost:3000/api/eventos/asitenciaXGeneroAgrupEdad?idParam=${idParam}`, {
+        responseEventoAsistAgrupEdad = await fetch(`http://3.220.179.149/api/api/eventos/asitenciaXGeneroAgrupEdad?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
