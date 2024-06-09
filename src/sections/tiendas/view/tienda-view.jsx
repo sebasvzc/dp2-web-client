@@ -313,7 +313,7 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
       
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
         <BasicBreadcrumbs />
-        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Tiendas</Typography>
+        <Typography variant="h2" sx={{ marginBottom: 1 }}>Gestión de Tiendas</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
           <TiendaTableToolbar

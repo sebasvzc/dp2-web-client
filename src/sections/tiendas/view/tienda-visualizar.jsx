@@ -451,9 +451,9 @@ export default function TiendaDetail() {
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2}}>
           <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2}}>Visualizar Tienda</Typography>
+          <Typography variant="h2">Visualizar Tienda</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
@@ -470,7 +470,7 @@ export default function TiendaDetail() {
             <Tab label="Estadísticas" value="estadisticas" />
           </Tabs>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12}>
         <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
             <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
               {tiendaText}

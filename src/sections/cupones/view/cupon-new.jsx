@@ -383,9 +383,9 @@ const useStyles = makeStyles((theme) => ({
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
       <BasicBreadcrumbs />
-       <Stack direction="row" alignItems="center" spacing={1}>
+       <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2 }}>
           <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
+          <Typography variant="h2">Crear Cupón</Typography>
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Box sx={{ mt: 3 , borderRadius: '8px',  padding: '2%' , border: '2px solid #CCCCCC', backgroundColor: '#F5F5F5' }}>
