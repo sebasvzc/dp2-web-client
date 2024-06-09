@@ -471,6 +471,16 @@ export default function TiendaDetail() {
           </Tabs>
         </Grid>
         <Grid item xs={9}>
+        <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+            <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+              {tiendaText}
+            </Typography>
+            <Chip
+              label={isActivo ? "Tienda Activa" : "Tienda Inactiva"}
+              color={isActivo ? "success" : "default"}
+              sx={{ fontWeight: 'bold' }}
+            />
+          </Box>
           {view === 'datos' ? (
             <form encType="multipart/form-data">
 
@@ -496,18 +506,6 @@ export default function TiendaDetail() {
               ) : (
                 <Box  sx={{ mt: 3 , borderRadius: '8px',  padding: '2%'  }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Box display="flex" alignItems="center">
-                        <Typography variant="h2" component="div" sx={{ marginRight: 2 }}>
-                          {tiendaText}
-                        </Typography>
-                        <Chip
-                          label={isActivo ? "Tienda Activa" : "Tienda Inactiva"}
-                          color={isActivo ? "success" : "default"}
-                          sx={{ fontWeight: 'bold' }}
-                        />
-                      </Box>
-                    </Grid>
                     <Grid item xs={4} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
                           border: '1px solid',
@@ -652,7 +650,7 @@ export default function TiendaDetail() {
             </form>
 
           ) : (
-            <Box sx={{paddingTop:10}}>
+            <Box sx={{paddingTop:1}}>
             {loading ? (
                 <Box
                   sx={{

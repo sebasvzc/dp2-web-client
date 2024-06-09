@@ -444,8 +444,6 @@ export default function EventoDetail() {
               ) : (
                 <Box sx={{ mt: 1, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
                   <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    </Grid>
                     <Grid item xs={4} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
                           border: '1px solid',

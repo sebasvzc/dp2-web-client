@@ -696,6 +696,16 @@ export default function ClienteViewDetail() {
           </Tabs>
         </Grid>
         <Grid item xs={12}>
+        <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+            <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
+              {nombreCompleto}
+            </Typography>
+            <Chip
+              label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
+              color={isActivo ? "success" : "default"}
+              sx={{ fontWeight: 'bold' }}
+            />
+          </Box>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               
@@ -718,20 +728,8 @@ export default function ClienteViewDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box  sx={{ mt: 3 , borderRadius: '8px',  padding: '2%'  }}>
+                <Box  sx={{ mt: 1 , borderRadius: '8px',  padding: '2%'  }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                    <Box display="flex" alignItems="center">
-                      <Typography variant="h2" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
-                        {nombreCompleto}
-                      </Typography>
-                      <Chip
-                        label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
-                        color={isActivo ? "success" : "default"}
-                        sx={{ fontWeight: 'bold' }}
-                      />
-                    </Box>
-                    </Grid>
                     <Grid item xs={3} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
                           border: '1px solid',
@@ -785,7 +783,7 @@ export default function ClienteViewDetail() {
             </form>
 
           ) : (
-            <Box sx={{ paddingTop: 10 }}>
+            <Box sx={{ paddingTop: 1 }}>
               {loading ? (
                 <Box
                   sx={{
