@@ -15,10 +15,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
-
 import obtenerCupones  from 'src/_mock/cupon';
 
 import Iconify from 'src/components/iconify';
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; // Ruta corregida
 
 import CuponTableRow from '../cupon-table-row';
 import CuponTableHead from '../cupon-table-head';
@@ -370,6 +370,7 @@ export default function CuponView() {
     return (
       
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+        <BasicBreadcrumbs />
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Cupones</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>

@@ -7,7 +7,7 @@ export default function EventosPage() {
   return (
     <>
       <Helmet>
-        <title> Detalle Cupon | Plaza San Miguel </title>
+        <title> Detalle Evento | Plaza San Miguel </title>
       </Helmet>
 
       <EventoDetail />

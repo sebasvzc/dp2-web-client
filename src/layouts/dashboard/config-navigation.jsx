@@ -10,9 +10,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-
 import SvgColor from 'src/components/svg-color';
-
+import BasicBreadcrumbs from '../../routes/BasicBreadcrumbs'; // Ruta corregida
 import { usePathname } from '../../routes/hooks';
 import { useAuth } from '../../utils/AuthContext';
 // ----------------------------------------------------------------------

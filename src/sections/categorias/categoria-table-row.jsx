@@ -58,7 +58,7 @@ function validarNombre(nombre) {
   return regexNombre.test(nombre);
 }
 
-export default function CuponTableRow({
+export default function CategoriaTableRow({
                                        selected,
                                         id,
                                        descripcion,
@@ -272,7 +272,7 @@ export default function CuponTableRow({
   );
 }
 
-CuponTableRow.propTypes = {
+CategoriaTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
   descripcion: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,

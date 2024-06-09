@@ -39,7 +39,7 @@ import UserTableToolbar from '../../user/user-table-toolbar';
 import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 
 
 dayjs.extend(utc);
@@ -284,6 +284,7 @@ export default function TiendaDetail() {
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
+      <BasicBreadcrumbs />
       <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Tienda</Typography>

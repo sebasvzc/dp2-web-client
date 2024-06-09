@@ -22,7 +22,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TablePagination from '@mui/material/TablePagination';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import ClientCuponTableRow from '../../cupones/client-cupon-table-row';
 import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
@@ -665,6 +665,7 @@ export default function ClienteViewDetail() {
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
+      <BasicBreadcrumbs />
       <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cliente</Typography>

@@ -44,7 +44,7 @@ import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import ClientCuponTableHead from '../cupon-client.table.head';
 import ClientCuponTableRow from '../client-cupon-table-row';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; // Ruta corregida
 
 dayjs.extend(utc);
 
@@ -451,6 +451,7 @@ export default function CuponDetail() {
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
+      <BasicBreadcrumbs />
       <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cupón</Typography>

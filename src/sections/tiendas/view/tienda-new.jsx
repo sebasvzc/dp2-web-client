@@ -16,6 +16,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {TimePicker,LocalizationProvider  } from '@mui/x-date-pickers';
 import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, InputLabel, FormControl } from '@mui/material';
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 
 dayjs.locale('es-mx');
 
@@ -359,6 +360,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+       <BasicBreadcrumbs />
        <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Tienda</Typography>

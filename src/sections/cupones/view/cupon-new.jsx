@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Dropzone, FileMosaic } from "@files-ui/react";
-
 import Stack from '@mui/material/Stack';
 import { makeStyles } from '@mui/styles';
 import SearchIcon from "@mui/icons-material/Search";
@@ -18,6 +17,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
 import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, InputLabel, FormControl } from '@mui/material';
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; // Ruta corregida
 
 dayjs.locale('es-mx');
 
@@ -382,6 +382,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+      <BasicBreadcrumbs />
        <Stack direction="row" alignItems="center" spacing={2}>
           <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>

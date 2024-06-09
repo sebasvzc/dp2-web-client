@@ -19,7 +19,7 @@ import obtenerClientes from 'src/_mock/cliente';
 
 import Iconify from 'src/components/iconify';
 import { toast } from 'react-toastify';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
 import ClienteTableRow from '../cliente-table-row';
 import ClienteTableHead from '../cliente-table-head';
 import ClienteTableToolbar from '../cliente-table-toolbar';
@@ -364,6 +364,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     return (
       
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+        <BasicBreadcrumbs />
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Clientes</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>

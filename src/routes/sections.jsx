@@ -3,6 +3,7 @@ import {Route, Routes} from 'react-router-dom'
 
 import PrivateRoutes from '../utils/PrivateRoutes'
 import { AuthProvider } from '../utils/AuthContext'
+import BasicBreadcrumbs from './BasicBreadcrumbs'; // Ruta corregida
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const UserPage = lazy(() => import('src/pages/user'));
@@ -39,6 +40,7 @@ export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'
 
         <AuthProvider>
           <Routes>
+           
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/register" element={<RegisterPage/>}/>
             <Route path="/ForgottenPassword" element={<ForgottenPasswordPage/>}/>
