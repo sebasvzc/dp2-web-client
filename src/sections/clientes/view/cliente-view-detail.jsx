@@ -19,7 +19,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import TablePagination from '@mui/material/TablePagination';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
@@ -666,8 +666,8 @@ export default function ClienteViewDetail() {
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+      <Stack direction="row" alignItems="center" spacing={1}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cliente</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />

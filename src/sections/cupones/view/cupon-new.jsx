@@ -13,7 +13,7 @@ import { makeStyles } from '@mui/styles';
 import SearchIcon from "@mui/icons-material/Search";
 import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
 import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, InputLabel, FormControl } from '@mui/material';
@@ -383,8 +383,8 @@ const useStyles = makeStyles((theme) => ({
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
       <BasicBreadcrumbs />
-       <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+       <Stack direction="row" alignItems="center" spacing={1}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Cupón</Typography>
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />

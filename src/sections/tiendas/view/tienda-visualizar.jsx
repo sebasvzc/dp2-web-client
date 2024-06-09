@@ -34,8 +34,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 
 import TablePagination from '@mui/material/TablePagination';
-import ArrowBackOutlined from '@mui/icons-material/ArrowBackOutlined';
-
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Iconify from '../../../components/iconify';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import { getCategoriaTiendas } from '../../../funciones/api';
@@ -443,9 +442,9 @@ export default function TiendaDetail() {
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackOutlined onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Tienda</Typography>
+      <Stack direction="row" alignItems="center" spacing={1}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" sx={{ marginBottom: 2}}>Visualizar Tienda</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >

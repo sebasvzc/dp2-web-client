@@ -31,7 +31,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Stack from '@mui/material/Stack';
 import { MarginOutlined } from '@mui/icons-material';
 import Iconify from '../../../components/iconify';
@@ -285,8 +285,8 @@ export default function TiendaDetail() {
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+      <Stack direction="row" alignItems="center" spacing={1}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
           <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Tienda</Typography>
       </Stack>
       
