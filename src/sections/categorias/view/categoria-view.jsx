@@ -14,10 +14,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
-
-// import obtenerCategorias  from 'src/_mock/categoria';
-
 import Iconify from 'src/components/iconify';
+import obtenerCategorias  from 'src/_mock/categoria';
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; // Ruta corregida
 
 import CategoriaTableRow from '../categoria-table-row';
 import CategoriaTableHead from '../categoria-table-head';
@@ -46,7 +45,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
   export default function CategoriaView() {
     const [order, setOrder] = useState('asc');
     const [searchName, setSearchName] = useState("all");
-    const [userData, setCategoriaData] = useState([]);
+    const [categoriaData, setCategoriaData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [habilitarCategorias, setHabilitarCategorias] = useState(true);
     const [error, setError] = useState(null);
@@ -66,6 +65,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     const [totalCategorias, setTotalCategorias] = useState(10);
 
   useEffect(() => {
+    /*
     if(selected.length>0){
       setBackgroundBtnHabilitar("#198754");
       setBackgroundBtnDeshabilitar("#DC3545");
@@ -75,33 +75,32 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       setBackgroundBtnDeshabilitar("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-  }, [selected]);
+      */
+  }, []);
 
   console.log("Seleccionar")
   console.log(selected)
   console.log("Seleccionar")
 
-  // Llama a la función obtenerCategorias para obtener y mostrar los datos de categoriaes
-    /*
-  useEffect(() => {
 
+  useEffect(() => {
     const fetchData = async () => {
         try {
           setLoading(true); // Indicar que la carga ha finalizado
-          const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categoriaes
-          console.log(data.users)
+          const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de cupones
+          console.log(data.cupones)
           if(data.newToken){
-            const storedCategoria = localStorage.getItem('user');
-            const userX = JSON.parse(storedCategoria);
+            const storedUser = localStorage.getItem('user');
+            const userX = JSON.parse(storedUser);
             userX.token = data.newToken;
             localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
             console.log("He puesto un nuevo token");
           }
-          console.log(data.totalCategorias)
           if(data.totalCategorias){
             setTotalCategorias(data.totalCategorias);
           }
-          setCategoriaData(data.users); // Actualizar el estado con los datos obtenidos
+          console.log("Data Categorias:", data)
+          setCategoriaData(data); // Actualizar el estado con los datos obtenidos
           setLoading(false); // Indicar que la carga ha finalizado
 
         } catch (err) {
@@ -112,67 +111,13 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
       fetchData(); // Llamar a la función para obtener los datos al montar el componente
       console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalCategorias, habilitarCategorias,searchName]);
-*/
+    }, [page, pageSize,searchName]);
+
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
     const [email, setEmail] = useState('');
-    const handleEnviar = async () => {
-        /*
-      try {
-        const response = await fetch('http://localhost:3000/api/user/invite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ email }),
-        });
-        const data = await response.json();
-        console.log(data); // Maneja la respuesta de la API según sea necesario
-        if(data.success==="true"){
-          console.log("entre a true")
-          toast.success('Usuario invitado exitosamente a través de correo', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }else{
-          toast.error('Error: El correo ya se encuentra registrado', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }
-        handleCloseModal(); // Cierra el modal después de enviar
-        setEmail("");
-      } catch (e) {
-        console.error('Error al enviar correo electrónico:', e);
-        toast.error('Error: El correo ya se encuentra registrado', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-        });
-        setEmail("");
-      }
-      */
-    };
+
     const handleDeshabilitar = async () => {
      /* try {
         const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
@@ -246,7 +191,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
       console.log(searchName)
       if (event.target.checked) {
-        const newSelecteds = userData.map((n) => n.id);
+        const newSelecteds = categoriaData.map((n) => n.id);
         setSelected(newSelecteds);
         return;
       }
@@ -318,8 +263,8 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
-    // const notFound = !userData.length && !!filterName;
-    /* if (loading) {
+    const notFound = !categoriaData.length && !!filterName;
+    if (loading) {
       return (
         <Box
           sx={{
@@ -337,14 +282,14 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
           </Typography>
         </Box>
       );
-    } */
+    } 
 
     if (error) {
-      return <div>Error al cargar datos de categoriaes</div>; // Manejar errores de obtención de datos
+      return <div>Error al cargar datos de categorias</div>; // Manejar errores de obtención de datos
     }
     return (
-      
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+        <BasicBreadcrumbs />
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Categorías</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
@@ -389,7 +334,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
           <CategoriaTableHead
             order={order}
             orderBy={orderBy}
-            rowCount={userData.length}
+            rowCount={categoriaData.length}
             numSelected={selected.length}
             onRequestSort={handleSort}
             onSelectAllClick={handleSelectAllClick}
@@ -439,20 +384,17 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
               </Box>
             ) : (
               <>
-            {userData && userData.length > 0 ? (
-              userData.map((row) => (
+            {categoriaData && categoriaData.length > 0 ? (
+              categoriaData.map((row) => (
                 <Grid item xs={12} sm={6} md={4} key={row.id} >
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <CategoriaTableRow
                       nombre={row.nombre}
-                      rol={row.rol}
+                      descripcion={row.descripcion}
                       id={row.id}
-                      emailX={row.email}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
-                      activo={row.activo}
-                      apellido={row.apellido}
-                      onEditUer={handleCambio}
+                      onEditCategoria={handleCambio}
                     />
                   </Card>
                 </Grid>

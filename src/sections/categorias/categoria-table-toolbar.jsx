@@ -14,10 +14,6 @@ export default function CuponTableToolbar({ numSelected, filterName, onFilterNam
 
   const [localFilterName, setLocalFilterName] = useState(filterName);
 
-  // Diego esto esta raro
-  useEffect(() => {
-    setLocalFilterName(""); // Actualiza el estado local cuando filterName cambia
-  }, [filterName]);
 
   const handleIconClick = () => {
     onFilterName(localFilterName); // Llama a onFilterName con el valor actualizado

@@ -2,7 +2,7 @@
 const obtenerCategorias = async (page,pageSize,searchName) => {
   try {
     const userData = await getUsers(page,pageSize,searchName); // Obtener los categorias de manera asíncrona
-    console.log('Usuarios obtenidos:', userData);
+    console.log('Categorias obtenidas:', userData);
     // Puedes hacer más cosas con los datos de categorias si es necesario
     return userData; // Devolver los datos de categorias obtenidos
   } catch (error) {
@@ -22,7 +22,8 @@ const getUsers = async (page,pageSize,searchName) => {
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(`http://localhost:3000/api/user/listusers?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
+    
+    const response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

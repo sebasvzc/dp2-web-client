@@ -60,37 +60,33 @@ function validarNombre(nombre) {
 
 export default function CuponTableRow({
                                        selected,
-                                       nombre,
-                                       rol,
                                         id,
-                                       emailX,
+                                       descripcion,
                                        handleClick,
                                         activo,
-                                       apellido,
-                                       onEditUer
+                                       nombre,
+                                       onEditCategoria
                                      }) {
   const [open, setOpen] = useState(null);
   const classes = useStyles();
   
-  const [editedUser, setEditedUser] = useState({
+  const [editedCategoria, setEditedCategoria] = useState({
     id,
     nombre,
-    apellido,
-    rol,
-    email: emailX,
+    descripcion,
     activo,
-    password: ""
   });
   const handleGuardarCambios = async() => {
-    console.log("Usuario a modificar: ",editedUser)
+    /*
+    console.log("Usuario a modificar: ",editedCategoria)
     try {
-      const response = await fetch('http://localhost:3000/api/user/modificar', {
+      const response = await fetch('http://localhost:3000/api/Categoria/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ editedUser }),
+        body: JSON.stringify({ editedCategoria }),
       });
       const data = await response.json();
       console.log(data); // Maneja la respuesta de la API según sea necesario
@@ -105,11 +101,12 @@ export default function CuponTableRow({
         progress: undefined,
         theme: "colored"
       });
-      onEditUer();
+      onEditCategoria();
       // handleCloseModal(); // Cierra el modal después de enviar
     } catch (e) {
       console.error('Error al habilitar usuarios:', e);
     }
+      */
   };
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -120,7 +117,7 @@ export default function CuponTableRow({
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedUser({ ...editedUser, [name]: value });
+    setEditedCategoria({ ...editedCategoria, [name]: value });
   };
 
   const handleOpenModalEdit = () => {
@@ -139,52 +136,54 @@ export default function CuponTableRow({
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-  console.log(editedUser.nombre)
-  console.log(editedUser.apellido)
-  console.log(editedUser.email)
-  console.log(editedUser.password)
+  console.log(editedCategoria.nombre)
+  console.log(editedCategoria.apellido)
+  console.log(editedCategoria.email)
+  console.log(editedCategoria.password)
 
+  
   useEffect(() => {
-    const tieneAlMenosUnNumero = /\d/.test(editedUser.password);
-    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(editedUser.password);
+    /*
+    const tieneAlMenosUnNumero = /\d/.test(editedCategoria.password);
+    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(editedCategoria.password);
   
     let tamanho = false;
-    if (editedUser.password.length >= 8) {
+    if (editedCategoria.password.length >= 8) {
       tamanho=true;
     }
     if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho 
-      && editedUser.email.length!==0 && validarEmail(editedUser.email)
-      && editedUser.nombre.length!==0 && validarNombre(editedUser.nombre)
-      && editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)){
+      && editedCategoria.email.length!==0 && validarEmail(editedCategoria.email)
+      && editedCategoria.nombre.length!==0 && validarNombre(editedCategoria.nombre)
+      && editedCategoria.apellido.length!==0 && validarNombre(editedCategoria.apellido)){
       setBackgroundBtnMod("#003B91");
       setBotonDeshabilitado(false);
     }else{
       setBackgroundBtnMod("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-    if ((editedUser.nombre.length!==0 && validarNombre(editedUser.nombre)) || editedUser.nombre.length===0) {
+    if ((editedCategoria.nombre.length!==0 && validarNombre(editedCategoria.nombre)) || editedCategoria.nombre.length===0) {
       setMostrarTxtNomb("");
     } else {
       setMostrarTxtNomb("Nombre inválido");
     }
-    if ((editedUser.apellido.length!==0 && validarNombre(editedUser.apellido)) || editedUser.apellido.length===0 ) {
+    if ((editedCategoria.apellido.length!==0 && validarNombre(editedCategoria.apellido)) || editedCategoria.apellido.length===0 ) {
       setMostrarTxtApp("");
     } else {
       setMostrarTxtApp("Apellido Paterno inválido");
     }
-    if ((editedUser.email.length!==0 && validarEmail(editedUser.email)) || editedUser.email.length===0) {
+    if ((editedCategoria.email.length!==0 && validarEmail(editedCategoria.email)) || editedCategoria.email.length===0) {
       setMostrarTxtCorreo("");
     } else {
       setMostrarTxtCorreo("Correo inválido");
     }
-    /*
-   if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedUser.password.trim().length !== 0) || editedUser.password.trim().length===0 ) {
+    
+   if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedCategoria.password.trim().length !== 0) || editedCategoria.password.trim().length===0 ) {
      setMostrarTxtCont("");
    } else {
      setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
    } */
- }, [editedUser.nombre,editedUser.email,editedUser.apellido,editedUser.password]);
-
+ }, []);
+ 
 
  return (
    <>
@@ -197,13 +196,10 @@ export default function CuponTableRow({
                 style={{ width: 100, height: 100, borderRadius: '50%' }} />
            <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
-                {nombre} {apellido}
+                {nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {rol}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Email: {emailX}
+                {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <span className={activo === 1 ? classes.activo : classes.inactivo}>
@@ -243,51 +239,21 @@ export default function CuponTableRow({
             <TextField
               name="nombre"
               label="Nombre"
-              value={editedUser.nombre}
+              value={editedCategoria.nombre}
               onChange={handleInputChange}
               fullWidth
               margin="normal"
             />
-            <input className="inputEspecialAC" type="text" value={mostrarTxtNomb} onChange={handleInputChange} 
-            style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-            disabled/>
-           
+
           <TextField
-            name="apellido"
-            label="Apellido"
-            value={editedUser.apellido}
+            name="descripcion"
+            label="Descripcion"
+            value={editedCategoria.descripcion}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-          <input className="inputEspecialAC" type="text" value={mostrarTxtApp} onChange={handleInputChange} 
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
           
-          <TextField
-            name="rol"
-            label="Rol"
-            value={editedUser.rol}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-           <input className="inputEspecialAC" type="text"
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
-         
-          <TextField
-            name="email"
-            label="Email"
-            value={editedUser.email}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <input className="inputEspecialAC" type="text" value={mostrarTxtCorreo} onChange={handleInputChange} 
-          style={{width: "100%", color: 'red',border: 'none',backgroundColor: 'white',outline: 'none',height: "12px"}}
-          disabled/>
-         
           </Stack>
          <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
           <Button color="error" variant="contained" style={{backgroundColor: '#DC3545'}} onClick={handleCloseModalEdit}>
@@ -308,12 +274,10 @@ export default function CuponTableRow({
 
 CuponTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
-  apellido: PropTypes.string.isRequired,
-  rol: PropTypes.string.isRequired,
+  descripcion: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  emailX: PropTypes.string.isRequired,
   activo: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
-  onEditUer: PropTypes.func.isRequired,
+  onEditCategoria: PropTypes.func.isRequired,
 };
