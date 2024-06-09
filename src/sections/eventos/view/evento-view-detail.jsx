@@ -33,7 +33,7 @@ import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-
+import { Tabs, Tab } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Iconify from '../../../components/iconify';
@@ -378,6 +378,15 @@ export default function EventoDetail() {
     setSearchTerm(e.target.value)
   };
 
+  const handleSeleccionVisualizar = (event, newValue) => {
+    if (newValue === 'datos') {
+      setView('datos');
+    } else if (newValue === 'estadisticas') {
+      fetchAndSetView('estadisticas');
+    }
+  };
+
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
@@ -388,68 +397,32 @@ export default function EventoDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '650px', paddingTop: 2 }}>
-
-            <List component="nav" aria-label="opciones de navegación">
-              <ListItemButton
-                component="a"
-                onClick={() => setView('datos')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'datos' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'datos' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Datos" />
-              </ListItemButton>
-              <ListItemButton
-                component="a"
-                onClick={() => fetchAndSetView('estadisticas')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'estadisticas' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Estadísticas" />
-              </ListItemButton>
-            </List>
-          </Box>
+          <Tabs
+            value={view}
+            onChange={handleSeleccionVisualizar}
+            variant="fullWidth"
+            textColor="primary"
+            indicatorColor="primary"
+            aria-label="pestañas de navegación"
+          >
+            <Tab label="Datos" value="datos" />
+            <Tab label="Estadísticas" value="estadisticas" />
+          </Tabs>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12}>
+          <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+            <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+              {nombreText}
+            </Typography>
+            <Chip
+              label={isActivo ? "Evento Activo" : "Evento Inactivo"}
+              color={isActivo ? "success" : "default"}
+              sx={{ fontWeight: 'bold' }}
+            />
+          </Box>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <Box display="flex" justifyContent="flex-end" alignItems="center" />
-
-
               {loading ? (
                 <Box
                   sx={{
@@ -469,19 +442,9 @@ export default function EventoDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
+                <Box sx={{ mt: 1, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
                   <Grid container spacing={2}>
                   <Grid item xs={12}>
-                      <Box display="flex" alignItems="center">
-                        <Typography variant="h2" component="div" sx={{ marginRight: 2 }}>
-                          {nombreText}
-                        </Typography>
-                        <Chip
-                          label={isActivo ? "Evento Activo" : "Evento Inactivo"}
-                          color={isActivo ? "success" : "default"}
-                          sx={{ fontWeight: 'bold' }}
-                        />
-                      </Box>
                     </Grid>
                     <Grid item xs={4} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
@@ -677,7 +640,7 @@ export default function EventoDetail() {
             </form>
 
           ) : (
-            <Box sx={{paddingTop:10}}>
+            <Box sx={{paddingTop:1}}>
             {loading ? (
                 <Box
                   sx={{
@@ -703,8 +666,6 @@ export default function EventoDetail() {
 
                   <Grid item xs={12} md={12} lg={12} >
                   <Card
-
-
                     sx={{
                       px: 3,
                       py: 5,

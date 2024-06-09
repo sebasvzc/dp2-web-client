@@ -32,7 +32,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-
+import { Tabs, Tab } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Iconify from '../../../components/iconify';
@@ -438,6 +438,15 @@ export default function TiendaDetail() {
     navigate('/tienda'); 
   }
 
+  const handleSeleccionVisualizar = (event, newValue) => {
+    if (newValue === 'datos') {
+      setView('datos');
+    } else if (newValue === 'estadisticas') {
+      fetchAndSetView('estadisticas');
+    }
+  };
+
+
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
@@ -449,61 +458,17 @@ export default function TiendaDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '650px', paddingTop: 2 }}>
-
-            <List component="nav" aria-label="opciones de navegación">
-              <ListItemButton
-                component="a"
-                onClick={() => setView('datos')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'datos' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'datos' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Datos" />
-              </ListItemButton>
-              <ListItemButton
-                component="a"
-                onClick={() => fetchAndSetView('estadisticas')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'estadisticas' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Estadísticas" />
-              </ListItemButton>
-            </List>
-          </Box>
+         <Tabs
+            value={view}
+            onChange={handleSeleccionVisualizar}
+            variant="fullWidth"
+            textColor="primary"
+            indicatorColor="primary"
+            aria-label="pestañas de navegación"
+          >
+            <Tab label="Datos" value="datos" />
+            <Tab label="Estadísticas" value="estadisticas" />
+          </Tabs>
         </Grid>
         <Grid item xs={9}>
           {view === 'datos' ? (

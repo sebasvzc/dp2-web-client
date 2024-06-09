@@ -33,7 +33,7 @@ import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-
+import { Tabs, Tab } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Iconify from '../../../components/iconify';
@@ -449,6 +449,15 @@ export default function CuponDetail() {
   console.log("Valor de activo:", activo);
   const isActivo = activo === "Activo";
 
+  const handleSeleccionVisualizar = (event, newValue) => {
+    if (newValue === 'datos') {
+      setView('datos');
+    } else if (newValue === 'estadisticas') {
+      fetchAndSetView('estadisticas');
+    }
+  };
+
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
@@ -459,70 +468,32 @@ export default function CuponDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Box sx={{ borderRight: 1, borderColor: 'divider', height: '650px', paddingTop: 2 }}>
-
-            <List component="nav" aria-label="opciones de navegación">
-              <ListItemButton
-                component="a"
-                onClick={() => setView('datos')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'datos' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'datos' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Datos" />
-              </ListItemButton>
-              <ListItemButton
-                component="a"
-                onClick={() => fetchAndSetView('estadisticas')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'estadisticas' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Estadísticas" />
-              </ListItemButton>
-            </List>
-          </Box>
+            <Tabs
+              value={view}
+              onChange={handleSeleccionVisualizar}
+              variant="fullWidth"
+              textColor="primary"
+              indicatorColor="primary"
+              aria-label="pestañas de navegación"
+            >
+              <Tab label="Datos" value="datos" />
+              <Tab label="Estadísticas" value="estadisticas" />
+            </Tabs>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12}>
+        <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+            <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+              {cuponText}
+            </Typography>
+            <Chip
+              label={isActivo ? "Cupón Activo" : "Cupón Inactivo"}
+              color={isActivo ? "success" : "default"}
+              sx={{ fontWeight: 'bold' }}
+            />
+          </Box>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <Box display="flex" justifyContent="flex-end" alignItems="center">
-
-
-             
-
                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
                     <Button
@@ -570,21 +541,11 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
+                <Box sx={{ mt: 1, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
                  
                   <Grid container spacing={2}>
                     
                     <Grid item xs={12}>
-                    <Box display="flex" alignItems="center">
-                      <Typography variant="h2" component="div" sx={{ marginRight: 2 }}>
-                        {cuponText}
-                      </Typography>
-                      <Chip
-                        label={isActivo ? "Cupón Activo" : "Cupón Inactivo"}
-                        color={isActivo ? "success" : "default"}
-                        sx={{ fontWeight: 'bold' }}
-                      />
-                    </Box>
                     </Grid>
                     <Grid item xs={4} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
@@ -775,9 +736,7 @@ export default function CuponDetail() {
               ):(
               <Grid container spacing={2}  >
               <Grid xs={12} >
-
                   <DashboardCuponClient dataDash={dataDash}/>
-
               </Grid>
               <Grid xs={12}>
                 <Card>
