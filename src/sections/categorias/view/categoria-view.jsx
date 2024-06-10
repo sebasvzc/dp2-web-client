@@ -125,38 +125,64 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
   console.log(selected)
   console.log("Seleccionar")
 
-
-
   
+  const fetchData2 = async () => {
+    try {
+      setLoading(true); // Indicar que la carga ha finalizado
+      const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categorías
+      console.log(data.cupones)
+      if(data.newToken){
+        const storedUser = localStorage.getItem('user');
+        const userX = JSON.parse(storedUser);
+        userX.token = data.newToken;
+        localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
+        console.log("He puesto un nuevo token");
+      }
+      if(data.totalCategorias){
+        setTotalCategorias(data.totalCategorias);
+      }
+      console.log("Data Categorias:", data)
+      setCategoriaData(data); // Actualizar el estado con los datos obtenidos
+      setLoading(false); // Indicar que la carga ha finalizado
+
+    } catch (err) {
+      setError(err); // Manejar errores de obtención de datos
+      setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+    }
+  };
+
+
+  const handleCategoriaUpdated = () => {
+    fetchData2();  // Suponiendo que fetchData es la función que carga datos de categorías del servidor
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-          setLoading(true); // Indicar que la carga ha finalizado
-          const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categorías
-          console.log(data.cupones)
-          if(data.newToken){
-            const storedUser = localStorage.getItem('user');
-            const userX = JSON.parse(storedUser);
-            userX.token = data.newToken;
-            localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
-            console.log("He puesto un nuevo token");
-          }
-          if(data.totalCategorias){
-            setTotalCategorias(data.totalCategorias);
-          }
-          console.log("Data Categorias:", data)
-          setCategoriaData(data); // Actualizar el estado con los datos obtenidos
-          setLoading(false); // Indicar que la carga ha finalizado
-
-        } catch (err) {
-          setError(err); // Manejar errores de obtención de datos
-          setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+      try {
+        setLoading(true); // Indicar que la carga ha finalizado
+        const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categorías
+        console.log(data.cupones)
+        if(data.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
+          console.log("He puesto un nuevo token");
         }
-      };
-
-      fetchData(); // Llamar a la función para obtener los datos al montar el componente
-      console.log("searchName despues de buscar",searchName)
+        if(data.totalCategorias){
+          setTotalCategorias(data.totalCategorias);
+        }
+        console.log("Data Categorias:", data)
+        setCategoriaData(data); // Actualizar el estado con los datos obtenidos
+        setLoading(false); // Indicar que la carga ha finalizado
+  
+      } catch (err) {
+        setError(err); // Manejar errores de obtención de datos
+        setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+      }
+    };
+    fetchData(); // Llamar a la función para obtener los datos al montar el componente
+    console.log("searchName despues de buscar",searchName)
     }, [page, pageSize,searchName]);
 
     useEffect(()=>{
@@ -558,6 +584,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       onEditCategoria={handleCambio}
+                      onCategoriaUpdated={handleCategoriaUpdated}
                     />
                   </Card>
                 </Grid>

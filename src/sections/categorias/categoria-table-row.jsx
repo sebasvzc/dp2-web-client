@@ -65,7 +65,8 @@ export default function CategoriaTableRow({
                                        handleClick,
                                         activo,
                                        nombre,
-                                       onEditCategoria
+                                       onEditCategoria,
+                                       onCategoriaUpdated
                                      }) {
   const [open, setOpen] = useState(null);
   const classes = useStyles();
@@ -76,22 +77,66 @@ export default function CategoriaTableRow({
     descripcion,
     activo,
   });
-  const handleGuardarCambios = async() => {
-    /*
-    console.log("Usuario a modificar: ",editedCategoria)
+  const [nombreOriginal, setNombreOriginal] = useState(nombre);
+  const [descripcionOriginal, setDescripcionOriginal] = useState(descripcion);
+
+  useEffect(()=>{
+    if((editedCategoria.nombre.length!==0 && editedCategoria.descripcion.length!==0) &&
+        editedCategoria.nombre !== nombreOriginal || editedCategoria.descripcion !== descripcionOriginal){
+      setBackgroundBtnMod("#003B91");
+      setBotonDeshabilitado(false);
+    }else{
+      setBackgroundBtnMod("#CCCCCC");
+      setBotonDeshabilitado(true);
+    }
+  }, [editedCategoria.nombre, editedCategoria.descripcion])
+
+  const handleGuardarCambios = async () => {
+    console.log("Categoría a modificar: ", editedCategoria);
     try {
-      const response = await fetch('http://localhost:3000/api/Categoria/modificar', {
+      const response = await fetch('http://localhost:3000/api/categoriaTienda/editarCategoriaTiendaWeb', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ editedCategoria }),
+        body: JSON.stringify({
+          nombre: editedCategoria.nombre,
+          descripcion: editedCategoria.descripcion,
+          idCategoria: editedCategoria.id
+        }),
       });
       const data = await response.json();
       console.log(data); // Maneja la respuesta de la API según sea necesario
-      setOpenEdit(false);
-      toast.success('Usuario modificado exitosamente', {
+      if (data.resultado === 1) {
+        toast.success('Categoría modificada exitosamente', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+        onEditCategoria(); // Actualiza la lista de categorías o realiza acciones adicionales
+      } else {
+        toast.error(`Error al modificar categoría: ${data.mensaje}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      }
+      onCategoriaUpdated();
+      handleCloseModalEdit(); // Cierra el modal después de enviar
+    } catch (e) {
+      console.error('Error al modificar la categoría:', e);
+      toast.error('Error al conectar con el servidor', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -101,13 +146,9 @@ export default function CategoriaTableRow({
         progress: undefined,
         theme: "colored"
       });
-      onEditCategoria();
-      // handleCloseModal(); // Cierra el modal después de enviar
-    } catch (e) {
-      console.error('Error al habilitar usuarios:', e);
     }
-      */
   };
+  
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -252,6 +293,7 @@ export default function CategoriaTableRow({
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            multiline rows={5}
           />
           
           </Stack>
@@ -280,4 +322,5 @@ CategoriaTableRow.propTypes = {
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
   onEditCategoria: PropTypes.func.isRequired,
+  onCategoriaUpdated: PropTypes.func.isRequired,
 };
