@@ -18,7 +18,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
 import NavBar from './config-navigation';
-
+import BasicBreadcrumbs from '../../routes/BasicBreadcrumbs'; // Ruta corregida
 
 // ----------------------------------------------------------------------
 

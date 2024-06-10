@@ -11,11 +11,11 @@ import { makeStyles } from '@mui/styles';
 import SearchIcon from "@mui/icons-material/Search";
 import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {TimePicker, DatePicker, LocalizationProvider  } from '@mui/x-date-pickers';
 import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, InputLabel, FormControl } from '@mui/material';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 dayjs.locale('es-mx');
 
 const useStyles = makeStyles((theme) => ({
@@ -407,9 +407,10 @@ const useStyles = makeStyles((theme) => ({
     */
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
-       <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Crear Evento</Typography>
+      <BasicBreadcrumbs />
+       <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2 }}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2">Crear Evento</Typography>
         </Stack>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Box sx={{ mt: 3 , borderRadius: '8px',  padding: '2%' , border: '2px solid #CCCCCC', backgroundColor: '#F5F5F5' }}>

@@ -11,7 +11,7 @@ import { visuallyHidden } from './utils';
 
 // ----------------------------------------------------------------------
 
-export default function CuponTableHead({
+export default function CategoriaTableHead({
   order,
   orderBy,
   rowCount,
@@ -69,7 +69,7 @@ export default function CuponTableHead({
   );
 }
 
-CuponTableHead.propTypes = {
+CategoriaTableHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,

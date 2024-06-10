@@ -10,14 +10,10 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function CuponTableToolbar({ numSelected, filterName, onFilterName }) {
+export default function CategoriaTableToolbar({ numSelected, filterName, onFilterName }) {
 
-  const [localFilterName, setLocalFilterName] = useState(filterName);
+  const [localFilterName, setLocalFilterName] = useState("");
 
-  // Diego esto esta raro
-  useEffect(() => {
-    setLocalFilterName(""); // Actualiza el estado local cuando filterName cambia
-  }, [filterName]);
 
   const handleIconClick = () => {
     onFilterName(localFilterName); // Llama a onFilterName con el valor actualizado
@@ -65,7 +61,7 @@ export default function CuponTableToolbar({ numSelected, filterName, onFilterNam
   );
 }
 
-CuponTableToolbar.propTypes = {
+CategoriaTableToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,

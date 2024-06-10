@@ -30,7 +30,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import TablePagination from '@mui/material/TablePagination';
 
 import Iconify from '../../../components/iconify';
@@ -39,6 +39,8 @@ import UserTableToolbar from '../../user/user-table-toolbar';
 import ClientCuponTableHead from '../cupon-client.table.head';
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; // Ruta corregida
+
 
 dayjs.extend(utc);
 
@@ -543,9 +545,10 @@ export default function CuponDetail() {
   };
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Cupón</Typography>
+      <BasicBreadcrumbs />
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2 }}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" >Modificar Cupón</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       {loading2 &&<Spinner id='loading' color='primary'/>}

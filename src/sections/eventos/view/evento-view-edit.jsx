@@ -35,9 +35,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import TablePagination from '@mui/material/TablePagination';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Iconify from '../../../components/iconify';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import { getTipoEventos,getLugarEvento,getTiendaEvento, } from '../../../funciones/api';
 
 dayjs.extend(utc);
@@ -366,9 +366,10 @@ export default function EventoEdit() {
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Evento</Typography>
+      <BasicBreadcrumbs />
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2 }}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2">Modificar Evento</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container >

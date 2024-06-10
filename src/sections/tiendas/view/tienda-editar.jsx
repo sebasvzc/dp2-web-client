@@ -31,7 +31,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import TablePagination from '@mui/material/TablePagination';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Stack from '@mui/material/Stack';
 import { MarginOutlined } from '@mui/icons-material';
 import Iconify from '../../../components/iconify';
@@ -39,7 +39,7 @@ import UserTableToolbar from '../../user/user-table-toolbar';
 import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 
 
 dayjs.extend(utc);
@@ -284,9 +284,10 @@ export default function TiendaDetail() {
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Modificar Tienda</Typography>
+      <BasicBreadcrumbs />
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2 }}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" >Modificar Tienda</Typography>
       </Stack>
       
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />

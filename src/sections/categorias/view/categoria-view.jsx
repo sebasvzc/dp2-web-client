@@ -14,10 +14,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
-
-// import obtenerCategorias  from 'src/_mock/categoria';
-
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
 import Iconify from 'src/components/iconify';
+import obtenerCategorias  from 'src/_mock/categoria';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; // Ruta corregida
+
 
 import CategoriaTableRow from '../categoria-table-row';
 import CategoriaTableHead from '../categoria-table-head';
@@ -35,6 +39,29 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       margin: 'auto', // Centra horizontalmente el componente
       maxWidth: 'fit-content', // Ajusta el ancho al contenido
     },
+    modalContainer: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      padding: "40px",
+      backgroundColor: 'white', // Fondo blanco
+      boxShadow: 24,
+      outline: 'none',
+    },
+    activo: {
+      color: '#008000', // Verde oscuro para activo
+      backgroundColor: '#C8E6C9', // Fondo verde claro para activo
+      padding: '2px 6px',
+      borderRadius: '4px',
+    },
+    inactivo: {
+      color: '#FF0000', // Rojo para inactivo
+      backgroundColor: '#FFCDD2', // Fondo rojo claro para inactivo
+      padding: '2px 6px',
+      borderRadius: '4px',
+    },
   }));
   // ----------------------------------------------------------------------
   const scrollContainerStyle = {
@@ -46,7 +73,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
   export default function CategoriaView() {
     const [order, setOrder] = useState('asc');
     const [searchName, setSearchName] = useState("all");
-    const [userData, setCategoriaData] = useState([]);
+    const [categoriaData, setCategoriaData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [habilitarCategorias, setHabilitarCategorias] = useState(true);
     const [error, setError] = useState(null);
@@ -61,11 +88,27 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
 
     const classes = useStyles();
-    const filterName= useState('')
+    const filterName= useState('');
 
     const [totalCategorias, setTotalCategorias] = useState(10);
 
+    const [crearCategoria, setCrearCategoria] = useState({
+      nombre: "",
+      descripcion: "",
+      activo: true,
+    });
+    const [botonModalHabilitado, setbotonModalHabilitado] = useState(true);
+    const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
+    const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
+    const [mostrarTxtDes, setMostrarTxtDes] = useState("");
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setCrearCategoria({ ...crearCategoria, [name]: value });
+    };
+
   useEffect(() => {
+    /*
     if(selected.length>0){
       setBackgroundBtnHabilitar("#198754");
       setBackgroundBtnDeshabilitar("#DC3545");
@@ -75,104 +118,100 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       setBackgroundBtnDeshabilitar("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-  }, [selected]);
+      */
+  }, []);
 
   console.log("Seleccionar")
   console.log(selected)
   console.log("Seleccionar")
 
-  // Llama a la función obtenerCategorias para obtener y mostrar los datos de categoriaes
-    /*
+  
+  const fetchData2 = async () => {
+    try {
+      setLoading(true); // Indicar que la carga ha finalizado
+      const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categorías
+      console.log(data.cupones)
+      if(data.newToken){
+        const storedUser = localStorage.getItem('user');
+        const userX = JSON.parse(storedUser);
+        userX.token = data.newToken;
+        localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
+        console.log("He puesto un nuevo token");
+      }
+      if(data.totalCategorias){
+        setTotalCategorias(data.totalCategorias);
+      }
+      console.log("Data Categorias:", data)
+      setCategoriaData(data); // Actualizar el estado con los datos obtenidos
+      setLoading(false); // Indicar que la carga ha finalizado
+
+    } catch (err) {
+      setError(err); // Manejar errores de obtención de datos
+      setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+    }
+  };
+
+
+  const handleCategoriaUpdated = () => {
+    fetchData2();  // Suponiendo que fetchData es la función que carga datos de categorías del servidor
+  };
+
   useEffect(() => {
-
     const fetchData = async () => {
-        try {
-          setLoading(true); // Indicar que la carga ha finalizado
-          const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categoriaes
-          console.log(data.users)
-          if(data.newToken){
-            const storedCategoria = localStorage.getItem('user');
-            const userX = JSON.parse(storedCategoria);
-            userX.token = data.newToken;
-            localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
-            console.log("He puesto un nuevo token");
-          }
-          console.log(data.totalCategorias)
-          if(data.totalCategorias){
-            setTotalCategorias(data.totalCategorias);
-          }
-          setCategoriaData(data.users); // Actualizar el estado con los datos obtenidos
-          setLoading(false); // Indicar que la carga ha finalizado
-
-        } catch (err) {
-          setError(err); // Manejar errores de obtención de datos
-          setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+      try {
+        setLoading(true); // Indicar que la carga ha finalizado
+        const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categorías
+        console.log(data.cupones)
+        if(data.newToken){
+          const storedUser = localStorage.getItem('user');
+          const userX = JSON.parse(storedUser);
+          userX.token = data.newToken;
+          localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
+          console.log("He puesto un nuevo token");
         }
-      };
+        if(data.totalCategorias){
+          setTotalCategorias(data.totalCategorias);
+        }
+        console.log("Data Categorias:", data)
+        setCategoriaData(data); // Actualizar el estado con los datos obtenidos
+        setLoading(false); // Indicar que la carga ha finalizado
+  
+      } catch (err) {
+        setError(err); // Manejar errores de obtención de datos
+        setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
+      }
+    };
+    fetchData(); // Llamar a la función para obtener los datos al montar el componente
+    console.log("searchName despues de buscar",searchName)
+    }, [page, pageSize,searchName]);
 
-      fetchData(); // Llamar a la función para obtener los datos al montar el componente
-      console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,totalCategorias, habilitarCategorias,searchName]);
-*/
+    useEffect(()=>{
+      if(crearCategoria.nombre.length!==0 && crearCategoria.descripcion.length!==0){
+        setBackgroundBtnMod("#003B91");
+        setbotonModalHabilitado(false);
+      }else{
+        setBackgroundBtnMod("#CCCCCC");
+        setbotonModalHabilitado(true);
+      }
+
+      if(crearCategoria.nombre.length!==0){
+        setMostrarTxtNomb("");
+      }else {
+        setMostrarTxtNomb("Debe de ingresar un nombre para la Categoría")
+      }
+
+      if(crearCategoria.descripcion.length!==0){
+        setMostrarTxtDes("");
+      }else {
+        setMostrarTxtDes("Debe de ingresar un nombre para la Categoría")
+      }
+    }, [crearCategoria.nombre, crearCategoria.descripcion])
+
     const [openModal, setOpenModal] = useState(false);
     const [openModalDesactivar, setOpenModalDesactivar] = useState(false);
     const [openModalActivar, setOpenModalActivar] = useState(false);
     const [email, setEmail] = useState('');
-    const handleEnviar = async () => {
-        /*
-      try {
-        const response = await fetch('http://localhost:3000/api/user/invite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ email }),
-        });
-        const data = await response.json();
-        console.log(data); // Maneja la respuesta de la API según sea necesario
-        if(data.success==="true"){
-          console.log("entre a true")
-          toast.success('Usuario invitado exitosamente a través de correo', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }else{
-          toast.error('Error: El correo ya se encuentra registrado', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored"
-          });
-        }
-        handleCloseModal(); // Cierra el modal después de enviar
-        setEmail("");
-      } catch (e) {
-        console.error('Error al enviar correo electrónico:', e);
-        toast.error('Error: El correo ya se encuentra registrado', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-        });
-        setEmail("");
-      }
-      */
-    };
+
     const handleDeshabilitar = async () => {
      /* try {
         const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
@@ -246,7 +285,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
       console.log(searchName)
       if (event.target.checked) {
-        const newSelecteds = userData.map((n) => n.id);
+        const newSelecteds = categoriaData.map((n) => n.id);
         setSelected(newSelecteds);
         return;
       }
@@ -315,11 +354,71 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       setOpenModal(false);
     };
 
+    const handleCrear = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/categoriaTienda/crearCategoriaTiendaWeb', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            nombre: crearCategoria.nombre,
+            descripcion: crearCategoria.descripcion
+          }),
+        });
+        const data = await response.json();
+    
+        if (data.resultado === 1) {
+          // Si la categoría se crea exitosamente
+          console.log('Categoría creada con éxito:', data);
+          toast.success('Categoría creada exitosamente', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+          // Actualizar la lista de categorías o cerrar modal aquí si es necesario
+          handleCloseModal(); // Suponiendo que quieras cerrar el modal al crear la categoría
+        } else {
+          // Manejar el caso de nombre duplicado o errores desconocidos
+          console.log('Error al crear categoría:', data.mensaje);
+          toast.error(`Error al crear categoría: ${data.mensaje}`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }
+      } catch (err) {
+        console.error('Error al conectar con el servidor:', err);
+        toast.error('Error al conectar con el servidor', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+        });
+      }
+    };
+    
+
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
-    // const notFound = !userData.length && !!filterName;
-    /* if (loading) {
+    const notFound = !categoriaData.length && !!filterName;
+    if (loading) {
       return (
         <Box
           sx={{
@@ -337,14 +436,14 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
           </Typography>
         </Box>
       );
-    } */
+    }
 
     if (error) {
-      return <div>Error al cargar datos de categoriaes</div>; // Manejar errores de obtención de datos
+      return <div>Error al cargar datos de categorias</div>; // Manejar errores de obtención de datos
     }
     return (
-      
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+        <BasicBreadcrumbs />
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Categorías</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
@@ -389,7 +488,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
           <CategoriaTableHead
             order={order}
             orderBy={orderBy}
-            rowCount={userData.length}
+            rowCount={categoriaData.length}
             numSelected={selected.length}
             onRequestSort={handleSort}
             onSelectAllClick={handleSelectAllClick}
@@ -399,21 +498,56 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
             ]}
           />
           <Stack direction="row" alignItems="right" justifyContent="space-between" mb={0}> 
-          <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
-            onClick={handleOpenModal} startIcon={<Iconify icon ="system-uicons:replicate-alt"/>}>
-              Crear
+            <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
+              onClick={handleOpenModal} startIcon={<Iconify icon ="system-uicons:replicate-alt"/>}>
+                Crear
+              </Button>
+              <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
+              disabled={botonDeshabilitado}
+              onClick={handleOpenModalActivar} startIcon={<Iconify icon="eva:plus-fill" />}>
+                Habilitar
+              </Button>
+              <Button variant="contained" color="error" sx={{ backgroundColor: backgroundBtnDeshabilitar , color:"#FFFFFF" }}  
+              disabled={botonDeshabilitado}
+              onClick={handleOpenModalDesactivar} startIcon={<Iconify icon="bi:dash" />}>
+                Deshabilitar
             </Button>
-            <Button variant="contained" color="success" sx={{ marginRight: '8px' , backgroundColor: backgroundBtnHabilitar, color:"#FFFFFF" }} 
-            disabled={botonDeshabilitado}
-            onClick={handleOpenModalActivar} startIcon={<Iconify icon="eva:plus-fill" />}>
-              Habilitar
-            </Button>
-            <Button variant="contained" color="error" sx={{ backgroundColor: backgroundBtnDeshabilitar , color:"#FFFFFF" }}  
-            disabled={botonDeshabilitado}
-            onClick={handleOpenModalDesactivar} startIcon={<Iconify icon="bi:dash" />}>
-              Deshabilitar
-            </Button>
-            </Stack>
+            <Modal open={openModal} onClose={handleCloseModal} aria-labelledby="modal-title" >
+              <div className={classes.modalContainer}>
+                <Typography variant="h6" style={{ marginBottom: "20px" }}>Crear una Categoría</Typography>
+                <Stack direction="column" spacing={1}>
+                  <TextField
+                    name="nombre"
+                    label="Nombre"
+                    value={crearCategoria.nombre}
+                    onChange={handleInputChange}
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    name="descripcion"
+                    label="Descripcion"
+                    value={crearCategoria.descripcion}
+                    onChange={handleInputChange}
+                    fullWidth
+                    margin="normal"
+                    multiline rows={5}
+                  />
+                </Stack>
+                <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
+                  <Button color="error" variant="contained" style={{backgroundColor: '#DC3545'}} onClick={handleCloseModal}>
+                    Cancelar
+                  </Button>
+                  <Button color="success" variant="contained"
+                    onClick={handleCrear}
+                    style={{ backgroundColor: backgroundBtnMod, mt: 3 , color: "white", marginLeft: '10px'}}
+                    disabled={botonModalHabilitado}>
+                    Guardar
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+          </Stack>
         </Stack>
 
         <Box sx={scrollContainerStyle}>
@@ -439,20 +573,18 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
               </Box>
             ) : (
               <>
-            {userData && userData.length > 0 ? (
-              userData.map((row) => (
+            {categoriaData && categoriaData.length > 0 ? (
+              categoriaData.map((row) => (
                 <Grid item xs={12} sm={6} md={4} key={row.id} >
                   <Card style={{ backgroundColor: '#F9FAFB' }}>
                     <CategoriaTableRow
                       nombre={row.nombre}
-                      rol={row.rol}
+                      descripcion={row.descripcion}
                       id={row.id}
-                      emailX={row.email}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
-                      activo={row.activo}
-                      apellido={row.apellido}
-                      onEditUer={handleCambio}
+                      onEditCategoria={handleCambio}
+                      onCategoriaUpdated={handleCategoriaUpdated}
                     />
                   </Card>
                 </Grid>

@@ -81,6 +81,7 @@ export default function UserTableRow({
     activo,
     password: ""
   });
+
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedUser)
     try {

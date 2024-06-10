@@ -19,10 +19,11 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Tabs, Tab } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import ClientCuponTableRow from '../../cupones/client-cupon-table-row';
 import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
@@ -663,71 +664,48 @@ export default function ClienteViewDetail() {
     navigate('/clientes'); 
   }
 
+  const handleSeleccionVisualizar = (event, newValue) => {
+    if (newValue === 'datos') {
+      setView('datos');
+    } else if (newValue === 'estadisticas') {
+      fetchAndSetView('estadisticas');
+    }
+  };
+
+
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-          <ArrowBackIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
-          <Typography variant="h2" sx={{ marginBottom: 2 }}>Visualizar Cliente</Typography>
+      <BasicBreadcrumbs />
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2 }}>
+          <ArrowBackIosIcon onClick={handleBack} style={{ cursor: 'pointer' }}/>
+          <Typography variant="h2" >Visualizar Cliente</Typography>
       </Stack>
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-        <Box sx={{ borderRight: 1, borderColor: 'divider', height: '650px', paddingTop: 2 }}>
-          <List component="nav" aria-label="opciones de navegación">
-              <ListItemButton
-                component="a"
-                onClick={() => setView('datos')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'datos' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'datos' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Datos" />
-              </ListItemButton>
-              <ListItemButton
-                component="a"
-                onClick={() => fetchAndSetView('estadisticas')}
-                sx={{
-                  width: '100%',
-                  bgcolor: view === 'estadisticas' ? '#F9FAFB' : '#F1F1F1',
-                  '&:hover': {
-                    bgcolor: '#E4E4E4', // Color cuando el mouse está sobre el ítem
-                  },
-                  position: 'relative', // Necesario para el pseudoelemento
-                  ...(view === 'estadisticas' && {
-                    '&::before': { // Estilo para el "bookmark"
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: '5px',
-                      bgcolor: '#00489C', // Color azul para el "bookmark"
-                    }
-                  }),
-                }}
-              >
-                <ListItemText primary="Estadísticas" />
-              </ListItemButton>
-          </List>
-          </Box>
+          <Tabs
+              value={view}
+              onChange={handleSeleccionVisualizar}
+              variant="fullWidth"
+              textColor="primary"
+              indicatorColor="primary"
+              aria-label="pestañas de navegación"
+            >
+              <Tab label="Datos" value="datos" />
+              <Tab label="Estadísticas" value="estadisticas" />
+          </Tabs>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12}>
+        <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+            <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
+              {nombreCompleto}
+            </Typography>
+            <Chip
+              label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
+              color={isActivo ? "success" : "default"}
+              sx={{ fontWeight: 'bold' }}
+            />
+          </Box>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               
@@ -750,20 +728,8 @@ export default function ClienteViewDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box  sx={{ mt: 3 , borderRadius: '8px',  padding: '2%'  }}>
+                <Box  sx={{ mt: 1 , borderRadius: '8px',  padding: '2%'  }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                    <Box display="flex" alignItems="center">
-                      <Typography variant="h2" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
-                        {nombreCompleto}
-                      </Typography>
-                      <Chip
-                        label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
-                        color={isActivo ? "success" : "default"}
-                        sx={{ fontWeight: 'bold' }}
-                      />
-                    </Box>
-                    </Grid>
                     <Grid item xs={3} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
                           border: '1px solid',
@@ -817,7 +783,7 @@ export default function ClienteViewDetail() {
             </form>
 
           ) : (
-            <Box sx={{ paddingTop: 10 }}>
+            <Box sx={{ paddingTop: 1 }}>
               {loading ? (
                 <Box
                   sx={{
@@ -972,7 +938,7 @@ export default function ClienteViewDetail() {
                                 alignItems: 'center',
                                 textAlign: 'center',
                                 height: '25%',
-                                marginTop: '15%', // Ajusta la distancia desde la parte superior
+                                marginTop: '1%', // Ajusta la distancia desde la parte superior
                                 marginBottom: '15%',
                               }}
                             >

@@ -20,7 +20,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import obtenerTiendas  from 'src/_mock/tienda';
 
 import Iconify from 'src/components/iconify';
-
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import TiendaTableRow from '../tienda-table-row';
 import TiendaTableHead from '../tienda-table-head';
 import TiendaTableToolbar from '../tienda-table-toolbar';
@@ -312,7 +312,8 @@ import TiendaTableToolbar from '../tienda-table-toolbar';
     return (
       
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
-        <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Tiendas</Typography>
+        <BasicBreadcrumbs />
+        <Typography variant="h2" sx={{ marginBottom: 1 }}>Gestión de Tiendas</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
           <TiendaTableToolbar

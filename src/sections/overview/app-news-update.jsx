@@ -56,7 +56,7 @@ function NewsItem({ news }) {
   const { image, title, description, postedAt } = news;
 
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
+    <Stack direction="row" alignItems="center" spacing={1}>
       <Box
         component="img"
         alt={title}

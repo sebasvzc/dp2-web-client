@@ -23,8 +23,8 @@ import { TextField } from '@mui/material';
 import obtenerUsuarios  from 'src/_mock/user';
 
 import Iconify from 'src/components/iconify';
-
 import '../../../loading/Loading.css'
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import UserTableToolbar from '../user-table-toolbar';
@@ -366,6 +366,7 @@ import UserTableToolbar from '../user-table-toolbar';
     }
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
+        <BasicBreadcrumbs />
         <Typography variant="h2" sx={{ marginBottom: 2 }}>Gestión de Usuarios</Typography>
         <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>

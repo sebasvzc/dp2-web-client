@@ -45,7 +45,7 @@ const DashboardEventosCategorCliente = ({ dataDash }) => {
 
   return (
     <div > {/* Ajusta el padding superior y centra el texto */}
-      <h4 style={{ textAlign: 'center' }}>Gráfico Circular de Eventos por Categorías</h4>
+      <h4 style={{ textAlign: 'center' }}>Eventos por Categorías</h4>
       <div id="dashboard-pie-chart-evento-cliente"  />
       {/* Aplica el borde */}
     </div>
