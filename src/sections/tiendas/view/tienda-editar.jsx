@@ -137,7 +137,7 @@ export default function TiendaDetail() {
 
         const resultsTipo =  await getCategoriaTiendas(token,refreshToken,searchTermTipoCupones);
         console.log("viendo resultados categ tienda", resultsTipo)
-        setCategorias(resultsTipo);
+        setCategorias(resultsTipo.cattiendas);
 
         const data = await response.json();
         console.log(data)

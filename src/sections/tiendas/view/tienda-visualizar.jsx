@@ -136,13 +136,13 @@ export default function TiendaDetail() {
           throw new Error('Network response was not ok');
         }
 
-
-        const resultsTipo =  await getCategoriaTiendas(token,refreshToken,searchTermTipoCupones);
-        console.log("viendo resultados categ tienda", resultsTipo)
-        setCategorias(resultsTipo);
-
         const data = await response.json();
+
         console.log(data)
+        const resultsTipo =  await getCategoriaTiendas(token,refreshToken,data.detalles.categoriaTienda.nombre);
+        console.log("viendo resultados categ tienda", resultsTipo)
+        setCategorias(resultsTipo.cattiendas);
+
         if(data.detalles.activo===true){
           setActivo("Activo")
         }
@@ -447,8 +447,8 @@ export default function TiendaDetail() {
   };
 
 
-
   return (
+
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
       <Stack direction="row" alignItems="center" spacing={1} sx={{ marginBottom: 2}}>
@@ -534,7 +534,7 @@ export default function TiendaDetail() {
                         <FormControl fullWidth>
                           <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
                           <Select
-                            // Disables auto focus on MenuItems and allows TextField to be in focus
+                            // Deshabilita el auto focus en los MenuItems y permite que el TextField esté en foco
                             MenuProps={{ autoFocus: false }}
                             labelId="search-select-label"
                             id="search-select"
@@ -542,15 +542,14 @@ export default function TiendaDetail() {
                             value={selectedCategoria}
                             label="Elegir Tienda"
                             onChange={(e) => setSelectedCategoria(e.target.value)}
-                            // This prevents rendering empty string in Select's value
-                            // if search text would exclude currently selected option.
-
+                            // Esto previene que se renderice una cadena vacía en el valor del Select
+                            // si el texto de búsqueda excluye la opción seleccionada actualmente.
                           >
                             <ListSubheader>
                               <TextField
                                 size="small"
                                 autoFocus
-                                placeholder="Busca una categoria por nombre..."
+                                placeholder="Busca una categoría por nombre..."
                                 fullWidth
                                 value={searchTerm}
                                 onChange={changeTermSearch}
@@ -564,11 +563,15 @@ export default function TiendaDetail() {
                                 }}
                               />
                             </ListSubheader>
-                            {categorias.map((option, i) => (
-                              <MenuItem key={i} value={option.id}>
-                                {option.nombre}
-                              </MenuItem>
-                            ))}
+                            {categorias.length > 0 ? (
+                              categorias.map((option, i) => (
+                                <MenuItem key={i} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))
+                            ) : (
+                              <MenuItem disabled>No hay categorías disponibles</MenuItem>
+                            )}
                           </Select>
                         </FormControl>
                       </Grid>
