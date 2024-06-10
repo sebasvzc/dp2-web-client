@@ -218,7 +218,7 @@ export default function CuponDetail() {
         let response="";
         response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
           method: 'POST',
-          body: JSON.stringify({ id:idParam }),
+          body: JSON.stringify({ id:idParam, permission:"Gestion de Cupones"}),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

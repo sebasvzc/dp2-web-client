@@ -1063,7 +1063,7 @@ export default function ClienteViewDetail() {
                               </Box>
                             ) : (
                               <Card >
-                                <div> {/* Ajusta el padding superior y centra el texto */}
+                                <div>
                                   <h4 style={{ textAlign: 'center' }}>Lista de Cupones Canjeados</h4>
                                 </div>
                                 <TableContainer sx={{ overflow: 'unset' }}>
