@@ -12,7 +12,7 @@ import Iconify from 'src/components/iconify';
 
 export default function CategoriaTableToolbar({ numSelected, filterName, onFilterName }) {
 
-  const [localFilterName, setLocalFilterName] = useState(filterName);
+  const [localFilterName, setLocalFilterName] = useState("");
 
 
   const handleIconClick = () => {
