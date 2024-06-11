@@ -141,8 +141,8 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       if(data.totalCategorias){
         setTotalCategorias(data.totalCategorias);
       }
-      console.log("Data Categorias:", data)
-      setCategoriaData(data); // Actualizar el estado con los datos obtenidos
+      console.log("Data Categorias:", data.cattiendas)
+      setCategoriaData(data.cattiendas); // Actualizar el estado con los datos obtenidos
       setLoading(false); // Indicar que la carga ha finalizado
 
     } catch (err) {
@@ -172,8 +172,8 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
         if(data.totalCategorias){
           setTotalCategorias(data.totalCategorias);
         }
-        console.log("Data Categorias:", data)
-        setCategoriaData(data); // Actualizar el estado con los datos obtenidos
+        console.log("Data Categorias:", data.cattiendas)
+        setCategoriaData(data.cattiendas); // Actualizar el estado con los datos obtenidos
         setLoading(false); // Indicar que la carga ha finalizado
   
       } catch (err) {
