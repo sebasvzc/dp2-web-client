@@ -3,14 +3,16 @@ import 'dayjs/locale/es-mx';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
+import ListSubheader from '@mui/material/ListSubheader';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import {
-  Grid, Chip,
+  Grid, Chip, MenuItem, Select, FormControl, InputLabel, 
   Table, TextField, TableBody, TableContainer,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
@@ -24,7 +26,7 @@ import { Tabs, Tab } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
-import { getTiendas, getTipoCupones } from '../../../funciones/api';
+import { getTiendas, getTipoCupones, getCategoriaTiendas } from '../../../funciones/api';
 import ClientCuponTableRow from '../../cupones/client-cupon-table-row';
 import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
@@ -50,7 +52,7 @@ export default function ClienteViewDetail() {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
-
+  const [selectedCategoria, setSelectedCategoria] = useState('');
   const [orderBy, setOrderBy] = useState('id');
   const [backgroundBtnHabilitar, setBackgroundBtnHabilitar] = useState("#CCCCCC");
   const [backgroundBtnDeshabilitar, setBackgroundBtnDeshabilitar] = useState("#CCCCCC");
@@ -79,6 +81,8 @@ export default function ClienteViewDetail() {
   const [endDateStatBarra, setEndDateStatBarra] = useState(dayjs().endOf('month'));
   const [startDateStatTable, setStartDateStatTable] = useState(dayjs().subtract(5, 'month').startOf('month'));
   const [endDateStatTable, setEndDateStatTable] = useState(dayjs().endOf('month'));
+  const [startDateStatExp, setStartDateStatExp] = useState(dayjs().subtract(5, 'month').startOf('month'));
+  const [endDateStatExp, setEndDateStatExp] = useState(dayjs().endOf('month'));
   const [costoText, setCostoText] = useState('');
   const [cantIniText, setCantIniText] = useState('');
   const [urlImagenS3 , setUrlImagenS3] = useState('');
@@ -98,21 +102,23 @@ export default function ClienteViewDetail() {
   const [nacimiento,setNacimiento]=useState(dayjs())
   const [puntos,setPuntos]=useState(0)
   const [activo,setActivo]=useState(false)
-  
+  const [categorias, setCategorias] = useState([]);
   const [startDate, setStartDate] = useState(dayjs());
   const [tiendas, setTiendas] = useState([]);
   const [selectedTienda, setSelectedTienda] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [tipoCupones, setTipoCupones] = useState([]);
   const [selectedTipoCupon, setSelectedTipoCupon] = useState('');
+  const [searchTienda, setSearchTienda] = useState('');
   const [searchTermTipoCupones, setSearchTermTipoCupones] = useState('');
+  const [dateRange, setDateRange] = React.useState([null, null]);
   const labelDisplayedRows = ({ from, to, count }) => `${from}-${to} de ${count}`;
   const navigate=useNavigate();
 
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
     // eslint-disable-next-line no-shadow
-    async function loadCuponData(searchTerm,searchTermTipoCupones) {
+    async function loadCuponData(searchTerm,searchTermTipoCupones,searchTienda) {
       console.log("CuponData")
       setLoading(true);
       try {
@@ -197,6 +203,16 @@ export default function ClienteViewDetail() {
           throw new Error('Network response was not ok');
         }
         console.log("Cupon detalle x cliente")
+
+        const resultsTipo =  await getCategoriaTiendas(token,refreshToken,searchTerm);
+        console.log("viendo resultados categ tienda", resultsTipo)
+        setCategorias(resultsTipo.cattiendas);
+
+        const resultsTiend =  await getTiendas(token,refreshToken,searchTienda);
+        console.log("viendo resultados", resultsTiend.tiendas)
+        setTiendas(resultsTiend.tiendas);
+
+
         const data3 = await response.json();
         console.log(data3)
         if(data3.newToken){
@@ -359,6 +375,37 @@ export default function ClienteViewDetail() {
     }
       loadDashEventonCateg();
   }, [endDateStatEvento, idParam, startDateStatEvento]);
+
+  const handleSearchTienda = async (e) => {
+    e.preventDefault();
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const { token, refreshToken } = userStringify;
+    const results = await getTiendas(token,refreshToken,searchTerm);
+    console.log("viendo resultados", results.tiendas)
+    setTiendas(results.tiendas);
+  };
+
+  const changeTiendaSearch = async (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value)
+  };
+
+  const handleSearchCategoria = async (e) => {
+    e.preventDefault();
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const { token, refreshToken } = userStringify;
+    const results = await getCategoriaTiendas(token,refreshToken,searchTerm);
+    console.log("viendo resultados categorias tiendas solo res", results)
+    console.log("viendo resultados categorias tiendas", results.categorias)
+    setCategorias(results.categorias);
+  };
+
+  const changeCategoriaSearch = async (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value)
+  };
 
   useEffect(() => {
     // Suponiendo que tienes una función para cargar datos de un cupón por su id
@@ -985,9 +1032,13 @@ export default function ClienteViewDetail() {
                       }} >
                       <Grid container spacing={2}>
                         <Grid item xs={12}>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Grid container spacing={2}>
-                              <Grid item xs={12} sm={6}>
+                          <div>
+                            <h4 style={{ textAlign: 'center' }}>Lista de Cupones Canjeados</h4>
+                          </div>
+                        </Grid>
+                        <Grid container item xs={12}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>                   
+                              <Grid item xs={2}>
                                 <DatePicker
                                   label="Fecha inicial"
                                   value={startDateStatTable}
@@ -995,7 +1046,7 @@ export default function ClienteViewDetail() {
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
-                              <Grid item xs={12} sm={6}>
+                              <Grid item xs={2}>
                                 <DatePicker
                                   label="Fecha final"
                                   value={endDateStatTable}
@@ -1003,7 +1054,109 @@ export default function ClienteViewDetail() {
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
-                            </Grid>
+                          </LocalizationProvider>
+                          <Grid item xs={2}>
+                            <FormControl fullWidth>
+                            <InputLabel id="search-select-categoria" >Categoria</InputLabel>
+                            <Select
+                              // Disables auto focus on MenuItems and allows TextField to be in focus
+                              MenuProps={{ autoFocus: false }}
+
+                              labelId="search-select-categoria"
+                              id="search-categoria"
+                              value={selectedCategoria}
+                              label="Elegir Tienda"
+                              name=""
+                              onChange={(e) => setSelectedCategoria(e.target.value)}
+                              // This prevents rendering empty string in Select's value
+                              // if search text would exclude currently selected option.
+
+                            >
+                              <ListSubheader>
+                                <TextField
+                                  size="small"
+                                  autoFocus
+                                  placeholder="Busca una categoria por nombre..."
+                                  fullWidth
+                                  value={searchTerm}
+                                  onChange={changeCategoriaSearch}
+                                  onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <SearchIcon onClick={handleSearchCategoria} />
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </ListSubheader>
+                              {categorias.map((option, i) => (
+                                <MenuItem key={i} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={2}>
+                            <FormControl fullWidth>
+                            <InputLabel id="search-select-tienda">Tienda</InputLabel>
+                            <Select
+                              // Disables auto focus on MenuItems and allows TextField to be in focus
+                              MenuProps={{ autoFocus: false }}
+
+                              labelId="search-select-tienda"
+                              id="search-tienda"
+                              value={selectedTienda}
+                              label="Elegir Tienda"
+                              onChange={(e) => setSelectedTienda(e.target.value)}
+                              // This prevents rendering empty string in Select's value
+                              // if search text would exclude currently selected option.
+
+                            >
+                              <ListSubheader>
+                                <TextField
+                                  size="small"
+                                  autoFocus
+                                  placeholder="Busca una tienda por nombre..."
+                                  fullWidth
+                                  value={searchTerm}
+                                  onChange={changeTermSearch}
+                                  onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <SearchIcon onClick={handleSearch} />
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </ListSubheader>
+                              {tiendas.map((option, i) => (
+                                <MenuItem key={i} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            </FormControl>
+                          </Grid>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>                   
+                              <Grid item xs={2}>
+                                <DatePicker
+                                  label="Fecha inicial"
+                                  value={startDateStatExp}
+                                  onChange={setStartDateStatExp}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
+                              <Grid item xs={2}>
+                                <DatePicker
+                                  label="Fecha final"
+                                  value={endDateStatExp}
+                                  onChange={setEndDateStatExp}
+                                  renderInput={(params) => <TextField {...params} />}
+                                />
+                              </Grid>
                           </LocalizationProvider>
                         </Grid>
                         <Grid item xs={12}>
@@ -1029,9 +1182,6 @@ export default function ClienteViewDetail() {
                               </Box>
                             ) : (
                               <Card >
-                                <div>
-                                  <h4 style={{ textAlign: 'center' }}>Lista de Cupones Canjeados</h4>
-                                </div>
                                 <TableContainer sx={{ overflow: 'unset' }}>
                                   <Table sx={{ minWidth: 800 }}>
                                     <ClientCuponTableHead
