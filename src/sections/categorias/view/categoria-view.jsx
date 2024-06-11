@@ -138,8 +138,9 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
         localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
         console.log("He puesto un nuevo token");
       }
-      if(data.totalCategorias){
-        setTotalCategorias(data.totalCategorias);
+      console.log("Total categorias owo: ", data.totalCatTiendas)
+      if(data.totalCatTiendas){
+        setTotalCategorias(data.totalCatTiendas);
       }
       console.log("Data Categorias:", data.cattiendas)
       setCategoriaData(data.cattiendas); // Actualizar el estado con los datos obtenidos
@@ -161,7 +162,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       try {
         setLoading(true); // Indicar que la carga ha finalizado
         const data = await obtenerCategorias(page,pageSize,searchName); // Obtener los datos de categorías
-        console.log(data.cupones)
+        console.log("Estoy en la pagina:" , page);
         if(data.newToken){
           const storedUser = localStorage.getItem('user');
           const userX = JSON.parse(storedUser);
@@ -169,8 +170,8 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
           localStorage.setItem('user', JSON.stringify(userX)); // Actualiza el cupón en el almacenamiento local
           console.log("He puesto un nuevo token");
         }
-        if(data.totalCategorias){
-          setTotalCategorias(data.totalCategorias);
+        if(data.totalCatTiendas){
+          setTotalCategorias(data.totalCatTiendas);
         }
         console.log("Data Categorias:", data.cattiendas)
         setCategoriaData(data.cattiendas); // Actualizar el estado con los datos obtenidos
