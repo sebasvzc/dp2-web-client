@@ -63,7 +63,7 @@ export default function CategoriaTableRow({
                                         id,
                                        descripcion,
                                        handleClick,
-                                        activo,
+                                      activo,
                                        nombre,
                                        onEditCategoria,
                                        onCategoriaUpdated
@@ -177,11 +177,6 @@ export default function CategoriaTableRow({
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-  console.log(editedCategoria.nombre)
-  console.log(editedCategoria.apellido)
-  console.log(editedCategoria.email)
-  console.log(editedCategoria.password)
-
   
   useEffect(() => {
     /*
@@ -243,8 +238,8 @@ export default function CategoriaTableRow({
                 {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <span className={activo === 1 ? classes.activo : classes.inactivo}>
-                    {activo === 1 ? 'Activo' : 'Inactivo'}
+                <span className={activo ? classes.activo : classes.inactivo}>
+                    {activo ? 'Activo' : 'Inactivo'}
                 </span>
               </Typography>
             </div>
@@ -318,7 +313,7 @@ CategoriaTableRow.propTypes = {
   nombre: PropTypes.string.isRequired,
   descripcion: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  activo: PropTypes.string.isRequired,
+  activo: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
   onEditCategoria: PropTypes.func.isRequired,

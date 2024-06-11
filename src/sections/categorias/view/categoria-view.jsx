@@ -364,7 +364,8 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
           },
           body: JSON.stringify({
             nombre: crearCategoria.nombre,
-            descripcion: crearCategoria.descripcion
+            descripcion: crearCategoria.descripcion,
+            activo: crearCategoria.activo
           }),
         });
         const data = await response.json();
@@ -581,6 +582,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
                       nombre={row.nombre}
                       descripcion={row.descripcion}
                       id={row.id}
+                      activo={row.activo}
                       selected={selected.indexOf(row.id) !== -1}
                       handleClick={(event) => handleClick(event, row.id)}
                       onEditCategoria={handleCambio}
