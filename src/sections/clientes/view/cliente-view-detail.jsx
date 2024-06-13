@@ -789,16 +789,6 @@ export default function ClienteViewDetail() {
           </ThemeProvider>
         </Grid>
         <Grid item xs={12}>
-        <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
-            <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
-              {nombreCompleto}
-            </Typography>
-            <Chip
-              label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
-              color={isActivo ? "success" : "default"}
-              sx={{ fontWeight: 'bold' }}
-            />
-          </Box>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               
@@ -821,62 +811,76 @@ export default function ClienteViewDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box  sx={{ mt: 1 , borderRadius: '8px',  padding: '2%'  }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={3} >
-                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
-                          border: '1px solid',
-                          borderColor: '#A6B0BB',
-                          borderRadius: '8px',
-                          width: '100%', // Ancho fijo del contenedor
-                          height: '200px', // Alto fijo del contenedor
-                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
-                        }}>
-                        <Box
-                          position="relative"
-                          width="100%"
-                          maxWidth="300px"
-                          style={{ width: '100%', height: 'auto'}}
-                        >
-                          <img
-                            src={urlImagenS3}
-                            alt="Imagen Predeterminada"
-                            style={{ width: '100%', height: 'auto' }}
-                          />
-                        </Box>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={9} container spacing={2}>
-                      <Grid item xs={2}>
-                        <TextField fullWidth label="Código" name="codigo" disabled defaultValue={idParam} />
-                      </Grid>  
-                      <Grid item xs={5}>
-                        <TextField fullWidth label="Nombres" name="nombres" disabled defaultValue={nombre} />
-                      </Grid>  
-                      <Grid item xs={5}>
-                        <TextField fullWidth label="Apellidos" name="apellidos" disabled defaultValue={apellido} />
-                      </Grid>   
-                      <Grid item xs={6}>
-                      <TextField fullWidth label="Teléfono" name="codigo" disabled defaultValue={telefono}/>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <TextField fullWidth label="Correo" name="correo" disabled defaultValue={email}/>
-                      </Grid>
-                      <Grid item xs={6}>
-                      <TextField fullWidth label="Género" name="genero" disabled defaultValue={genero}/>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <TextField fullWidth label="Puntos" name="costoPuntos" disabled defaultValue={puntos}/>
-                      </Grid>
-                      
-                    </Grid>
+                <Box>
+                  <Grid item xs={12} sx={{ paddingBottom: '2%', paddingTop:'0%', paddingRight: '0%'}}>
+                    <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+                      <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
+                        {nombreCompleto}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
                   </Grid>
+                  <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={3} >
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                            border: '1px solid',
+                            borderColor: '#A6B0BB',
+                            borderRadius: '8px',
+                            width: '100%', // Ancho fijo del contenedor
+                            height: '200px', // Alto fijo del contenedor
+                            overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                          }}>
+                          <Box
+                            position="relative"
+                            width="100%"
+                            maxWidth="300px"
+                            style={{ width: '100%', height: 'auto'}}
+                          >
+                            <img
+                              src={urlImagenS3}
+                              alt="Imagen Predeterminada"
+                              style={{ width: '100%', height: 'auto' }}
+                            />
+                          </Box>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={9} container spacing={2}>
+                        <Grid item xs={2}>
+                          <TextField fullWidth label="Código" name="codigo" disabled defaultValue={idParam} />
+                        </Grid>  
+                        <Grid item xs={5}>
+                          <TextField fullWidth label="Nombres" name="nombres" disabled defaultValue={nombre} />
+                        </Grid>  
+                        <Grid item xs={5}>
+                          <TextField fullWidth label="Apellidos" name="apellidos" disabled defaultValue={apellido} />
+                        </Grid>   
+                        <Grid item xs={6}>
+                        <TextField fullWidth label="Teléfono" name="codigo" disabled defaultValue={telefono}/>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField fullWidth label="Correo" name="correo" disabled defaultValue={email}/>
+                        </Grid>
+                        <Grid item xs={6}>
+                        <TextField fullWidth label="Género" name="genero" disabled defaultValue={genero}/>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField fullWidth label="Puntos" name="costoPuntos" disabled defaultValue={puntos}/>
+                        </Grid>
+                        
+                      </Grid>
+                    </Grid>
+                  </Box>
                 </Box>
               )}
             </form>
 
           ) : (
-            <Box sx={{ paddingTop: 1 }}>
+            <Box>
               {loading ? (
                 <Box
                   sx={{
@@ -896,375 +900,392 @@ export default function ClienteViewDetail() {
                   </Typography>
                 </Box>
               ) : (
-
-                <Grid container spacing={1} sx={{ padding: '2%' , paddingTop: 0}}>
-
-                  { /*
-                  <Grid  item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
-                    <Card
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        borderRadius: 2,
-                      }} >
-                    <DashboardCuponesMesCliente dataDash={dataDash} />
-                    </Card>
+                <Box>
+                  <Grid item xs={12} sx={{ paddingBottom: '2%', paddingTop:'0%', paddingRight: '0%'}}>
+                    <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+                      <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
+                        {nombreCompleto}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Cliente Activo" : "Cliente Inactivo"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
                   </Grid>
+                  <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
+                    <Grid container spacing={2}  >
 
-                  <Grid item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
-                    <Card
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        borderRadius: 2,
-                      }} >
-                    <DashboardCuponesCategoria dataDash={dataDash} />
-                    </Card>
-                  </Grid>
-                  */ }
-                  <Grid item xs={12} md={6} lg={6}>
-                    <Card
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        mx:2,
-                        my:4,
-                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
-                        border: "1px solid #BFC0C1",
-                        backgroundColor: '#F9FAFB',
-                      }} >
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Grid container spacing={2}>
-                              <Grid item xs={4}>
-                                <DatePicker
-                                  label="Fecha inicial"
-                                  value={startDateStatCupon}
-                                  onChange={setStartDateStatCupon}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                              <Grid item xs={4} >
-                                <DatePicker
-                                  label="Fecha final"
-                                  value={endDateStatCupon}
-                                  onChange={setEndDateStatCupon}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                            </Grid>
-                          </LocalizationProvider>
-                        </Grid>
-                        <Grid item xs={12}>
-                          {loadingDashCuponCateg ? (
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                textAlign: 'center',
-                                height: '25%',
-                                marginTop: '15%', // Ajusta la distancia desde la parte superior
-                                marginBottom: '15%',
-                              }}
-                            >
-                              <CircularProgress color="primary" />
-                              <Typography variant="h6" sx={{ mt: 1 }}>
-                                Cargando...
-                              </Typography>
-                            </Box>
-                          ) : (
-                            <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
-                          )}
-                        </Grid>
+                      { /*
+                      <Grid  item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
+                        <Card
+                          sx={{
+                            px: 3,
+                            py: 5,
+                            borderRadius: 2,
+                          }} >
+                        <DashboardCuponesMesCliente dataDash={dataDash} />
+                        </Card>
                       </Grid>
 
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} md={6} lg={6}>
-                    <Card
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        mx:2,
-                        my:4,
-                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
-                        border: "1px solid #BFC0C1",
-                        backgroundColor: '#F9FAFB',
-                      }} >
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Grid container spacing={2}>
-                              <Grid item xs={3}>
-                                <DatePicker
-                                  label="Fecha inicial"
-                                  value={startDateStatEvento}
-                                  onChange={setStartDateStatEvento}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                              <Grid item xs={3}>
-                                <DatePicker
-                                  label="Fecha final"
-                                  value={endDateStatEvento}
-                                  onChange={setEndDateStatEvento}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                            </Grid>
-                          </LocalizationProvider>
-                        </Grid>
-                        <Grid item xs={12}>
-                          {loadingDashEventoCateg ? (
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                textAlign: 'center',
-                                height: '25%',
-                                marginTop: '1%', // Ajusta la distancia desde la parte superior
-                                marginBottom: '15%',
-                              }}
-                            >
-                              <CircularProgress color="primary" />
-                              <Typography variant="h6" sx={{ mt: 1 }}>
-                                Cargando...
-                              </Typography>
-                            </Box>
-                          ) : (
-                            <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
-                          )}
-
-                        </Grid>
+                      <Grid item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
+                        <Card
+                          sx={{
+                            px: 3,
+                            py: 5,
+                            borderRadius: 2,
+                          }} >
+                        <DashboardCuponesCategoria dataDash={dataDash} />
+                        </Card>
                       </Grid>
-
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} md={12} lg={12}>
-                    <Card
-
-
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        mx:2,
-
-                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
-                        border: "1px solid #BFC0C1",
-                        backgroundColor: '#F9FAFB',
-                      }} >
-                      <DashboardCuponesMesCliente dataDash={dataDash}/>
-                    </Card>
-                  </Grid>
-                  <Grid container spacing={2} sx={{padding: '2%'}}>
-                        <Grid item xs={12} sx={{paddingTop: '2%', paddingBottom: '2%'}}>
-                            <h4>Cupones Canjeados por cliente</h4>
-                        </Grid>
-                        <Grid container item xs={12}>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>                   
-                              <Grid item xs={2}>
-                                <DatePicker
-                                  label="Fecha inicial"
-                                  value={startDateStatTable}
-                                  onChange={setStartDateStatTable}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                              <Grid item xs={2}>
-                                <DatePicker
-                                  label="Fecha final"
-                                  value={endDateStatTable}
-                                  onChange={setEndDateStatTable}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                          </LocalizationProvider>
-                          <Grid item xs={2}>
-                            <FormControl fullWidth>
-                            <InputLabel id="search-select-categoria" >Categoria</InputLabel>
-                            <Select
-                              // Disables auto focus on MenuItems and allows TextField to be in focus
-                              MenuProps={{ autoFocus: false }}
-
-                              labelId="search-select-categoria"
-                              id="search-categoria"
-                              value={selectedCategoria}
-                              label="Elegir Tienda"
-                              name=""
-                              onChange={(e) => setSelectedCategoria(e.target.value)}
-                              // This prevents rendering empty string in Select's value
-                              // if search text would exclude currently selected option.
-
-                            >
-                              <ListSubheader>
-                                <TextField
-                                  size="small"
-                                  autoFocus
-                                  placeholder="Busca una categoria por nombre..."
-                                  fullWidth
-                                  value={searchTerm}
-                                  onChange={changeCategoriaSearch}
-                                  onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start">
-                                        <SearchIcon onClick={handleSearchCategoria} />
-                                      </InputAdornment>
-                                    ),
-                                  }}
-                                />
-                              </ListSubheader>
-                              {categorias.map((option, i) => (
-                                <MenuItem key={i} value={option.id}>
-                                  {option.nombre}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                            </FormControl>
-                          </Grid>
-                          <Grid item xs={2}>
-                            <FormControl fullWidth>
-                            <InputLabel id="search-select-tienda">Tienda</InputLabel>
-                            <Select
-                              // Disables auto focus on MenuItems and allows TextField to be in focus
-                              MenuProps={{ autoFocus: false }}
-
-                              labelId="search-select-tienda"
-                              id="search-tienda"
-                              value={selectedTienda}
-                              label="Elegir Tienda"
-                              onChange={(e) => setSelectedTienda(e.target.value)}
-                              // This prevents rendering empty string in Select's value
-                              // if search text would exclude currently selected option.
-
-                            >
-                              <ListSubheader>
-                                <TextField
-                                  size="small"
-                                  autoFocus
-                                  placeholder="Busca una tienda por nombre..."
-                                  fullWidth
-                                  value={searchTerm}
-                                  onChange={changeTermSearch}
-                                  onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment position="start">
-                                        <SearchIcon onClick={handleSearch} />
-                                      </InputAdornment>
-                                    ),
-                                  }}
-                                />
-                              </ListSubheader>
-                              {tiendas.map((option, i) => (
-                                <MenuItem key={i} value={option.id}>
-                                  {option.nombre}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                            </FormControl>
-                          </Grid>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>                   
-                              <Grid item xs={2}>
-                                <DatePicker
-                                  label="Fecha inicial"
-                                  value={startDateStatExp}
-                                  onChange={setStartDateStatExp}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                              <Grid item xs={2}>
-                                <DatePicker
-                                  label="Fecha final"
-                                  value={endDateStatExp}
-                                  onChange={setEndDateStatExp}
-                                  renderInput={(params) => <TextField {...params} />}
-                                />
-                              </Grid>
-                          </LocalizationProvider>
-                        </Grid>
-                        <Grid item xs={12}>
-
-                          <Grid item xs={12}>
-                            {loadingtableCupon ? (
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  textAlign: 'center',
-                                  height: '25%',
-                                  marginTop: '15%', // Ajusta la distancia desde la parte superior
-                                  marginBottom: '15%',
-                                }}
-                              >
-                                <CircularProgress color="primary" />
-                                <Typography variant="h6" sx={{ mt: 1 }}>
-                                  Cargando...
-                                </Typography>
-                              </Box>
-                            ) : (
-                              <Card >
-                                <TableContainer sx={{ overflow: 'unset' }}>
-                                  <Table sx={{ minWidth: 800 }}>
-                                    <ClientCuponTableHead
-                                      order={order}
-                                      orderBy={orderBy}
-                                      rowCount={dataCupones.length}
-                                      numSelected={selected.length}
-                                      onRequestSort={handleSort}
-                                      headLabel={[
-                                        { id: 'codigo', label: 'Código de Cupon' },
-                                        { id: 'categoria', label: 'Categoria' },
-                                        { id: 'tienda', label: 'Tienda' },
-                                        { id: 'fechaCompra', label: 'Fecha de Canje' },
-                                        { id: 'fechaExpiracion', label: 'Fecha de Expiracion' },
-                                      ]}
+                      */ }
+                      <Grid item xs={12} md={6} lg={6} sx={{marginTop:'0%'}}>
+                        <Card
+                          sx={{
+                            px: 3,
+                            py: 5,
+                            mx:2,
+                            my:4,
+                            minHeight: '500px', // Ajusta la altura mínima según sea necesario
+                            border: "1px solid #BFC0C1",
+                            backgroundColor: '#F9FAFB',
+                            marginTop:'0%',
+                          }} >
+                          <Grid container spacing={2} sx={{marginTop:'0%'}}>
+                            <Grid item xs={12} sx={{marginTop:'0%'}}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <Grid container spacing={2} sx={{marginTop:'0%'}}>
+                                  <Grid item xs={4}>
+                                    <DatePicker
+                                      label="Fecha inicial"
+                                      value={startDateStatCupon}
+                                      onChange={setStartDateStatCupon}
+                                      renderInput={(params) => <TextField {...params} />}
                                     />
-                                    <TableBody>
-                                      {dataCupones
-                                        .map((row) => (
-                                          <CuponxClienteTableRow
-                                            key={row.id}
-                                            id={row.id}
-                                            codigo={row.cupon.codigo}
-                                            categoria={row.cupon.locatario.categoriaTienda.nombre}
-                                            tienda={row.cupon.locatario.nombre}
-                                            fechaCompra={row.fechaCompra}
-                                            fechaExpiracion={row.cupon.fechaExpiracion}
-                                            selected={selected.indexOf(row.id) !== -1}
-                                            handleClick={(event) => handleClick(event, row.id)}
-                                          />
-                                        ))}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>
-
-
-                                <TablePagination
-                                  page={page - 1}
-                                  component="div"
-                                  count={totalClientsCupon}
-                                  rowsPerPage={pageSize}
-                                  onPageChange={handleChangePage}
-                                  labelRowsPerPage="Cupones por página"
-                                  labelDisplayedRows={labelDisplayedRows}
-                                  rowsPerPageOptions={[6, 12, 18]}
-                                  onRowsPerPageChange={handleChangeRowsPerPage}
-                                />
-                              </Card>
-                            )}
+                                  </Grid>
+                                  <Grid item xs={4} >
+                                    <DatePicker
+                                      label="Fecha final"
+                                      value={endDateStatCupon}
+                                      onChange={setEndDateStatCupon}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                                </Grid>
+                              </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={12} sx={{marginTop:'0%'}}>
+                              {loadingDashCuponCateg ? (
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    textAlign: 'center',
+                                    height: '25%',
+                                    marginTop: '15%', // Ajusta la distancia desde la parte superior
+                                    marginBottom: '15%',
+                                  }}
+                                >
+                                  <CircularProgress color="primary" />
+                                  <Typography variant="h6" sx={{ mt: 1 }}>
+                                    Cargando...
+                                  </Typography>
+                                </Box>
+                              ) : (
+                                <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                              )}
+                            </Grid>
                           </Grid>
 
-                        </Grid>
-                  </Grid>
-                </Grid>
+                        </Card>
+                      </Grid>
+                      <Grid item xs={12} md={6} lg={6} sx={{marginTop:'0%'}}>
+                        <Card
+                          sx={{
+                            px: 3,
+                            py: 5,
+                            mx:2,
+                            my:4,
+                            minHeight: '500px', // Ajusta la altura mínima según sea necesario
+                            border: "1px solid #BFC0C1",
+                            backgroundColor: '#F9FAFB',
+                            marginTop:'0%',
+                          }} >
+                          <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={3}>
+                                    <DatePicker
+                                      label="Fecha inicial"
+                                      value={startDateStatEvento}
+                                      onChange={setStartDateStatEvento}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={3}>
+                                    <DatePicker
+                                      label="Fecha final"
+                                      value={endDateStatEvento}
+                                      onChange={setEndDateStatEvento}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                                </Grid>
+                              </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={12}>
+                              {loadingDashEventoCateg ? (
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    textAlign: 'center',
+                                    height: '25%',
+                                    marginTop: '1%', // Ajusta la distancia desde la parte superior
+                                    marginBottom: '15%',
+                                  }}
+                                >
+                                  <CircularProgress color="primary" />
+                                  <Typography variant="h6" sx={{ mt: 1 }}>
+                                    Cargando...
+                                  </Typography>
+                                </Box>
+                              ) : (
+                                <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                              )}
+
+                            </Grid>
+                          </Grid>
+
+                        </Card>
+                      </Grid>
+                      <Grid item xs={12} md={12} lg={12} >
+                        <Card
+
+
+                          sx={{
+                            px: 3,
+                            py: 5,
+                            mx:2,
+
+                            minHeight: '500px', // Ajusta la altura mínima según sea necesario
+                            border: "1px solid #BFC0C1",
+                            backgroundColor: '#F9FAFB',
+                          }} >
+                          <DashboardCuponesMesCliente dataDash={dataDash}/>
+                        </Card>
+                      </Grid>
+                      <Grid container spacing={2} sx={{padding: '2%'}}>
+                            <Grid item xs={12} sx={{paddingTop: '2%', paddingBottom: '2%'}}>
+                                <h4>Cupones Canjeados por cliente</h4>
+                            </Grid>
+                            <Grid container item xs={12}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>                   
+                                  <Grid item xs={2}>
+                                    <DatePicker
+                                      label="Fecha inicial"
+                                      value={startDateStatTable}
+                                      onChange={setStartDateStatTable}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={2}>
+                                    <DatePicker
+                                      label="Fecha final"
+                                      value={endDateStatTable}
+                                      onChange={setEndDateStatTable}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                              </LocalizationProvider>
+                              <Grid item xs={2}>
+                                <FormControl fullWidth>
+                                <InputLabel id="search-select-categoria" >Categoria</InputLabel>
+                                <Select
+                                  // Disables auto focus on MenuItems and allows TextField to be in focus
+                                  MenuProps={{ autoFocus: false }}
+
+                                  labelId="search-select-categoria"
+                                  id="search-categoria"
+                                  value={selectedCategoria}
+                                  label="Elegir Tienda"
+                                  name=""
+                                  onChange={(e) => setSelectedCategoria(e.target.value)}
+                                  // This prevents rendering empty string in Select's value
+                                  // if search text would exclude currently selected option.
+
+                                >
+                                  <ListSubheader>
+                                    <TextField
+                                      size="small"
+                                      autoFocus
+                                      placeholder="Busca una categoria por nombre..."
+                                      fullWidth
+                                      value={searchTerm}
+                                      onChange={changeCategoriaSearch}
+                                      onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                      InputProps={{
+                                        startAdornment: (
+                                          <InputAdornment position="start">
+                                            <SearchIcon onClick={handleSearchCategoria} />
+                                          </InputAdornment>
+                                        ),
+                                      }}
+                                    />
+                                  </ListSubheader>
+                                  {categorias.map((option, i) => (
+                                    <MenuItem key={i} value={option.id}>
+                                      {option.nombre}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                                </FormControl>
+                              </Grid>
+                              <Grid item xs={2}>
+                                <FormControl fullWidth>
+                                <InputLabel id="search-select-tienda">Tienda</InputLabel>
+                                <Select
+                                  // Disables auto focus on MenuItems and allows TextField to be in focus
+                                  MenuProps={{ autoFocus: false }}
+
+                                  labelId="search-select-tienda"
+                                  id="search-tienda"
+                                  value={selectedTienda}
+                                  label="Elegir Tienda"
+                                  onChange={(e) => setSelectedTienda(e.target.value)}
+                                  // This prevents rendering empty string in Select's value
+                                  // if search text would exclude currently selected option.
+
+                                >
+                                  <ListSubheader>
+                                    <TextField
+                                      size="small"
+                                      autoFocus
+                                      placeholder="Busca una tienda por nombre..."
+                                      fullWidth
+                                      value={searchTerm}
+                                      onChange={changeTermSearch}
+                                      onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                      InputProps={{
+                                        startAdornment: (
+                                          <InputAdornment position="start">
+                                            <SearchIcon onClick={handleSearch} />
+                                          </InputAdornment>
+                                        ),
+                                      }}
+                                    />
+                                  </ListSubheader>
+                                  {tiendas.map((option, i) => (
+                                    <MenuItem key={i} value={option.id}>
+                                      {option.nombre}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                                </FormControl>
+                              </Grid>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>                   
+                                  <Grid item xs={2}>
+                                    <DatePicker
+                                      label="Fecha inicial"
+                                      value={startDateStatExp}
+                                      onChange={setStartDateStatExp}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={2}>
+                                    <DatePicker
+                                      label="Fecha final"
+                                      value={endDateStatExp}
+                                      onChange={setEndDateStatExp}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                              </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={12}>
+
+                              <Grid item xs={12}>
+                                {loadingtableCupon ? (
+                                  <Box
+                                    sx={{
+                                      display: 'flex',
+                                      flexDirection: 'column',
+                                      justifyContent: 'center',
+                                      alignItems: 'center',
+                                      textAlign: 'center',
+                                      height: '25%',
+                                      marginTop: '15%', // Ajusta la distancia desde la parte superior
+                                      marginBottom: '15%',
+                                    }}
+                                  >
+                                    <CircularProgress color="primary" />
+                                    <Typography variant="h6" sx={{ mt: 1 }}>
+                                      Cargando...
+                                    </Typography>
+                                  </Box>
+                                ) : (
+                                  <Card >
+                                    <TableContainer sx={{ overflow: 'unset' }}>
+                                      <Table sx={{ minWidth: 800 }}>
+                                        <ClientCuponTableHead
+                                          order={order}
+                                          orderBy={orderBy}
+                                          rowCount={dataCupones.length}
+                                          numSelected={selected.length}
+                                          onRequestSort={handleSort}
+                                          headLabel={[
+                                            { id: 'codigo', label: 'Código de Cupon' },
+                                            { id: 'categoria', label: 'Categoria' },
+                                            { id: 'tienda', label: 'Tienda' },
+                                            { id: 'fechaCompra', label: 'Fecha de Canje' },
+                                            { id: 'fechaExpiracion', label: 'Fecha de Expiracion' },
+                                          ]}
+                                        />
+                                        <TableBody>
+                                          {dataCupones
+                                            .map((row) => (
+                                              <CuponxClienteTableRow
+                                                key={row.id}
+                                                id={row.id}
+                                                codigo={row.cupon.codigo}
+                                                categoria={row.cupon.locatario.categoriaTienda.nombre}
+                                                tienda={row.cupon.locatario.nombre}
+                                                fechaCompra={row.fechaCompra}
+                                                fechaExpiracion={row.cupon.fechaExpiracion}
+                                                selected={selected.indexOf(row.id) !== -1}
+                                                handleClick={(event) => handleClick(event, row.id)}
+                                              />
+                                            ))}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+
+
+                                    <TablePagination
+                                      page={page - 1}
+                                      component="div"
+                                      count={totalClientsCupon}
+                                      rowsPerPage={pageSize}
+                                      onPageChange={handleChangePage}
+                                      labelRowsPerPage="Cupones por página"
+                                      labelDisplayedRows={labelDisplayedRows}
+                                      rowsPerPageOptions={[6, 12, 18]}
+                                      onRowsPerPageChange={handleChangeRowsPerPage}
+                                    />
+                                  </Card>
+                                )}
+                              </Grid>
+
+                            </Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Box>
                 )}
             </Box>
           )}
