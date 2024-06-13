@@ -35,7 +35,7 @@ export default function AppView() {
             <CardContent>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={2}>
                     <DatePicker
                       label="Fecha inicial"
                       value={startDate}
@@ -43,7 +43,7 @@ export default function AppView() {
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={2}>
                     <DatePicker
                       label="Fecha final"
                       value={endDate}
