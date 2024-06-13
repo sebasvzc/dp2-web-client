@@ -228,13 +228,12 @@ export default function CategoriaTableRow({
          <Checkbox disableRipple checked={selected} onChange={handleClick}
          style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
          <div style={{ display: 'flex', alignItems: 'center' }}>
-           <img src="/assets/images/avatars/avatar_1.jpg" alt="Avatar"
-                style={{ width: 100, height: 100, borderRadius: '50%' }} />
+           
            <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
               <Typography variant="h6" component="div">
                 {nombre}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden', WebkitLineClamp: 1 }}>
                 {descripcion}
               </Typography>
               <Typography variant="body2" color="text.secondary">
