@@ -16,8 +16,8 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
       spacing={3}
       direction="row"
       sx={{
-        px: 3,
-        py: 5,
+        px: 1,
+        py: 9.75,
         borderRadius: 2,
         ...sx,
       }}

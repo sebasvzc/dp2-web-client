@@ -1,9 +1,8 @@
-import ApexCharts from 'apexcharts';
 import React, { useEffect, useState } from 'react';
+import ApexCharts from 'apexcharts';
 import PropTypes from 'prop-types';
 
-const FictionBooksSalesChart = ({ dataDash}) => {
-
+const DashboardGeneralBarCategAsist = ({ dataDash}) => {
 
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const FictionBooksSalesChart = ({ dataDash}) => {
         }
       },
 
-      colors:"#005CAE",
+      colors:"#EE8700",
       dataLabels: {
         enabled: true,
         offsetX: 30, // Ajusta la posición horizontal
@@ -46,25 +45,25 @@ const FictionBooksSalesChart = ({ dataDash}) => {
         colors: ['#fff'],
       },
       xaxis: {
-        categories: dataDash.nombreTiendas,
+        categories: dataDash.categoriaTiendas,
       },
     };
 
-    const chart = new ApexCharts(document.querySelector('#fiction-books-sales-chart'), options);
-    chart.render();
+    const chart2 = new ApexCharts(document.querySelector('#dashboard-general-bar-categ-assist'), options);
+    chart2.render();
 
     return () => {
-      chart.destroy();
+      chart2.destroy();
     };
   }, [dataDash]);
 
-  return <div id="fiction-books-sales-chart" />;
+  return <div id="dashboard-general-bar-categ-assist" />;
 };
-FictionBooksSalesChart.propTypes = {
+DashboardGeneralBarCategAsist.propTypes = {
   dataDash: PropTypes.shape({
-    nombreTiendas: PropTypes.arrayOf(PropTypes.string).isRequired,
+    categoriaTiendas: PropTypes.arrayOf(PropTypes.string).isRequired,
     cantidades: PropTypes.arrayOf(PropTypes.number).isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
-export default FictionBooksSalesChart;
+export default DashboardGeneralBarCategAsist;
