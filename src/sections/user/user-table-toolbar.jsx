@@ -30,13 +30,10 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
         height: 120,
         display: 'flex',
         justifyContent: 'space-between',
-
         paddingLeft: '0 !important',
 
       }}
     >
-   
-      
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}

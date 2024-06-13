@@ -730,8 +730,6 @@ export default function EventoDetail() {
                   </Grid>
                   <Grid item xs={12} md={12} lg={12} >
                     <Card
-
-
                       sx={{
                         px: 3,
                         py: 5,

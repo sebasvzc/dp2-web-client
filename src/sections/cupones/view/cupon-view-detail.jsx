@@ -533,7 +533,7 @@ export default function CuponDetail() {
         <Grid item xs={12}>
         <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
             <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
-              {cuponText} - {sumillaText}
+              {sumillaText}
             </Typography>
             <Chip
               label={isActivo ? "Cupón Activo" : "Cupón Inactivo"}
@@ -593,6 +593,12 @@ export default function CuponDetail() {
                       </Box>
                     </Grid>
                     <Grid item xs={8} container spacing={2}>
+                      <Grid item xs={4}>
+                        <TextField fullWidth label="Codigo" disabled name="codigo" defaultValue={cuponText} />
+                      </Grid>
+                      <Grid item xs={8}>
+                        <TextField fullWidth label="Sumilla" disabled name="sumilla" defaultValue={sumillaText} />
+                      </Grid>
                       <Grid item xs={4}>
                         <FormControl fullWidth>
                           <InputLabel id="search-select-label" disabled={!editable}>Tienda</InputLabel>
@@ -693,10 +699,7 @@ export default function CuponDetail() {
                             ))}
                           </Select>
                         </FormControl>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField fullWidth label="Sumilla" disabled name="sumilla" defaultValue={sumillaText} />
-                      </Grid>
+                      </Grid>        
                       <Grid item xs={6}>
                         <TextField fullWidth label="Descripción Completa" disabled name="descripcionCompleta" multiline rows={4}
                                   defaultValue={descripcionText} />
@@ -756,18 +759,32 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  sx={{ padding: '2%'  }}>
-              <Grid xs={12} >
-                  <DashboardCuponClient dataDash={dataDash}/>
-              </Grid>
-              <Grid xs={12}>
+              <Grid item xs={12} md={12} lg={12} >
+                <Card
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+                        my:4,
+                        border: "1px solid #BFC0C1",
+                        backgroundColor: '#F9FAFB',
+                      }} >
+                  <Grid container  spacing={2}>
+                  <Grid item xs={12}>
+                    <DashboardCuponClient dataDash={dataDash} />
+                  </Grid>
+                </Grid>
+                </Card>
+              <Grid xs={12} sx={{padding: '2%'}}>
+                <h3>Clientes que utilizaron el cupón</h3>
                 <Card>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
                   <UserTableToolbar
                     numSelected={selected.length}
                     filterName={filterName}
                     onFilterName={handleSearch}
                   />
-
+                </Stack>
                     <TableContainer sx={{ overflow: 'unset' }}>
                       <Table sx={{ minWidth: 800 }}>
                         <ClientCuponTableHead
