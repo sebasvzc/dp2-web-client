@@ -842,9 +842,9 @@ export default function ClienteViewDetail() {
                             style={{ width: '100%', height: 'auto'}}
                           >
                             <img 
-                              src="/assets/images/avatars/user-icon-png-transparent.png"  
+                              src="/assets/images/avatars/icon-grey-free-vector.jpg"  
                               alt="Avatar" 
-                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              style={{ width: '90%', height: '90%'}}
                             />
                           </Box>
                         </Box>

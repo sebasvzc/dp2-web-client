@@ -108,7 +108,6 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     };
 
   useEffect(() => {
-    /*
     if(selected.length>0){
       setBackgroundBtnHabilitar("#198754");
       setBackgroundBtnDeshabilitar("#DC3545");
@@ -118,8 +117,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       setBackgroundBtnDeshabilitar("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-      */
-  }, []);
+  }, [selected]);
 
   console.log("Seleccionar")
   console.log(selected)
@@ -184,7 +182,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     };
     fetchData(); // Llamar a la función para obtener los datos al montar el componente
     console.log("searchName despues de buscar",searchName)
-    }, [page, pageSize,searchName]);
+    }, [page, pageSize,searchName, habilitarCategorias]);
 
     useEffect(()=>{
       if(crearCategoria.nombre.length!==0 && crearCategoria.descripcion.length!==0){
@@ -214,8 +212,8 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     const [email, setEmail] = useState('');
 
     const handleDeshabilitar = async () => {
-     /* try {
-        const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
+     try {
+        const response = await fetch('http://localhost:3000/api/categoriaTienda/deshabilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -241,14 +239,14 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       } catch (e) {
         console.error('Error al deshabilitar categoriaes:', e);
       }
-    */};
+    };
     const handleHabilitar = async () => {
-    /*  try {
-        const response = await fetch('http://localhost:3000/api/user/habilitar', {
+    try {
+        const response = await fetch('http://localhost:3000/api/categoriaTienda/habilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
           },
           body: JSON.stringify({ selected }),
         });
@@ -270,7 +268,8 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
       } catch (e) {
         console.error('Error al habilitar categoriaes:', e);
       }
-    */};
+    };
+
     const handleSort = (event, id) => {
       const isAsc = orderBy === id && order === 'asc';
       console.log("Este es el id que ordena")
