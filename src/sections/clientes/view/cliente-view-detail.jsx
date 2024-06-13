@@ -954,11 +954,12 @@ export default function ClienteViewDetail() {
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2} sx={{marginTop:'0%'}}>
+                                <Grid container spacing={2} >
                                   <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha inicial"
                                       value={startDateStatCupon}
+                                      format="DD/MM/YYYY"
                                       onChange={setStartDateStatCupon}
                                       renderInput={(params) => <TextField {...params} />}
                                     />
@@ -967,6 +968,7 @@ export default function ClienteViewDetail() {
                                     <DatePicker
                                       label="Fecha final"
                                       value={endDateStatCupon}
+                                      format="DD/MM/YYYY"
                                       onChange={setEndDateStatCupon}
                                       renderInput={(params) => <TextField {...params} />}
                                     />
@@ -1013,14 +1015,15 @@ export default function ClienteViewDetail() {
                             backgroundColor: '#F9FAFB',
                             marginTop:'0%',
                           }} >
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                          <Grid container spacing={2} sx={{marginTop:'0%'}}>
+                            <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2}>
+                                <Grid container spacing={2} >
                                   <Grid item xs={3}>
                                     <DatePicker
                                       label="Fecha inicial"
                                       value={startDateStatEvento}
+                                      format="DD/MM/YYYY"
                                       onChange={setStartDateStatEvento}
                                       renderInput={(params) => <TextField {...params} />}
                                     />
@@ -1029,6 +1032,7 @@ export default function ClienteViewDetail() {
                                     <DatePicker
                                       label="Fecha final"
                                       value={endDateStatEvento}
+                                      format="DD/MM/YYYY"
                                       onChange={setEndDateStatEvento}
                                       renderInput={(params) => <TextField {...params} />}
                                     />
