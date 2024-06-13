@@ -744,26 +744,28 @@ export default function TiendaDetail() {
                   </LocalizationProvider>
                 </Grid>
                 <Grid xs={12} md={12} lg={12}>
-                  <Card
-
-
-                    sx={{
-                      px: 3,
-                      py: 5,
-                      mx:2,
-                      my:4
-                    }} >
+                <Card
+                      sx={{
+                        px: 3,
+                        py: 5,
+                        mx:2,
+                        my:4,
+                        border: "1px solid #BFC0C1",
+                        backgroundColor: '#F9FAFB',
+                      }} >
                     <DashboardCuponesTiendaEspecifica dataDash={dataDashCupones}/>
                   </Card>
                 </Grid>
                 <Grid xs={12} sx={{ padding: '2%'  }}>
+                  <h4>Cupones por tienda</h4>
                   <Card>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
                     <UserTableToolbar
                       numSelected={selected.length}
                       filterName={filterName}
                       onFilterName={handleSearch}
                     />
-
+                  </Stack>
                     <TableContainer sx={{ overflow: 'unset' }}>
                       <Table sx={{ minWidth: 800 }}>
                         <ClientCuponTableHead
