@@ -11,7 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ListSubheader from '@mui/material/ListSubheader';
 import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { ClearIcon, DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Tab, Grid, Chip, Tabs, Table, Select, 
   MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
@@ -19,11 +19,12 @@ import {
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-import CuponxClienteTableRow from '../cupon-cliente-table-row'; 
+ 
+import CuponxClienteTableRow from '../cupon-cliente-table-row';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
@@ -79,12 +80,8 @@ export default function ClienteViewDetail() {
   const [startDateStatTable, setStartDateStatTable] = useState(dayjs().subtract(5, 'month').startOf('month'));
   const [endDateStatTable, setEndDateStatTable] = useState(dayjs().endOf('month'));
   const [startDateStatExp, setStartDateStatExp] = useState(dayjs().subtract(5, 'month').startOf('month'));
-  const [endDateStatExp, setEndDateStatExp] = useState(dayjs().endOf('month'));
-  const [costoText, setCostoText] = useState('');
-  const [cantIniText, setCantIniText] = useState('');
-  const [urlImagenS3 , setUrlImagenS3] = useState('');
-  const [cantDisText, setCantDisText] = useState('');
-  const [ordPriorizacionText, setOrdPriorizacionText] = useState('');
+  const [endDateStatExp, setEndDateStatExp] = useState(dayjs().add(6, 'month').endOf('month'));
+
   const [files, setFiles] = React.useState([]);
   const updateFiles = (incommingFiles) => {
     setFiles(incommingFiles);
@@ -104,6 +101,7 @@ export default function ClienteViewDetail() {
   const [tiendas, setTiendas] = useState([]);
   const [selectedTienda, setSelectedTienda] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchTermCateg, setSearchTermCateg] = useState('');
   const [tipoCupones, setTipoCupones] = useState([]);
   const [selectedTipoCupon, setSelectedTipoCupon] = useState('');
   const [searchTienda, setSearchTienda] = useState('');
@@ -393,15 +391,26 @@ export default function ClienteViewDetail() {
     const user = localStorage.getItem('user');
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
-    const results = await getCategoriaTiendas(token,refreshToken,searchTerm);
-    console.log("viendo resultados categorias tiendas solo res", results)
-    console.log("viendo resultados categorias tiendas", results.categorias)
-    setCategorias(results.categorias);
+    const results = await getCategoriaTiendas(token,refreshToken,searchTermCateg);
+
+    console.log("viendo resultados categorias tiendas", results.cattiendas)
+    setCategorias(results.cattiendas);
   };
 
+  const handleEraseSelectedCategoria = async () => {
+    setSearchTermCateg('');
+    setSelectedCategoria('')
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const { token, refreshToken } = userStringify;
+    const results = await getCategoriaTiendas(token, refreshToken, "");
+
+    console.log("viendo resultados categorias tiendas", results.cattiendas);
+    setCategorias(results.cattiendas);
+  };
   const changeCategoriaSearch = async (e) => {
     e.preventDefault();
-    setSearchTerm(e.target.value)
+    setSearchTermCateg(e.target.value)
   };
 
   useEffect(() => {
@@ -485,12 +494,17 @@ export default function ClienteViewDetail() {
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         console.log(idParam)
+        console.log("selectedTienda")
+        console.log(selectedTienda)
+        console.log("selectedCategoria")
+        console.log(selectedCategoria)
         let responseTable="";
         const endDateParam=`${endDateStatTable.date()}/${endDateStatTable.month()+1}/${endDateStatTable.year()}`;
         const startDateParam=`${startDateStatTable.date()}/${startDateStatTable.month()+1}/${startDateStatTable.year()}`;
-
+        const endDateParamExp=`${endDateStatExp.date()}/${endDateStatExp.month()+1}/${endDateStatExp.year()}`;
+        const startDateParamExp=`${startDateStatExp.date()}/${startDateStatExp.month()+1}/${startDateStatExp.year()}`;
         if(searchName===""){
-          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
             method: 'GET',
 
             headers: {
@@ -501,7 +515,7 @@ export default function ClienteViewDetail() {
 
           });
         }else{
-          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
             method: 'GET',
 
             headers: {
@@ -545,7 +559,7 @@ export default function ClienteViewDetail() {
       }
     }
     loadTableData();
-  }, [endDateStatTable, idParam, page, pageSize, searchName, startDateStatTable]);
+  }, [endDateStatTable, idParam, page, pageSize, searchName, startDateStatTable, endDateStatExp, startDateStatExp,selectedTienda,selectedCategoria]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -608,7 +622,19 @@ export default function ClienteViewDetail() {
     const userStringify = JSON.parse(user);
     const { token, refreshToken } = userStringify;
     const results = await getTiendas(token,refreshToken,searchTerm);
-    console.log("viendo resultados", results.tiendas)
+    console.log("viendo resultados tiendas", results.tiendas)
+    setTiendas(results.tiendas);
+  };
+
+  const handleEraseSelectedTienda = async () => {
+    setSearchTerm('');
+    setSelectedTienda('')
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    const { token, refreshToken } = userStringify;
+    const results = await getTiendas(token, refreshToken, "");
+
+    console.log("viendo resultados tiendas", results.tiendas);
     setTiendas(results.tiendas);
   };
   const handleChangeImage = async (e) => {
@@ -1127,7 +1153,7 @@ export default function ClienteViewDetail() {
                                       autoFocus
                                       placeholder="Busca una categoria por nombre..."
                                       fullWidth
-                                      value={searchTerm}
+                                      value={searchTermCateg}
                                       onChange={changeCategoriaSearch}
                                       onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
                                       InputProps={{
@@ -1136,6 +1162,16 @@ export default function ClienteViewDetail() {
                                             <SearchIcon onClick={handleSearchCategoria} />
                                           </InputAdornment>
                                         ),
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              aria-label="clear search"
+                                              onClick={handleEraseSelectedCategoria}
+                                            >
+                                              <ClearIcon />
+                                            </IconButton>
+                                          </InputAdornment>
+                                        )
                                       }}
                                     />
                                   </ListSubheader>
@@ -1178,6 +1214,16 @@ export default function ClienteViewDetail() {
                                             <SearchIcon onClick={handleSearch} />
                                           </InputAdornment>
                                         ),
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              aria-label="clear search"
+                                              onClick={handleEraseSelectedTienda}
+                                            >
+                                              <ClearIcon />
+                                            </IconButton>
+                                          </InputAdornment>
+                                        )
                                       }}
                                     />
                                   </ListSubheader>
@@ -1192,7 +1238,7 @@ export default function ClienteViewDetail() {
                               <LocalizationProvider dateAdapter={AdapterDayjs}>                   
                                   <Grid item xs={2}>
                                     <DatePicker
-                                      label="Fecha inicial"
+                                      label="Fecha de expiracion (inicial)"
                                       value={startDateStatExp}
                                       onChange={setStartDateStatExp}
                                       renderInput={(params) => <TextField {...params} />}
@@ -1200,7 +1246,7 @@ export default function ClienteViewDetail() {
                                   </Grid>
                                   <Grid item xs={2}>
                                     <DatePicker
-                                      label="Fecha final"
+                                      label="Fecha de expiracion (final)"
                                       value={endDateStatExp}
                                       onChange={setEndDateStatExp}
                                       renderInput={(params) => <TextField {...params} />}
