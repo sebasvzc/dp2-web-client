@@ -456,16 +456,6 @@ export default function EventoDetail() {
           </ThemeProvider>
         </Grid>
         <Grid item xs={12}>
-          <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
-            <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
-              {nombreText}
-            </Typography>
-            <Chip
-              label={isActivo ? "Evento Activo" : "Evento Inactivo"}
-              color={isActivo ? "success" : "default"}
-              sx={{ fontWeight: 'bold' }}
-            />
-          </Box>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <Box display="flex" justifyContent="flex-end" alignItems="center" />
@@ -488,138 +478,108 @@ export default function EventoDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 1, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={4} >
-                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
-                          border: '1px solid',
-                          borderColor: '#A6B0BB',
-                          borderRadius: '8px',
-                          width: '100%', // Ancho fijo del contenedor
-                          height: '350px', // Alto fijo del contenedor
-                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
-                        }}>
-                        <Box
-                          position="relative"
-                          width="100%"
-                          maxWidth="300px"
-                          style={{ width: '100%', height: 'auto'}}
-                        >
-                          <img
-                            src={urlImagenS3}
-                            alt="Imagen Predeterminada"
-                            style={{ width: '100%', height: 'auto' }}
-                          />
-                        </Box>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={8} container spacing={2}>
-                      <Grid item xs={6}>
-                        <TextField fullWidth label="Código" name="codigo" 
-                        disabled defaultValue={codigoText}/>
-                      </Grid>
-                      <Grid item xs={6}>
-                      <FormControl fullWidth>
-                          <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
-                          <Select
-                            // Disables auto focus on MenuItems and allows TextField to be in focus
-                            MenuProps={{ autoFocus: false }}
-                            labelId="search-select-label-tipo-evento"
-                            id="search-select-tipo-evento"
-                            value={selectedEvento}
-                            disabled={!editable}
-                            label="Tipo de Evento"
-                            onChange={(e) => setSelectedEvento(e.target.value)}
-                            // This prevents rendering empty string in Select's value
-                            // if search text would exclude currently selected option.
-
+                <Box>
+                  <Grid item xs={12} sx={{ paddingBottom: '2%', paddingTop:'0%', paddingRight: '0%'}}>
+                    <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+                    <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+                        {nombreText}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Evento Activo" : "Evento Inactivo"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
+                  </Grid>
+                  <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4} >
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                            border: '1px solid',
+                            borderColor: '#A6B0BB',
+                            borderRadius: '8px',
+                            width: '100%', // Ancho fijo del contenedor
+                            height: '350px', // Alto fijo del contenedor
+                            overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                          }}>
+                          <Box
+                            position="relative"
+                            width="100%"
+                            maxWidth="300px"
+                            style={{ width: '100%', height: 'auto'}}
                           >
-                            <ListSubheader>
-                              <TextField
-                                size="small"
-                                autoFocus
-                                placeholder="Buscar tipo por nombre..."
-                                fullWidth
-                                value={searchTerm}
-                                onChange={changeTermSearch}
-                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <SearchIcon onClick={handleSearch} />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-                            </ListSubheader>
-                            {eventos.map((option, i) => (
-                              <MenuItem key={i} value={option.id}>
-                                {option.nombre}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                  </FormControl>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField fullWidth  label="Descripción Completa" name="descripcion" 
-                        multiline rows={3} disabled defaultValue={descripcionText}/>
-                      </Grid>
-                      <Grid item xs={6}>
-                      <FormControl fullWidth>
-                        <InputLabel 
-                        id="search-select-label-ubicacion" >Ubicación</InputLabel>
-                        <Select
-                          // Disables auto focus on MenuItems and allows TextField to be in focus
-                          MenuProps={{ autoFocus: false }}
-                          labelId="search-select-label-ubicacion"
-                          id="search-select-ubicacion"
-                          value={selectedLugar}
-                          disabled={!editable}
-                          label="Elegir Ubicacion"
-                          onChange={(e) => setSelectedLugar(e.target.value)}
-                          // This prevents rendering empty string in Select's value
-                          // if search text would exclude currently selected option.
-
-                        >
-                          <ListSubheader>
-                            <TextField
-                              size="small"
-                              autoFocus
-                              placeholder="Buscar lugar por nombre..."
-                              fullWidth
-                              value={searchLugar}
-                              onChange={changeLugarSearch}
-                              onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SearchIcon onClick={handleLugarEvento} />
-                                  </InputAdornment>
-                                )
-                              }}
+                            <img
+                              src={urlImagenS3}
+                              alt="Imagen Predeterminada"
+                              style={{ width: '100%', height: 'auto' }}
                             />
-                          </ListSubheader>
-                          {lugar.map((option, i) => (
-                            <MenuItem key={i} value={option.id}>
-                              {option.nombre}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                          </Box>
+                        </Box>
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid item xs={8} container spacing={2}>
+                        <Grid item xs={6}>
+                          <TextField fullWidth label="Código" name="codigo" 
+                          disabled defaultValue={codigoText}/>
+                        </Grid>
+                        <Grid item xs={6}>
+                        <FormControl fullWidth>
+                            <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
+                            <Select
+                              // Disables auto focus on MenuItems and allows TextField to be in focus
+                              MenuProps={{ autoFocus: false }}
+                              labelId="search-select-label-tipo-evento"
+                              id="search-select-tipo-evento"
+                              value={selectedEvento}
+                              disabled={!editable}
+                              label="Tipo de Evento"
+                              onChange={(e) => setSelectedEvento(e.target.value)}
+                              // This prevents rendering empty string in Select's value
+                              // if search text would exclude currently selected option.
+
+                            >
+                              <ListSubheader>
+                                <TextField
+                                  size="small"
+                                  autoFocus
+                                  placeholder="Buscar tipo por nombre..."
+                                  fullWidth
+                                  value={searchTerm}
+                                  onChange={changeTermSearch}
+                                  onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <SearchIcon onClick={handleSearch} />
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </ListSubheader>
+                              {eventos.map((option, i) => (
+                                <MenuItem key={i} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                    </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField fullWidth  label="Descripción Completa" name="descripcion" 
+                          multiline rows={3} disabled defaultValue={descripcionText}/>
+                        </Grid>
+                        <Grid item xs={6}>
                         <FormControl fullWidth>
                           <InputLabel 
-                          id="search-select-label-tienda" >Tienda</InputLabel>
+                          id="search-select-label-ubicacion" >Ubicación</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
                             MenuProps={{ autoFocus: false }}
-                            labelId="search-select-label-tienda"
-                            id="search-select-tienda"
-                            value={selectedTienda}
+                            labelId="search-select-label-ubicacion"
+                            id="search-select-ubicacion"
+                            value={selectedLugar}
                             disabled={!editable}
-                            label="Elegir Tienda"
-                            onChange={(e) => setSelectedTienda(e.target.value)}
+                            label="Elegir Ubicacion"
+                            onChange={(e) => setSelectedLugar(e.target.value)}
                             // This prevents rendering empty string in Select's value
                             // if search text would exclude currently selected option.
 
@@ -628,63 +588,107 @@ export default function EventoDetail() {
                               <TextField
                                 size="small"
                                 autoFocus
-                                placeholder="Buscar tienda por nombre..."
+                                placeholder="Buscar lugar por nombre..."
                                 fullWidth
-                                value={searchTienda}
-                                onChange={changeTiendaSearch}
+                                value={searchLugar}
+                                onChange={changeLugarSearch}
                                 onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
                                 InputProps={{
                                   startAdornment: (
                                     <InputAdornment position="start">
-                                      <SearchIcon onClick={handleTiendaEvento} />
+                                      <SearchIcon onClick={handleLugarEvento} />
                                     </InputAdornment>
                                   )
                                 }}
                               />
                             </ListSubheader>
-                            {tienda.map((option, i) => (
+                            {lugar.map((option, i) => (
                               <MenuItem key={i} value={option.id}>
                                 {option.nombre}
                               </MenuItem>
                             ))}
                           </Select>
                         </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <FormControl fullWidth>
+                            <InputLabel 
+                            id="search-select-label-tienda" >Tienda</InputLabel>
+                            <Select
+                              // Disables auto focus on MenuItems and allows TextField to be in focus
+                              MenuProps={{ autoFocus: false }}
+                              labelId="search-select-label-tienda"
+                              id="search-select-tienda"
+                              value={selectedTienda}
+                              disabled={!editable}
+                              label="Elegir Tienda"
+                              onChange={(e) => setSelectedTienda(e.target.value)}
+                              // This prevents rendering empty string in Select's value
+                              // if search text would exclude currently selected option.
+
+                            >
+                              <ListSubheader>
+                                <TextField
+                                  size="small"
+                                  autoFocus
+                                  placeholder="Buscar tienda por nombre..."
+                                  fullWidth
+                                  value={searchTienda}
+                                  onChange={changeTiendaSearch}
+                                  onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <SearchIcon onClick={handleTiendaEvento} />
+                                      </InputAdornment>
+                                    )
+                                  }}
+                                />
+                              </ListSubheader>
+                              {tienda.map((option, i) => (
+                                <MenuItem key={i} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                        <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                        <DatePicker
+                          label="Fecha inicio"
+                          value={startDate}
+                          disabled={!editable}
+                          format="DD/MM/YYYY"
+                          sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                        />
+                        </LocalizationProvider>
                       </Grid>
                       <Grid item xs={6}>
-                      <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                      <DatePicker
-                        label="Fecha inicio"
-                        value={startDate}
-                        disabled={!editable}
-                        format="DD/MM/YYYY"
-                        sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                      />
-                      </LocalizationProvider>
+                        <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
+                        <DatePicker
+                          label="Fecha fin"
+                          value={endDate}
+                          disabled={!editable}
+                          format="DD/MM/YYYY"
+                          sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
+                        />
+                        </LocalizationProvider>
+                      </Grid>
+                      
+                      </Grid>       
+                      <Grid item xs={4}>
+                        <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
+                          disabled defaultValue={puntosOtorgadosText}/>
+                      </Grid>   
                     </Grid>
-                    <Grid item xs={6}>
-                      <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
-                      <DatePicker
-                        label="Fecha fin"
-                        value={endDate}
-                        disabled={!editable}
-                        format="DD/MM/YYYY"
-                        sx={{ width: '100%' , marginBottom: 0, paddingBottom: 0}}
-                      />
-                      </LocalizationProvider>
-                    </Grid>
-                    
-                    </Grid>       
-                    <Grid item xs={4}>
-                      <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
-                        disabled defaultValue={puntosOtorgadosText}/>
-                    </Grid>   
-                  </Grid>
+                  </Box>
                 </Box>
               )}
             </form>
 
           ) : (
-            <Box sx={{paddingTop:1}}>
+            <Box>
             {loading ? (
                 <Box
                   sx={{
@@ -704,70 +708,84 @@ export default function EventoDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  >
-
-                <Grid item xs={4} md={4} lg={4} container>
-
-                  <Grid item xs={12} md={12} lg={12} >
-                  <Card
-                    sx={{
-                      px: 3,
-                      py: 5,
-                      mx:2,
-                      my:4,
-                      border: "1px solid #BFC0C1",
-                      backgroundColor: '#F9FAFB',
-                      }} >
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <DashboardEventosAsistentes dataDash={dataDashEventos}/>
-                        </Grid>
-                      </Grid>
-                  </Card>
-                  </Grid>
-                  <Grid item xs={12} md={12} lg={12} >
-                    <Card
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        mx:2,
-                        my:4,
-                        border: "1px solid #BFC0C1",
-                        backgroundColor: '#F9FAFB',
-                      }} >
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <DashboardAsistentes dataDash={dataDashEventos}/>
-                        </Grid>
-                      </Grid>
-                    </Card>
-                  </Grid>
+              <Box>
+                <Grid item xs={12} sx={{ paddingBottom: '2%', paddingTop:'0%', paddingRight: '0%'}}>
+                    <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+                    <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+                        {nombreText}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Evento Activo" : "Evento Inactivo"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
                 </Grid>
-                <Grid item xs={8} md={8} lg={8}>
-                  <Card
-
-
-                    sx={{
-                      px: 3,
-                      py: 5,
-                      mx:2,
-                      my:4,
-                      border: "1px solid #BFC0C1",
-                      backgroundColor: '#F9FAFB',
-                    }} >
-                    <Grid container spacing={2}>
-
-                      <Grid item xs={12}>
-                      <DashboardGeneroEdad dataDash={dataDashEventosAgrupEdadAsist}/>
+                <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
+                  <Grid container spacing={2}  >
+                    <Grid item xs={4} md={4} lg={4} container>
+                      <Grid item xs={12} md={12} lg={12} >
+                      <Card
+                        sx={{
+                          px: 3,
+                          py: 5,
+                          mx:2,
+                          my:4,
+                          border: "1px solid #BFC0C1",
+                          backgroundColor: '#F9FAFB',
+                          }} >
+                          <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                              <DashboardEventosAsistentes dataDash={dataDashEventos}/>
+                            </Grid>
+                          </Grid>
+                      </Card>
                       </Grid>
-
+                      <Grid item xs={12} md={12} lg={12} >
+                        <Card
+                          sx={{
+                            px: 3,
+                            py: 5,
+                            mx:2,
+                            my:4,
+                            border: "1px solid #BFC0C1",
+                            backgroundColor: '#F9FAFB',
+                          }} >
+                          <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                              <DashboardAsistentes dataDash={dataDashEventos}/>
+                            </Grid>
+                          </Grid>
+                        </Card>
+                      </Grid>
                     </Grid>
+                    <Grid item xs={8} md={8} lg={8}>
+                      <Card
 
-                  </Card>
-                </Grid>
-              </Grid>
-              )}
+
+                        sx={{
+                          px: 3,
+                          py: 5,
+                          mx:2,
+                          my:4,
+                          border: "1px solid #BFC0C1",
+                          backgroundColor: '#F9FAFB',
+                        }} >
+                        <Grid container spacing={2}>
+
+                          <Grid item xs={12}>
+                          <DashboardGeneroEdad dataDash={dataDashEventosAgrupEdadAsist}/>
+                          </Grid>
+
+                        </Grid>
+
+                      </Card>
+                    </Grid>
+                  </Grid>
+                </Box >
               </Box >
+              )}
+            </Box >
           )}
         </Grid>
       </Grid>
