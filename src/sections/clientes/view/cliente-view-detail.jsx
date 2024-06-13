@@ -1044,7 +1044,7 @@ export default function ClienteViewDetail() {
                                 <Grid container spacing={2} >
                                   <Grid item xs={3}>
                                     <DatePicker
-                                      label="Fecha inicial"
+                                      label="Fecha de canje (inicial)"
                                       value={startDateStatEvento}
                                       format="DD/MM/YYYY"
                                       onChange={setStartDateStatEvento}
@@ -1053,7 +1053,7 @@ export default function ClienteViewDetail() {
                                   </Grid>
                                   <Grid item xs={3}>
                                     <DatePicker
-                                      label="Fecha final"
+                                      label="Fecha de canje (final)"
                                       value={endDateStatEvento}
                                       format="DD/MM/YYYY"
                                       onChange={setEndDateStatEvento}
@@ -1117,6 +1117,7 @@ export default function ClienteViewDetail() {
                                     <DatePicker
                                       label="Fecha inicial"
                                       value={startDateStatTable}
+                                      format="DD/MM/YYYY"
                                       onChange={setStartDateStatTable}
                                       renderInput={(params) => <TextField {...params} />}
                                     />
@@ -1125,6 +1126,7 @@ export default function ClienteViewDetail() {
                                     <DatePicker
                                       label="Fecha final"
                                       value={endDateStatTable}
+                                      format="DD/MM/YYYY"
                                       onChange={setEndDateStatTable}
                                       renderInput={(params) => <TextField {...params} />}
                                     />
@@ -1240,6 +1242,7 @@ export default function ClienteViewDetail() {
                                     <DatePicker
                                       label="Fecha de expiracion (inicial)"
                                       value={startDateStatExp}
+                                      format="DD/MM/YYYY"
                                       onChange={setStartDateStatExp}
                                       renderInput={(params) => <TextField {...params} />}
                                     />
@@ -1248,6 +1251,7 @@ export default function ClienteViewDetail() {
                                     <DatePicker
                                       label="Fecha de expiracion (final)"
                                       value={endDateStatExp}
+                                      format="DD/MM/YYYY"
                                       onChange={setEndDateStatExp}
                                       renderInput={(params) => <TextField {...params} />}
                                     />

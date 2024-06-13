@@ -35,12 +35,8 @@ export default function CategoriaTableToolbar({ numSelected, filterName, onFilte
 
       }}
     >
-      {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1" style={{ color: "black" }}>
-        {numSelected} {numSelected > 1 ? "seleccionados" : "seleccionado"}
-      </Typography>
-      ) : (
-        <>
+     
+    
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
@@ -53,9 +49,8 @@ export default function CategoriaTableToolbar({ numSelected, filterName, onFilte
       >
         <Iconify icon="eva:search-fill" style={{ width: 20, height: 20 }} />
       </Button>
-    </>
         
-      )}
+
 
     </Toolbar>
   );
