@@ -94,7 +94,7 @@ export default function CategoriaTableRow({
   const handleGuardarCambios = async () => {
     console.log("Categoría a modificar: ", editedCategoria);
     try {
-      const response = await fetch('http://localhost:3000/api/categoriaTienda/editarCategoriaTiendaWeb', {
+      const response = await fetch('http://3.220.179.149/api/api/categoriaTienda/editarCategoriaTiendaWeb', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
