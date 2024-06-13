@@ -563,11 +563,7 @@ export default function CuponDetail() {
                     </Box>
                   </Grid>
                   <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
-                  
                     <Grid container spacing={2}>
-                      
-                      <Grid item xs={12}>
-                      </Grid>
                       <Grid item xs={4} >
                         <Box display="flex" justifyContent="center" alignItems="center" sx={{
                             border: '1px solid',
@@ -774,7 +770,7 @@ export default function CuponDetail() {
                 </Grid>
                 <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
                   <Grid container spacing={2} >
-                    <Grid item xs={12} md={12} lg={12} >
+                    <Grid xs={12} md={12} lg={12} >
                       <Card
                             sx={{
                               px: 3,
@@ -784,12 +780,9 @@ export default function CuponDetail() {
                               border: "1px solid #BFC0C1",
                               backgroundColor: '#F9FAFB',
                             }} >
-                        <Grid container  spacing={2}>
-                        <Grid item xs={12}>
                           <DashboardCuponClient dataDash={dataDash} />
-                        </Grid>
-                      </Grid>
                       </Card>
+                    </Grid>
                     <Grid xs={12} sx={{padding: '2%'}}>
                       <h4>Clientes que utilizaron el cupón</h4>
                       <Card>
@@ -847,7 +840,6 @@ export default function CuponDetail() {
                           onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                       </Card>
-                    </Grid>
                     </Grid>
                   </Grid>
                 </Box>
