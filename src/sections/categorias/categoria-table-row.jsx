@@ -156,6 +156,8 @@ export default function CategoriaTableRow({
   const handleCloseMenu = () => {
     setOpen(null);
   };
+  const [openView, setOpenView] = useState(false); // Estado para controlar la apertura y cierre del modal
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedCategoria({ ...editedCategoria, [name]: value });
@@ -165,9 +167,19 @@ export default function CategoriaTableRow({
     console.log("open edit es true")
     setOpenEdit(true);
   };
+  
 
   const handleCloseModalEdit = () => {
     setOpenEdit(false);
+  };
+
+  const handleOpenModalView = () => {
+    console.log("open edit es true")
+    setOpenView(true);
+  };
+
+  const handleCloseModalView = () => {
+    setOpenView(false);
   };
 
   const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
@@ -187,7 +199,7 @@ export default function CategoriaTableRow({
          <div style={{ display: 'flex', alignItems: 'center' }}>
            
            <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
-              <Typography variant="h6" component="div">
+              <Typography variant="h6" component="div" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {nombre}
               </Typography>
               <Typography variant="body2" color="text.secondary" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden', WebkitLineClamp: 1 }}>
@@ -217,12 +229,51 @@ export default function CategoriaTableRow({
         }}
       >
         <MenuItem onClick={handleCloseMenu}>
+           <IconButton onClick={handleOpenModalView}>
+          <Iconify icon="mdi:eye" sx={{ mr: 1 }} />
+          <span style={{ fontSize: 'smaller' }}>Ver</span>
+           </IconButton>
+        </MenuItem>
+        <MenuItem onClick={handleCloseMenu}>
            <IconButton onClick={handleOpenModalEdit}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
           <span style={{ fontSize: 'smaller' }}>Editar</span>
            </IconButton>
         </MenuItem>
       </Popover>
+      {/* Modal para visualizar usuario */}
+      <Modal open={openView} onClose={handleCloseModalView} aria-labelledby="modal-title">
+        <div className={classes.modalContainer}>
+        <Typography variant="h6" style={{ marginBottom: "20px" }}>Visualizar Usuario</Typography>
+          <Stack direction="column" spacing={1}>
+            <TextField
+              name="nombre"
+              label="Nombre"
+              value={editedCategoria.nombre}
+              fullWidth
+              margin="normal"
+              disabled
+            />
+
+          <TextField
+            name="descripcion"
+            label="Descripcion"
+            sx={{marginTop:10}}
+            value={editedCategoria.descripcion}
+            fullWidth
+            margin="normal"
+            multiline rows={5}
+            disabled
+          />
+          
+          </Stack>
+         <div style={{ display: 'flex', justifyContent: 'right', marginTop: 20 }}>
+          <Button color="error" variant="contained" style={{backgroundColor: '#DC3545'}} onClick={handleCloseModalView}>
+            Salir
+          </Button>
+        </div>
+        </div>
+      </Modal>
       {/* Modal para editar usuario */}
       <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title" >
         <div className={classes.modalContainer}>
