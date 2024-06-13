@@ -841,10 +841,10 @@ export default function ClienteViewDetail() {
                             maxWidth="300px"
                             style={{ width: '100%', height: 'auto'}}
                           >
-                            <img
-                              src={urlImagenS3}
-                              alt="Imagen Predeterminada"
-                              style={{ width: '100%', height: 'auto' }}
+                            <img 
+                              src="/assets/images/avatars/user-icon-png-transparent.png"  
+                              alt="Avatar" 
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
                           </Box>
                         </Box>
