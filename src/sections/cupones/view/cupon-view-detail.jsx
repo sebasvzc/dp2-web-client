@@ -461,9 +461,6 @@ export default function CuponDetail() {
     components: {
       MuiTabs: {
         styleOverrides: {
-          root: {
-            backgroundColor: '#FFFFFF', // Color de fondo para las pestañas
-          },
           indicator: {
             backgroundColor: '#1976d2', // Color del indicador
           },

@@ -447,10 +447,7 @@ export default function TiendaDetail() {
   const theme = createTheme({
     components: {
       MuiTabs: {
-        styleOverrides: {
-          root: {
-            backgroundColor: '#FFFFFF', // Color de fondo para las pestañas
-          },
+        styleOverrides: { 
           indicator: {
             backgroundColor: '#1976d2', // Color del indicador
           },
