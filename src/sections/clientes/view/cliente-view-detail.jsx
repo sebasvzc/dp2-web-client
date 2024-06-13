@@ -3,36 +3,33 @@ import 'dayjs/locale/es-mx';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
-import ListSubheader from '@mui/material/ListSubheader';
+
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import SearchIcon from '@mui/icons-material/Search';
+import ListSubheader from '@mui/material/ListSubheader';
+import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
-  Grid, Chip, MenuItem, Select, FormControl, InputLabel, 
-  Table, TextField, TableBody, TableContainer,
+  Tab, Grid, Chip, Tabs, Table, Select, 
+  MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Tabs, Tab , ThemeProvider, createTheme } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
-import { getTiendas, getTipoCupones, getCategoriaTiendas } from '../../../funciones/api';
-import ClientCuponTableRow from '../../cupones/client-cupon-table-row';
+
+import CuponxClienteTableRow from '../cupon-cliente-table-row'; 
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
 import DashboardCuponesCategoria from '../../overview/DashboardCuponesCategoria';
 import DashboardCuponesMesCliente from '../../overview/DashboardCuponesMesCliente';
+import { getTiendas, getTipoCupones, getCategoriaTiendas } from '../../../funciones/api';
 import DashboardEventosCategorCliente from '../../overview/DashboardEventosCategorCliente';
-import CuponxClienteTableRow from '../cupon-cliente-table-row';
 
 dayjs.locale('es-mx');
 
@@ -48,7 +45,7 @@ export default function ClienteViewDetail() {
   const [loadingDashCuponCateg, setLoadingDashCuponCateg] = useState(true);
   const [loadingDashEventoCateg, setLoadingDashEventoCateg] = useState(true);
   const [loadingtableCupon, setLoadingTableCupon] = useState(true);
-  const [habilitarCupones, setHabilitarCupones] = useState(true);
+
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);

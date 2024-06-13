@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import utc from 'dayjs/plugin/utc';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import InfoIcon from '@mui/icons-material/Info';
+
 import Box from '@mui/material/Box';
+import InfoIcon from '@mui/icons-material/Info';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
@@ -16,30 +16,28 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, TimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
+  Tab,
   Grid,
   Chip,
+  Tabs,
   Table,
   Button,
-  Select,
-  MenuItem,
-  TextField, TableBody, InputLabel, FormControl, TableContainer,
+  Select, MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 
-import List from '@mui/material/List';
+
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
-import { Tabs, Tab , ThemeProvider, createTheme } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
 import Iconify from '../../../components/iconify';
 import UserTableToolbar from '../../user/user-table-toolbar';
 import { getCategoriaTiendas } from '../../../funciones/api';
 import TiendaClienteTableRow from "../tienda-cliente-table-row";
+import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
 import DashboardCuponesTiendaEspecifica from '../../overview/DashboardCuponesTiendaEspecifica';
-import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 
 
 

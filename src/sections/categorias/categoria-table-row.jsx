@@ -89,7 +89,7 @@ export default function CategoriaTableRow({
       setBackgroundBtnMod("#CCCCCC");
       setBotonDeshabilitado(true);
     }
-  }, [editedCategoria.nombre, editedCategoria.descripcion])
+  }, [editedCategoria.nombre, editedCategoria.descripcion, nombreOriginal, descripcionOriginal])
 
   const handleGuardarCambios = async () => {
     console.log("Categoría a modificar: ", editedCategoria);

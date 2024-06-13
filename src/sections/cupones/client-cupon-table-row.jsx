@@ -43,8 +43,7 @@ export default function   ClientCupoTableRow({
                                         apellido,email,telefono,fechaCompra,selected,handleClick
                                       }) {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+
   const classes = useStyles();
   const formatDateTime = (dateString) => {
     const options = {

@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import utc from 'dayjs/plugin/utc';
-import { useEffect, useState } from 'react';
-import { Dropzone, FileMosaic } from '@files-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,26 +15,16 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
   Grid,
-  Chip,
-  InputLabel,
+  Button,
+  Select,
   MenuItem,
-  Select, Table, TableBody, TableContainer,
-  TextField,
+  TextField, InputLabel, FormControl,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import Card from '@mui/material/Card';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 
-import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
 import Iconify from '../../../components/iconify';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import { getTipoEventos,getLugarEvento,getTiendaEvento, } from '../../../funciones/api';
@@ -58,10 +47,7 @@ export default function EventoEdit() {
   const [activo,setActivo]=useState(false)
   const [orderBy, setOrderBy] = useState('id');
   const [urlImagenS3 , setUrlImagenS3] = useState('');
-  const [fileUrl, setFileUrl] = useState('');
-  const filterName= useState("")
-  const [dataDash, setDataDash] = useState({ fechas: [], cantidades: [] });
-  const [totalClientsEvento, setTotalClientsEvento] = useState(10);
+
   const [codigoText, setCodigoText] = useState('');
   const [nombreText, setNombreText] = useState('');
   const [descripcionText, setDescripcionText] = useState('');
