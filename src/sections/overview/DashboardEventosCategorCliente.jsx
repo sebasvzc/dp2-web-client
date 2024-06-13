@@ -21,6 +21,11 @@ const DashboardEventosCategorCliente = ({ dataDash }) => {
       legend: {
         position: 'top', // Establece la posición de la leyenda a la izquierda
       },
+      dataLabels: {
+        style: {
+          fontSize: '16px', // Aumenta el tamaño de la fuente de las etiquetas de datos
+        },
+      },
       colors: [ '#003B91','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'], // Paleta de colores personalizada
       responsive: [{
         breakpoint: 480,

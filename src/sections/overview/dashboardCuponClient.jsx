@@ -51,6 +51,9 @@ const DashboardCuponClient = ({ dataDash }) => {
       yaxis: {
         title: {
           text: 'Cantidad de cupones',
+          style: {
+            fontSize: '16px', // Ajusta el tamaño de la fuente del título
+          }
         },
         labels: {
           formatter: (val) => val.toFixed(0)
