@@ -776,15 +776,15 @@ export default function CuponDetail() {
                 </Grid>
                 </Card>
               <Grid xs={12} sx={{padding: '2%'}}>
-                <h3>Clientes que utilizaron el cupón</h3>
+                <h4>Clientes que utilizaron el cupón</h4>
                 <Card>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
-                  <UserTableToolbar
-                    numSelected={selected.length}
-                    filterName={filterName}
-                    onFilterName={handleSearch}
-                  />
-                </Stack>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
+                    <UserTableToolbar
+                      numSelected={selected.length}
+                      filterName={filterName}
+                      onFilterName={handleSearch}
+                    />
+                  </Stack>
                     <TableContainer sx={{ overflow: 'unset' }}>
                       <Table sx={{ minWidth: 800 }}>
                         <ClientCuponTableHead
@@ -820,8 +820,6 @@ export default function CuponDetail() {
                         </TableBody>
                       </Table>
                     </TableContainer>
-
-
                   <TablePagination
                     page={page-1}
                     component="div"

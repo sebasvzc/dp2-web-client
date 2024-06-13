@@ -42,9 +42,8 @@ const DashboardCuponClient = ({ dataDash }) => {
       title: {
         text: 'Cupones canjeados por mes',
         style: {
+          fontFamily: 'Roboto, sans-serif',
           fontSize: '24px', // Tamaño para h3
-          fontWeight: 'bold', // Negrita para que se vea como un h3
-          paddingLeft: '5px', // Padding izquierda
           textAlign: 'center', // Alineación centrada
       },
       align: 'center', 

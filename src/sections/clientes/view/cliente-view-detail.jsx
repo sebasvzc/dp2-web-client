@@ -900,7 +900,7 @@ export default function ClienteViewDetail() {
                 </Box>
               ) : (
 
-                <Grid container spacing={2} sx={{ padding: '2%'  }}>
+                <Grid container spacing={1} sx={{ padding: '2%' , paddingTop: 0}}>
 
                   { /*
                   <Grid  item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>
@@ -990,8 +990,6 @@ export default function ClienteViewDetail() {
                   </Grid>
                   <Grid item xs={12} md={6} lg={6}>
                     <Card
-
-
                       sx={{
                         px: 3,
                         py: 5,
@@ -1068,22 +1066,9 @@ export default function ClienteViewDetail() {
                       <DashboardCuponesMesCliente dataDash={dataDash}/>
                     </Card>
                   </Grid>
-                  <Grid item xs={12} md={12} lg={12}>
-                    <Card
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        mx:2,
-                        my:4,
-                        minHeight: '500px', // Ajusta la altura mínima según sea necesario
-                        border: "1px solid #BFC0C1",
-                        backgroundColor: '#F9FAFB',
-                      }} >
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <div>
-                            <h4 style={{ textAlign: 'center' }}>Lista de Cupones Canjeados</h4>
-                          </div>
+                  <Grid container spacing={2} sx={{padding: '2%'}}>
+                        <Grid item xs={12} sx={{paddingTop: '2%', paddingBottom: '2%'}}>
+                            <h4>Cupones Canjeados por cliente</h4>
                         </Grid>
                         <Grid container item xs={12}>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>                   
@@ -1283,10 +1268,7 @@ export default function ClienteViewDetail() {
                           </Grid>
 
                         </Grid>
-                      </Grid>
-                    </Card>
                   </Grid>
-
                 </Grid>
                 )}
             </Box>
