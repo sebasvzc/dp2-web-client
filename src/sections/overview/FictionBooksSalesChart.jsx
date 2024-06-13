@@ -1,83 +1,50 @@
-import React, { useEffect } from 'react';
 import ApexCharts from 'apexcharts';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import DashboardEventosCategorCliente from './DashboardEventosCategorCliente';
 
-const FictionBooksSalesChart = () => {
+const FictionBooksSalesChart = ({ dataDash }) => {
+  
   useEffect(() => {
+    console.log("-----------------------------------------------------------------");
+    console.log("dataDashCategoriaAgrupEvento");
+    console.log(dataDash);
     const options = {
       series: [
         {
-          name: 'Deporte',
-          data: [0, 550, 410, 370, 220, 430, 210],
-        },
-        {
-          name: 'Comida',
-          data: [530, 320, 330, 520, 130, 430, 320],
-        },
-        {
-          name: 'Tecnología',
-          data: [120, 170, 1150, 900, 150, 110, 200],
-        },
-        {
-          name: 'Joyería',
-          data: [900, 700, 500, 800, 600, 900, 400],
-        },
-        {
-          name: 'Videojuegos',
-          data: [250, 102, 190, 320, 250, 240, 100],
-        },
+          name: "Visitas",
+          data: dataDash.cantidades,
+        }
       ],
       chart: {
         type: 'bar',
-        height: 350,
-        stacked: true
+        height: 450
       },
       plotOptions: {
         bar: {
-          horizontal: false, // Set horizontal to false to make bars vertical
-          },
+          borderRadius: 4,
+          borderRadiusApplication: 'end',
+          horizontal: true,
+          dataLabels: {
+            position: 'top' // Pone las etiquetas fuera de la barra
+          }
+        }
       },
+
+      colors:"#005CAE",
       dataLabels: {
         enabled: true,
-        formatter: (val) => val > 270 ? val.toFixed(0) : '',
+        offsetX: 30, // Ajusta la posición horizontal
         style: {
-          fontSize: '12px',
-          colors: ['#FFFFFF']
+          colors: ['#000'] // Color de las etiquetas
         }
       },
       stroke: {
         width: 1,
         colors: ['#fff'],
       },
-      title: {
-        text: 'Visitas a Tiendas agrupadas por Categorías Principales',
-      },
       xaxis: {
-        categories: ["Ene 2024", "Feb 2024", "Mar 2024", "Abr 2024", "May 2024", "Jun 2024", "Jul 2024"],
-      },
-      yaxis: {
-        title: {
-          text: 'Número de Visitas',
-        },
-        labels: {
-          formatter (val) {
-            return val.toFixed(0);
-          }
-        }
-      },
-      tooltip: {
-        y: {
-          formatter (val) {
-            return `${val.toFixed(0)  } visitas`;
-          }
-        }
-      },
-      fill: {
-        opacity: 1
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'left',
-        offsetX: 40
+        categories: dataDash.nombreTiendas,
       },
     };
 
@@ -87,9 +54,15 @@ const FictionBooksSalesChart = () => {
     return () => {
       chart.destroy();
     };
-  }, []);
+  }, [dataDash]);
 
   return <div id="fiction-books-sales-chart" />;
+};
+FictionBooksSalesChart.propTypes = {
+  dataDash: PropTypes.arrayOf(PropTypes.shape({
+    nombreTienda: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cantidades: PropTypes.arrayOf(PropTypes.number).isRequired,
+  })).isRequired,
 };
 
 export default FictionBooksSalesChart;
