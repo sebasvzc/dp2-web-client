@@ -52,7 +52,8 @@ const DashboardCuponClient = ({ dataDash }) => {
         title: {
           text: 'Cantidad de cupones',
           style: {
-            fontSize: '16px', // Ajusta el tamaño de la fuente del título
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
           }
         },
         labels: {

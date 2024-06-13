@@ -29,7 +29,8 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
         bar: {
           horizontal: false,
           columnWidth: '55%',
-          endingShape: 'rounded'
+          endingShape: 'rounded',
+          fontSize: '15px',
         },
       },
       stroke: {
@@ -40,13 +41,21 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
       xaxis: {
         title: {
           text: 'Fecha de compra',
+          style: {
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
+          }
         },
         categories:categoriesData,
       },
 
       yaxis: {
         title: {
-          text: 'Cupones canjeados'
+          text: 'Cupones canjeados',
+          style: {
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
+          }
         },
       },
       fill: {

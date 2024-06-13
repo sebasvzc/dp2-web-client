@@ -20,13 +20,17 @@ const DashboardCuponesCategoria = ({ dataDash }) => {
       labels: dataDash[0].categoria,
       legend: {
         position: 'top',
+        fontSize: '15px',
       },
       dataLabels: {
         style: {
-          fontSize: '16px', // Aumenta el tamaño de la fuente de las etiquetas de datos
+          fontSize: '20px',
+          fontWeight: 'normal',
+          color: '#333',
+          fontFamily: 'Roboto, sans-serif',
         },
       },
-      colors: [ '#003B91','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'], // Paleta de colores personalizada
+      colors: ['#1E90FF', '#6495ED', '#87CEEB', '#4682B4', '#4169E1', '#00BFFF', '#6A5ACD', '#483D8B', '#4169E1', '#8A2BE2'], // Paleta de colores bonitos de azules
       responsive: [{
         breakpoint: 480,
         options: {
