@@ -706,7 +706,7 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  sx={{ padding: '1%'  }}>
+              <Grid container spacing={2}  sx={{ padding: '2%'  }}>
               <Grid xs={12} >
                   <DashboardCuponClient dataDash={dataDash}/>
               </Grid>
