@@ -504,7 +504,7 @@ export default function ClienteViewDetail() {
         const endDateParamExp=`${endDateStatExp.date()}/${endDateStatExp.month()+1}/${endDateStatExp.year()}`;
         const startDateParamExp=`${startDateStatExp.date()}/${startDateStatExp.month()+1}/${startDateStatExp.year()}`;
         if(searchName===""){
-          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
+          responseTable = await fetch(`http://3.220.179.149/api/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
             method: 'GET',
 
             headers: {
@@ -515,7 +515,7 @@ export default function ClienteViewDetail() {
 
           });
         }else{
-          responseTable = await fetch(`http://localhost:3000/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
+          responseTable = await fetch(`http://3.220.179.149/api/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
             method: 'GET',
 
             headers: {
