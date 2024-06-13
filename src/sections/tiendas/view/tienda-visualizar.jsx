@@ -515,19 +515,9 @@ export default function TiendaDetail() {
           </ThemeProvider>
         </Grid>
         <Grid item xs={12}>
-        <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
-            <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
-              {tiendaText}
-            </Typography>
-            <Chip
-              label={isActivo ? "Tienda Activa" : "Tienda Inactiva"}
-              color={isActivo ? "success" : "default"}
-              sx={{ fontWeight: 'bold' }}
-            />
-          </Box>
+        
           {view === 'datos' ? (
             <form encType="multipart/form-data">
-
               {loading ? (
                 <Box
                   sx={{
@@ -548,156 +538,169 @@ export default function TiendaDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box  sx={{ mt: 3 , borderRadius: '8px',  padding: '2%'  }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={4} >
-                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
-                          border: '1px solid',
-                          borderColor: '#A6B0BB',
-                          borderRadius: '8px',
-                          width: '100%', // Ancho fijo del contenedor
-                          height: '350px', // Alto fijo del contenedor
-                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
-                        }}>
-                        <Box
-                          position="relative"
-                          width="100%"
-                          maxWidth="300px"
-                          style={{ width: '100%', height: 'auto'}}
-                        >
-                          <img
-                            src={urlImagenS3}
-                            alt="Imagen Predeterminada"
-                            style={{ width: '100%', height: 'auto' }}
-                          />
-                        </Box>
+                <Box>
+                  <Grid item xs={12} sx={{ paddingBottom: '2%', paddingTop:'0%', paddingRight: '0%'}}>
+                      <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+                        <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+                          {tiendaText}
+                        </Typography>
+                        <Chip
+                          label={isActivo ? "Tienda Activa" : "Tienda Inactiva"}
+                          color={isActivo ? "success" : "default"}
+                          sx={{ fontWeight: 'bold' }}
+                        />
                       </Box>
-                    </Grid>
-                    <Grid item xs={8} container spacing={2}>
-                      <Grid item xs={6}>
-                        <FormControl fullWidth>
-                          <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
-                          <Select
-                            // Deshabilita el auto focus en los MenuItems y permite que el TextField esté en foco
-                            MenuProps={{ autoFocus: false }}
-                            labelId="search-select-label"
-                            id="search-select"
-                            disabled={!editable}
-                            value={selectedCategoria}
-                            label="Elegir Tienda"
-                            onChange={(e) => setSelectedCategoria(e.target.value)}
-                            // Esto previene que se renderice una cadena vacía en el valor del Select
-                            // si el texto de búsqueda excluye la opción seleccionada actualmente.
+                  </Grid>
+                  <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4} >
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                            border: '1px solid',
+                            borderColor: '#A6B0BB',
+                            borderRadius: '8px',
+                            width: '100%', // Ancho fijo del contenedor
+                            height: '350px', // Alto fijo del contenedor
+                            overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                          }}>
+                          <Box
+                            position="relative"
+                            width="100%"
+                            maxWidth="300px"
+                            style={{ width: '100%', height: 'auto'}}
                           >
-                            <ListSubheader>
-                              <TextField
-                                size="small"
-                                autoFocus
-                                placeholder="Busca una categoría por nombre..."
-                                fullWidth
-                                value={searchTerm}
-                                onChange={changeTermSearch}
-                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <SearchIcon onClick={handleSearch} />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-                            </ListSubheader>
-                            {categorias.length > 0 ? (
-                              categorias.map((option, i) => (
-                                <MenuItem key={i} value={option.id}>
-                                  {option.nombre}
-                                </MenuItem>
-                              ))
-                            ) : (
-                              <MenuItem disabled>No hay categorías disponibles</MenuItem>
-                            )}
-                          </Select>
-                        </FormControl>
+                            <img
+                              src={urlImagenS3}
+                              alt="Imagen Predeterminada"
+                              style={{ width: '100%', height: 'auto' }}
+                            />
+                          </Box>
+                        </Box>
                       </Grid>
-                      <Grid item xs={6}>
-                        <TextField fullWidth label="Locacion" disabled name="locacion" defaultValue={locacionText}
+                      <Grid item xs={8} container spacing={2}>
+                        <Grid item xs={6}>
+                          <FormControl fullWidth>
+                            <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
+                            <Select
+                              // Deshabilita el auto focus en los MenuItems y permite que el TextField esté en foco
+                              MenuProps={{ autoFocus: false }}
+                              labelId="search-select-label"
+                              id="search-select"
+                              disabled={!editable}
+                              value={selectedCategoria}
+                              label="Elegir Tienda"
+                              onChange={(e) => setSelectedCategoria(e.target.value)}
+                              // Esto previene que se renderice una cadena vacía en el valor del Select
+                              // si el texto de búsqueda excluye la opción seleccionada actualmente.
+                            >
+                              <ListSubheader>
+                                <TextField
+                                  size="small"
+                                  autoFocus
+                                  placeholder="Busca una categoría por nombre..."
+                                  fullWidth
+                                  value={searchTerm}
+                                  onChange={changeTermSearch}
+                                  onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
                                   InputProps={{
-                                    readOnly: true,
-                                  }}/>
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <SearchIcon onClick={handleSearch} />
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </ListSubheader>
+                              {categorias.length > 0 ? (
+                                categorias.map((option, i) => (
+                                  <MenuItem key={i} value={option.id}>
+                                    {option.nombre}
+                                  </MenuItem>
+                                ))
+                              ) : (
+                                <MenuItem disabled>No hay categorías disponibles</MenuItem>
+                              )}
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField fullWidth label="Locacion" disabled name="locacion" defaultValue={locacionText}
+                                    InputProps={{
+                                      readOnly: true,
+                                    }}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField fullWidth label="Descripción" disabled name="descripcion" multiline rows={4}
+                                    defaultValue={descripcionText} InputProps={{
+                                      readOnly: true,
+                                    }}/>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                            <TimePicker disabled
+                              label="Hora Apertura"
+                              value={horaApertura}
+                              sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                            />
+                          </LocalizationProvider>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                            <TimePicker disabled
+                              label="Hora Cierre"
+                              value={horaCierre}
+                              sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
+                            />
+                          </LocalizationProvider>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField fullWidth label="Aforo" disabled name="aforo" defaultValue={aforo}
+                                    InputProps={{
+                                      readOnly: true,
+                                    }}/>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        <TextField fullWidth label="Descripción" disabled name="descripcion" multiline rows={4}
-                                  defaultValue={descripcionText} InputProps={{
-                                    readOnly: true,
-                                  }}/>
+                      <Grid item xs={11.5}>
+                        <Box
+                          sx={{
+                            backgroundColor: '#f4f4f4',
+                            padding: '16px',
+                            borderRadius: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
+                          <Typography variant="body1">Descarga el QR para poder brindarle puntos a los clientes por visitar tu tienda.</Typography>
+                          
+                        </Box>
                       </Grid>
-                      <Grid item xs={6}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                          <TimePicker disabled
-                            label="Hora Apertura"
-                            value={horaApertura}
-                            sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
-                          />
-                        </LocalizationProvider>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                          <TimePicker disabled
-                            label="Hora Cierre"
-                            value={horaCierre}
-                            sx={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}
-                          />
-                        </LocalizationProvider>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <TextField fullWidth label="Aforo" disabled name="aforo" defaultValue={aforo}
-                                  InputProps={{
-                                    readOnly: true,
-                                  }}/>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={11.5}>
-                      <Box
-                        sx={{
-                          backgroundColor: '#f4f4f4',
-                          padding: '16px',
-                          borderRadius: '8px',
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
-                        <Typography variant="body1">Descarga el QR para poder brindarle puntos a los clientes por visitar tu tienda.</Typography>
-                        
-                      </Box>
-                    </Grid>
-                    <Grid item xs={0.5}>
-                    <Button
-                        variant="contained"
-                        color="warning"
-                        sx={{ 
-                          backgroundColor: '#808080', // Color de fondo blanco
-                          color: "#FFFFFF", // Color de texto azul
-                          width: '40px', // Ajusta el ancho del botón para hacerlo circular
-                          height: '40px', // Ajusta la altura del botón para hacerlo circular
-                          borderRadius: '50%', // Hace que el borde sea redondo para formar un círculo
+                      <Grid item xs={0.5}>
+                      <Button
+                          variant="contained"
+                          color="warning"
+                          sx={{ 
+                            backgroundColor: '#808080', // Color de fondo blanco
+                            color: "#FFFFFF", // Color de texto azul
+                            width: '40px', // Ajusta el ancho del botón para hacerlo circular
+                            height: '40px', // Ajusta la altura del botón para hacerlo circular
+                            borderRadius: '50%', // Hace que el borde sea redondo para formar un círculo
 
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          padding: 0, // Elimina el relleno interno del botón
-                          minWidth: 0,
-                        }}
-                        type='submit'
-                        onClick={handleDescargarQR}
-                      ><Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', margin: 'auto' }} /></Button>      
-                    </Grid>
-                  </Grid>   
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: 0, // Elimina el relleno interno del botón
+                            minWidth: 0,
+                          }}
+                          type='submit'
+                          onClick={handleDescargarQR}
+                        ><Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', margin: 'auto' }} /></Button>      
+                      </Grid>
+                    </Grid>   
+                  </Box>
                 </Box>
               )}
             </form>
-
           ) : (
-            <Box sx={{paddingTop:1}}>
+            <Box>
             {loading ? (
                 <Box
                   sx={{
@@ -717,104 +720,120 @@ export default function TiendaDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  sx={{ padding: '2%'  }}>
-                <Grid item xs={12}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={2}>
-                        <DatePicker
-                          label="Fecha inicial"
-                          value={startDateStat}
-                          onChange={setStartDateStat}
-                          format="DD/MM/YYYY"
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Grid>
-                      <Grid item xs={2}>
-                        <DatePicker
-                          label="Fecha final"
-                          value={endDateStat}
-                          onChange={setEndDateStat}
-                          format="DD/MM/YYYY"
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Grid>
+              <Box>
+                <Grid item xs={12} sx={{ paddingBottom: '2%', paddingTop:'0%', paddingRight: '0%'}}>
+                    <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
+                      <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+                        {tiendaText}
+                      </Typography>
+                      <Chip
+                        label={isActivo ? "Tienda Activa" : "Tienda Inactiva"}
+                        color={isActivo ? "success" : "default"}
+                        sx={{ fontWeight: 'bold' }}
+                      />
+                    </Box>
+                </Grid>
+                <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
+                  <Grid container spacing={2} >
+                    <Grid item xs={12}>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={2}>
+                            <DatePicker
+                              label="Fecha inicial"
+                              value={startDateStat}
+                              onChange={setStartDateStat}
+                              format="DD/MM/YYYY"
+                              renderInput={(params) => <TextField {...params} />}
+                            />
+                          </Grid>
+                          <Grid item xs={2}>
+                            <DatePicker
+                              label="Fecha final"
+                              value={endDateStat}
+                              onChange={setEndDateStat}
+                              format="DD/MM/YYYY"
+                              renderInput={(params) => <TextField {...params} />}
+                            />
+                          </Grid>
+                        </Grid>
+                      </LocalizationProvider>
                     </Grid>
-                  </LocalizationProvider>
-                </Grid>
-                <Grid xs={12} md={12} lg={12}>
-                <Card
-                      sx={{
-                        px: 3,
-                        py: 5,
-                        mx:2,
-                        my:4,
-                        border: "1px solid #BFC0C1",
-                        backgroundColor: '#F9FAFB',
-                      }} >
-                    <DashboardCuponesTiendaEspecifica dataDash={dataDashCupones}/>
-                  </Card>
-                </Grid>
-                <Grid xs={12} sx={{ padding: '2%'  }}>
-                  <h4>Cupones por tienda</h4>
-                  <Card>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
-                    <UserTableToolbar
-                      numSelected={selected.length}
-                      filterName={filterName}
-                      onFilterName={handleSearch}
-                    />
-                  </Stack>
-                    <TableContainer sx={{ overflow: 'unset' }}>
-                      <Table sx={{ minWidth: 800 }}>
-                        <ClientCuponTableHead
-                          order={order}
-                          orderBy={orderBy}
-                          rowCount={dataCupones.length}
+                    <Grid xs={12} md={12} lg={12}>
+                    <Card
+                          sx={{
+                            px: 3,
+                            py: 5,
+                            mx:2,
+                            my:4,
+                            border: "1px solid #BFC0C1",
+                            backgroundColor: '#F9FAFB',
+                          }} >
+                        <DashboardCuponesTiendaEspecifica dataDash={dataDashCupones}/>
+                      </Card>
+                    </Grid>
+                    <Grid xs={12} sx={{ padding: '2%'  }}>
+                      <h4>Cupones por tienda</h4>
+                      <Card>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
+                        <UserTableToolbar
                           numSelected={selected.length}
-                          onRequestSort={handleSort}
-                          onSelectAllClick={handleSelectAllClick}
-                          headLabel={[
-                            { id: 'nombre', label: 'Codigo del Cupon' },
-                            { id: 'fidCliente', label: 'Cliente' },
-                            { id: 'usado', label: 'Usado' },
-                            { id: 'fechaCompra', label: 'Fecha de Compra'}
-
-                          ]}
+                          filterName={filterName}
+                          onFilterName={handleSearch}
                         />
-                        <TableBody>
-                          {dataCupones
-                            .map((row) => (
-                              <TiendaClienteTableRow
-                                key={row.id}
-                                id={row.id}
-                                nombre={row.cupon.codigo}
-                                nombreCliente={`${row.cliente.nombre} ${row.cliente.apellidoPaterno}`} // Concatenación de cupon.codigo y cliente.nombre
-                                usado={row.usado}
-                                fechaCompra={row.fechaCompra}
-                                selected={selected.indexOf(row.id) !== -1}
-                                handleClick={(event) => handleClick(event, row.id)}
-                              />
-                            ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
+                      </Stack>
+                        <TableContainer sx={{ overflow: 'unset' }}>
+                          <Table sx={{ minWidth: 800 }}>
+                            <ClientCuponTableHead
+                              order={order}
+                              orderBy={orderBy}
+                              rowCount={dataCupones.length}
+                              numSelected={selected.length}
+                              onRequestSort={handleSort}
+                              onSelectAllClick={handleSelectAllClick}
+                              headLabel={[
+                                { id: 'nombre', label: 'Codigo del Cupon' },
+                                { id: 'fidCliente', label: 'Cliente' },
+                                { id: 'usado', label: 'Usado' },
+                                { id: 'fechaCompra', label: 'Fecha de Compra'}
+
+                              ]}
+                            />
+                            <TableBody>
+                              {dataCupones
+                                .map((row) => (
+                                  <TiendaClienteTableRow
+                                    key={row.id}
+                                    id={row.id}
+                                    nombre={row.cupon.codigo}
+                                    nombreCliente={`${row.cliente.nombre} ${row.cliente.apellidoPaterno}`} // Concatenación de cupon.codigo y cliente.nombre
+                                    usado={row.usado}
+                                    fechaCompra={row.fechaCompra}
+                                    selected={selected.indexOf(row.id) !== -1}
+                                    handleClick={(event) => handleClick(event, row.id)}
+                                  />
+                                ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
 
 
-                    <TablePagination
-                      page={page-1}
-                      component="div"
-                      count={totalCupones}
-                      rowsPerPage={pageSize}
-                      onPageChange={handleChangePage}
-                      labelRowsPerPage="Cupones por página"
-                      labelDisplayedRows={labelDisplayedRows}
-                      rowsPerPageOptions={[6, 12, 18]}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </Card>
-                </Grid>
-              </Grid>
+                        <TablePagination
+                          page={page-1}
+                          component="div"
+                          count={totalCupones}
+                          rowsPerPage={pageSize}
+                          onPageChange={handleChangePage}
+                          labelRowsPerPage="Cupones por página"
+                          labelDisplayedRows={labelDisplayedRows}
+                          rowsPerPageOptions={[6, 12, 18]}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                      </Card>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Box>
               )}
             </Box >
           )}
