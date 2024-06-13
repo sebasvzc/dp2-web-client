@@ -927,8 +927,6 @@ export default function ClienteViewDetail() {
                   */ }
                   <Grid item xs={12} md={6} lg={6}>
                     <Card
-
-
                       sx={{
                         px: 3,
                         py: 5,
@@ -942,7 +940,7 @@ export default function ClienteViewDetail() {
                         <Grid item xs={12}>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <Grid container spacing={2}>
-                              <Grid item xs={12} sm={6}>
+                              <Grid item xs={4}>
                                 <DatePicker
                                   label="Fecha inicial"
                                   value={startDateStatCupon}
@@ -950,7 +948,7 @@ export default function ClienteViewDetail() {
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
-                              <Grid item xs={12} sm={6}>
+                              <Grid item xs={4} >
                                 <DatePicker
                                   label="Fecha final"
                                   value={endDateStatCupon}
@@ -1003,7 +1001,7 @@ export default function ClienteViewDetail() {
                         <Grid item xs={12}>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <Grid container spacing={2}>
-                              <Grid item xs={12} sm={6}>
+                              <Grid item xs={3}>
                                 <DatePicker
                                   label="Fecha inicial"
                                   value={startDateStatEvento}
@@ -1011,7 +1009,7 @@ export default function ClienteViewDetail() {
                                   renderInput={(params) => <TextField {...params} />}
                                 />
                               </Grid>
-                              <Grid item xs={12} sm={6}>
+                              <Grid item xs={3}>
                                 <DatePicker
                                   label="Fecha final"
                                   value={endDateStatEvento}
