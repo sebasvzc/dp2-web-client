@@ -851,7 +851,7 @@ export default function ClienteViewDetail() {
                 </Box>
               ) : (
 
-                <Grid container spacing={2}>
+                <Grid container spacing={2} sx={{ padding: '2%'  }}>
 
                   { /*
                   <Grid  item xs={4} sm={4} lg={4} sx={{ paddingTop: 5 }}>

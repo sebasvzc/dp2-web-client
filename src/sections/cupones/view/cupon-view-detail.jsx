@@ -482,7 +482,7 @@ export default function CuponDetail() {
         </Grid>
         <Grid item xs={12}>
         <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
-            <Typography variant="h3" component="div" sx={{ marginRight: 2 }}>
+            <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
               {cuponText}
             </Typography>
             <Chip
@@ -493,35 +493,7 @@ export default function CuponDetail() {
           </Box>
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-                {editable && ( // Renderiza estos botones solo si 'editable' es true
-                  <>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="success"
-                      sx={{ marginTop: 5, marginRight:2, backgroundColor: "#198754" }}
-                      startIcon={<Iconify icon="ic:baseline-save" />}
-                    >
-                      Guardar
-                    </Button>
-
-                    <Button
-                      variant="contained"
-                      color="error"
-                      startIcon={<Iconify icon="ic:baseline-cancel" />}
-                      sx={{ marginTop: 5, backgroundColor: "#DC3545" }}
-                      onClick={() => {
-                        setEditable(false);
-                        setEditableImg(false); // Cambia 'editableImg' a false para "cancelar" adicionalmente
-                      }} // Opcional: Cambia 'editable' a false para "cancelar"
-                    >
-                      Cancelar
-                    </Button>
-                  </>
-                )}
-              </Box>
-
+              
               {loading ? (
                 <Box
                   sx={{
@@ -541,7 +513,7 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 1, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
+                <Box  sx={{ mt: 1 , borderRadius: '8px',  padding: '2%'  }}>
                  
                   <Grid container spacing={2}>
                     
@@ -714,7 +686,7 @@ export default function CuponDetail() {
             </form>
 
           ) : (
-            <Box sx={{paddingTop:10}}>
+            <Box sx={{paddingTop:1}}>
             {loading ? (
                 <Box
                   sx={{
@@ -734,7 +706,7 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  >
+              <Grid container spacing={2}  sx={{ padding: '1%'  }}>
               <Grid xs={12} >
                   <DashboardCuponClient dataDash={dataDash}/>
               </Grid>

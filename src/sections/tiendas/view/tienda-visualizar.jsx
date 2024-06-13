@@ -671,11 +671,11 @@ export default function TiendaDetail() {
                   </Typography>
                 </Box>
               ):(
-              <Grid container spacing={2}  >
+              <Grid container spacing={2}  sx={{ padding: '2%'  }}>
                 <Grid item xs={12}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
+                      <Grid item xs={2}>
                         <DatePicker
                           label="Fecha inicial"
                           value={startDateStat}
@@ -683,7 +683,7 @@ export default function TiendaDetail() {
                           renderInput={(params) => <TextField {...params} />}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6}>
+                      <Grid item xs={2}>
                         <DatePicker
                           label="Fecha final"
                           value={endDateStat}
