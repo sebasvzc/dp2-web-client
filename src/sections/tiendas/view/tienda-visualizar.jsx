@@ -729,6 +729,7 @@ export default function TiendaDetail() {
                           label="Fecha inicial"
                           value={startDateStat}
                           onChange={setStartDateStat}
+                          format="DD/MM/YYYY"
                           renderInput={(params) => <TextField {...params} />}
                         />
                       </Grid>
@@ -737,6 +738,7 @@ export default function TiendaDetail() {
                           label="Fecha final"
                           value={endDateStat}
                           onChange={setEndDateStat}
+                          format="DD/MM/YYYY"
                           renderInput={(params) => <TextField {...params} />}
                         />
                       </Grid>
