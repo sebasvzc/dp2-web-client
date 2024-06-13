@@ -779,6 +779,7 @@ export default function CuponDetail() {
                               my:4,
                               border: "1px solid #BFC0C1",
                               backgroundColor: '#F9FAFB',
+                              marginTop:'0%',
                             }} >
                           <DashboardCuponClient dataDash={dataDash} />
                       </Card>

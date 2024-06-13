@@ -733,6 +733,7 @@ export default function EventoDetail() {
                           my:4,
                           border: "1px solid #BFC0C1",
                           backgroundColor: '#F9FAFB',
+                          marginTop:'0%',
                           }} >
                           <Grid container spacing={2}>
                             <Grid item xs={12}>
@@ -750,6 +751,7 @@ export default function EventoDetail() {
                             my:4,
                             border: "1px solid #BFC0C1",
                             backgroundColor: '#F9FAFB',
+                            marginTop:'0%',
                           }} >
                           <Grid container spacing={2}>
                             <Grid item xs={12}>
@@ -770,6 +772,7 @@ export default function EventoDetail() {
                           my:4,
                           border: "1px solid #BFC0C1",
                           backgroundColor: '#F9FAFB',
+                          marginTop:'0%',
                         }} >
                         <Grid container spacing={2}>
 
