@@ -1044,7 +1044,7 @@ export default function ClienteViewDetail() {
                                 <Grid container spacing={2} >
                                   <Grid item xs={3}>
                                     <DatePicker
-                                      label="Fecha de canje (inicial)"
+                                      label="Fecha inicial"
                                       value={startDateStatEvento}
                                       format="DD/MM/YYYY"
                                       onChange={setStartDateStatEvento}
@@ -1053,7 +1053,7 @@ export default function ClienteViewDetail() {
                                   </Grid>
                                   <Grid item xs={3}>
                                     <DatePicker
-                                      label="Fecha de canje (final)"
+                                      label="Fecha final"
                                       value={endDateStatEvento}
                                       format="DD/MM/YYYY"
                                       onChange={setEndDateStatEvento}
@@ -1115,7 +1115,7 @@ export default function ClienteViewDetail() {
                               <LocalizationProvider dateAdapter={AdapterDayjs}>                   
                                   <Grid item xs={2}>
                                     <DatePicker
-                                      label="Fecha inicial"
+                                      label="Fecha de canje (inicial)"
                                       value={startDateStatTable}
                                       format="DD/MM/YYYY"
                                       onChange={setStartDateStatTable}
@@ -1124,7 +1124,7 @@ export default function ClienteViewDetail() {
                                   </Grid>
                                   <Grid item xs={2}>
                                     <DatePicker
-                                      label="Fecha final"
+                                      label="Fecha de canje (final)"
                                       value={endDateStatTable}
                                       format="DD/MM/YYYY"
                                       onChange={setEndDateStatTable}
