@@ -22,7 +22,7 @@ import Stack from '@mui/material/Stack';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab , ThemeProvider, createTheme } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; 
@@ -719,6 +719,53 @@ export default function ClienteViewDetail() {
     }
   };
 
+  const theme = createTheme({
+    components: {
+      MuiTabs: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#FFFFFF', // Color de fondo para las pestañas
+          },
+          indicator: {
+            backgroundColor: '#1976d2', // Color del indicador
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            textTransform: 'none',
+            minWidth: 72,
+            fontWeight: 'bold',
+            marginRight: 20,
+            fontFamily: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"Segoe UI"',
+              'Roboto',
+              '"Helvetica Neue"',
+              'Arial',
+              'sans-serif',
+              '"Apple Color Emoji"',
+              '"Segoe UI Emoji"',
+              '"Segoe UI Symbol"',
+            ].join(','),
+            '&:hover': {
+              color: '#40a9ff',
+              opacity: 1,
+            },
+            '&.Mui-selected': {
+              color: '#1890ff',
+              fontWeight: 'bold',
+            },
+            '&:focus': {
+              color: '#40a9ff',
+            },
+          },
+        },
+      },
+    },
+  });
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
@@ -730,17 +777,19 @@ export default function ClienteViewDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
-          <Tabs
-              value={view}
-              onChange={handleSeleccionVisualizar}
-              variant="fullWidth"
-              textColor="primary"
-              indicatorColor="primary"
-              aria-label="pestañas de navegación"
-            >
-              <Tab label="Datos" value="datos" />
-              <Tab label="Estadísticas" value="estadisticas" />
-          </Tabs>
+          <ThemeProvider theme={theme}>
+            <Tabs
+                value={view}
+                onChange={handleSeleccionVisualizar}
+                variant="fullWidth"
+                textColor="primary"
+                indicatorColor="primary"
+                aria-label="pestañas de navegación"
+              >
+                <Tab label="Datos" value="datos" />
+                <Tab label="Estadísticas" value="estadisticas" />
+            </Tabs>
+          </ThemeProvider>
         </Grid>
         <Grid item xs={12}>
         <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>

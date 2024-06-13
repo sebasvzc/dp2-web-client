@@ -33,7 +33,7 @@ import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab, ThemeProvider, createTheme } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Iconify from '../../../components/iconify';
@@ -457,6 +457,54 @@ export default function CuponDetail() {
     }
   };
 
+  const theme = createTheme({
+    components: {
+      MuiTabs: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#FFFFFF', // Color de fondo para las pestañas
+          },
+          indicator: {
+            backgroundColor: '#1976d2', // Color del indicador
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            textTransform: 'none',
+            minWidth: 72,
+            fontWeight: 'bold',
+            marginRight: 20,
+            fontFamily: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"Segoe UI"',
+              'Roboto',
+              '"Helvetica Neue"',
+              'Arial',
+              'sans-serif',
+              '"Apple Color Emoji"',
+              '"Segoe UI Emoji"',
+              '"Segoe UI Symbol"',
+            ].join(','),
+            '&:hover': {
+              color: '#40a9ff',
+              opacity: 1,
+            },
+            '&.Mui-selected': {
+              color: '#1890ff',
+              fontWeight: 'bold',
+            },
+            '&:focus': {
+              color: '#40a9ff',
+            },
+          },
+        },
+      },
+    },
+  });
+  
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
@@ -468,6 +516,7 @@ export default function CuponDetail() {
       <hr style={{ borderColor: 'black', borderWidth: '1px 0 0 0', margin: 0 }} />
       <Grid container spacing={5}  >
         <Grid item xs={3}>
+          <ThemeProvider theme={theme}>
             <Tabs
               value={view}
               onChange={handleSeleccionVisualizar}
@@ -479,6 +528,7 @@ export default function CuponDetail() {
               <Tab label="Datos" value="datos" />
               <Tab label="Estadísticas" value="estadisticas" />
             </Tabs>
+          </ThemeProvider>
         </Grid>
         <Grid item xs={12}>
         <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
