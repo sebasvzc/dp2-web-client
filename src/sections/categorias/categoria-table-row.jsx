@@ -177,49 +177,6 @@ export default function CategoriaTableRow({
   const [backgroundBtnMod, setBackgroundBtnMod] = useState("#CCCCCC");
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
 
-  
-  useEffect(() => {
-    /*
-    const tieneAlMenosUnNumero = /\d/.test(editedCategoria.password);
-    const tieneAlMenosUnaMayuscula = /[A-Z]/.test(editedCategoria.password);
-  
-    let tamanho = false;
-    if (editedCategoria.password.length >= 8) {
-      tamanho=true;
-    }
-    if(tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho 
-      && editedCategoria.email.length!==0 && validarEmail(editedCategoria.email)
-      && editedCategoria.nombre.length!==0 && validarNombre(editedCategoria.nombre)
-      && editedCategoria.apellido.length!==0 && validarNombre(editedCategoria.apellido)){
-      setBackgroundBtnMod("#003B91");
-      setBotonDeshabilitado(false);
-    }else{
-      setBackgroundBtnMod("#CCCCCC");
-      setBotonDeshabilitado(true);
-    }
-    if ((editedCategoria.nombre.length!==0 && validarNombre(editedCategoria.nombre)) || editedCategoria.nombre.length===0) {
-      setMostrarTxtNomb("");
-    } else {
-      setMostrarTxtNomb("Nombre inválido");
-    }
-    if ((editedCategoria.apellido.length!==0 && validarNombre(editedCategoria.apellido)) || editedCategoria.apellido.length===0 ) {
-      setMostrarTxtApp("");
-    } else {
-      setMostrarTxtApp("Apellido Paterno inválido");
-    }
-    if ((editedCategoria.email.length!==0 && validarEmail(editedCategoria.email)) || editedCategoria.email.length===0) {
-      setMostrarTxtCorreo("");
-    } else {
-      setMostrarTxtCorreo("Correo inválido");
-    }
-    
-   if ((tieneAlMenosUnNumero && tieneAlMenosUnaMayuscula && tamanho && editedCategoria.password.trim().length !== 0) || editedCategoria.password.trim().length===0 ) {
-     setMostrarTxtCont("");
-   } else {
-     setMostrarTxtCont("Debe tener 8 digitos o más (mínimo 1 mayúscula y 1 número");
-   } */
- }, []);
- 
 
  return (
    <>
