@@ -15,9 +15,8 @@ import CardContent from '@mui/material/CardContent';
 import CircularProgress from '@mui/material/CircularProgress';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker,LocalizationProvider  } from '@mui/x-date-pickers';
-
+import PropTypes from 'prop-types';
 import AppCurrentVisits from '../app-current-visits';
-import AppWidgetSummary from '../app-widget-summary';
 import FictionBooksSalesChart from '../FictionBooksSalesChart';
 import { getCategoriaTiendas } from '../../../funciones/api';
 import {
@@ -28,7 +27,7 @@ import {
 } from '../../../funciones/apiDashboard';
 import DashboardGeneralGeneroEvento from '../DashboardGeneralGeneroEvento';
 import DashboardGeneralBarCategAsist from '../DashboardGeneralBarCategAsist';
-
+import './AppWidgetSummary.css';
 // Importar localización española
 
 dayjs.locale('es-mx');
@@ -370,15 +369,33 @@ export default function AppView() {
     loadChangeVistiaCategData();
 
   }, [endDate, startDate, selectedOptionCateg]);
+
+  function AppWidgetSummary({ title, total, icon }) {
+    return (
+      <Card className="styled-card">
+        <CardContent className="card-content">
+          <div className="icon-wrapper">{icon}</div>
+          <div className="text-content">
+            <Typography variant="h3" className="number-typography">{total}</Typography>
+            <Typography variant="h5" className="title-typography">{title}</Typography>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  } 
+
+  AppWidgetSummary.propTypes = {
+    title: PropTypes.string.isRequired, // Debe ser una cadena y es obligatorio
+    total: PropTypes.number.isRequired, // Debe ser un número y es obligatorio
+    icon: PropTypes.element.isRequired, // Debe ser un elemento React y es obligatorio
+  };
+
   return (
     <Container maxWidth="xl">
-
-
-
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
             <Card>
-              <CardHeader title="Rango de fechas" />
+              <CardHeader title={<Typography variant="h4">Rango de fechas</Typography>} />
               <CardContent>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <Grid container spacing={2}>
@@ -437,36 +454,32 @@ export default function AppView() {
             <Grid xs={12} sm={12} md={8} lg={8} item container >
                   <Grid item xs={12} sm={6} md={6}>
                     <AppWidgetSummary
-                      title="Número de personas que han asisitdo a un evento"
+                      title="Número de personas que han asistido a un evento"                      
                       total={Number(numPersonasEventos) || 0}
-                      color="success"
-                      icon={<img alt="icon" src="/assets/icons/glass/ic_clientes.png" />}
+                      icon={<img alt="icon" src="/assets/icons/glass/ic_clientes.png" className="icon" />}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
                     <AppWidgetSummary
                       title="Número de usuarios que han interactuado con la aplicación RA"
                       total={Number(usuariosRa) || 0}
-                      color="info"
-                      icon={<img alt="icon" src="/assets/icons/glass/ic_RAMobile.png" />}
+                      icon={<img alt="icon" src="/assets/icons/glass/ic_RAMobile.png" className="icon" />}
                     />
                   </Grid>
                   <Grid xs={12} sm={6} md={6}>
                       <AppWidgetSummary
                         title="Número puntos generados por escaneo y asistencia a eventos"
                         total={Number(puntosEventosAsist) || 0}
-                        color="error"
-                        icon={<img alt="icon" src="/assets/icons/glass/ic_Points.png" />}
+                        icon={<img alt="icon" src="/assets/icons/glass/ic_Points.png" className="icon"/>}
                       />
-                    </Grid>
+                  </Grid>
                   <Grid xs={12} sm={6} md={6}>
                       <AppWidgetSummary
                         title="Número puntos generados por escaneo y asistencia a tiendas"
                         total={Number(puntosTiendasAsist) || 0}
-                        color="error"
-                        icon={<img alt="icon" src="/assets/icons/glass/ic_Points.png" />}
+                        icon={<img alt="icon" src="/assets/icons/glass/ic_Points.png" className="icon" />}
                       />
-                    </Grid>
+                  </Grid>
             </Grid>
 
           <Grid xs={12} sm={12} md={4} lg={4} item container >
@@ -496,7 +509,7 @@ export default function AppView() {
                 borderRadius: 2,
               }} >
               <Grid item xs={12} sm={12} md={12} >
-                <Typography variant="h6" sx={{ mt: 1 }}>
+                <Typography variant="h4" sx={{ mt: 1 }}>
                   Visitas a Tiendas
                 </Typography>
               </Grid>
@@ -552,7 +565,7 @@ export default function AppView() {
                       borderRadius: 2,
                     }} >
                     <Grid item xs={12} sm={12} md={12} >
-                      <Typography variant="h6" sx={{ mt: 1 }}>
+                      <Typography variant="h4" sx={{ mt: 1 }}>
                         Visitas a Tiendas por Categorias de Tiendas
                       </Typography>
                     </Grid>

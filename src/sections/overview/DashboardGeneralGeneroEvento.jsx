@@ -30,7 +30,7 @@ const DashboardGeneralGeneroEvento = ({ dataDash }) => {
           fontFamily: 'Roboto, sans-serif',
         },
       },
-      colors: ['#FF69B4', '#FFD700', '#87CEEB'],
+      colors: ['#FF007F', '#FFBF00', '#007BA7'],
       responsive: [{
         breakpoint: 480,
         options: {
