@@ -1004,7 +1004,7 @@ export default function ClienteViewDetail() {
                     </Card>
                   </Grid>
                   <Grid item xs={12} md={12} lg={12}>
-                    {/*<Card
+                    <Card
 
 
                       sx={{
@@ -1017,7 +1017,7 @@ export default function ClienteViewDetail() {
                         backgroundColor: '#F9FAFB',
                       }} >
                       <DashboardCuponesMesCliente dataDash={dataDash}/>
-                    </Card>*/}
+                    </Card>
                   </Grid>
                   <Grid item xs={12} md={12} lg={12}>
                     <Card
