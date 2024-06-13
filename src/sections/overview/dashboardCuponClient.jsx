@@ -41,10 +41,20 @@ const DashboardCuponClient = ({ dataDash }) => {
       },
       title: {
         text: 'Cupones canjeados por mes',
+        style: {
+          fontFamily: 'Roboto, sans-serif',
+          fontSize: '24px', // Tamaño para h3
+          textAlign: 'center', // Alineación centrada
+      },
+      align: 'center', 
       },
       yaxis: {
         title: {
           text: 'Cantidad de cupones',
+          style: {
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
+          }
         },
         labels: {
           formatter: (val) => val.toFixed(0)

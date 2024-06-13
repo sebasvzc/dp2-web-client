@@ -37,12 +37,20 @@ const DashboardCuponesBarCuponesUsadosCanjeados = ({ dataDash }) => {
       xaxis: {
         title: {
           text: 'Fecha de compra',
+          style: {
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
+          }
         },
         categories
       },
       yaxis: {
         title: {
           text: 'Número de cupones',
+          style: {
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
+          }
         }
       },
       tooltip: {

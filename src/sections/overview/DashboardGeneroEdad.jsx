@@ -57,6 +57,7 @@ const DashboardGeneroEdad = ({ dataDash }) => {
         categories,
 
       },
+      colors: ['#FF69B4', '#FFD700', '#87CEEB']
     };
     const chart = new ApexCharts(document.querySelector('#dashboard-bar-genre-age'), options);
     chart.render();

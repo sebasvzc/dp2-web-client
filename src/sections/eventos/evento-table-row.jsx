@@ -173,7 +173,7 @@ export default function EventoTableRow({
               <Typography variant="body2" color="text.secondary" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden', WebkitLineClamp: 2 }}>
                 {descripcion}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.primary">
                 Fecha: {fechaInicio} - {fechaFin}
               </Typography>
               <Typography variant="body2" color="text.secondary">

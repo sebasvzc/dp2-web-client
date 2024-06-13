@@ -33,16 +33,30 @@ const DashboardCuponesTiendaEspecifica = ({ dataDash }) => {
       },
       title: {
         text: 'Cantidad de cupones usado agrupados por mes',
+        style: {
+          fontFamily: 'Roboto, sans-serif',
+          fontSize: '24px', // Tamaño para h3
+          textAlign: 'center', // Alineación centrada
+      },
+      align: 'center', 
       },
       xaxis: {
         title: {
           text: 'Fecha de compra',
+          style: {
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
+          }
         },
         categories
       },
       yaxis: {
         title: {
           text: 'Número de cupones',
+          style: {
+            fontSize: '16px',
+            fontFamily: 'Roboto, sans-serif',
+          }
         }
       },
       tooltip: {

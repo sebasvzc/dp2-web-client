@@ -20,8 +20,17 @@ const DashboardEventosCategorCliente = ({ dataDash }) => {
       labels: dataDash[0].categoria,
       legend: {
         position: 'top', // Establece la posición de la leyenda a la izquierda
+        fontSize: '15px',
       },
-      colors: [ '#003B91','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'], // Paleta de colores personalizada
+      dataLabels: {
+        style: {
+          fontSize: '20px',
+          fontFamily: 'Roboto, sans-serif',
+          fontWeight: 'normal',
+          color: '#333',
+        },
+      },
+      colors: ['#1E90FF', '#6495ED', '#87CEEB', '#4682B4', '#4169E1', '#00BFFF', '#6A5ACD', '#483D8B', '#4169E1', '#8A2BE2'], // Paleta de colores bonitos de azules
       responsive: [{
         breakpoint: 480,
         options: {
