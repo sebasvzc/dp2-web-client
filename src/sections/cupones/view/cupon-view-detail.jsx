@@ -533,7 +533,7 @@ export default function CuponDetail() {
         <Grid item xs={12}>
         <Box display="flex" alignItems="center" sx={{ paddingLeft: '2%'}}>
             <Typography variant="h3" component="div" sx={{ marginRight: 2 , marginBottom: 1}}>
-              {cuponText}
+              {cuponText} - {sumillaText}
             </Typography>
             <Chip
               label={isActivo ? "Cupón Activo" : "Cupón Inactivo"}
