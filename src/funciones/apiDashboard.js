@@ -156,7 +156,7 @@ export async function getUsersPlayRA(token, refreshToken, endDateParam,startDate
     }
 
     const text = await response.text();
-    const data = text ? JSON.parse(text) : { totalPuntosOtorgadosEvento: 0 };
+    const data = text ? JSON.parse(text) : { cantidad: 0 };
     return data;
   } catch (error) {
     console.error('Error fetching tiendas:', error);
