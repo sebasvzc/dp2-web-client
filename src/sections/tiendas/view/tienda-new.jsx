@@ -281,7 +281,7 @@ const useStyles = makeStyles((theme) => ({
       e.preventDefault();
       const results = await getCategoriaTiendas();
       console.log("viendo resultados", results)
-      setTiendas(results);
+      setTiendas(results.cattiendas);
     };
     
     const changeTermSearch = async (e) => {

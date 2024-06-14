@@ -246,8 +246,8 @@ export default function TiendaDetail() {
     const { token, refreshToken } = userStringify;
     const results = await getCategoriaTiendas(token,refreshToken,searchTerm);
     console.log("viendo resultados categorias tiendas solo res", results)
-    console.log("viendo resultados categorias tiendas", results.categorias)
-    setCategorias(results.categorias);
+    console.log("viendo resultados categorias tiendas", results.cattiendas)
+    setCategorias(results.cattiendas);
   };
   const handleChangeImage = async (e) => {
     e.preventDefault();
