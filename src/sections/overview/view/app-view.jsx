@@ -395,7 +395,7 @@ export default function AppView() {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
             <Card>
-              <CardHeader title={<Typography variant="h4">Rango de fechas</Typography>} />
+              <CardHeader title={<Typography variant="h3">Rango de fechas</Typography>} />
               <CardContent>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <Grid container spacing={2}>
@@ -451,7 +451,7 @@ export default function AppView() {
         ):(
         <Box  >
           <Grid xs={12} md={12} lg={12} container spacing={2}>
-            <Grid xs={12} sm={12} md={8} lg={8} item container >
+            <Grid xs={12} sm={12} md={12} lg={12} item container >
                   <Grid item xs={12} sm={6} md={6}>
                     <AppWidgetSummary
                       title="Número de personas que han asistido a un evento"                      

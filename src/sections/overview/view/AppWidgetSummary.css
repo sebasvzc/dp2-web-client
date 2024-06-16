@@ -1,6 +1,6 @@
 .styled-card {
-  background: linear-gradient(135deg, #20978b 100%, #65D888 0%);
-  color: #fff;
+  background: linear-gradient(135deg,#c8e1f8 100%, #c5d1f8 100%);
+  color: #000000;
   padding: 16px;
   border-radius: 12px;
   display: flex;
@@ -19,7 +19,6 @@
   width: 64px; /* Iconos más grandes */
   height: 64px; /* Iconos más grandes */
   margin-right: 16px; /* Espacio entre la imagen y el texto */
-  filter: brightness(0) invert(1); /* Iconos blancos */
 }
 
 .text-content {
