@@ -777,8 +777,8 @@ export default function CuponDetail() {
                     <Grid xs={12} sx={{padding: '2%'}}>
                       <Card>
                       <Typography variant="h4" sx={{ paddingBottom: 0 }}>Clientes que utilizaron el cupón</Typography>
-                        <Stack direction="row" alignItems="center" sx={{ paddingTop: 0 }} justifyContent="space-between" mb={-3}>
-                          <UserTableToolbar sx={{ paddingTop: 0 }}
+                        <Stack direction="row" alignItems="center" sx={{height: 80, paddingBottom: 2}} justifyContent="space-between" mb={-3}>
+                          <UserTableToolbar
                             numSelected={selected.length}
                             filterName={filterName}
                             onFilterName={handleSearch}

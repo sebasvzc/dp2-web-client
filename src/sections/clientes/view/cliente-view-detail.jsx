@@ -1109,10 +1109,10 @@ export default function ClienteViewDetail() {
                         </Card>
                       </Grid>
                       <Grid container spacing={2} sx={{padding: '2%'}}>
-                            <Grid item xs={12} sx={{paddingTop: '2%', paddingBottom: '2%'}}>
-                                <h4>Cupones Canjeados por cliente</h4>
-                            </Grid>
-                            <Grid container item xs={12}>
+                            
+                            <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por cliente</Typography>                            
+                           
+                            <Grid container item xs={12} sx={{ paddingTop: 0 }}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>                   
                                   <Grid item xs={2}>
                                     <DatePicker

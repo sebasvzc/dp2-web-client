@@ -770,10 +770,10 @@ export default function TiendaDetail() {
                         <DashboardCuponesTiendaEspecifica dataDash={dataDashCupones}/>
                       </Card>
                     </Grid>
-                    <Grid xs={12} sx={{ padding: '2%'  }}>
-                      <h4>Cupones por tienda</h4>
+                    <Grid xs={12} sx={{ padding: '2%'  , paddingTop:0}}>
+                    <Typography variant="h4" sx={{ paddingBottom: 0 }}>Cupones por tienda</Typography>
                       <Card>
-                      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
+                      <Stack direction="row" alignItems="center" sx={{height: 80, paddingBottom: 2}} justifyContent="space-between" mb={-3}>
                         <UserTableToolbar
                           numSelected={selected.length}
                           filterName={filterName}
