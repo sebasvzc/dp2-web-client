@@ -787,6 +787,7 @@ export default function ClienteViewDetail() {
     },
   });
 
+  
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
       <BasicBreadcrumbs />
@@ -806,8 +807,8 @@ export default function ClienteViewDetail() {
                 indicatorColor="primary"
                 aria-label="pestañas de navegación"
               >
-                <Tab label="Datos" value="datos" />
-                <Tab label="Estadísticas" value="estadisticas" />
+                <Tab label={<Typography variant="h5" sx={{ fontWeight: 'bold' }}>Datos</Typography>} value="datos" />
+                <Tab label={<Typography variant="h5" sx={{ fontWeight: 'bold' }}>Estadísticas</Typography>} value="estadisticas" />
             </Tabs>
           </ThemeProvider>
         </Grid>

@@ -512,8 +512,8 @@ export default function CuponDetail() {
               indicatorColor="primary"
               aria-label="pestañas de navegación"
             >
-              <Tab label="Datos" value="datos" />
-              <Tab label="Estadísticas" value="estadisticas" />
+              <Tab label={<Typography variant="h5" sx={{ fontWeight: 'bold' }}>Datos</Typography>} value="datos" />
+              <Tab label={<Typography variant="h5" sx={{ fontWeight: 'bold' }}>Estadísticas</Typography>} value="estadisticas" />
             </Tabs>
           </ThemeProvider>
         </Grid>
@@ -775,10 +775,10 @@ export default function CuponDetail() {
                       </Card>
                     </Grid>
                     <Grid xs={12} sx={{padding: '2%'}}>
-                      <h4>Clientes que utilizaron el cupón</h4>
                       <Card>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={-3}>
-                          <UserTableToolbar
+                      <Typography variant="h4" sx={{ paddingBottom: 0 }}>Clientes que utilizaron el cupón</Typography>
+                        <Stack direction="row" alignItems="center" sx={{ paddingTop: 0 }} justifyContent="space-between" mb={-3}>
+                          <UserTableToolbar sx={{ paddingTop: 0 }}
                             numSelected={selected.length}
                             filterName={filterName}
                             onFilterName={handleSearch}
