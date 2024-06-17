@@ -91,7 +91,7 @@ export default function ClienteTableRow({
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedUser)
     try {
-      const response = await fetch('http://localhost:3000/api/user/modificar', {
+      const response = await fetch('http://3.218.68.113/api/api/user/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

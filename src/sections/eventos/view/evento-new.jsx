@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
         
         let response="";
         console.log("Respuesta", response);
-        response = await fetch(`http://localhost:3000/api/eventos/crear`, {
+        response = await fetch(`http://3.218.68.113/api/api/eventos/crear`, {
           method: 'POST',
           body: formData,
           headers: {
@@ -197,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchTerm===""){
-          response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://3.218.68.113/api/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -206,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://3.218.68.113/api/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
