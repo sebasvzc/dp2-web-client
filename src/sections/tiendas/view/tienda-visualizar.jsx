@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-
+import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import InfoIcon from '@mui/icons-material/Info';
 import Container from '@mui/material/Container';
@@ -22,6 +22,7 @@ import {
   Tabs,
   Table,
   Button,
+  IconButton, 
   Modal,
   Select, MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
@@ -759,12 +760,27 @@ export default function TiendaDetail() {
                           aria-describedby="modal-modal-description"
                         >
                           <Box sx={style}>
+                          <IconButton
+                                aria-label="close"
+                                onClick={handleClose}
+                                sx={{
+                                  position: 'absolute',
+                                  right: 8,
+                                  top: 8,
+                                }}
+                              >
+                                <CloseIcon />
+                              </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2">
                               Código QR Generado
                             </Typography>
-                            <Box id="modal-modal-description" sx={{ mt: 2 }}>
+                            <Box id="modal-modal-description" sx={{ mt: 0 }}>
                               <img src={qrCode} alt="Código QR" style={{ width: '100%' }} />
-                              <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }} onClick={handleDownload}>
+                              <Button variant="contained" color="info" 
+                              sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" ,width: '100%'}} 
+                              onClick={handleDownload}
+                              >
+                                <Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', marginRight: '8px' }} />
                                 Descargar
                               </Button>
                             </Box>
