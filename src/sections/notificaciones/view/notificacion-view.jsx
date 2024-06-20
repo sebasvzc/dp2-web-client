@@ -19,7 +19,7 @@ import DialogContent from '@mui/material/DialogContent';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import { TextField } from '@mui/material';
-
+import InfoIcon from '@mui/icons-material/Info';
 import obtenerNotificaciones from 'src/_mock/notificacion';
 
 import Iconify from 'src/components/iconify';
@@ -238,6 +238,39 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
       return <div>Error al cargar datos de usuarios</div>; // Manejar errores de obtención de datos
     }
     */
+
+    const InformativeBox = ({ text }) => (
+      <Box
+        sx={{
+          backgroundColor: '#f4f4f4',
+          padding: '16px',
+          borderRadius: '8px',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
+        <Typography variant="body1">{text}</Typography>
+      </Box>
+    );
+  
+    const [hour, setHour] = useState('');
+    const [minute, setMinute] = useState('');
+  
+    const handleHourChange = (event) => {
+      const value = event.target.value;
+      if (value === '' || (parseInt(value, 10) >= 0 && parseInt(value, 10) <= 24)) {
+        setHour(value);
+      }
+    };
+  
+    const handleMinuteChange = (event) => {
+      const value = event.target.value;
+      if (value === '' || (parseInt(value, 10) >= 0 && parseInt(value, 10) < 60)) {
+        setMinute(value);
+      }
+    };
+
     return (
       <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }} >
         <BasicBreadcrumbs />
@@ -250,21 +283,53 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
             onFilterName={handleSearch}
           />
           <Stack direction="row" spacing={2}>
-
+          <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }}
+            onClick={handleOpenModal} startIcon={<Iconify icon ="icon-park-solid:config"/>}>
+              Configurar
+            </Button>
             <Dialog open={openModal} onClose={handleCloseModal} 
             fullWidth maxWidth="md" PaperProps={{ style: { maxHeight: '90vh' } }}>
-              <DialogTitle>Invitar usuario</DialogTitle>
+              <DialogTitle>Configurar notificaciones</DialogTitle>
               <DialogContent>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="email"
-                  label="Correo electrónico"
-                  type="email"
-                  fullWidth
-                  value={email}
-                  onChange={handleEmailChange}
-                />
+              <Box
+                sx={{
+                  backgroundColor: '#f4f4f4',
+                  padding: '16px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
+                <Typography variant="body1">Configura la hora de llegada de las notificaciones en la app.</Typography>
+              </Box>
+              
+                <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center' , padding: '2%'}}>
+                  <TextField
+                    id="hour-input"
+                    label="Hora"
+                    variant="outlined"
+                    size="small"
+                    type="number"
+                    value={hour}
+                    onChange={handleHourChange}
+                    inputProps={{ min: 0, max: 24 }} // Restringir valor entre 0 y 24 para horas
+                    sx={{ ml: '16px', width: '60px' }}
+                  />
+                  <Typography variant="body1" sx={{ mx: '8px' }}>:</Typography>
+                  <TextField
+                    id="minute-input"
+                    label="Min"
+                    variant="outlined"
+                    size="small"
+                    type="number"
+                    value={minute}
+                    onChange={handleMinuteChange}
+                    inputProps={{ min: 0, max: 59 }} // Restringir valor entre 0 y 59 para minutos
+                    sx={{ width: '60px' }}
+                  />
+                </Box>
+
               </DialogContent>
               
               <DialogActions>
@@ -272,7 +337,7 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
                   Cancelar
                 </Button>
                 <Button onClick={handleEnviar} color="success" disabled={loading2}>
-                  Enviar
+                  Aceptar
                 </Button>
               </DialogActions>
               
