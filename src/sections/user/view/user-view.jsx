@@ -494,6 +494,10 @@ import UserTableToolbar from '../user-table-toolbar';
                     <UserTableRow
                       nombre={row.nombre}
                       rol={row.rol}
+                      rolNom={row.role.nombre}
+                      rolId={row.role.id}
+                      tiendaId={row.locatarioUser?.id || ''}
+                      tiendaNom={row.locatarioUser?.nombre || ''}
                       id={row.id}
                       emailX={row.email}
                       selected={selected.indexOf(row.id) !== -1}
