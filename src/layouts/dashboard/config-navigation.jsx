@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { Collapse, Modal, Typography, Button,IconButton } from '@mui/material';
+import { Collapse, Modal, Typography, Button, IconButton } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -14,6 +14,7 @@ import SvgColor from 'src/components/svg-color';
 import BasicBreadcrumbs from '../../routes/BasicBreadcrumbs'; // Ruta corregida
 import { usePathname } from '../../routes/hooks';
 import { useAuth } from '../../utils/AuthContext';
+import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ function NavItem({ item, handleOpenQR }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const active = item.path === pathname;
-  
+
   const handleClick = () => {
     if (item.title === 'Ver QR') {
       handleOpenQR();
@@ -34,7 +35,7 @@ function NavItem({ item, handleOpenQR }) {
       navigate(item.path);
     }
   };
-  
+
   return (
     <>
       <ListItemButton onClick={handleClick} sx={{
@@ -43,7 +44,7 @@ function NavItem({ item, handleOpenQR }) {
         typography: 'body2',
         textTransform: 'capitalize',
         fontWeight: 'fontWeightMedium',
-        color:"white",
+        color: "white",
         ...(item.path === usePathname() && {
           color: 'white',
           fontWeight: 'fontWeightSemiBold',
@@ -81,8 +82,50 @@ export default function NavBar() {
   const { logoutUser, getPermissions } = useAuth();
   const [permissions, setPermissions] = useState([]);
   const [openQR, setOpenQR] = useState(false);
+  const [qrCode, setQrCode] = useState('');
+  const [formDatos, setFormDatos] = useState({
+    tipo: "tienda",
+    idReferencia: '1', // Diego por favor tu apoyo con el id (idParam)
+  });
 
-  const handleOpenQR = () => setOpenQR(true);
+  const handleOpenQR = async () => {
+    try {
+      const user = localStorage.getItem('user');
+      const userStringify = JSON.parse(user);
+      const { token, refreshToken } = userStringify;
+      
+      const response = await fetch(`http://localhost:3000/api/qr/generar`, {
+        method: 'POST',
+        body: JSON.stringify(formDatos),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Agregar el token de autorización si es necesario
+        },
+      });
+
+      if (response.status === 403 || response.status === 401) {
+        localStorage.removeItem('user');
+        window.location.reload();
+        return;
+      }
+
+      const data = await response.json();
+      setQrCode(data.qrCode);  // Almacenar el código QR en el estado
+      setOpenQR(true);  // Abrir el modal
+    } catch (error) {
+      console.error('Error fetching crear QR:', error);
+      throw error;
+    }
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = qrCode;
+    link.download = 'qrCode.png';
+    link.click();
+  };
+
   const handleCloseQR = () => setOpenQR(false);
 
   useEffect(() => {
@@ -187,7 +230,7 @@ export default function NavBar() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ ...modalStyle, width: 400 }}>
-        <IconButton
+          <IconButton
             aria-label="close"
             onClick={handleCloseQR}
             sx={{
@@ -199,12 +242,20 @@ export default function NavBar() {
             <CloseIcon />
           </IconButton>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Ver QR
+            Código QR Generado
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Aquí puedes ver tu QR.
+            <img src={qrCode} alt="Código QR" style={{ width: '100%' }} />
+            <Button
+              variant="contained"
+              color="info"
+              sx={{ mt: 2, backgroundColor: "#003B91", color: "#FFFFFF", width: '100%' }}
+              onClick={handleDownload}
+            >
+              <Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', marginRight: '8px' }} />
+              Descargar
+            </Button>
           </Typography>
-          <Button onClick={handleCloseQR}>Cerrar</Button>
         </Box>
       </Modal>
     </>
