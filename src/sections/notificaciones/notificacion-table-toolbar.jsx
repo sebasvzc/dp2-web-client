@@ -37,7 +37,7 @@ export default function NotificacionTableToolbar({ numSelected, filterName, onFi
       <OutlinedInput
         value={localFilterName}
         onChange={handleInputChange}
-        placeholder="Buscar usuario por nombre o por correo"
+        placeholder="Buscar notificación"
         style={{ width: 500, height: 40, backgroundColor: "white" }}
       />
       <Button

@@ -19,11 +19,9 @@ const getNotificaciones = async (page,pageSize,searchName) => {
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
 
-    if(searchName===""){
-      searchName="all";
-    }
-    const response = await fetch(`http://localhost:3000/api/notifications/listarNotificacion`, {
-      method: 'GET',
+    
+    const response = await fetch(`http://localhost:3000/api/notifications/listarNotificacion?page=${page}&pageSize=${pageSize}&searchName=${searchName}`, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

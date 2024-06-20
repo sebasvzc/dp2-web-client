@@ -33,29 +33,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 24,
     outline: 'none',
   },
-  activo: {
-    color: '#008000', // Verde oscuro para activo
-    backgroundColor: '#C8E6C9', // Fondo verde claro para activo
-    padding: '2px 6px',
-    borderRadius: '4px',
-  },
-  inactivo: {
-    color: '#FF0000', // Rojo para inactivo
-    backgroundColor: '#FFCDD2', // Fondo rojo claro para inactivo
-    padding: '2px 6px',
-    borderRadius: '4px',
-  },
 }));
 
-function validarEmail(emailX) {
-  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regexEmail.test(emailX);
-}
-
-function validarNombre(nombre) {
-  const regexNombre = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/;
-  return regexNombre.test(nombre);
-}
 
 export default function NotificacionTableRow({
                                       selected,

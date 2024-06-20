@@ -51,7 +51,7 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
   };
   export default function NotificacionView() {
     const [order, setOrder] = useState('asc');
-    const [searchName, setSearchName] = useState("all");
+    const [searchName, setSearchName] = useState("");
     const [notificacionData, setNotificacionData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [habilitarNotificaciones, setHabilitarNotificaciones] = useState(true);
@@ -84,13 +84,13 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
       console.log("useEffect is running");
       console.log("page:", page);
       console.log("pageSize:", pageSize);
-      console.log("habilitarNotificaciones:", habilitarNotificaciones);
       console.log("searchName:", searchName);
       const fetchData = async () => {
         try {
           setLoading(true); // Indicate that loading has started
+          console.log("ANTES")
           const data = await obtenerNotificaciones(page, pageSize, searchName); // Fetch notificacion data
-          console.log(data.notificaciones);
+          console.log("Notificaciones retornadas: ",data);
 
           if (data.newToken) {
             const storedNotificacion = localStorage.getItem('notificacion');
@@ -320,16 +320,26 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
               <>
             {notificacionData && notificacionData.length > 0 ? (
               notificacionData.map((row) => (
-                <Grid item xs={12} sm={6} md={4} key={row.id} >
-                  <Card style={{ backgroundColor: '#F9FAFB' }}>
-                    <NotificacionTableRow
-                      name={row.name}
-                      id={row.id}
-                      selected={selected.indexOf(row.id) !== -1}
-                      handleClick={(event) => handleClick(event, row.id)}
-                      onEditNotificacion={handleCambio}
-                    />
-                  </Card>
+                <Grid item xs={12} key={row.id} >
+                  <Box
+          key={row.id}
+          style={{
+            backgroundColor: '#F9FAFB',
+            width: '100%', // Asegura que ocupe todo el ancho disponible
+            display: 'flex',
+            alignItems: 'center', // Alinea los elementos verticalmente al centro
+            padding: '8px', // Añade padding si es necesario
+            marginBottom: '8px', // Espaciado entre filas
+          }}
+        >
+          <NotificacionTableRow
+            name={row.name}
+            id={row.id}
+            selected={selected.indexOf(row.id) !== -1}
+            handleClick={(event) => handleClick(event, row.id)}
+            onEditNotificacion={handleCambio}
+          />
+                  </Box>
                 </Grid>
               ))
             ) : (
