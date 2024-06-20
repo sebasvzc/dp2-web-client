@@ -73,6 +73,8 @@ export default function NotificacionTableRow({
     setOpenEdit(false);
   };
 
+  const formatNumber = (num) => num.toString().padStart(2, '0');
+
   const [mostrarTxtNomb, setMostrarTxtNomb] = useState("");
   const [mostrarTxtApp, setMostrarTxtApp] = useState("");
   const [mostrarTxtCorreo, setMostrarTxtCorreo] = useState("");
@@ -82,45 +84,22 @@ export default function NotificacionTableRow({
 
   return (
     <>
-      <Card variant="outlined" sx={{ marginBottom: 1.5, border: -2 , background: 'linear-gradient(to bottom, rgba(135, 206, 250, 0.05), rgba(0, 191, 255, 0.01))', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)'}}>
-        <CardContent>
-          <Checkbox disableRipple checked={selected} onChange={handleClick} 
-          style={{ backgroundColor: "F9FAFB", color: 'black'}}/>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/assets/images/avatars/icon-grey-free-vector.jpg" alt="Avatar"
-                 style={{ width: 100, height: 100, borderRadius: '50%' }} />
-            <div style={{ marginLeft: 16 }}> {/* Espacio entre la imagen y el texto */}
-              <Typography variant="h6" component="div">
-                {name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                prueba
-              </Typography>
-            </div>
+      <Card variant="outlined" sx={{ marginBottom: 1.5, border: -2, background: 'linear-gradient(to bottom, rgba(135, 206, 250, 0.05), rgba(0, 191, 255, 0.01))', width: '100%' }}>
+      <CardContent sx={{ width: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <div style={{width: '100%' }}>
+            <Typography variant="h6" component="div">
+              {name}
+            </Typography>
+            <Typography variant="body1" component="div">
+              {formatNumber(cron.hour)}:{formatNumber(cron.minute)}
+          </Typography>
           </div>
-          <IconButton onClick={handleOpenMenu} sx={{ position: 'absolute', top: 10, right: 10 }}>
-          <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </CardContent>
-      </Card>
+        </div>
+      </CardContent>
+      
+    </Card>
 
-      <Popover
-        open={!!open}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: { width: 120 },
-        }}
-      >
-        <MenuItem onClick={handleCloseMenu}>
-           <IconButton onClick={handleOpenModalEdit}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 1 }} />
-          <span style={{ fontSize: 'smaller' }}>Editar</span>
-           </IconButton>
-        </MenuItem>
-      </Popover>
     </>
   );
 }

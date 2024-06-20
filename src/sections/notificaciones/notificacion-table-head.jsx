@@ -25,35 +25,22 @@ export default function UserTableHead({
   };
 
   return (
-    <TableHead style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}>
-      <TableRow style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}>
-        <TableCell padding="checkbox" style={{backgroundColor:"F9FAFB", color:'black'}}> 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            style={{ backgroundColor: "F9FAFB", color: 'black'}} // Ajusta el valor de marginRight según sea necesario
-          />
-         <span>Seleccionar</span><span style={{ width: '5px', display: 'inline-block' }}>&nbsp;</span><span>todos</span>
-        </div>
-
-        </TableCell>
-
+    <TableHead>
+      <TableRow >
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{ width: headCell.width, minWidth: headCell.minWidth }}
-            style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}
+           
           >
             <TableSortLabel
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={onSort(headCell.id)}
-              style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}
+             
             >
               {headCell.label}
               {orderBy === headCell.id ? (

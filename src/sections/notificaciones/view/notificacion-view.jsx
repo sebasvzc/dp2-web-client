@@ -316,33 +316,33 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
                   Cargando...
                 </Typography>
               </Box>
-            ) : (
-              <>
-            {notificacionData && notificacionData.length > 0 ? (
-              notificacionData.map((row) => (
-                <Grid item xs={12} key={row.id} >
-                  <Box
-          key={row.id}
-          style={{
-            backgroundColor: '#F9FAFB',
-            width: '100%', // Asegura que ocupe todo el ancho disponible
-            display: 'flex',
-            alignItems: 'center', // Alinea los elementos verticalmente al centro
-            padding: '8px', // Añade padding si es necesario
-            marginBottom: '8px', // Espaciado entre filas
-          }}
-        >
-          <NotificacionTableRow
-            name={row.name}
-            id={row.id}
-            selected={selected.indexOf(row.id) !== -1}
-            handleClick={(event) => handleClick(event, row.id)}
-            onEditNotificacion={handleCambio}
-          />
-                  </Box>
-                </Grid>
-              ))
-            ) : (
+                  ) : (
+                    <>
+                  {notificacionData && notificacionData.length > 0 ? (
+                    notificacionData.map((row) => (
+                      <Grid item xs={12} key={row.id} >
+                        <Box
+                          key={row.id}
+                          style={{
+                            width: '100%', // Asegura que ocupe todo el ancho disponible
+                            display: 'flex',
+                            alignItems: 'center', // Alinea los elementos verticalmente al centro
+                            padding: '8px', // Añade padding si es necesario
+                            marginBottom: '8px', // Espaciado entre filas
+                          }}
+                        >
+                          <NotificacionTableRow
+                            name={row.name}
+                            id={row.id}
+                            cron={row.cron}
+                            selected={selected.indexOf(row.id) !== -1}
+                            handleClick={(event) => handleClick(event, row.id)}
+                            onEditNotificacion={handleCambio}
+                          />
+                        </Box>
+                      </Grid>
+                    ))
+                  ) : (
               <Box
                 sx={{
                   display: 'flex',
