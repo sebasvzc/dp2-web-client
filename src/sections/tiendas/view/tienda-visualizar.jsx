@@ -22,6 +22,7 @@ import {
   Tabs,
   Table,
   Button,
+  Modal,
   Select, MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 
@@ -487,6 +488,64 @@ export default function TiendaDetail() {
     },
   });
 
+  const [open, setOpen] = useState(false);
+  const [qrCode, setQrCode] = useState('');
+
+  const handleOpen = async (event) => {
+    event.preventDefault();
+    try {
+      const user = localStorage.getItem('user');
+      const userStringify = JSON.parse(user);
+      const { token, refreshToken } = userStringify;
+      const formData = new FormData();
+      formData.append("tipo", "tienda");
+      formData.append("idReferencia", idParam);
+      
+      const response = await fetch(`http://localhost:3000/api/qr/generar`, {
+        method: 'POST',
+        body: JSON.stringify(formDatos),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      setQrCode(data.qrCode);  // Almacenar el código QR en el estado
+      setOpen(true);  // Abrir el modal
+
+      if (response.status === 403 || response.status === 401) {
+        localStorage.removeItem('user');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error fetching crear QR:', error);
+      throw error;
+    }
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = qrCode;
+    link.download = 'qrCode.png';
+    link.click();
+  };
+
+
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 300,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
 
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
@@ -668,7 +727,7 @@ export default function TiendaDetail() {
                           }}
                         >
                           <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
-                          <Typography variant="body1">Descarga el QR para poder brindarle puntos a los clientes por visitar tu tienda.</Typography>
+                          <Typography variant="body1">Visualiza y descarga el QR para poder brindarle puntos a los clientes por visitar tu tienda.</Typography>
                           
                         </Box>
                       </Grid>
@@ -689,8 +748,28 @@ export default function TiendaDetail() {
                             minWidth: 0,
                           }}
                           type='submit'
-                          onClick={handleDescargarQR}
-                        ><Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', margin: 'auto' }} /></Button>      
+                          onClick={handleOpen}
+                          >
+                        <Iconify icon="ic:outline-remove-red-eye" sx={{ fontSize: '24px', margin: 'auto' }} />
+                      </Button>
+                        <Modal
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                              Código QR Generado
+                            </Typography>
+                            <Box id="modal-modal-description" sx={{ mt: 2 }}>
+                              <img src={qrCode} alt="Código QR" style={{ width: '100%' }} />
+                              <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }} onClick={handleDownload}>
+                                Descargar
+                              </Button>
+                            </Box>
+                          </Box>
+                        </Modal>
                       </Grid>
                     </Grid>   
                   </Box>
