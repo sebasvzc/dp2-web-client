@@ -3,7 +3,8 @@ import {Route, Routes} from 'react-router-dom'
 
 import PrivateRoutes from '../utils/PrivateRoutes'
 import { AuthProvider } from '../utils/AuthContext'
-import BasicBreadcrumbs from './BasicBreadcrumbs'; // Ruta corregida
+import BasicBreadcrumbs from './BasicBreadcrumbs';
+import ProtectedRoute from './protectedRoute'; // Ruta corregida
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const UserPage = lazy(() => import('src/pages/user'));
@@ -49,37 +50,114 @@ export const NotificacionesPage = lazy(() => import('src/pages/notificaciones'))
             <Route path="/CodeValidation" element={<CodeValidationPage/>}/>
             <Route path="/NewPassword" element={<NuevaContrasenaPage/>}/>
             <Route element={<PrivateRoutes />}>
-              <Route path="/" element={<IndexPage/>}/>
-              <Route path="/user" element={<UserPage/>}/>
+              <Route path="/" element={
+                <ProtectedRoute requiredPermissions={['Dashboard']}>
+                <IndexPage/>
+                </ProtectedRoute>
+              }/>
+              <Route path="/user" element={
+                <ProtectedRoute requiredPermissions={['Gestion de Usuarios']}>
+                <UserPage/>
+                </ProtectedRoute>
+              }/>
 
-              <Route path="/cupon" element={<CuponesPage/>}/>
+              <Route path="/cupon" element={
+                <ProtectedRoute requiredPermissions={['Gestion de Cupones']}>
+                <CuponesPage/>
+                  </ProtectedRoute>
+              }/>
               <Route path="/cupon">
-                <Route path="cupon-new" element={<CuponNew/>}/>
-                <Route path="detalle/:id" element={<CuponDetalle />} />
-                <Route path="editar/:id" element={<CuponEditar />} />
+                <Route path="cupon-new" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Cupones']}>
+                  <CuponNew/>
+                    </ProtectedRoute>
+
+                  }
+                />
+                <Route path="detalle/:id" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Cupones']}>
+                  <CuponDetalle />
+                    </ProtectedRoute>
+
+                } />
+                <Route path="editar/:id" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Cupones']}>
+                  <CuponEditar />
+                  </ProtectedRoute>
+                } />
               </Route>
 
-              <Route path="/categorias" element={<CategoriasPage/>}/>
-              <Route path="/clientes" element={<ClientesPage/>}/>
+              <Route path="/categorias" element={
+                <ProtectedRoute requiredPermissions={['Gestion de Categorías']}>
+                <CategoriasPage/>
+                </ProtectedRoute>
+              }/>
+              <Route path="/clientes" element={
+                <ProtectedRoute requiredPermissions={['Gestion de Clientes']}>
+                <ClientesPage/>
+                  </ProtectedRoute>
+              }/>
               <Route path="/clientes" >
-                <Route path="detalle/:id" element={<ClientesDetalle/>}/>
+                <Route path="detalle/:id" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Clientes']}>
+                  <ClientesDetalle/>
+                    </ProtectedRoute>
+                  }/>
               </Route>
 
-              <Route path="/tienda" element={<TiendasPage/>}/>
+              <Route path="/tienda" element={
+                <ProtectedRoute requiredPermissions={['Gestion de Tiendas']}>
+                <TiendasPage/>
+                  </ProtectedRoute>
+
+              }/>
               <Route path="/tienda">
-                <Route path="tienda-new" element={<TiendaNew/>}/>
-                <Route path="tienda-visualizar/:id" element={<TiendaVisualizar/>}/>
-                <Route path="tienda-editar/:id" element={<TiendaEditar/>}/>
+                <Route path="tienda-new" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Tiendas']}>
+                  <TiendaNew/>
+                    </ProtectedRoute>
+                  }/>
+                <Route path="tienda-visualizar/:id" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Tiendas']}>
+                  <TiendaVisualizar/>
+                    </ProtectedRoute>
+                }/>
+                <Route path="tienda-editar/:id" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Tiendas']}>
+                  <TiendaEditar/>
+                    </ProtectedRoute>
+                  }/>
               </Route>
 
-              <Route path="/evento" element={<EventosPage/>}/>
+              <Route path="/evento" element={
+                <ProtectedRoute requiredPermissions={['Gestion de Eventos']}>
+                <EventosPage/>
+                  </ProtectedRoute>
+                }/>
               <Route path="/evento">
-                <Route path="evento-new" element={<EventoNew/>}/>
-                <Route path="detalle/:id" element={<EventoDetalle />} />
-                <Route path="editar/:id" element={<EventoEditar />} />
+                <Route path="evento-new" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Eventos']}>
+                  <EventoNew/>
+                    </ProtectedRoute>
+
+                  }/>
+                <Route path="detalle/:id" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Eventos']}>
+                  <EventoDetalle />
+                    </ProtectedRoute>
+                  } />
+                <Route path="editar/:id" element={
+                  <ProtectedRoute requiredPermissions={['Gestion de Eventos']}>
+                  <EventoEditar />
+                    </ProtectedRoute>
+                } />
               </Route>
 
-              <Route path="/notificacion" element={<NotificacionesPage/>}/>
+              <Route path="/notificacion" element={
+                <ProtectedRoute requiredPermissions={['Configurar Notificacion']}>
+                <NotificacionesPage/>
+                  </ProtectedRoute>
+              }/>
 
               <Route path="*" element={<Page404/>}/>
             </Route>

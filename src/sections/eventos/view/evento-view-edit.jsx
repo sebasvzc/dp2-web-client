@@ -112,7 +112,9 @@ export default function EventoEdit() {
           localStorage.removeItem('user');
           window.location.reload();
         }
-
+        if(response.status===404){
+          navigate('/evento');
+        }
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -160,7 +162,7 @@ export default function EventoEdit() {
       }
     }
       loadEventoData();
-  }, [idParam, page, pageSize, searchName]);
+  }, [idParam, navigate, page, pageSize, searchName]);
 
 
   const handleSubmit = async (event) => {

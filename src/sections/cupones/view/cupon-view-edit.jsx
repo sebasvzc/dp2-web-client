@@ -233,6 +233,9 @@ export default function CuponDetail() {
           localStorage.removeItem('user');
           window.location.reload();
         }
+        if(response.status===404){
+          navigate('/cupon');
+        }
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -367,7 +370,7 @@ export default function CuponDetail() {
     }
 
     loadCuponData();
-  }, [esLimitadoText, idParam, page, pageSize, searchName]);
+  }, [esLimitadoText, idParam, navigate, page, pageSize, searchName]);
 
 
   const handleSubmit = async (event) => {
