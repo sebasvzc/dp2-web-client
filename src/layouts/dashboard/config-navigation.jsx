@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { Collapse } from '@mui/material';
+import { Collapse, Modal, Typography, Button,IconButton } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -14,6 +14,7 @@ import SvgColor from 'src/components/svg-color';
 import BasicBreadcrumbs from '../../routes/BasicBreadcrumbs'; // Ruta corregida
 import { usePathname } from '../../routes/hooks';
 import { useAuth } from '../../utils/AuthContext';
+
 // ----------------------------------------------------------------------
 
 
@@ -170,3 +171,12 @@ import { useAuth } from '../../utils/AuthContext';
     );
   }
 
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};

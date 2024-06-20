@@ -10,8 +10,10 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import ListSubheader from '@mui/material/ListSubheader';
+import CloseIcon from '@mui/icons-material/Close';
 import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
+import InfoIcon from '@mui/icons-material/Info';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
@@ -21,12 +23,15 @@ import {
   Tabs,
   Select,
   MenuItem,
+  IconButton,
+  Button,
+  Modal,
   TextField,InputLabel, FormControl, createTheme, ThemeProvider
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 // Importa el plugin UTC para manejar correctamente las fechas UTC
 import Card from '@mui/material/Card';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
+import Iconify from '../../../components/iconify';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import DashboardAsistentes from '../../overview/DashboardAsistentes';
 import DashboardGeneroEdad from '../../overview/DashboardGeneroEdad';
@@ -85,6 +90,9 @@ export default function EventoDetail() {
   const [eventos, setEventos] = useState([]);
   const [lugar, setLugar] = useState([]);
   const [tienda, setTienda] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const [qrCode, setQrCode] = useState('');
 
   const handleBack = () => {
     navigate('/evento'); 
@@ -246,6 +254,65 @@ export default function EventoDetail() {
       loadEventoData();
   }, [idParam, navigate, page, pageSize, searchName]);
 
+  const [formDatos, setFormDatos] = useState({
+    tipo: "evento",  
+    idReferencia: idParam,
+  });
+
+  const handleOpen = async (event) => {
+    event.preventDefault();
+    try {
+      const user = localStorage.getItem('user');
+      const userStringify = JSON.parse(user);
+      const { token, refreshToken } = userStringify;
+      const formData = new FormData();
+      formData.append("tipo", "evento");
+      formData.append("idReferencia", idParam);
+      
+      const response = await fetch(`http://localhost:3000/api/qr/generar`, {
+        method: 'POST',
+        body: JSON.stringify(formDatos),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      setQrCode(data.qrCode);  // Almacenar el código QR en el estado
+      setOpen(true);  // Abrir el modal
+
+      if (response.status === 403 || response.status === 401) {
+        localStorage.removeItem('user');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error fetching crear QR:', error);
+      throw error;
+    }
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = qrCode;
+    link.download = 'qrCode.png';
+    link.click();
+  };
+
+
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 300,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
   const handleSubmit = async (event) => {
     console.log("funciona")
@@ -671,7 +738,77 @@ export default function EventoDetail() {
                       <Grid item xs={4}>
                         <TextField fullWidth label="Puntos Otorgados" name="puntosOtorgados" 
                           disabled defaultValue={puntosOtorgadosText}/>
-                      </Grid>   
+                      </Grid>
+                      <Grid item xs={11.5}>
+                        <Box
+                          sx={{
+                            backgroundColor: '#f4f4f4',
+                            padding: '16px',
+                            borderRadius: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <InfoIcon sx={{ marginRight: '8px', color: '#808080' }} />
+                          <Typography variant="body1">Visualiza y descarga el QR para poder brindarle puntos a los clientes por participar en los eventos.</Typography>
+                          
+                        </Box>
+                      </Grid>
+                      <Grid item xs={0.5}>
+                      <Button
+                          variant="contained"
+                          color="warning"
+                          sx={{ 
+                            backgroundColor: '#808080', // Color de fondo blanco
+                            color: "#FFFFFF", // Color de texto azul
+                            width: '40px', // Ajusta el ancho del botón para hacerlo circular
+                            height: '40px', // Ajusta la altura del botón para hacerlo circular
+                            borderRadius: '50%', // Hace que el borde sea redondo para formar un círculo
+
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: 0, // Elimina el relleno interno del botón
+                            minWidth: 0,
+                          }}
+                          type='submit'
+                          onClick={handleOpen}
+                          >
+                        <Iconify icon="ic:outline-remove-red-eye" sx={{ fontSize: '24px', margin: 'auto' }} />
+                      </Button>
+                      <Modal
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                          <IconButton
+                                aria-label="close"
+                                onClick={handleClose}
+                                sx={{
+                                  position: 'absolute',
+                                  right: 8,
+                                  top: 8,
+                                }}
+                              >
+                                <CloseIcon />
+                              </IconButton>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                              Código QR Generado
+                            </Typography>
+                            <Box id="modal-modal-description" sx={{ mt: 0 }}>
+                              <img src={qrCode} alt="Código QR" style={{ width: '100%' }} />
+                              <Button variant="contained" color="info" 
+                              sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" ,width: '100%'}} 
+                              onClick={handleDownload}
+                              >
+                                <Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', marginRight: '8px' }} />
+                                Descargar
+                              </Button>
+                            </Box>
+                          </Box>
+                        </Modal>
+                      </Grid>  
                     </Grid>
                   </Box>
                 </Box>
