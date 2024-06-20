@@ -146,7 +146,7 @@ NavItem.propTypes = {
     );
     const [formDatos, setFormDatos] = useState({
       tipo: "tienda",
-      idReferencia: user.tiendaId.toString(),
+      idReferencia: user && user.tiendaId ? user.tiendaId.toString() : '0',
     });
     const navConfig = [
       {

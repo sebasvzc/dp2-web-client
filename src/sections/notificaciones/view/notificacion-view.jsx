@@ -239,6 +239,7 @@ import NotificacionTableToolbar from '../notificacion-table-toolbar';
     }
     */
 
+    // eslint-disable-next-line react/prop-types
     const InformativeBox = ({ text }) => (
       <Box
         sx={{
