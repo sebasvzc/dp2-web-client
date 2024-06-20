@@ -983,7 +983,8 @@ export default function ClienteViewDetail() {
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2} >
+                                <Grid container spacing={2} justifyContent="center"
+                                  alignItems="center">
                                   <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha inicial"
@@ -1047,8 +1048,10 @@ export default function ClienteViewDetail() {
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2} >
-                                  <Grid item xs={3}>
+                                <Grid container spacing={2} 
+                                justifyContent="center"
+                                alignItems="center">
+                                  <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha inicial"
                                       value={startDateStatEvento}
@@ -1057,7 +1060,7 @@ export default function ClienteViewDetail() {
                                       renderInput={(params) => <TextField {...params} />}
                                     />
                                   </Grid>
-                                  <Grid item xs={3}>
+                                  <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha final"
                                       value={endDateStatEvento}
