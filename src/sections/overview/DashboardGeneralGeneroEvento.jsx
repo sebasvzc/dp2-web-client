@@ -28,16 +28,7 @@ const DashboardGeneralGeneroEvento = ({ dataDash }) => {
           fontFamily: 'Roboto, sans-serif',
         },
       },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shade: 'dark',
-          type: 'vertical', // Gradient applied vertically on each section
-          gradientToColors: ['#0000ff', '#ffff00', '#ff00ff'], // Colors for gradient end
-          stops: [0, 100], // Gradient stops at start and end
-        },
-      },
-      colors: ['#1a75ff', '#ffbf00', '#ff007f'], // Darker base colors
+      colors: [ '#96008B', '#00960B','#004096'], // Darker base colors
       responsive: [{
         breakpoint: 480,
         options: {

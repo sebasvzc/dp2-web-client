@@ -20,6 +20,7 @@ import AppCurrentVisits from '../app-current-visits';
 import FictionBooksSalesChart from '../FictionBooksSalesChart';
 import { getCategoriaTiendas } from '../../../funciones/api';
 import {
+  getEdadEventosPorc,
   getGeneroEventosPorc,
   getPersonasAsistente,
   getPuntosEventosAsitencia,
@@ -28,6 +29,7 @@ import {
 import DashboardGeneralGeneroEvento from '../DashboardGeneralGeneroEvento';
 import DashboardGeneralBarCategAsist from '../DashboardGeneralBarCategAsist';
 import './AppWidgetSummary.css';
+import DashboardGeneralEdadEvento from '../DashboardGeneralEdadEvento';
 // Importar localización española
 
 dayjs.locale('es-mx');
@@ -42,6 +44,7 @@ export default function AppView() {
   const [usuariosRa, setUsuariosRa] = useState(0);
   const [puntosEventosAsist, setPuntosEventosAsist] = useState(0);
   const [dataDashGenero, setDataDashGenero] = useState({  name:"",categoria: [], data: []  });
+  const [dataDashEdad, setDataDashEdad] = useState({  name:"",categoria: [], data: []  });
   const [puntosTiendasAsist, setPuntosTiendasAsist] = useState(0);
   const [loadingVisitasTiendas, setLoadingVisitasTiendas] = useState(true);
   const [loadingVisitasCategorias, setLoadingVisitasCategorias] = useState(true);
@@ -167,6 +170,17 @@ export default function AppView() {
         console.log(JSON.stringify(generoArray));
         console.log(JSON.stringify(cantidadGeneroArray));
         setDataDashGenero({ categoria: generoArray, data: cantidadGeneroArray });
+
+        const resultsEdadEventosPorc =  await getEdadEventosPorc(token,refreshToken,endDateParam,startDateParam);
+        const edadArray = resultsEdadEventosPorc.map(item => item.rango);
+        const cantidadEdadArray = resultsEdadEventosPorc.map(item => item.conteo);
+        console.log("JSON.stringify(edadArray)");
+        console.log(JSON.stringify(edadArray));
+        console.log(JSON.stringify(cantidadEdadArray));
+        setDataDashEdad({ categoria: edadArray, data: cantidadEdadArray });
+
+
+
 
         const resultsPersonasAsistentes =  await getPersonasAsistente(token,refreshToken,endDateParam,startDateParam);
         setNumPersonasEventos(resultsPersonasAsistentes.cantidad);
@@ -484,19 +498,33 @@ export default function AppView() {
 
           <Grid xs={12} sm={12} md={4} lg={4} item container >
 
-          <Grid xs={12} sm={12} md={12} lg={12} item >
-            <Card
-              sx={{
-                px: 3,
-                py: 5,
-                borderRadius: 2,
-              }} >
-            <DashboardGeneralGeneroEvento dataDash={dataDashGenero}/>
-            </Card>
-          </Grid>
+              <Grid xs={12} sm={12} md={12} lg={12} item >
+                <Card
+                  sx={{
+                    px: 3,
+                    py: 5,
+                    borderRadius: 2,
+                  }} >
+                <DashboardGeneralGeneroEvento dataDash={dataDashGenero}/>
+                </Card>
+              </Grid>
 
-        </Grid>
           </Grid>
+            <Grid xs={12} sm={12} md={8} lg={8} item container >
+
+              <Grid xs={12} sm={12} md={12} lg={12} item >
+                <Card
+                  sx={{
+                    px: 3,
+                    py: 5,
+                    borderRadius: 2,
+                  }} >
+                  <DashboardGeneralEdadEvento dataDash={dataDashEdad}/>
+                </Card>
+              </Grid>
+
+            </Grid>
+        </Grid>
 
 
           <Grid xs={12} sm={12} md={12} lg={12} container spacing={2} >
