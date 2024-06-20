@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import ListSubheader from '@mui/material/ListSubheader';
+import CloseIcon from '@mui/icons-material/Close';
 import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
 import InfoIcon from '@mui/icons-material/Info';
@@ -22,6 +23,7 @@ import {
   Tabs,
   Select,
   MenuItem,
+  IconButton,
   Button,
   Modal,
   TextField,InputLabel, FormControl, createTheme, ThemeProvider
@@ -771,19 +773,34 @@ export default function EventoDetail() {
                           >
                         <Iconify icon="ic:outline-remove-red-eye" sx={{ fontSize: '24px', margin: 'auto' }} />
                       </Button>
-                        <Modal
+                      <Modal
                           open={open}
                           onClose={handleClose}
                           aria-labelledby="modal-modal-title"
                           aria-describedby="modal-modal-description"
                         >
                           <Box sx={style}>
+                          <IconButton
+                                aria-label="close"
+                                onClick={handleClose}
+                                sx={{
+                                  position: 'absolute',
+                                  right: 8,
+                                  top: 8,
+                                }}
+                              >
+                                <CloseIcon />
+                              </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2">
                               Código QR Generado
                             </Typography>
-                            <Box id="modal-modal-description" sx={{ mt: 2 }}>
+                            <Box id="modal-modal-description" sx={{ mt: 0 }}>
                               <img src={qrCode} alt="Código QR" style={{ width: '100%' }} />
-                              <Button variant="contained" color="info" sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" }} onClick={handleDownload}>
+                              <Button variant="contained" color="info" 
+                              sx={{ marginRight: '8px' , backgroundColor: "#003B91", color:"#FFFFFF" ,width: '100%'}} 
+                              onClick={handleDownload}
+                              >
+                                <Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', marginRight: '8px' }} />
                                 Descargar
                               </Button>
                             </Box>
