@@ -111,8 +111,6 @@ export default function NavBar() {
       icon: icon('ic_analytics'),
       permission: 'Dashboard',
     },
-
-    
         {
           title: 'Gestión de Usuarios',
           path: '/user',
@@ -148,6 +146,11 @@ export default function NavBar() {
           path: '/tienda',
           icon: icon('ic_tienda'),
           permission: 'Gestion de Tiendas',
+        },
+        {
+          title: 'Gestión de Notificaciones',
+          path: '/notificacion',
+          icon: icon('ic_notificacion'),
         },
         // Otras opciones de submenú...
 

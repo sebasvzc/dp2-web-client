@@ -2,6 +2,7 @@
 const breadcrumbConfig = {
   '/': 'Inicio',
   '/user': 'Gestión de Usuarios',
+  '/notificacion': 'Gestión de Notificaciones',
   '/cupon': 'Gestión de Cupones',
   '/cupon/cupon-new': 'Nuevo Cupón',
   '/cupon/detalle/:id': 'Visualizar Cupón',

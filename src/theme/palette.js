@@ -6,8 +6,8 @@ import { alpha } from '@mui/material/styles';
 
 export const grey = {
   0: '#FFFFFF',
-  100: '#F9FAFB',
-  200: '#F9FAFB',
+  100: '#FFFFFF',
+  200: '#FFFFFF',
   300: '#DFE3E8',
   400: '#C4CDD5',
   500: '#919EAB',
