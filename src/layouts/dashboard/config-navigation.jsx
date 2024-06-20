@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { Collapse, Modal, Typography, Button,IconButton } from '@mui/material';
+import { Collapse, Modal, Typography, Button, IconButton } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -14,6 +14,7 @@ import SvgColor from 'src/components/svg-color';
 import BasicBreadcrumbs from '../../routes/BasicBreadcrumbs'; // Ruta corregida
 import { usePathname } from '../../routes/hooks';
 import { useAuth } from '../../utils/AuthContext';
+import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 
