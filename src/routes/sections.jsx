@@ -33,6 +33,8 @@ export const ForgottenPasswordPage = lazy(() => import('src/pages/forgottenPassw
 export const CodeValidationPage = lazy(() => import('src/pages/codeValidation'));
 export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'));
 
+export const NotificacionesPage = lazy(() => import('src/pages/notificaciones'));
+
 // ----------------------------------------------------------------------
 
   export default function RouterX() {
@@ -76,6 +78,8 @@ export const NuevaContrasenaPage = lazy(() => import('src/pages/nuevaContrasena'
                 <Route path="detalle/:id" element={<EventoDetalle />} />
                 <Route path="editar/:id" element={<EventoEditar />} />
               </Route>
+
+              <Route path="/notificacion" element={<NotificacionesPage/>}/>
 
               <Route path="*" element={<Page404/>}/>
             </Route>
