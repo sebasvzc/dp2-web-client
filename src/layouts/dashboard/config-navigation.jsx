@@ -19,13 +19,15 @@ import Iconify from '../../components/iconify';
 // ----------------------------------------------------------------------
 
 
-  function NavItem({ item }) {
+  function NavItem({ item,handleOpenQR }) {
     const pathname = usePathname();
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const active = item.path === pathname;
     const handleClick = () => {
-      if (item.onClick) {
+      if (item.title === 'Ver QR') {
+        handleOpenQR();
+      } else if (item.onClick) {
         item.onClick(); // Llama al onClick específico del ítem, si existe
       } else if (item.subMenu) {
         setOpen(!open);
@@ -41,7 +43,7 @@ import Iconify from '../../components/iconify';
           typography: 'body2',
           textTransform: 'capitalize',
           fontWeight: 'fontWeightMedium',
-          color:"white",
+          color: "white",
           ...(item.path === usePathname() && {
             color: 'white',
             fontWeight: 'fontWeightSemiBold',
@@ -61,7 +63,7 @@ import Iconify from '../../components/iconify';
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
               {item.subMenu.map((subItem) => (
-                <NavItem key={subItem.title} item={subItem} />
+                <NavItem key={subItem.title} item={subItem} handleOpenQR={handleOpenQR} />
               ))}
             </Stack>
           </Collapse>
@@ -70,18 +72,59 @@ import Iconify from '../../components/iconify';
     );
   }
 
-  NavItem.propTypes = {
-    item: PropTypes.object,
-    onClick: PropTypes.func
-  };
-
+NavItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  handleOpenQR: PropTypes.func.isRequired
+};
 
 
   export default function NavBar() {
     const { logoutUser,user,getPermissions } = useAuth(); // Asegúrate de que tu hook useAuth proporcione la función logout
     const [permissions, setPermissions] = useState([]);
 
+    const [openQR, setOpenQR] = useState(false);
+    const [qrCode, setQrCode] = useState('');
 
+
+    const handleOpenQR = async () => {
+      try {
+        const userX = localStorage.getItem('user');
+        const userStringify = JSON.parse(userX);
+        const { token, refreshToken } = userStringify;
+
+        const response = await fetch(`http://localhost:3000/api/qr/generar`, {
+          method: 'POST',
+          body: JSON.stringify(formDatos),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Agregar el token de autorización si es necesario
+          },
+        });
+
+        if (response.status === 403 || response.status === 401) {
+          localStorage.removeItem('user');
+          window.location.reload();
+          return;
+        }
+
+        const data = await response.json();
+        setQrCode(data.qrCode);  // Almacenar el código QR en el estado
+        setOpenQR(true);  // Abrir el modal
+      } catch (error) {
+        console.error('Error fetching crear QR:', error);
+        throw error;
+      }
+    };
+
+    const handleDownload = () => {
+      const link = document.createElement('a');
+      link.href = qrCode;
+      link.download = 'qrCode.png';
+      link.click();
+    };
+
+    const handleCloseQR = () => setOpenQR(false);
     useEffect(() => {
       console.log("userNavBar");
       console.log(user);
@@ -101,7 +144,10 @@ import Iconify from '../../components/iconify';
     const icon = (name) => (
       <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
     );
-
+    const [formDatos, setFormDatos] = useState({
+      tipo: "tienda",
+      idReferencia: user.tiendaId.toString(),
+    });
     const navConfig = [
       {
         title: 'dashboard',
@@ -149,6 +195,13 @@ import Iconify from '../../components/iconify';
             title: 'Gestión de Notificaciones',
             path: '/notificacion',
             icon: icon('ic_notificacion'),
+            permission: 'Gestion de Notificaciones',
+          },
+          {
+            title: 'Ver QR',
+            path: '/verqr',
+            icon: icon('ic_qr'),
+            permission: 'Ver QR',
           },
           // Otras opciones de submenú...
 
@@ -164,11 +217,49 @@ import Iconify from '../../components/iconify';
       !item.permission || permissions.includes(item.permission)
     );
     return (
+      <>
       <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
         {filteredNavConfig.map((item) => (
-          <NavItem key={item.title} item={item} />
+          <NavItem key={item.title} item={item}  handleOpenQR={handleOpenQR}/>
         ))}
       </Stack>
+    <Modal
+      open={openQR}
+      onClose={handleCloseQR}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={{ ...modalStyle, width: 400 }}>
+        <IconButton
+          aria-label="close"
+          onClick={handleCloseQR}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Código QR Generado
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <img src={qrCode} alt="Código QR" style={{ width: '100%' }} />
+          <Button
+            variant="contained"
+            color="info"
+            sx={{ mt: 2, backgroundColor: "#003B91", color: "#FFFFFF", width: '100%' }}
+            onClick={handleDownload}
+          >
+            <Iconify icon="icon-park-outline:download" sx={{ fontSize: '24px', marginRight: '8px' }} />
+            Descargar
+          </Button>
+        </Typography>
+
+      </Box>
+    </Modal>
+      </>
     );
   }
 
