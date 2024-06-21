@@ -27,7 +27,7 @@ const DashboardAsistentes = ({ dataDash }) => {
         }
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       grid: {
         padding: {
@@ -37,7 +37,23 @@ const DashboardAsistentes = ({ dataDash }) => {
       colors: ['#00489D'], // Cambia el color a azul (puedes usar otros valores de color válidos)
       xaxis: {
         categories: ['Asistentes'],
-        max: dataDash.totalInscritos
+        max: dataDash.totalInscritos,
+        tickAmount: dataDash.totalInscritos, // Añade esta línea para asegurar que los ticks se muestren correctamente
+        labels: {
+          style: {
+            fontSize: '16px' // Aumenta el tamaño de los números del eje x aquí
+          },
+          formatter: function (val) {
+            return parseInt(val); // Asegura que los valores sean enteros y no se repitan
+          }
+        }
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: '16px' // Aumenta el tamaño del texto "Asistentes" aquí
+          }
+        }
       }
     };
 
