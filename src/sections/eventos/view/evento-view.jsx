@@ -401,7 +401,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
             </Stack>
         </Stack>
 
-        <Box sx={scrollContainerStyle}>
+        <Box >
           <Grid container spacing={2}>
             {loading ? (
               <Box
