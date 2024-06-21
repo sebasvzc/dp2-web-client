@@ -851,26 +851,31 @@ export default function ClienteViewDetail() {
                   <Box  sx={{ borderRadius: '8px',  padding: '2%' , paddingTop: '0%' }}>
                     <Grid container spacing={2}>
                       <Grid item xs={3} >
-                        <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                      <Box
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          sx={{
                             border: '1px solid',
                             borderColor: '#A6B0BB',
                             borderRadius: '8px',
                             width: '100%', // Ancho fijo del contenedor
                             height: '200px', // Alto fijo del contenedor
                             overflow: 'hidden', // Oculta el contenido que se sale del contenedor
-                          }}>
-                          <Box
-                            position="relative"
-                            width="100%"
-                            maxWidth="300px"
-                            style={{ width: '100%', height: 'auto'}}
-                          >
-                            <img 
-                              src="/assets/images/avatars/icon-grey-free-vector.jpg"  
-                              alt="Avatar" 
-                              style={{ width: '90%', height: '90%'}}
+                            backgroundImage: `url('/assets/images/avatars/icon-grey-free-vector.jpg')`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }}
+                        >
+                            <img
+                              src="/assets/images/avatars/icon-grey-free-vector.jpg"
+                              alt="Avatar"
+                              style={{
+                                width: '80%',
+                                height: '100%',
+                                borderRadius: '8px', // Borde redondeado, ajustable según sea necesario
+                              }}
                             />
-                          </Box>
                         </Box>
                       </Grid>
                       <Grid item xs={9} container spacing={2}>
@@ -979,7 +984,8 @@ export default function ClienteViewDetail() {
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2} >
+                                <Grid container spacing={2} justifyContent="center"
+                                  alignItems="center">
                                   <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha inicial"
