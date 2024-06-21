@@ -55,7 +55,24 @@ const DashboardGeneroEdad = ({ dataDash }) => {
       },
       xaxis: {
         categories,
-
+        labels: {
+          style: {
+            fontSize: '14px' // Aumenta el tamaño de los números del eje x aquí
+          }
+        },
+        title: {
+          text: 'Conteo',
+          style: {
+            fontSize: '16px' // Aumenta el tamaño de la leyenda del eje x aquí
+          }
+        }
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: '14px' // Aumenta el tamaño de los números del eje y aquí
+          }
+        }
       },
       colors: ['#FF69B4', '#FFD700', '#87CEEB']
     };
