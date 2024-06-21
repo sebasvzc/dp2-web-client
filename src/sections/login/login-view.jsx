@@ -34,7 +34,12 @@ export default function LoginView() {
 
   useEffect(() => {
     if (user) {
-      router.push('/');
+      if(user.rol===2){
+        router.push('/cupon');
+      }else{
+        router.push('/');
+      }
+
     }
   },);
   const theme = useTheme();

@@ -13,8 +13,22 @@ import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ClearIcon, DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
-  Tab, Grid, Chip, Tabs, Table, Select, 
-  MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
+  Tab,
+  Grid,
+  Chip,
+  Tabs,
+  Table,
+  Select,
+  MenuItem,
+  TextField,
+  TableBody,
+  InputLabel,
+  FormControl,
+  createTheme,
+  ThemeProvider,
+  TableContainer,
+  Accordion,
+  AccordionSummary, AccordionDetails,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import Card from '@mui/material/Card';
@@ -23,7 +37,8 @@ import IconButton from '@mui/material/IconButton';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
- 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import CuponxClienteTableRow from '../cupon-cliente-table-row';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import ClientCuponTableHead from '../../cupones/cupon-client.table.head';
@@ -1271,6 +1286,10 @@ export default function ClienteViewDetail() {
                                     />
                                   </Grid>
                               </LocalizationProvider>
+                            </Grid>
+                              </AccordionDetails>
+                      </Accordion>
+                      </Grid>
                             </Grid>
                             <Grid item xs={12}>
 
