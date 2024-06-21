@@ -289,13 +289,14 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
      setEmail(event.target.value);
    };
 
-   const formatearFecha = (fechaISO) => {
-    const fecha = new Date(fechaISO);
-    const dia = String(fecha.getDate()).padStart(2, '0');
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son 0-11
-    const año = fecha.getFullYear();
-    return `${dia}/${mes}/${año}`;
-  };
+    const formatearFecha = (fechaISO) => {
+      const meses = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const fecha = new Date(fechaISO);
+      const dia = String(fecha.getDate()).padStart(2, '0');
+      const mes = meses[fecha.getMonth()]; // Los meses son 0-11
+      const año = fecha.getFullYear();
+      return `${dia} ${mes} ${año}`;
+    };
 
    // const notFound = !userData.length && !!filterName;
    /* if (loading) {
@@ -400,7 +401,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
             </Stack>
         </Stack>
 
-        <Box sx={scrollContainerStyle}>
+        <Box >
           <Grid container spacing={2}>
             {loading ? (
               <Box

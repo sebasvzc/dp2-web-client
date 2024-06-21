@@ -28,7 +28,7 @@ const DashboardGeneralGeneroEvento = ({ dataDash }) => {
           fontFamily: 'Roboto, sans-serif',
         },
       },
-      colors: [ '#96008B', '#00960B','#004096'], // Darker base colors
+      colors: [ '#EC49A7', '#B60BF7','#03A3FE'], // Darker base colors
       responsive: [{
         breakpoint: 480,
         options: {
