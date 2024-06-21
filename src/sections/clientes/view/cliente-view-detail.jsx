@@ -1121,27 +1121,8 @@ export default function ClienteViewDetail() {
                             <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por cliente</Typography>                            
                            
                             <Grid container item xs={12} sx={{ paddingTop: 0 }}>
-                              <LocalizationProvider dateAdapter={AdapterDayjs}>                   
-                                  <Grid item xs={2}>
-                                    <DatePicker
-                                      label="Fecha de canje (inicial)"
-                                      value={startDateStatTable}
-                                      format="DD/MM/YYYY"
-                                      onChange={setStartDateStatTable}
-                                      renderInput={(params) => <TextField {...params} />}
-                                    />
-                                  </Grid>
-                                  <Grid item xs={2}>
-                                    <DatePicker
-                                      label="Fecha de canje (final)"
-                                      value={endDateStatTable}
-                                      format="DD/MM/YYYY"
-                                      onChange={setEndDateStatTable}
-                                      renderInput={(params) => <TextField {...params} />}
-                                    />
-                                  </Grid>
-                              </LocalizationProvider>
-                              <Grid item xs={2}>
+                              
+                              <Grid item xs={7.5} sx={{ paddingBottom: 2}}>
                                 <FormControl fullWidth>
                                 <InputLabel id="search-select-categoria" >Categoria</InputLabel>
                                 <Select
@@ -1194,7 +1175,29 @@ export default function ClienteViewDetail() {
                                 </Select>
                                 </FormControl>
                               </Grid>
-                              <Grid item xs={2}>
+                              <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>                   
+                                  <Grid item xs={2} sx={{ paddingBottom: 2}}>
+                                    <DatePicker
+                                      label="Fecha de canje (inicial)"
+                                      value={startDateStatTable}
+                                      format="DD/MM/YYYY"
+                                      onChange={setStartDateStatTable}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                                  <Grid item xs={2} sx={{ paddingBottom: 2}}>
+                                    <DatePicker
+                                      label="Fecha de canje (final)"
+                                      value={endDateStatTable}
+                                      format="DD/MM/YYYY"
+                                      onChange={setEndDateStatTable}
+                                      renderInput={(params) => <TextField {...params} />}
+                                    />
+                                  </Grid>
+                              </LocalizationProvider>
+                              <Grid item xs={7.5}>
                                 <FormControl fullWidth>
                                 <InputLabel id="search-select-tienda">Tienda</InputLabel>
                                 <Select
@@ -1246,6 +1249,7 @@ export default function ClienteViewDetail() {
                                 </Select>
                                 </FormControl>
                               </Grid>
+                              <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>                   
                                   <Grid item xs={2}>
                                     <DatePicker
@@ -1256,6 +1260,7 @@ export default function ClienteViewDetail() {
                                       renderInput={(params) => <TextField {...params} />}
                                     />
                                   </Grid>
+                                  <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
                                   <Grid item xs={2}>
                                     <DatePicker
                                       label="Fecha de expiracion (final)"
