@@ -980,6 +980,7 @@ export default function ClienteViewDetail() {
                             backgroundColor: '#F9FAFB',
                             marginTop:'0%',
                           }} >
+                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por Categorías</Typography>
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1045,12 +1046,11 @@ export default function ClienteViewDetail() {
                             backgroundColor: '#F9FAFB',
                             marginTop:'0%',
                           }} >
+                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Asistencia a Eventos por Categorías</Typography>
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2} 
-                                justifyContent="center"
-                                alignItems="center">
+                                <Grid container spacing={2} >
                                   <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha inicial"
@@ -1341,6 +1341,7 @@ export default function ClienteViewDetail() {
                                       labelDisplayedRows={labelDisplayedRows}
                                       rowsPerPageOptions={[6, 12, 18]}
                                       onRowsPerPageChange={handleChangeRowsPerPage}
+
                                     />
                                   </Card>
                                 )}

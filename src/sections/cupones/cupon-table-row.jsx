@@ -220,6 +220,14 @@ export default function CuponTableRow({
   const mesFormateado = mes < 10 ? `0${mes}` : mes;
   const fechaFormateada = `${diaFormateado}/${mesFormateado}/${año}`;
 
+  const formatearFecha = (fechaISO) => {
+    const meses = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const fechaX = new Date(fechaISO);
+    const diaX = String(fecha.getDate()).padStart(2, '0');
+    const mesX = meses[fecha.getMonth()]; // Los meses son 0-11
+    const añoX = fecha.getFullYear();
+    return `${diaX} ${mesX} ${añoX}`;
+  };
   return (
     <>
       <Card variant="outlined" sx={{ marginBottom: 1.5, border: -2 , background: 'linear-gradient(to bottom, rgba(135, 206, 250, 0.05), rgba(0, 191, 255, 0.01))', boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)'}}>
@@ -237,7 +245,7 @@ export default function CuponTableRow({
                 {sumilla}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Fecha de Vencimiento: {fechaFormateada}
+                Fecha de Vencimiento: {formatearFecha(fechaFormateada)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
               <span className={activo ? classes.activo : classes.inactivo}>

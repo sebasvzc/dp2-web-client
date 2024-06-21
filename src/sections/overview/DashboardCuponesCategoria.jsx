@@ -54,7 +54,7 @@ const DashboardCuponesCategoria = ({ dataDash }) => {
 
   return (
     <div > {/* Ajusta el padding superior y centra el texto */}
-      <h4 style={{ textAlign: 'center' }}>Cupones Canjeados por Categorías Principales</h4>
+
       <div id="dashboard-pie-chart"  />
       {/* Aplica el borde */}
     </div>

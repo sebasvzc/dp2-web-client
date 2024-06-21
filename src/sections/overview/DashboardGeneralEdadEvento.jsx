@@ -35,7 +35,7 @@ const DashboardGeneralEdadEvento = ({ dataDash }) => {
         },
         offsetY: -20,
         style: {
-          fontSize: '12px',
+          fontSize: '18px',
           colors: ["#304758"]
         }
       },
@@ -44,6 +44,11 @@ const DashboardGeneralEdadEvento = ({ dataDash }) => {
         position: 'bottom',
         axisBorder: {
           show: false
+        },
+        labels: {
+          style: {
+            fontSize: '16px', // Cambia el tamaño de la fuente aquí
+          }
         },
         axisTicks: {
           show: false
