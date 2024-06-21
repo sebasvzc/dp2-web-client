@@ -35,9 +35,10 @@ const DashboardGeneralBarCategAsist = ({ dataDash}) => {
       colors:"#EE8700",
       dataLabels: {
         enabled: true,
-        offsetX: 30, // Ajusta la posición horizontal
+        offsetX: 45, // Ajusta la posición horizontal
         style: {
-          colors: ['#000'] // Color de las etiquetas
+          colors: ['#000'], // Color de las etiquetas
+          fontSize: '18px'
         }
       },
       stroke: {
@@ -46,7 +47,19 @@ const DashboardGeneralBarCategAsist = ({ dataDash}) => {
       },
       xaxis: {
         categories: dataDash.categoriaTiendas,
+        labels: {
+          style: {
+            fontSize: '16px', // Cambia el tamaño de la fuente aquí
+          }
+        },
       },
+      yaxis:{
+        labels: {
+          style: {
+            fontSize: '16px', // Cambia el tamaño de la fuente aquí
+          }
+        },
+      }
     };
 
     const chart2 = new ApexCharts(document.querySelector('#dashboard-general-bar-categ-assist'), options);

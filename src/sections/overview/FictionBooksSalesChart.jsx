@@ -36,10 +36,12 @@ const FictionBooksSalesChart = ({ dataDash}) => {
       colors:"#005CAE",
       dataLabels: {
         enabled: true,
-        offsetX: 30, // Ajusta la posición horizontal
+        offsetX: 45, // Ajusta la posición horizontal
         style: {
-          colors: ['#000'] // Color de las etiquetas
-        }
+          colors: ['#000'],
+          fontSize: '18px'
+        },
+
       },
       stroke: {
         width: 1,
@@ -47,7 +49,19 @@ const FictionBooksSalesChart = ({ dataDash}) => {
       },
       xaxis: {
         categories: dataDash.nombreTiendas,
+        labels: {
+          style: {
+            fontSize: '16px', // Cambia el tamaño de la fuente aquí
+          }
+        },
       },
+      yaxis:{
+        labels: {
+          style: {
+            fontSize: '16px', // Cambia el tamaño de la fuente aquí
+          }
+        },
+      }
     };
 
     const chart = new ApexCharts(document.querySelector('#fiction-books-sales-chart'), options);

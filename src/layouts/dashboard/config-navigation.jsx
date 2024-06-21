@@ -43,11 +43,12 @@ import Iconify from '../../components/iconify';
           typography: 'body2',
           textTransform: 'capitalize',
           fontWeight: 'fontWeightMedium',
+          fontSize: 16,
           color: "white",
           ...(item.path === usePathname() && {
             color: 'white',
             fontWeight: 'fontWeightSemiBold',
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.28),
             '&:hover': {
               bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
             },

@@ -72,6 +72,7 @@ export default function Nav({ openNav, onCloseNav }) {
         px: 2.5,
         display: 'flex',
         borderRadius: 1.5,
+
         alignItems: 'center',
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
         color:"white"
@@ -80,8 +81,8 @@ export default function Nav({ openNav, onCloseNav }) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle1">{account.nombre} {account.apellido}</Typography>
-        <Typography variant="body2" sx={{ color: 'white' }}>
+        <Typography variant="subtitle1" sx={{fontSize: 16}}>{account.nombre} {account.apellido}</Typography>
+        <Typography variant="body2" sx={{ color: 'white',fontSize: 16, }}>
           {account.rol}
         </Typography>
       </Box>
