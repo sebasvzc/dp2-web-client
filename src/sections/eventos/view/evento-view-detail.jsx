@@ -269,7 +269,7 @@ export default function EventoDetail() {
       formData.append("tipo", "evento");
       formData.append("idReferencia", idParam);
       
-      const response = await fetch(`http://localhost:3000/api/qr/generar`, {
+      const response = await fetch(`http://3.218.68.113/api/api/qr/generar`, {
         method: 'POST',
         body: JSON.stringify(formDatos),
         headers: {

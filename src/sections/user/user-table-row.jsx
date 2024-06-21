@@ -169,7 +169,7 @@ export default function UserTableRow({
       let response="";
       console.log(searchTerm)
       if(searchTerm===""){
-        response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
+        response = await fetch(`http://3.218.68.113/api/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -178,7 +178,7 @@ export default function UserTableRow({
           }
         });
       }else{
-        response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
+        response = await fetch(`http://3.218.68.113/api/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

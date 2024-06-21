@@ -67,7 +67,7 @@ export async function getEdadEventosPorc(token, refreshToken, endDateParam,start
   try {
 
     let response="";
-    response = await fetch(`http://localhost:3000/api/eventos/getEdadPorcEventos?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://3.218.68.113/api/api/eventos/getEdadPorcEventos?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
