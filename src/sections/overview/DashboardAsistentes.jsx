@@ -38,7 +38,7 @@ const DashboardAsistentes = ({ dataDash }) => {
       xaxis: {
         categories: ['Asistentes'],
         max: dataDash.totalInscritos,
-        tickAmount: dataDash.totalInscritos, // Añade esta línea para asegurar que los ticks se muestren correctamente
+        tickAmount: Math.min(dataDash.totalInscritos, 10), // Limita la cantidad de ticks
         labels: {
           style: {
             fontSize: '16px' // Aumenta el tamaño de los números del eje x aquí
