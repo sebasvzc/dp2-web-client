@@ -14,8 +14,8 @@ const DashboardEventosCategorCliente = ({ dataDash }) => {
     const options = {
       series: dataDash[0].data,
       chart: {
-
         type: 'pie',
+        width: 650
       },
       labels: dataDash[0].categoria,
       legend: {
@@ -31,6 +31,19 @@ const DashboardEventosCategorCliente = ({ dataDash }) => {
         },
       },
       colors: ['#1E90FF', '#6495ED', '#87CEEB', '#4682B4', '#4169E1', '#00BFFF', '#6A5ACD', '#483D8B', '#4169E1', '#8A2BE2'], // Paleta de colores bonitos de azules
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        fontSize: '16px',  // Aumenta el tamaño de la fuente de la leyenda
+        markers: {
+          width: 12,
+          height: 12,
+        },
+        itemMargin: {
+          horizontal: 10,
+          vertical: 5
+        }
+      },
       responsive: [{
         breakpoint: 480,
         options: {

@@ -979,8 +979,9 @@ export default function ClienteViewDetail() {
                             border: "1px solid #BFC0C1",
                             backgroundColor: '#F9FAFB',
                             marginTop:'0%',
+                            paddingBottom:0,
                           }} >
-                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por Categorías</Typography>
+                          <Typography variant="h4" sx={{ paddingBottom: 0, paddingLeft: 2 , paddingTop: 2, textAlign: 'center'}}>Cupones Canjeados por Categorías</Typography>
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1027,7 +1028,9 @@ export default function ClienteViewDetail() {
                                   </Typography>
                                 </Box>
                               ) : (
-                                <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                  <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                                </div>
                               )}
                             </Grid>
                           </Grid>
@@ -1045,12 +1048,13 @@ export default function ClienteViewDetail() {
                             border: "1px solid #BFC0C1",
                             backgroundColor: '#F9FAFB',
                             marginTop:'0%',
+                            paddingBottom:0,
                           }} >
-                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Asistencia a Eventos por Categorías</Typography>
+                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2, textAlign: 'center'}}>Asistencia a Eventos por Categorías</Typography>
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2} >
+                                <Grid container spacing={2} justifyContent="center">
                                   <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha inicial"
@@ -1092,7 +1096,9 @@ export default function ClienteViewDetail() {
                                   </Typography>
                                 </Box>
                               ) : (
-                                <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                  <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                                </div>
                               )}
 
                             </Grid>
