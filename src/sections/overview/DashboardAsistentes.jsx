@@ -34,7 +34,7 @@ const DashboardAsistentes = ({ dataDash }) => {
           top: -10
         }
       },
-      colors: ['#00489D'], // Cambia el color a azul (puedes usar otros valores de color válidos)
+      colors: ['#0B5D1E'], // Cambia el color a azul (puedes usar otros valores de color válidos)
       xaxis: {
         categories: ['Asistentes'],
         max: dataDash.totalInscritos,

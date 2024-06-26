@@ -57,7 +57,7 @@ const DashboardGeneroEdad = ({ dataDash }) => {
         categories,
         labels: {
           style: {
-            fontSize: '14px' // Aumenta el tamaño de los números del eje x aquí
+            fontSize: '16px' // Aumenta el tamaño de los números del eje x aquí
           }
         },
         title: {
@@ -70,11 +70,24 @@ const DashboardGeneroEdad = ({ dataDash }) => {
       yaxis: {
         labels: {
           style: {
-            fontSize: '14px' // Aumenta el tamaño de los números del eje y aquí
+            fontSize: '16px' // Aumenta el tamaño de los números del eje y aquí
           }
         }
       },
-      colors: ['#FF69B4', '#FFD700', '#87CEEB']
+      colors: [ '#AF3B6E','#FEA82F', '#084887'],
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        fontSize: '16px',  // Aumenta el tamaño de la fuente de la leyenda
+        markers: {
+          width: 12,
+          height: 12,
+        },
+        itemMargin: {
+          horizontal: 10,
+          vertical: 5
+        }
+      },
     };
     const chart = new ApexCharts(document.querySelector('#dashboard-bar-genre-age'), options);
     chart.render();
