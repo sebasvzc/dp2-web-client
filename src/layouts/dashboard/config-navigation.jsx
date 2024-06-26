@@ -193,12 +193,6 @@ NavItem.propTypes = {
             permission: 'Gestion de Tiendas',
           },
           {
-            title: 'Gestión de Notificaciones',
-            path: '/notificacion',
-            icon: icon('ic_notificacion'),
-            permission: 'Gestion de Notificaciones',
-          },
-          {
             title: 'Ver QR',
             path: '/verqr',
             icon: icon('ic_qr'),
