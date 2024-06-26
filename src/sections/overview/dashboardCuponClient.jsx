@@ -19,7 +19,13 @@ const DashboardCuponClient = ({ dataDash }) => {
         height: 350
       },
       xaxis: {
-        categories: dataDash.fechas
+        categories: dataDash.fechas,
+        labels: {
+          style: {
+            fontSize: '16px',  // Aumenta el tamaño de la fuente del eje X
+            colors: ['#000000']
+          }
+        }
       },
       plotOptions: {
         bar: {
@@ -30,7 +36,7 @@ const DashboardCuponClient = ({ dataDash }) => {
         enabled: true,
         formatter: (val) => `${val.toFixed(0)}`,
         style: {
-          fontSize: '12px',
+          fontSize: '20px',
           colors: ['#00489C']
         }
       },
@@ -52,12 +58,16 @@ const DashboardCuponClient = ({ dataDash }) => {
         title: {
           text: 'Cantidad de cupones',
           style: {
-            fontSize: '16px',
+            fontSize: '20px',
             fontFamily: 'Roboto, sans-serif',
           }
         },
         labels: {
-          formatter: (val) => val.toFixed(0)
+          formatter: (val) => val.toFixed(0),
+          style: {
+            fontSize: '16px',  // Aumenta el tamaño de la fuente del eje Y
+            colors: ['#000000']
+          }
         }
       },
       tooltip: {
