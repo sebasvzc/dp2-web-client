@@ -42,21 +42,31 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
         title: {
           text: 'Fecha de compra',
           style: {
-            fontSize: '16px',
+            fontSize: '20px',
             fontFamily: 'Roboto, sans-serif',
           }
         },
         categories:categoriesData,
+        labels: {
+          style: {
+            fontSize: '16px', // Aumenta el tamaño de las etiquetas del eje x aquí
+          }
+        }
       },
 
       yaxis: {
         title: {
           text: 'Cupones canjeados',
           style: {
-            fontSize: '16px',
+            fontSize: '20px',
             fontFamily: 'Roboto, sans-serif',
           }
         },
+        labels: {
+          style: {
+            fontSize: '16px', // Aumenta el tamaño de las etiquetas del eje x aquí
+          }
+        }
       },
       fill: {
         opacity: 1
