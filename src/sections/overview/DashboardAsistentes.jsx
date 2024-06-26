@@ -43,8 +43,8 @@ const DashboardAsistentes = ({ dataDash }) => {
           style: {
             fontSize: '16px' // Aumenta el tamaño de los números del eje x aquí
           },
-          formatter: function (val) {
-            return parseInt(val); // Asegura que los valores sean enteros y no se repitan
+          formatter (val) {
+            return parseInt(val, 10); // Asegura que los valores sean enteros y no se repitan
           }
         }
       },

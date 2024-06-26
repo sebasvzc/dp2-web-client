@@ -154,7 +154,7 @@ export const NotificacionesPage = lazy(() => import('src/pages/notificaciones'))
               </Route>
 
               <Route path="/notificacion" element={
-                <ProtectedRoute requiredPermissions={['Configurar Notificacion']}>
+                <ProtectedRoute requiredPermissions={['Gestion de Notificaciones']}>
                 <NotificacionesPage/>
                   </ProtectedRoute>
               }/>
