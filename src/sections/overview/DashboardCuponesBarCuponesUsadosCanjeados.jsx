@@ -32,7 +32,7 @@ const DashboardCuponesBarCuponesUsadosCanjeados = ({ dataDash }) => {
         colors: ['transparent']
       },
       title: {
-        text: 'Cantidad de cupones usado agrupados por mes',
+        text: 'Cantidad de cupones usados por periodo',
       },
       xaxis: {
         title: {
@@ -42,7 +42,12 @@ const DashboardCuponesBarCuponesUsadosCanjeados = ({ dataDash }) => {
             fontFamily: 'Roboto, sans-serif',
           }
         },
-        categories
+        categories,
+        labels: {
+          style: {
+            fontSize: '16px', // Aumenta el tamaño de las etiquetas del eje x aquí
+          }
+        }
       },
       yaxis: {
         title: {
