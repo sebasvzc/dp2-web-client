@@ -32,7 +32,7 @@ const DashboardCuponesTiendaEspecifica = ({ dataDash }) => {
         colors: ['transparent']
       },
       title: {
-        text: 'Cantidad de cupones usado agrupados por mes',
+        text: 'Cantidad de cupones usados por periodo',
         style: {
           fontFamily: 'Roboto, sans-serif',
           fontSize: '24px', // Tamaño para h3
@@ -44,18 +44,28 @@ const DashboardCuponesTiendaEspecifica = ({ dataDash }) => {
         title: {
           text: 'Fecha de compra',
           style: {
-            fontSize: '16px',
+            fontSize: '20px',
             fontFamily: 'Roboto, sans-serif',
           }
         },
-        categories
+        categories,
+        labels: {
+          style: {
+            fontSize: '16px', // Aumenta el tamaño de las etiquetas del eje x aquí
+          }
+        }
       },
       yaxis: {
         title: {
           text: 'Número de cupones',
           style: {
-            fontSize: '16px',
+            fontSize: '20px',
             fontFamily: 'Roboto, sans-serif',
+          }
+        },
+        labels: {
+          style: {
+            fontSize: '16px', // Aumenta el tamaño de las etiquetas del eje x aquí
           }
         }
       },

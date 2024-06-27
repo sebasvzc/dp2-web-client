@@ -244,7 +244,7 @@ export default function CategoriaTableRow({
       {/* Modal para visualizar usuario */}
       <Modal open={openView} onClose={handleCloseModalView} aria-labelledby="modal-title">
         <div className={classes.modalContainer}>
-        <Typography variant="h6" style={{ marginBottom: "20px" }}>Visualizar Usuario</Typography>
+        <Typography variant="h6" style={{ marginBottom: "20px" }}>Visualizar Categoría</Typography>
           <Stack direction="column" spacing={1}>
             <TextField
               name="nombre"
@@ -277,7 +277,7 @@ export default function CategoriaTableRow({
       {/* Modal para editar usuario */}
       <Modal open={openEdit} onClose={handleCloseModalEdit} aria-labelledby="modal-title" >
         <div className={classes.modalContainer}>
-        <Typography variant="h6" style={{ marginBottom: "20px" }}>Modificar Usuario</Typography>
+        <Typography variant="h6" style={{ marginBottom: "20px" }}>Modificar Categoría</Typography>
           <Stack direction="column" spacing={1}>
             <TextField
               name="nombre"

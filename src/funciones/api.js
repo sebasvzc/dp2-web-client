@@ -88,7 +88,7 @@ export async function getCategoriaTiendas(token, refreshToken, searchTerm) {
     let response="";
     console.log(searchTerm)
     if(searchTerm==="" || searchTerm === undefined){
-      response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=all&page=1&pageSize=10`, {
+      response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=all&page=1&pageSize=40`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

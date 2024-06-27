@@ -36,7 +36,7 @@ import Stack from '@mui/material/Stack';
 import { MarginOutlined } from '@mui/icons-material';
 import Iconify from '../../../components/iconify';
 import UserTableToolbar from '../../user/user-table-toolbar';
-import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
+import { getCategoriaTiendas } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
@@ -145,6 +145,7 @@ export default function TiendaDetail() {
 
         console.log(esLimitadoText)
         setTiendaText(data.detalles.nombre)
+        console.log("La categoria que no sale pipip:", data.detalles.categoriaTienda.id)
         setSelectedCategoria(data.detalles.categoriaTienda.id)
         setLocacionText(data.detalles.locacion)
         setDescripcionText(data.detalles.descripcion)
@@ -296,13 +297,12 @@ export default function TiendaDetail() {
         <Grid item >
           {view === 'datos' ? (
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
-              {!editable && (
+              <Box display="flex" justifyContent="flex-end" alignItems="center" sx={{ paddingRight: '2%'}}>
+                {!editable && (
                   <Button
                     variant="contained"
-
                     sx={{
                       marginTop: 5,
-                      marginLeft: 5,
                       backgroundColor: "#003B91"
                     }} // Añade un margen derecho para separar botones si es necesario
                     startIcon={<Iconify icon="ic:baseline-edit" />}
@@ -311,7 +311,7 @@ export default function TiendaDetail() {
                     Editar
                   </Button>
                 )}
-                 {editable && ( // Renderiza estos botones solo si 'editable' es true
+                {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
                     <Button
                       type="submit"
@@ -338,6 +338,7 @@ export default function TiendaDetail() {
                     </Button>
                   </>
                 )}
+              </Box>
               {loading ? (
                 <Box
                   sx={{
@@ -382,7 +383,7 @@ export default function TiendaDetail() {
                           />
                         </Box>
                       </Box>
-                    </Grid>
+                  </Grid>
                   <Grid item xs={8} container spacing={2}>
                       <Grid item xs={6}>
                         <TextField fullWidth label="Nombre" name="nombre" defaultValue={tiendaText} disabled={!editable} />
@@ -390,11 +391,17 @@ export default function TiendaDetail() {
 
                       <Grid item xs={6}>
                         <FormControl fullWidth>
-                          <InputLabel id="search-select-label" disabled >Categoria</InputLabel>
+                          <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
-                            MenuProps={{ autoFocus: false }}
-
+                            MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  maxHeight: 300, // Ajusta la altura máxima del menú desplegable aquí
+                                  width: 250, // Ajusta el ancho del menú desplegable si es necesario
+                                },
+                              },
+                            }}
                             labelId="search-select-label"
                             id="search-select"
                             disabled={!editable}
@@ -410,7 +417,7 @@ export default function TiendaDetail() {
                               <TextField
                                 size="small"
                                 autoFocus
-                                placeholder="Busca una categoria por nombre..."
+                                placeholder="Busca una categoría por nombre..."
                                 fullWidth
                                 value={searchTerm}
                                 onChange={changeTermSearch}
@@ -431,6 +438,7 @@ export default function TiendaDetail() {
                             ))}
                           </Select>
                         </FormControl>
+                        
                       </Grid>
                     
                       <Grid item xs={6}>
@@ -498,11 +506,8 @@ export default function TiendaDetail() {
               ):(
               <Grid container spacing={2}  >
               <Grid xs={12} >
-
                   <FictionBooksSalesChart/>
-
               </Grid>
-
               </Grid>
               )}
               </Box >

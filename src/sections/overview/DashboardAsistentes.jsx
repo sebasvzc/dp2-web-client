@@ -34,7 +34,7 @@ const DashboardAsistentes = ({ dataDash }) => {
           top: -10
         }
       },
-      colors: ['#00489D'], // Cambia el color a azul (puedes usar otros valores de color válidos)
+      colors: ['#0B5D1E'], // Cambia el color a azul (puedes usar otros valores de color válidos)
       xaxis: {
         categories: ['Asistentes'],
         max: dataDash.totalInscritos,
@@ -43,8 +43,8 @@ const DashboardAsistentes = ({ dataDash }) => {
           style: {
             fontSize: '16px' // Aumenta el tamaño de los números del eje x aquí
           },
-          formatter: function (val) {
-            return parseInt(val); // Asegura que los valores sean enteros y no se repitan
+          formatter (val) {
+            return parseInt(val, 10); // Asegura que los valores sean enteros y no se repitan
           }
         }
       },

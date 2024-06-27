@@ -25,9 +25,8 @@ export default function ClientCuponTableHead({
   };
 
   return (
-    <TableHead style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}>
-      <TableRow style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}>
-
+    <TableHead style={{backgroundColor:"#084887", color:'#ffffff'}}>
+      <TableRow style={{backgroundColor:"#084887", color:'#ffffff'}}>
 
         {headLabel.map((headCell) => (
           <TableCell
@@ -35,14 +34,13 @@ export default function ClientCuponTableHead({
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{ width: headCell.width, minWidth: headCell.minWidth }}
-            style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}
+            style={{backgroundColor:"#084887", color:'#ffffff'}}
           >
             <TableSortLabel
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={onSort(headCell.id)}
-              style={{backgroundColor:"F9FAFB", color:'F9FAFB'}}
             >
               {headCell.label}
               {orderBy === headCell.id ? (

@@ -21,7 +21,7 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
         type: 'bar',
         height: 350
       },
-      colors:  [ '#003B91','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'],
+      colors:  [ '#0B5D1E','#EE8700', '#983490', '#007881', '#F2B53D','#73B359','#736256','#5993B3','#5E7356','#9D875C'],
       dataLabels: {
         enabled: false
       },
@@ -42,21 +42,31 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
         title: {
           text: 'Fecha de compra',
           style: {
-            fontSize: '16px',
+            fontSize: '20px',
             fontFamily: 'Roboto, sans-serif',
           }
         },
         categories:categoriesData,
+        labels: {
+          style: {
+            fontSize: '16px', // Aumenta el tamaño de las etiquetas del eje x aquí
+          }
+        }
       },
 
       yaxis: {
         title: {
           text: 'Cupones canjeados',
           style: {
-            fontSize: '16px',
+            fontSize: '20px',
             fontFamily: 'Roboto, sans-serif',
           }
         },
+        labels: {
+          style: {
+            fontSize: '16px', // Aumenta el tamaño de las etiquetas del eje x aquí
+          }
+        }
       },
       fill: {
         opacity: 1
@@ -81,7 +91,7 @@ const DashboardCuponesMesCliente = ({ dataDash }) => {
 
   return (
     <div > {/* Ajusta el padding superior y centra el texto */}
-      <h4 style={{ textAlign: 'center' }}>Cupones por mes y año de la fecha de Canje</h4>
+      <h4 style={{ textAlign: 'center' }}>Cupones por periodo de Canje</h4>
       <div id="dashboard-cupones-mes-clientes" />
     </div>
   );

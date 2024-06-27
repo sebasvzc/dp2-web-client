@@ -14,7 +14,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ClearIcon, DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Tab, Grid, Chip, Tabs, Table, Select,
-  MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
+  MenuItem, TextField, TableBody, InputLabel,FormControl, 
+  createTheme , ThemeProvider, TableContainer,
+  TableRow, TableCell, TableHead, Paper,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import Card from '@mui/material/Card';
@@ -787,6 +789,7 @@ export default function ClienteViewDetail() {
     },
   });
 
+  
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
@@ -904,6 +907,257 @@ export default function ClienteViewDetail() {
                       </Grid>
                     </Grid>
                   </Box>
+                <Box>
+                  <Grid container spacing={2} sx={{padding: '2%'}}>
+                    <Typography variant="h4" sx={{ paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por cliente</Typography>
+                    <Grid item xs={12}>
+                      <Box sx={{ borderRadius: '8px',  padding: '1%', border: '1px solid', borderColor: '#A6B0BB' }}>
+                        <Grid container item xs={12} sx={{ paddingTop: 0 }}>
+                        <Grid item xs={12} sx={{ paddingBottom: 2}}>
+                          Filtrar por:
+                        </Grid>
+                          <Grid item xs={7.5} sx={{ paddingBottom: 2}}>
+                            <FormControl fullWidth>
+                              <InputLabel id="search-select-categoria" >Categoria</InputLabel>
+                              <Select
+                                // Disables auto focus on MenuItems and allows TextField to be in focus
+                                MenuProps={{
+                                  PaperProps: {
+                                    style: {
+                                      maxHeight: 300, // Ajusta la altura máxima del menú desplegable aquí
+                                      width: 250, // Ajusta el ancho del menú desplegable si es necesario
+                                    },
+                                  },
+                                }}
+                                labelId="search-select-categoria"
+                                id="search-categoria"
+                                value={selectedCategoria}
+                                label="Elegir Tienda"
+                                name=""
+                                onChange={(e) => setSelectedCategoria(e.target.value)}
+                                // This prevents rendering empty string in Select's value
+                                // if search text would exclude currently selected option.
+
+                              >
+                                <ListSubheader>
+                                  <TextField
+                                    size="small"
+                                    autoFocus
+                                    placeholder="Busca una categoria por nombre..."
+                                    fullWidth
+                                    value={searchTermCateg}
+                                    onChange={changeCategoriaSearch}
+                                    onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <SearchIcon onClick={handleSearchCategoria} />
+                                        </InputAdornment>
+                                      ),
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="clear search"
+                                            onClick={handleEraseSelectedCategoria}
+                                          >
+                                            <ClearIcon />
+                                          </IconButton>
+                                        </InputAdornment>
+                                      )
+                                    }}
+                                  />
+                                </ListSubheader>
+                                {categorias.map((option, i) => (
+                                  <MenuItem key={i} value={option.id}>
+                                    {option.nombre}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Grid item xs={2.1} sx={{ paddingBottom: 2}}>
+                              <DatePicker
+                                label="Fecha de canje (inicial)"
+                                value={startDateStatTable}
+                                format="DD/MM/YYYY"
+                                onChange={setStartDateStatTable}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                            <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                            <Grid item xs={2.1} sx={{ paddingBottom: 2}}>
+                              <DatePicker
+                                label="Fecha de canje (final)"
+                                value={endDateStatTable}
+                                format="DD/MM/YYYY"
+                                onChange={setEndDateStatTable}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                          </LocalizationProvider>
+                          <Grid item xs={7.5}>
+                            <FormControl fullWidth>
+                              <InputLabel id="search-select-tienda">Tienda</InputLabel>
+                              <Select
+                                // Disables auto focus on MenuItems and allows TextField to be in focus
+                                MenuProps={{ autoFocus: false }}
+
+                                labelId="search-select-tienda"
+                                id="search-tienda"
+                                value={selectedTienda}
+                                label="Elegir Tienda"
+                                onChange={(e) => setSelectedTienda(e.target.value)}
+                                // This prevents rendering empty string in Select's value
+                                // if search text would exclude currently selected option.
+
+                              >
+                                <ListSubheader>
+                                  <TextField
+                                    size="small"
+                                    autoFocus
+                                    placeholder="Busca una tienda por nombre..."
+                                    fullWidth
+                                    value={searchTerm}
+                                    onChange={changeTermSearch}
+                                    onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <SearchIcon onClick={handleSearch} />
+                                        </InputAdornment>
+                                      ),
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="clear search"
+                                            onClick={handleEraseSelectedTienda}
+                                          >
+                                            <ClearIcon />
+                                          </IconButton>
+                                        </InputAdornment>
+                                      )
+                                    }}
+                                  />
+                                </ListSubheader>
+                                {tiendas.map((option, i) => (
+                                  <MenuItem key={i} value={option.id}>
+                                    {option.nombre}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Grid item xs={2.1}>
+                              <DatePicker
+                                label="Fecha de expiracion (inicial)"
+                                value={startDateStatExp}
+                                format="DD/MM/YYYY"
+                                onChange={setStartDateStatExp}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                            <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                            <Grid item xs={2.1}>
+                              <DatePicker
+                                label="Fecha de expiracion (final)"
+                                value={endDateStatExp}
+                                format="DD/MM/YYYY"
+                                onChange={setEndDateStatExp}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                          </LocalizationProvider>
+                        </Grid>
+                      </Box>     
+                    </Grid>     
+                    <Grid item xs={12}>
+                      <Grid item xs={12}>
+                        {loadingtableCupon ? (
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              textAlign: 'center',
+                              height: '25%',
+                              marginTop: '15%', // Ajusta la distancia desde la parte superior
+                              marginBottom: '15%',
+                            }}
+                          >
+                            <CircularProgress color="primary" />
+                            <Typography variant="h6" sx={{ mt: 1 }}>
+                              Cargando...
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <Card >
+                            <TableContainer sx={{ overflow: 'unset' }}>
+                              <Table sx={{ minWidth: 800 }}>
+                                <ClientCuponTableHead
+                                  order={order}
+                                  orderBy={orderBy}
+                                  rowCount={dataCupones.length}
+                                  numSelected={selected.length}
+                                  onRequestSort={handleSort}
+                                  headLabel={[
+                                    { id: 'codigo', label: 'Código' },
+                                    { id: 'categoria', label: 'Categoria' },
+                                    { id: 'tienda', label: 'Tienda' },
+                                    { id: 'fechaCompra', label: 'Fecha de Canje' },
+                                    { id: 'fechaExpiracion', label: 'Fecha de Expiracion' },
+                                    { id: '', label: 'Uso' },
+                                    { id: '', label: 'Canjeo' },
+                                  ]}
+                                />
+                                <TableBody>
+                                  {dataCupones
+                                    .map((row) => (
+                                      <CuponxClienteTableRow
+                                        key={row.id}
+                                        id={row.id}
+                                        codigo={row.cupon.codigo}
+                                        usado={row.usado}
+                                        categoria={row.cupon.locatario.categoriaTienda.nombre}
+                                        tienda={row.cupon.locatario.nombre}
+                                        fechaCompra={row.fechaCompra}
+                                        fechaExpiracion={row.cupon.fechaExpiracion}
+                                        selected={selected.indexOf(row.id) !== -1}
+                                        handleClick={(event) => handleClick(event, row.id)}
+                                      />
+                                    ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+
+
+                            <TablePagination
+                              page={page - 1}
+                              component="div"
+                              count={totalClientsCupon}
+                              rowsPerPage={pageSize}
+                              onPageChange={handleChangePage}
+                              labelRowsPerPage="Cupones por página"
+                              labelDisplayedRows={labelDisplayedRows}
+                              rowsPerPageOptions={[6, 12, 18]}
+                              onRowsPerPageChange={handleChangeRowsPerPage}
+
+                            />
+                          </Card>
+                        )}
+                      </Grid>
+
+                    </Grid>
+                  </Grid>
+                </Box>
                 </Box>
               )}
             </form>
@@ -979,8 +1233,9 @@ export default function ClienteViewDetail() {
                             border: "1px solid #BFC0C1",
                             backgroundColor: '#F9FAFB',
                             marginTop:'0%',
+                            paddingBottom:0,
                           }} >
-                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por Categorías</Typography>
+                          <Typography variant="h4" sx={{ paddingBottom: 0, paddingLeft: 2 , paddingTop: 2, textAlign: 'center'}}>Cupones Canjeados por Categorías</Typography>
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1027,7 +1282,9 @@ export default function ClienteViewDetail() {
                                   </Typography>
                                 </Box>
                               ) : (
-                                <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                  <DashboardCuponesCategoria dataDash={dataDashCategoria}/>
+                                </div>
                               )}
                             </Grid>
                           </Grid>
@@ -1045,12 +1302,13 @@ export default function ClienteViewDetail() {
                             border: "1px solid #BFC0C1",
                             backgroundColor: '#F9FAFB',
                             marginTop:'0%',
+                            paddingBottom:0,
                           }} >
-                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Asistencia a Eventos por Categorías</Typography>
+                          <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2, textAlign: 'center'}}>Asistencia a Eventos por Categorías</Typography>
                           <Grid container spacing={2} sx={{marginTop:'0%'}}>
                             <Grid item xs={12} sx={{marginTop:'0%'}}>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Grid container spacing={2} >
+                                <Grid container spacing={2} justifyContent="center">
                                   <Grid item xs={4}>
                                     <DatePicker
                                       label="Fecha inicial"
@@ -1092,7 +1350,9 @@ export default function ClienteViewDetail() {
                                   </Typography>
                                 </Box>
                               ) : (
-                                <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                  <DashboardEventosCategorCliente dataDash={dataDashCategoriaEventos}/>
+                                </div>
                               )}
 
                             </Grid>
@@ -1116,239 +1376,7 @@ export default function ClienteViewDetail() {
                           <DashboardCuponesMesCliente dataDash={dataDash}/>
                         </Card>
                       </Grid>
-                      <Grid container spacing={2} sx={{padding: '2%'}}>
 
-                        <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por cliente</Typography>
-
-                        <Grid container item xs={12} sx={{ paddingTop: 0 }}>
-
-                          <Grid item xs={7.5} sx={{ paddingBottom: 2}}>
-                            <FormControl fullWidth>
-                              <InputLabel id="search-select-categoria" >Categoria</InputLabel>
-                              <Select
-                                // Disables auto focus on MenuItems and allows TextField to be in focus
-                                MenuProps={{ autoFocus: false }}
-
-                                labelId="search-select-categoria"
-                                id="search-categoria"
-                                value={selectedCategoria}
-                                label="Elegir Tienda"
-                                name=""
-                                onChange={(e) => setSelectedCategoria(e.target.value)}
-                                // This prevents rendering empty string in Select's value
-                                // if search text would exclude currently selected option.
-
-                              >
-                                <ListSubheader>
-                                  <TextField
-                                    size="small"
-                                    autoFocus
-                                    placeholder="Busca una categoria por nombre..."
-                                    fullWidth
-                                    value={searchTermCateg}
-                                    onChange={changeCategoriaSearch}
-                                    onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                    InputProps={{
-                                      startAdornment: (
-                                        <InputAdornment position="start">
-                                          <SearchIcon onClick={handleSearchCategoria} />
-                                        </InputAdornment>
-                                      ),
-                                      endAdornment: (
-                                        <InputAdornment position="end">
-                                          <IconButton
-                                            aria-label="clear search"
-                                            onClick={handleEraseSelectedCategoria}
-                                          >
-                                            <ClearIcon />
-                                          </IconButton>
-                                        </InputAdornment>
-                                      )
-                                    }}
-                                  />
-                                </ListSubheader>
-                                {categorias.map((option, i) => (
-                                  <MenuItem key={i} value={option.id}>
-                                    {option.nombre}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Grid>
-                          <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Grid item xs={2} sx={{ paddingBottom: 2}}>
-                              <DatePicker
-                                label="Fecha de canje (inicial)"
-                                value={startDateStatTable}
-                                format="DD/MM/YYYY"
-                                onChange={setStartDateStatTable}
-                                renderInput={(params) => <TextField {...params} />}
-                              />
-                            </Grid>
-                            <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                            <Grid item xs={2} sx={{ paddingBottom: 2}}>
-                              <DatePicker
-                                label="Fecha de canje (final)"
-                                value={endDateStatTable}
-                                format="DD/MM/YYYY"
-                                onChange={setEndDateStatTable}
-                                renderInput={(params) => <TextField {...params} />}
-                              />
-                            </Grid>
-                          </LocalizationProvider>
-                          <Grid item xs={7.5}>
-                            <FormControl fullWidth>
-                              <InputLabel id="search-select-tienda">Tienda</InputLabel>
-                              <Select
-                                // Disables auto focus on MenuItems and allows TextField to be in focus
-                                MenuProps={{ autoFocus: false }}
-
-                                labelId="search-select-tienda"
-                                id="search-tienda"
-                                value={selectedTienda}
-                                label="Elegir Tienda"
-                                onChange={(e) => setSelectedTienda(e.target.value)}
-                                // This prevents rendering empty string in Select's value
-                                // if search text would exclude currently selected option.
-
-                              >
-                                <ListSubheader>
-                                  <TextField
-                                    size="small"
-                                    autoFocus
-                                    placeholder="Busca una tienda por nombre..."
-                                    fullWidth
-                                    value={searchTerm}
-                                    onChange={changeTermSearch}
-                                    onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                    InputProps={{
-                                      startAdornment: (
-                                        <InputAdornment position="start">
-                                          <SearchIcon onClick={handleSearch} />
-                                        </InputAdornment>
-                                      ),
-                                      endAdornment: (
-                                        <InputAdornment position="end">
-                                          <IconButton
-                                            aria-label="clear search"
-                                            onClick={handleEraseSelectedTienda}
-                                          >
-                                            <ClearIcon />
-                                          </IconButton>
-                                        </InputAdornment>
-                                      )
-                                    }}
-                                  />
-                                </ListSubheader>
-                                {tiendas.map((option, i) => (
-                                  <MenuItem key={i} value={option.id}>
-                                    {option.nombre}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Grid>
-                          <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Grid item xs={2}>
-                              <DatePicker
-                                label="Fecha de expiracion (inicial)"
-                                value={startDateStatExp}
-                                format="DD/MM/YYYY"
-                                onChange={setStartDateStatExp}
-                                renderInput={(params) => <TextField {...params} />}
-                              />
-                            </Grid>
-                            <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                            <Grid item xs={2}>
-                              <DatePicker
-                                label="Fecha de expiracion (final)"
-                                value={endDateStatExp}
-                                format="DD/MM/YYYY"
-                                onChange={setEndDateStatExp}
-                                renderInput={(params) => <TextField {...params} />}
-                              />
-                            </Grid>
-                          </LocalizationProvider>
-                        </Grid>
-                        <Grid item xs={12}>
-
-                          <Grid item xs={12}>
-                            {loadingtableCupon ? (
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  textAlign: 'center',
-                                  height: '25%',
-                                  marginTop: '15%', // Ajusta la distancia desde la parte superior
-                                  marginBottom: '15%',
-                                }}
-                              >
-                                <CircularProgress color="primary" />
-                                <Typography variant="h6" sx={{ mt: 1 }}>
-                                  Cargando...
-                                </Typography>
-                              </Box>
-                            ) : (
-                              <Card >
-                                <TableContainer sx={{ overflow: 'unset' }}>
-                                  <Table sx={{ minWidth: 800 }}>
-                                    <ClientCuponTableHead
-                                      order={order}
-                                      orderBy={orderBy}
-                                      rowCount={dataCupones.length}
-                                      numSelected={selected.length}
-                                      onRequestSort={handleSort}
-                                      headLabel={[
-                                        { id: 'codigo', label: 'Código de Cupon' },
-                                        { id: 'categoria', label: 'Categoria' },
-                                        { id: 'tienda', label: 'Tienda' },
-                                        { id: 'fechaCompra', label: 'Fecha de Canje' },
-                                        { id: 'fechaExpiracion', label: 'Fecha de Expiracion' },
-                                      ]}
-                                    />
-                                    <TableBody>
-                                      {dataCupones
-                                        .map((row) => (
-                                          <CuponxClienteTableRow
-                                            key={row.id}
-                                            id={row.id}
-                                            codigo={row.cupon.codigo}
-                                            categoria={row.cupon.locatario.categoriaTienda.nombre}
-                                            tienda={row.cupon.locatario.nombre}
-                                            fechaCompra={row.fechaCompra}
-                                            fechaExpiracion={row.cupon.fechaExpiracion}
-                                            selected={selected.indexOf(row.id) !== -1}
-                                            handleClick={(event) => handleClick(event, row.id)}
-                                          />
-                                        ))}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>
-
-
-                                <TablePagination
-                                  page={page - 1}
-                                  component="div"
-                                  count={totalClientsCupon}
-                                  rowsPerPage={pageSize}
-                                  onPageChange={handleChangePage}
-                                  labelRowsPerPage="Cupones por página"
-                                  labelDisplayedRows={labelDisplayedRows}
-                                  rowsPerPageOptions={[6, 12, 18]}
-                                  onRowsPerPageChange={handleChangeRowsPerPage}
-
-                                />
-                              </Card>
-                            )}
-                          </Grid>
-
-                        </Grid>
-                      </Grid>
                     </Grid>
                   </Box>
                 </Box>
