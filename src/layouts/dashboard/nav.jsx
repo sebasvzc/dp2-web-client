@@ -40,8 +40,26 @@ export default function Nav({ openNav, onCloseNav }) {
   const [openPDF, setOpenPDF] = useState(false); // New state for PDF modal
   const [pdfUrl, setPdfUrl] = useState(''); // New state for PDF URL
 
-  const handleOpenPDF = () => {
-    const url = 'https://drive.google.com/file/d/1hHx4OWEKkVmY5N2iCbmLTA0IEJoa9xN0/view?usp=sharing';
+  const handleOpenPDF = async() => {
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    console.log(userStringify.token);
+    const accessToken = userStringify.token;
+    const {refreshToken} = userStringify;
+    console.log("estoy consultando el usuario para el navbar");
+    const response = await fetch('http://localhost:3000/api/tiendas/getPdfManual', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Refresh-Token': `Bearer ${refreshToken}`
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+    const url = data.urlPdf;
     setPdfUrl(url);
     setOpenPDF(true);
   };
