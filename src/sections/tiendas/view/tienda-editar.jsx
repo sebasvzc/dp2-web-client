@@ -36,7 +36,7 @@ import Stack from '@mui/material/Stack';
 import { MarginOutlined } from '@mui/icons-material';
 import Iconify from '../../../components/iconify';
 import UserTableToolbar from '../../user/user-table-toolbar';
-import { getTiendas, getCategoriaTiendas } from '../../../funciones/api';
+import { getCategoriaTiendas } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient';
 import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
@@ -383,7 +383,7 @@ export default function TiendaDetail() {
                           />
                         </Box>
                       </Box>
-                    </Grid>
+                  </Grid>
                   <Grid item xs={8} container spacing={2}>
                       <Grid item xs={6}>
                         <TextField fullWidth label="Nombre" name="nombre" defaultValue={tiendaText} disabled={!editable} />

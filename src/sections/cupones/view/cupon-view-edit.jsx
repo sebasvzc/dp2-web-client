@@ -630,60 +630,30 @@ export default function CuponDetail() {
                 <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
                  
                   <Grid container spacing={2}>
-                    <Grid item xs={12} >
-                      <Box display="flex" justifyContent="center" alignItems="center">
-                      {editableImg ? <Dropzone
-                          onChange={updateFiles}
-                          value={files}
-                          label="Arrastra y suelta tus archivos"
-                          maxFiles={1}
-                          footer={false}
-                          localization="ES-es"
-                          accept="image/*"
-                          disabled={!editable}
-                        >
-                          {files.map((file, index) => (
-                            // Asegura que cada FileMosaic tiene una key única
-                            <FileMosaic
-                              {...file}
-                              key={file.name + index}
-                              preview
-                              localization="ES-es"
-                              style={{ width: '80%' }}
-                            />
-                          ))}
-                        </Dropzone> : <Box
+                    <Grid item xs={4} >
+                      <Box display="flex" justifyContent="center" alignItems="center" sx={{
+                          border: '1px solid',
+                          borderColor: '#A6B0BB',
+                          borderRadius: '8px',
+                          width: '100%', // Ancho fijo del contenedor
+                          height: '350px', // Alto fijo del contenedor
+                          overflow: 'hidden', // Oculta el contenido que se sale del contenedor
+                        }}>
+                        <Box
                           position="relative"
                           width="100%"
                           maxWidth="300px"
-                          style={{ width: '100%', height: 'auto' }}
+                          style={{ width: '100%', height: 'auto'}}
                         >
                           <img
                             src={urlImagenS3}
                             alt="Imagen Predeterminada"
                             style={{ width: '100%', height: 'auto' }}
                           />
-                          <Box
-                            position="absolute"
-                            top={0}
-                            left={0}
-                            right={0}
-                            bottom={0}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            bgcolor="rgba(0, 0, 0, 0.2)"
-                          >
-                            {editable && (
-                              <IconButton onClick={handleChangeImage} disabled={!editable} style={{ color: 'white', fontSize: 16 }}>
-                                <Iconify icon="ic:baseline-edit" style={{ color: 'white', fontSize: '2rem' }} />
-                                Cambiar Imagen
-                              </IconButton>
-                            )}
-                          </Box>
-                        </Box>}
                         </Box>
+                      </Box>
                     </Grid>
+                    <Grid item xs={8} container spacing={2}>
                     <Grid item xs={3}>
                       <TextField fullWidth label="Código" name="codigo" defaultValue={cuponText} disabled />
                     </Grid>
@@ -823,6 +793,7 @@ export default function CuponDetail() {
                     <Grid item xs={3}>
                       <TextField fullWidth label="Orden de Priorización" name="ordenPriorizacion"
                                  defaultValue={ordPriorizacionText} disabled={!editable} />
+                    </Grid>
                     </Grid>
                   </Grid>
 
