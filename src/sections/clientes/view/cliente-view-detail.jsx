@@ -14,7 +14,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ClearIcon, DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Tab, Grid, Chip, Tabs, Table, Select,
-  MenuItem, TextField, TableBody, InputLabel,FormControl, createTheme , ThemeProvider, TableContainer
+  MenuItem, TextField, TableBody, InputLabel,FormControl, 
+  createTheme , ThemeProvider, TableContainer,
+  TableRow, TableCell, TableHead, Paper,
 } from '@mui/material';  // Extiende dayjs con el plugin UTC
 import { toast } from 'react-toastify';  // Importa el plugin UTC para manejar correctamente las fechas UTC
 import Card from '@mui/material/Card';
@@ -787,6 +789,7 @@ export default function ClienteViewDetail() {
     },
   });
 
+  
 
   return (
     <Container sx={{  borderLeft: '1 !important', borderRight: '1 !important', maxWidth: 'unset !important' , padding: 0 }}>
@@ -906,163 +909,170 @@ export default function ClienteViewDetail() {
                   </Box>
                 <Box>
                   <Grid container spacing={2} sx={{padding: '2%'}}>
-
-                    <Typography variant="h4" sx={{ paddingBottom: 1, paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por cliente</Typography>
-
-                    <Grid container item xs={12} sx={{ paddingTop: 0 }}>
-
-                      <Grid item xs={7.5} sx={{ paddingBottom: 2}}>
-                        <FormControl fullWidth>
-                          <InputLabel id="search-select-categoria" >Categoria</InputLabel>
-                          <Select
-                            // Disables auto focus on MenuItems and allows TextField to be in focus
-                            MenuProps={{ autoFocus: false }}
-
-                            labelId="search-select-categoria"
-                            id="search-categoria"
-                            value={selectedCategoria}
-                            label="Elegir Tienda"
-                            name=""
-                            onChange={(e) => setSelectedCategoria(e.target.value)}
-                            // This prevents rendering empty string in Select's value
-                            // if search text would exclude currently selected option.
-
-                          >
-                            <ListSubheader>
-                              <TextField
-                                size="small"
-                                autoFocus
-                                placeholder="Busca una categoria por nombre..."
-                                fullWidth
-                                value={searchTermCateg}
-                                onChange={changeCategoriaSearch}
-                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <SearchIcon onClick={handleSearchCategoria} />
-                                    </InputAdornment>
-                                  ),
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      <IconButton
-                                        aria-label="clear search"
-                                        onClick={handleEraseSelectedCategoria}
-                                      >
-                                        <ClearIcon />
-                                      </IconButton>
-                                    </InputAdornment>
-                                  )
-                                }}
-                              />
-                            </ListSubheader>
-                            {categorias.map((option, i) => (
-                              <MenuItem key={i} value={option.id}>
-                                {option.nombre}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <Grid item xs={2} sx={{ paddingBottom: 2}}>
-                          <DatePicker
-                            label="Fecha de canje (inicial)"
-                            value={startDateStatTable}
-                            format="DD/MM/YYYY"
-                            onChange={setStartDateStatTable}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </Grid>
-                        <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                        <Grid item xs={2} sx={{ paddingBottom: 2}}>
-                          <DatePicker
-                            label="Fecha de canje (final)"
-                            value={endDateStatTable}
-                            format="DD/MM/YYYY"
-                            onChange={setEndDateStatTable}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </Grid>
-                      </LocalizationProvider>
-                      <Grid item xs={7.5}>
-                        <FormControl fullWidth>
-                          <InputLabel id="search-select-tienda">Tienda</InputLabel>
-                          <Select
-                            // Disables auto focus on MenuItems and allows TextField to be in focus
-                            MenuProps={{ autoFocus: false }}
-
-                            labelId="search-select-tienda"
-                            id="search-tienda"
-                            value={selectedTienda}
-                            label="Elegir Tienda"
-                            onChange={(e) => setSelectedTienda(e.target.value)}
-                            // This prevents rendering empty string in Select's value
-                            // if search text would exclude currently selected option.
-
-                          >
-                            <ListSubheader>
-                              <TextField
-                                size="small"
-                                autoFocus
-                                placeholder="Busca una tienda por nombre..."
-                                fullWidth
-                                value={searchTerm}
-                                onChange={changeTermSearch}
-                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <SearchIcon onClick={handleSearch} />
-                                    </InputAdornment>
-                                  ),
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      <IconButton
-                                        aria-label="clear search"
-                                        onClick={handleEraseSelectedTienda}
-                                      >
-                                        <ClearIcon />
-                                      </IconButton>
-                                    </InputAdornment>
-                                  )
-                                }}
-                              />
-                            </ListSubheader>
-                            {tiendas.map((option, i) => (
-                              <MenuItem key={i} value={option.id}>
-                                {option.nombre}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <Grid item xs={2}>
-                          <DatePicker
-                            label="Fecha de expiracion (inicial)"
-                            value={startDateStatExp}
-                            format="DD/MM/YYYY"
-                            onChange={setStartDateStatExp}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </Grid>
-                        <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
-                        <Grid item xs={2}>
-                          <DatePicker
-                            label="Fecha de expiracion (final)"
-                            value={endDateStatExp}
-                            format="DD/MM/YYYY"
-                            onChange={setEndDateStatExp}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
-                        </Grid>
-                      </LocalizationProvider>
-                    </Grid>
+                    <Typography variant="h4" sx={{ paddingLeft: 2 , paddingTop: 2}}>Cupones Canjeados por cliente</Typography>
                     <Grid item xs={12}>
+                      <Box sx={{ borderRadius: '8px',  padding: '1%', border: '1px solid', borderColor: '#A6B0BB' }}>
+                        <Grid container item xs={12} sx={{ paddingTop: 0 }}>
+                        <Grid item xs={12} sx={{ paddingBottom: 2}}>
+                          Filtrar por:
+                        </Grid>
+                          <Grid item xs={7.5} sx={{ paddingBottom: 2}}>
+                            <FormControl fullWidth>
+                              <InputLabel id="search-select-categoria" >Categoria</InputLabel>
+                              <Select
+                                // Disables auto focus on MenuItems and allows TextField to be in focus
+                                MenuProps={{ autoFocus: false }}
 
+                                labelId="search-select-categoria"
+                                id="search-categoria"
+                                value={selectedCategoria}
+                                label="Elegir Tienda"
+                                name=""
+                                onChange={(e) => setSelectedCategoria(e.target.value)}
+                                // This prevents rendering empty string in Select's value
+                                // if search text would exclude currently selected option.
+
+                              >
+                                <ListSubheader>
+                                  <TextField
+                                    size="small"
+                                    autoFocus
+                                    placeholder="Busca una categoria por nombre..."
+                                    fullWidth
+                                    value={searchTermCateg}
+                                    onChange={changeCategoriaSearch}
+                                    onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <SearchIcon onClick={handleSearchCategoria} />
+                                        </InputAdornment>
+                                      ),
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="clear search"
+                                            onClick={handleEraseSelectedCategoria}
+                                          >
+                                            <ClearIcon />
+                                          </IconButton>
+                                        </InputAdornment>
+                                      )
+                                    }}
+                                  />
+                                </ListSubheader>
+                                {categorias.map((option, i) => (
+                                  <MenuItem key={i} value={option.id}>
+                                    {option.nombre}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Grid item xs={2.1} sx={{ paddingBottom: 2}}>
+                              <DatePicker
+                                label="Fecha de canje (inicial)"
+                                value={startDateStatTable}
+                                format="DD/MM/YYYY"
+                                onChange={setStartDateStatTable}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                            <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                            <Grid item xs={2.1} sx={{ paddingBottom: 2}}>
+                              <DatePicker
+                                label="Fecha de canje (final)"
+                                value={endDateStatTable}
+                                format="DD/MM/YYYY"
+                                onChange={setEndDateStatTable}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                          </LocalizationProvider>
+                          <Grid item xs={7.5}>
+                            <FormControl fullWidth>
+                              <InputLabel id="search-select-tienda">Tienda</InputLabel>
+                              <Select
+                                // Disables auto focus on MenuItems and allows TextField to be in focus
+                                MenuProps={{ autoFocus: false }}
+
+                                labelId="search-select-tienda"
+                                id="search-tienda"
+                                value={selectedTienda}
+                                label="Elegir Tienda"
+                                onChange={(e) => setSelectedTienda(e.target.value)}
+                                // This prevents rendering empty string in Select's value
+                                // if search text would exclude currently selected option.
+
+                              >
+                                <ListSubheader>
+                                  <TextField
+                                    size="small"
+                                    autoFocus
+                                    placeholder="Busca una tienda por nombre..."
+                                    fullWidth
+                                    value={searchTerm}
+                                    onChange={changeTermSearch}
+                                    onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <SearchIcon onClick={handleSearch} />
+                                        </InputAdornment>
+                                      ),
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="clear search"
+                                            onClick={handleEraseSelectedTienda}
+                                          >
+                                            <ClearIcon />
+                                          </IconButton>
+                                        </InputAdornment>
+                                      )
+                                    }}
+                                  />
+                                </ListSubheader>
+                                {tiendas.map((option, i) => (
+                                  <MenuItem key={i} value={option.id}>
+                                    {option.nombre}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Grid item xs={2.1}>
+                              <DatePicker
+                                label="Fecha de expiracion (inicial)"
+                                value={startDateStatExp}
+                                format="DD/MM/YYYY"
+                                onChange={setStartDateStatExp}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                            <Grid item xs={0.1} sx={{ paddingBottom: 2}}/>
+                            <Grid item xs={2.1}>
+                              <DatePicker
+                                label="Fecha de expiracion (final)"
+                                value={endDateStatExp}
+                                format="DD/MM/YYYY"
+                                onChange={setEndDateStatExp}
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{ width: '100%' }}
+                              />
+                            </Grid>
+                          </LocalizationProvider>
+                        </Grid>
+                      </Box>     
+                    </Grid>     
+                    <Grid item xs={12}>
                       <Grid item xs={12}>
                         {loadingtableCupon ? (
                           <Box
@@ -1093,13 +1103,13 @@ export default function ClienteViewDetail() {
                                   numSelected={selected.length}
                                   onRequestSort={handleSort}
                                   headLabel={[
-                                    { id: 'codigo', label: 'Código de Cupon' },
+                                    { id: 'codigo', label: 'Código' },
                                     { id: 'categoria', label: 'Categoria' },
                                     { id: 'tienda', label: 'Tienda' },
                                     { id: 'fechaCompra', label: 'Fecha de Canje' },
                                     { id: 'fechaExpiracion', label: 'Fecha de Expiracion' },
-                                    { id: '', label: '' },
-                                    { id: '', label: '' },
+                                    { id: '', label: 'Uso' },
+                                    { id: '', label: 'Canjeo' },
                                   ]}
                                 />
                                 <TableBody>
