@@ -186,7 +186,7 @@ const useStyles = makeStyles((theme) => ({
         let response="";
         console.log(searchTerm)
         if(searchTerm===""){
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -195,7 +195,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -432,7 +432,14 @@ const useStyles = makeStyles((theme) => ({
                   id="search-select-label" >Tienda</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
-                    MenuProps={{ autoFocus: false }}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 300, // Ajusta la altura máxima del menú desplegable aquí
+                          width: 250, // Ajusta el ancho del menú desplegable si es necesario
+                        },
+                      },
+                    }}
                     labelId="search-select-label"
                     id="search-select"
                     value={selectedTienda}

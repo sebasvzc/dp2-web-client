@@ -196,7 +196,6 @@ const useStyles = makeStyles((theme) => ({
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         let response="";
-        console.log(searchTerm)
         if(searchTerm===""){
           response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
             method: 'GET',
@@ -241,7 +240,7 @@ const useStyles = makeStyles((theme) => ({
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         let response="";
-        if(searchTerm===""){
+        if(searchLugar===""){
           response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
@@ -251,7 +250,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=${searchLugar}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -285,8 +284,8 @@ const useStyles = makeStyles((theme) => ({
         const userStringify = JSON.parse(user);
         const { token, refreshToken } = userStringify;
         let response="";
-        if(searchTerm===""){
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
+        if(searchTienda===""){
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -295,7 +294,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTienda}&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -359,7 +358,6 @@ const useStyles = makeStyles((theme) => ({
     const handleTiendaEvento = async (e) => {
       e.preventDefault();
       const results = await getTiendaEvento();
-      console.log("viendo resultados", results.tiendas)
       setTienda(results.tiendas);
     };
 
@@ -447,7 +445,14 @@ const useStyles = makeStyles((theme) => ({
                           <InputLabel id="search-select-label-tipo-evento">Tipo Evento</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
-                            MenuProps={{ autoFocus: false }}
+                            MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  maxHeight: 300, // Ajusta la altura máxima del menú desplegable aquí
+                                  width: 250, // Ajusta el ancho del menú desplegable si es necesario
+                                },
+                              },
+                            }}
                             labelId="search-select-label-tipo-evento"
                             id="search-select-tipo-evento"
                             value={selectedEvento}
@@ -557,7 +562,14 @@ const useStyles = makeStyles((theme) => ({
                   id="search-select-label-tienda" >Tienda</InputLabel>
                   <Select
                     // Disables auto focus on MenuItems and allows TextField to be in focus
-                    MenuProps={{ autoFocus: false }}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 300, // Ajusta la altura máxima del menú desplegable aquí
+                          width: 250, // Ajusta el ancho del menú desplegable si es necesario
+                        },
+                      },
+                    }}
                     labelId="search-select-label-tienda"
                     id="search-select-tienda"
                     value={selectedTienda}
