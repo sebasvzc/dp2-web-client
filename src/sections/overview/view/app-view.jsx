@@ -21,7 +21,7 @@ import FictionBooksSalesChart from '../FictionBooksSalesChart';
 import { getCategoriaTiendas } from '../../../funciones/api';
 import {
   getEdadEventosPorc,
-  getGeneroEventosPorc,
+  getGeneroEventosPorc, getJuegosRAPorc,
   getPersonasAsistente,
   getPuntosEventosAsitencia,
   getPuntosTiendasAsitencia, getUsersPlayRA,
@@ -30,6 +30,7 @@ import DashboardGeneralGeneroEvento from '../DashboardGeneralGeneroEvento';
 import DashboardGeneralBarCategAsist from '../DashboardGeneralBarCategAsist';
 import './AppWidgetSummary.css';
 import DashboardGeneralEdadEvento from '../DashboardGeneralEdadEvento';
+import DashboardGeneralJuegosGeneral from '../DashboardGeneralJuegosGeneral';
 // Importar localización española
 
 dayjs.locale('es-mx');
@@ -45,6 +46,7 @@ export default function AppView() {
   const [puntosEventosAsist, setPuntosEventosAsist] = useState(0);
   const [dataDashGenero, setDataDashGenero] = useState({  name:"",categoria: [], data: []  });
   const [dataDashEdad, setDataDashEdad] = useState({  name:"",categoria: [], data: []  });
+  const [dataDashJuego, setDataDashJuego] = useState({  name:"",categoria: [], data: []  });
   const [puntosTiendasAsist, setPuntosTiendasAsist] = useState(0);
   const [loadingVisitasTiendas, setLoadingVisitasTiendas] = useState(true);
   const [loadingVisitasCategorias, setLoadingVisitasCategorias] = useState(true);
@@ -179,10 +181,20 @@ export default function AppView() {
         console.log(JSON.stringify(cantidadEdadArray));
         setDataDashEdad({ categoria: edadArray, data: cantidadEdadArray });
 
+        const resultsJuegosRAPorc =  await getJuegosRAPorc(token,refreshToken,endDateParam,startDateParam);
+        console.log(resultsJuegosRAPorc);
+        const juegoArray = resultsJuegosRAPorc.rango.map(item => item.tipo);
+        const cantidadJuegoArray = resultsJuegosRAPorc.rango.map(item => item.cantidad);
+        console.log("JSON.stringify(juegoArray)");
+        console.log(JSON.stringify(juegoArray));
+        console.log(JSON.stringify(cantidadJuegoArray));
+        setDataDashJuego({ categoria: juegoArray, data: cantidadJuegoArray });
 
 
 
         const resultsPersonasAsistentes =  await getPersonasAsistente(token,refreshToken,endDateParam,startDateParam);
+        console.log("resultsPersonasAsistentes");
+        console.log(resultsPersonasAsistentes);
         setNumPersonasEventos(resultsPersonasAsistentes.cantidad);
 
         const resultsPuntosEventosAsitencia=  await getPuntosEventosAsitencia(token,refreshToken,endDateParam,startDateParam);
@@ -465,10 +477,10 @@ export default function AppView() {
         ):(
         <Box  >
           <Grid xs={12} md={12} lg={12} container spacing={2}>
-            <Grid xs={12} sm={12} md={12} lg={12} item container >
+            <Grid xs={12} sm={12} md={6} lg={6} item container >
                   <Grid item xs={12} sm={6} md={6}>
                     <AppWidgetSummary
-                      title="Número de personas que han asistido a un evento"                      
+                      title="Número de personas que han asistido a un evento"
                       total={Number(numPersonasEventos) || 0}
                       icon={<img alt="icon" src="/assets/icons/glass/ic_clientes.png" className="icon" />}
                     />
@@ -495,7 +507,19 @@ export default function AppView() {
                       />
                   </Grid>
             </Grid>
+            <Grid xs={12} sm={12} md={6} lg={6} item container >
+              <Grid xs={12} sm={12} md={12} lg={12} item >
+                <Card
+                  sx={{
+                    px: 3,
+                    py: 5,
+                    borderRadius: 2,
+                  }} >
+                  <DashboardGeneralJuegosGeneral dataDash={dataDashJuego}/>
+                </Card>
+              </Grid>
 
+            </Grid>
           <Grid xs={12} sm={12} md={4} lg={4} item container >
 
               <Grid xs={12} sm={12} md={12} lg={12} item >
@@ -523,7 +547,7 @@ export default function AppView() {
                 </Card>
               </Grid>
 
-            </Grid>
+        </Grid>
         </Grid>
 
 
