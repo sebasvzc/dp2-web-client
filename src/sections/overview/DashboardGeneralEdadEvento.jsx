@@ -33,7 +33,7 @@ const DashboardGeneralEdadEvento = ({ dataDash }) => {
         formatter (val) {
           return `${val  }`;
         },
-        offsetY: -20,
+        offsetY: -30,
         style: {
           fontSize: '18px',
           colors: ["#304758"]

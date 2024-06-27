@@ -183,7 +183,7 @@ export default function AppView() {
 
         const resultsJuegosRAPorc =  await getJuegosRAPorc(token,refreshToken,endDateParam,startDateParam);
         console.log(resultsJuegosRAPorc);
-        const juegoArray = resultsJuegosRAPorc.rango.map(item => item.tipo);
+        const juegoArray = resultsJuegosRAPorc.rango.map(item => item.nombreJuego);
         const cantidadJuegoArray = resultsJuegosRAPorc.rango.map(item => item.cantidad);
         console.log("JSON.stringify(juegoArray)");
         console.log(JSON.stringify(juegoArray));
