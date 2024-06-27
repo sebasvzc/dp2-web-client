@@ -7,7 +7,8 @@ import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, IconButton, Modal } from '@mui/material';
+import { Modal, IconButton } from '@mui/material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 import { usePathname } from 'src/routes/hooks';
 
@@ -16,13 +17,11 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { fetchAccountData } from 'src/_mock/accountData';
 
 import Logo from 'src/components/logo';
-import Scrollbar from 'src/components/scrollbar';
-
+import Scrollbar from 'src/components/scrollbar'; // Import HelpOutline icon
 import { NAV } from './config-layout';
 import NavBar from './config-navigation';
-import BasicBreadcrumbs from '../../routes/BasicBreadcrumbs'; // Ruta corregida
+// Ruta corregida
 
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'; // Import HelpOutline icon
 
 // ----------------------------------------------------------------------
 
