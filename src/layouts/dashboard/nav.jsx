@@ -46,7 +46,7 @@ export default function Nav({ openNav, onCloseNav }) {
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
     console.log("estoy consultando el usuario para el navbar");
-    const response = await fetch('http://localhost:3000/api/tiendas/getPdfManual', {
+    const response = await fetch('http://3.218.68.113/api/api/tiendas/getPdfManual', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

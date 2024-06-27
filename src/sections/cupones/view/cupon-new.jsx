@@ -186,7 +186,7 @@ const useStyles = makeStyles((theme) => ({
         let response="";
         console.log(searchTerm)
         if(searchTerm===""){
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
+          response = await fetch(`http://3.218.68.113/api/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -195,7 +195,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=300`, {
+          response = await fetch(`http://3.218.68.113/api/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',

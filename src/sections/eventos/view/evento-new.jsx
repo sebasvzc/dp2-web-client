@@ -241,7 +241,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchLugar===""){
-          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://3.218.68.113/api/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -250,7 +250,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=${searchLugar}&page=1&pageSize=10`, {
+          response = await fetch(`http://3.218.68.113/api/api/lugares/listarLugares?query=${searchLugar}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -285,7 +285,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchTienda===""){
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
+          response = await fetch(`http://3.218.68.113/api/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -294,7 +294,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTienda}&page=1&pageSize=300`, {
+          response = await fetch(`http://3.218.68.113/api/api/tiendas/listartiendas?query=${searchTienda}&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
