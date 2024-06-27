@@ -365,13 +365,12 @@ export default function EventoEdit() {
         <Grid item >
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              {!editable && (
+              <Box display="flex" justifyContent="flex-end" alignItems="center" sx={{ paddingRight: '2%'}}>
+                {!editable && (
                   <Button
                     variant="contained"
-
                     sx={{
                       marginTop: 5,
-                      marginLeft: 5,
                       backgroundColor: "#003B91"
                     }} // Añade un margen derecho para separar botones si es necesario
                     startIcon={<Iconify icon="ic:baseline-edit" />}
@@ -380,7 +379,7 @@ export default function EventoEdit() {
                     Editar
                   </Button>
                 )}
-                 {editable && ( // Renderiza estos botones solo si 'editable' es true
+                {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
                     <Button
                       type="submit"
@@ -407,6 +406,7 @@ export default function EventoEdit() {
                     </Button>
                   </>
                 )}
+              </Box>
               {loading ? (
                 <Box
                   sx={{

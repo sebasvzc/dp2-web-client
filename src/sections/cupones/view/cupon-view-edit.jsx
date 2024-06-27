@@ -560,16 +560,12 @@ export default function CuponDetail() {
         <Grid item >
           {view === 'datos' ? (
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-
-
+              <Box display="flex" justifyContent="flex-end" alignItems="center" sx={{ paddingRight: '2%'}}>
                 {!editable && (
                   <Button
                     variant="contained"
-
                     sx={{
                       marginTop: 5,
-                      marginRight: 2,
                       backgroundColor: "#003B91"
                     }} // Añade un margen derecho para separar botones si es necesario
                     startIcon={<Iconify icon="ic:baseline-edit" />}
@@ -578,7 +574,6 @@ export default function CuponDetail() {
                     Editar
                   </Button>
                 )}
-
                 {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
                     <Button
@@ -607,7 +602,6 @@ export default function CuponDetail() {
                   </>
                 )}
               </Box>
-
               {loading ? (
                 <Box
                   sx={{
@@ -627,8 +621,7 @@ export default function CuponDetail() {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}>
-                 
+                <Box sx={{ mt: 3, maxHeight: '60vh', pr: 2 ,  padding: '2%'}}> 
                   <Grid container spacing={2}>
                     <Grid item xs={4} >
                       <Box display="flex" justifyContent="center" alignItems="center" sx={{
@@ -796,7 +789,6 @@ export default function CuponDetail() {
                     </Grid>
                     </Grid>
                   </Grid>
-
                 </Box>
               )}
             </form>

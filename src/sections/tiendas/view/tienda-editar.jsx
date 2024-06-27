@@ -297,13 +297,12 @@ export default function TiendaDetail() {
         <Grid item >
           {view === 'datos' ? (
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
-              {!editable && (
+              <Box display="flex" justifyContent="flex-end" alignItems="center" sx={{ paddingRight: '2%'}}>
+                {!editable && (
                   <Button
                     variant="contained"
-
                     sx={{
                       marginTop: 5,
-                      marginLeft: 5,
                       backgroundColor: "#003B91"
                     }} // Añade un margen derecho para separar botones si es necesario
                     startIcon={<Iconify icon="ic:baseline-edit" />}
@@ -312,7 +311,7 @@ export default function TiendaDetail() {
                     Editar
                   </Button>
                 )}
-                 {editable && ( // Renderiza estos botones solo si 'editable' es true
+                {editable && ( // Renderiza estos botones solo si 'editable' es true
                   <>
                     <Button
                       type="submit"
@@ -339,6 +338,7 @@ export default function TiendaDetail() {
                     </Button>
                   </>
                 )}
+              </Box>
               {loading ? (
                 <Box
                   sx={{
@@ -506,11 +506,8 @@ export default function TiendaDetail() {
               ):(
               <Grid container spacing={2}  >
               <Grid xs={12} >
-
                   <FictionBooksSalesChart/>
-
               </Grid>
-
               </Grid>
               )}
               </Box >
