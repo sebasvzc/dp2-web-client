@@ -831,24 +831,26 @@ export default function TiendaDetail() {
                     <Grid item xs={12}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <Grid container spacing={2}>
-                          <Grid item xs={2}>
+           
                             <DatePicker
                               label="Fecha inicial"
                               value={startDateStat}
                               onChange={setStartDateStat}
                               format="DD/MM/YYYY"
+                              fullWidth
                               renderInput={(params) => <TextField {...params} />}
+                              sx={{paddingRight:2}}
                             />
-                          </Grid>
-                          <Grid item xs={2}>
+             
                             <DatePicker
                               label="Fecha final"
                               value={endDateStat}
                               onChange={setEndDateStat}
                               format="DD/MM/YYYY"
+                              fullWidth
                               renderInput={(params) => <TextField {...params} />}
                             />
-                          </Grid>
+                  
                         </Grid>
                       </LocalizationProvider>
                     </Grid>

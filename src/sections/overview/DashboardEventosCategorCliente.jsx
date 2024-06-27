@@ -18,10 +18,6 @@ const DashboardEventosCategorCliente = ({ dataDash }) => {
         width: 650
       },
       labels: dataDash[0].categoria,
-      legend: {
-        position: 'top', // Establece la posición de la leyenda a la izquierda
-        fontSize: '15px',
-      },
       dataLabels: {
         style: {
           fontSize: '20px',
