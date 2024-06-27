@@ -12,10 +12,10 @@ const DashboardGeneralJuegosGeneral = ({ dataDash }) => {
 
     // Definir las URLs de las imágenes para cada juego
     const imageUrls = {
-      'Enfría al Yeti': 'public/assets/juegos/JuegoRA1.png',
-      'Encesta y Gana': 'public/assets/juegos/JuegoRA2.png',
-      'Mi amix migue': 'public/assets/juegos/JuegoRA3.png',
-      'Bloques caóticos': 'public/assets/juegos/JuegoRA4.png',
+      'Enfría al Yeti': '/assets/juegos/JuegoRA1.png',
+      'Encesta y Gana': '/assets/juegos/JuegoRA2.png',
+      'Mi amix migue': '/assets/juegos/JuegoRA3.png',
+      'Bloques caóticos': '/assets/juegos/JuegoRA4.png',
       // Agrega más juegos y sus URLs correspondientes aquí
     };
 
