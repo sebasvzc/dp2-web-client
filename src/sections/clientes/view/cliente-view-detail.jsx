@@ -921,8 +921,14 @@ export default function ClienteViewDetail() {
                               <InputLabel id="search-select-categoria" >Categoria</InputLabel>
                               <Select
                                 // Disables auto focus on MenuItems and allows TextField to be in focus
-                                MenuProps={{ autoFocus: false }}
-
+                                MenuProps={{
+                                  PaperProps: {
+                                    style: {
+                                      maxHeight: 300, // Ajusta la altura máxima del menú desplegable aquí
+                                      width: 250, // Ajusta el ancho del menú desplegable si es necesario
+                                    },
+                                  },
+                                }}
                                 labelId="search-select-categoria"
                                 id="search-categoria"
                                 value={selectedCategoria}
