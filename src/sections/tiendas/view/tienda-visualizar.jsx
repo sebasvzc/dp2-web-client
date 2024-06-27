@@ -149,6 +149,7 @@ export default function TiendaDetail() {
         }
         console.log(esLimitadoText)
         setTiendaText(data.detalles.nombre)
+        console.log("La categoria que no sale pipip:", data.detalles.categoriaTienda.id)
         setSelectedCategoria(data.detalles.categoriaTienda.id)
         setLocacionText(data.detalles.locacion)
         setUrlImagenS3(data.image)
@@ -639,16 +640,19 @@ export default function TiendaDetail() {
                           <FormControl fullWidth>
                             <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
                             <Select
-                              // Deshabilita el auto focus en los MenuItems y permite que el TextField esté en foco
+                              // Disables auto focus on MenuItems and allows TextField to be in focus
                               MenuProps={{ autoFocus: false }}
+
                               labelId="search-select-label"
                               id="search-select"
                               disabled={!editable}
                               value={selectedCategoria}
                               label="Elegir Tienda"
+                              name=""
                               onChange={(e) => setSelectedCategoria(e.target.value)}
-                              // Esto previene que se renderice una cadena vacía en el valor del Select
-                              // si el texto de búsqueda excluye la opción seleccionada actualmente.
+                              // This prevents rendering empty string in Select's value
+                              // if search text would exclude currently selected option.
+
                             >
                               <ListSubheader>
                                 <TextField
@@ -668,15 +672,11 @@ export default function TiendaDetail() {
                                   }}
                                 />
                               </ListSubheader>
-                              {categorias.length > 0 ? (
-                                categorias.map((option, i) => (
-                                  <MenuItem key={i} value={option.id}>
-                                    {option.nombre}
-                                  </MenuItem>
-                                ))
-                              ) : (
-                                <MenuItem disabled>No hay categorías disponibles</MenuItem>
-                              )}
+                              {categorias.map((option, i) => (
+                                <MenuItem key={i} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                         </Grid>

@@ -145,6 +145,7 @@ export default function TiendaDetail() {
 
         console.log(esLimitadoText)
         setTiendaText(data.detalles.nombre)
+        console.log("La categoria que no sale pipip:", data.detalles.categoriaTienda.id)
         setSelectedCategoria(data.detalles.categoriaTienda.id)
         setLocacionText(data.detalles.locacion)
         setDescripcionText(data.detalles.descripcion)
@@ -390,11 +391,17 @@ export default function TiendaDetail() {
 
                       <Grid item xs={6}>
                         <FormControl fullWidth>
-                          <InputLabel id="search-select-label" disabled >Categoria</InputLabel>
+                          <InputLabel id="search-select-label" disabled >Categoría</InputLabel>
                           <Select
                             // Disables auto focus on MenuItems and allows TextField to be in focus
-                            MenuProps={{ autoFocus: false }}
-
+                            MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  maxHeight: 300, // Ajusta la altura máxima del menú desplegable aquí
+                                  width: 250, // Ajusta el ancho del menú desplegable si es necesario
+                                },
+                              },
+                            }}
                             labelId="search-select-label"
                             id="search-select"
                             disabled={!editable}
@@ -410,7 +417,7 @@ export default function TiendaDetail() {
                               <TextField
                                 size="small"
                                 autoFocus
-                                placeholder="Busca una categoria por nombre..."
+                                placeholder="Busca una categoría por nombre..."
                                 fullWidth
                                 value={searchTerm}
                                 onChange={changeTermSearch}
@@ -431,6 +438,7 @@ export default function TiendaDetail() {
                             ))}
                           </Select>
                         </FormControl>
+                        
                       </Grid>
                     
                       <Grid item xs={6}>
