@@ -85,7 +85,8 @@ NavItem.propTypes = {
 
     const [openQR, setOpenQR] = useState(false);
     const [qrCode, setQrCode] = useState('');
-
+    const [openPDF, setOpenPDF] = useState(false); //gaaaa
+    const [pdfUrl, setPdfUrl] = useState(''); //gaaaa
 
     const handleOpenQR = async () => {
       try {
@@ -118,6 +119,21 @@ NavItem.propTypes = {
       }
     };
 
+    const handleOpenPDF = async () => { //gaaaa
+      try {
+        const response = await fetch('https://your-s3-bucket.amazonaws.com/your-pdf-file.pdf'); // Cambia esta URL por la de tu archivo en S3
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const url = await response.url;
+        setPdfUrl(url);
+        setOpenPDF(true);
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+        throw error;
+      }
+    };
+
     const handleDownload = () => {
       const link = document.createElement('a');
       link.href = qrCode;
@@ -126,6 +142,8 @@ NavItem.propTypes = {
     };
 
     const handleCloseQR = () => setOpenQR(false);
+    const handleClosePDF = () => setOpenPDF(false);//gaa
+
     useEffect(() => {
       console.log("userNavBar");
       console.log(user);
@@ -198,6 +216,12 @@ NavItem.propTypes = {
             icon: icon('ic_qr'),
             permission: 'Ver QR',
           },
+          {
+            title: 'Ver PDF',
+            path: '/verpdf',
+            icon: icon('ic_pdf'),
+            permission: 'Ver PDF',
+          },
           // Otras opciones de submenú...
 
       {
@@ -215,7 +239,7 @@ NavItem.propTypes = {
       <>
       <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
         {filteredNavConfig.map((item) => (
-          <NavItem key={item.title} item={item}  handleOpenQR={handleOpenQR}/>
+          <NavItem key={item.title} item={item}  handleOpenQR={handleOpenQR} handleOpenPDF={handleOpenPDF}/>
         ))}
       </Stack>
     <Modal

@@ -6,6 +6,8 @@ import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import { Button, IconButton, Modal } from '@mui/material';
 
 import { usePathname } from 'src/routes/hooks';
 
@@ -20,6 +22,8 @@ import { NAV } from './config-layout';
 import NavBar from './config-navigation';
 import BasicBreadcrumbs from '../../routes/BasicBreadcrumbs'; // Ruta corregida
 
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'; // Import HelpOutline icon
+
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
@@ -32,6 +36,35 @@ export default function Nav({ openNav, onCloseNav }) {
     rol: ''
   });
   const upLg = useResponsive('up', 'lg');
+
+  const [openPDF, setOpenPDF] = useState(false); // New state for PDF modal
+  const [pdfUrl, setPdfUrl] = useState(''); // New state for PDF URL
+
+  const handleOpenPDF = async() => {
+    const user = localStorage.getItem('user');
+    const userStringify = JSON.parse(user);
+    console.log(userStringify.token);
+    const accessToken = userStringify.token;
+    const {refreshToken} = userStringify;
+    console.log("estoy consultando el usuario para el navbar");
+    const response = await fetch('http://localhost:3000/api/tiendas/getPdfManual', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Refresh-Token': `Bearer ${refreshToken}`
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+    const url = data.urlPdf;
+    setPdfUrl(url);
+    setOpenPDF(true);
+  };
+
+  const handleClosePDF = () => setOpenPDF(false);
 
   useEffect(() => {
     const loadAccountData = async () => {
@@ -90,7 +123,7 @@ export default function Nav({ openNav, onCloseNav }) {
   );
 
   const renderMenu = (
-    <NavBar/>
+    <NavBar />
   );
 
   const renderUpgrade = (
@@ -108,7 +141,12 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 3, ml: 4, mr: 2 }}>
+        <Logo />
+        <IconButton onClick={handleOpenPDF} sx={{ color: 'white' }}>
+          <HelpOutlineIcon style={{ width: 24, height: 24 }} />
+        </IconButton>
+      </Box>
 
       {renderAccount}
 
@@ -153,9 +191,46 @@ export default function Nav({ openNav, onCloseNav }) {
           {renderContent}
         </Drawer>
       )}
+      <Modal
+        open={openPDF}
+        onClose={handleClosePDF}
+        aria-labelledby="modal-modal-title-pdf"
+        aria-describedby="modal-modal-description-pdf"
+      >
+        <Box sx={{ ...modalStyle, width: '80%', height: '80%' }}>
+          <IconButton
+            aria-label="close"
+            onClick={handleClosePDF}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <iframe
+            src={pdfUrl}
+            title="PDF Viewer"
+            width="100%"
+            height="100%"
+            style={{ border: 'none' }}
+          />
+        </Box>
+      </Modal>
     </Box>
   );
 }
+
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
 
 Nav.propTypes = {
   openNav: PropTypes.bool,
