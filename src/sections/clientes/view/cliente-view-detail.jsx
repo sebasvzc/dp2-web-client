@@ -316,7 +316,7 @@ export default function ClienteViewDetail() {
         let responseEventoCateg="";
         const endDateParamEvento=`${endDateStatEvento.date()}/${endDateStatEvento.month()+1}/${endDateStatEvento.year()}`;
         const startDateParamEvento=`${startDateStatEvento.date()}/${startDateStatEvento.month()+1}/${startDateStatEvento.year()}`;
-        responseEventoCateg = await fetch(`http://localhost:3000/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParamEvento}&startDate=${startDateParamEvento}`, {
+        responseEventoCateg = await fetch(`http://3.218.68.113/api/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParamEvento}&startDate=${startDateParamEvento}`, {
           method: 'GET',
 
           headers: {
