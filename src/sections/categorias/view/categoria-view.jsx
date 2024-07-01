@@ -228,7 +228,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
         setHabilitarCategorias(!habilitarCategorias);
-        toast.success('Usuario deshabilitado exitosamente', {
+        toast.success('Categoría deshabilitada exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -257,7 +257,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setHabilitarCategorias(!habilitarCategorias);
         setOpenModalActivar(false);
-        toast.success('Usuario habilitado exitosamente', {
+        toast.success('Categoría habilitada exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
