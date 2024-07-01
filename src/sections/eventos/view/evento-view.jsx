@@ -150,7 +150,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setOpenModalDesactivar(false);
         setHabilitarEventos(!habilitarEventos);
-        toast.success('Usuario deshabilitado exitosamente', {
+        toast.success('Evento deshabilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -181,7 +181,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
         console.log(data); // Maneja la respuesta de la API según sea necesario
         setHabilitarEventos(!habilitarEventos);
         setOpenModalActivar(false);
-        toast.success('Usuario habilitado exitosamente', {
+        toast.success('Evento habilitado exitosamente', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
