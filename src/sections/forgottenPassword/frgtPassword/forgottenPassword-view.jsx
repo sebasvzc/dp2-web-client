@@ -19,7 +19,7 @@ import fondo from 'src/components/images/fondo-nuevo.jpg';
 
 import { useAuth } from '../../../utils/AuthContext'
 
-
+const apiUrl = process.env.REACT_APP_API_URL;
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ export default function ForgottenPasswordView() {
     if(regEx.test(emailRef.current.value)){
         console.log('emailRef', emailRef.current.value)
         try {
-            const response = await fetch('http://localhost:3000/api/password/olvidoPasswordWeb ', {
+            const response = await fetch(REACT_APP_API_URL + '/api/password/olvidoPasswordWeb ', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

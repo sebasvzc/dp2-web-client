@@ -19,7 +19,7 @@ import CardContent from '@mui/material/CardContent';
 import Iconify from 'src/components/iconify';
 import { useNavigate } from 'react-router-dom';
 
-
+const apiUrl = process.env.REACT_APP_API_URL;
 
 // ----------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ export default function ClienteTableRow({
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedUser)
     try {
-      const response = await fetch('http://localhost:3000/api/user/modificar', {
+      const response = await fetch(REACT_APP_API_URL + '/api/user/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

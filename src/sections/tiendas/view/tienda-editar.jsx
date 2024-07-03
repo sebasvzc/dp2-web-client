@@ -42,6 +42,7 @@ import FictionBooksSalesChart from '../../overview/FictionBooksSalesChart';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 
 
+const apiUrl = process.env.REACT_APP_API_URL;
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
 export default function TiendaDetail() {
@@ -114,7 +115,7 @@ export default function TiendaDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/tiendas/detalleTiendaCompleto`, {
+        response = await fetch(REACT_APP_API_URL + `/api/tiendas/detalleTiendaCompleto`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -202,7 +203,7 @@ export default function TiendaDetail() {
 
 
       let response="";
-      response = await fetch(`http://localhost:3000/api/tiendas/modificar`, {
+      response = await fetch(REACT_APP_API_URL + `/api/tiendas/modificar`, {
         method: 'POST',
         body: formData,
         headers: {

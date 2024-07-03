@@ -1,3 +1,4 @@
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const obtenerCupones = async (page,pageSize,searchName) => {
   try {
@@ -22,7 +23,7 @@ const getCupones = async (page,pageSize,searchName) => {
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(`http://localhost:3000/api/cupones/listarcupones?permission=Gestion%de%Cupones&query=${searchName}&page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(REACT_APP_API_URL + `/api/cupones/listarcupones?permission=Gestion%de%Cupones&query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

@@ -495,19 +495,6 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@mui/base@^5.0.0-beta.40":
-  version "5.0.0-beta.40"
-  resolved "https://registry.npmjs.org/@mui/base/-/base-5.0.0-beta.40.tgz"
-  integrity sha512-I/lGHztkCzvwlXpjD2+SNmvNQvB4227xBXhISPjEaJUXGImOQ9f3D2Yj/T3KasSI/h0MLWy74X0J6clhPmsRbQ==
-  dependencies:
-    "@babel/runtime" "^7.23.9"
-    "@floating-ui/react-dom" "^2.0.8"
-    "@mui/types" "^7.2.14"
-    "@mui/utils" "^5.15.14"
-    "@popperjs/core" "^2.11.8"
-    clsx "^2.1.0"
-    prop-types "^15.8.1"
-
 "@mui/base@5.0.0-beta.18":
   version "5.0.0-beta.18"
   resolved "https://registry.npmjs.org/@mui/base/-/base-5.0.0-beta.18.tgz"
@@ -521,7 +508,7 @@
     clsx "^2.0.0"
     prop-types "^15.8.1"
 
-"@mui/base@5.0.0-beta.40":
+"@mui/base@5.0.0-beta.40", "@mui/base@^5.0.0-beta.40":
   version "5.0.0-beta.40"
   resolved "https://registry.npmjs.org/@mui/base/-/base-5.0.0-beta.40.tgz"
   integrity sha512-I/lGHztkCzvwlXpjD2+SNmvNQvB4227xBXhISPjEaJUXGImOQ9f3D2Yj/T3KasSI/h0MLWy74X0J6clhPmsRbQ==
@@ -664,7 +651,7 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@mui/x-date-pickers@^7.6.2", "@mui/x-date-pickers@7.6.2":
+"@mui/x-date-pickers@7.6.2", "@mui/x-date-pickers@^7.6.2":
   version "7.6.2"
   resolved "https://registry.npmjs.org/@mui/x-date-pickers/-/x-date-pickers-7.6.2.tgz"
   integrity sha512-9e5qO76eLvjiEm7Yt4HNR1jqGFia7vnZYbhi4Tw/xQ32emMKYLUzXZLhQNtb1wa7SwHWxXcPJOkIEmvQgEvaqQ==
@@ -1481,6 +1468,11 @@ dom-helpers@^5.0.1:
   dependencies:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
+
+dotenv@^16.4.5:
+  version "16.4.5"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
+  integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
 
 emoji-regex@^9.2.2:
   version "9.2.2"

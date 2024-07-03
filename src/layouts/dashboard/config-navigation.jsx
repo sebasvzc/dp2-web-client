@@ -16,6 +16,7 @@ import { usePathname } from '../../routes/hooks';
 import { useAuth } from '../../utils/AuthContext';
 import Iconify from '../../components/iconify';
 
+const apiUrl = process.env.REACT_APP_API_URL;
 // ----------------------------------------------------------------------
 
 
@@ -94,7 +95,7 @@ NavItem.propTypes = {
         const userStringify = JSON.parse(userX);
         const { token, refreshToken } = userStringify;
 
-        const response = await fetch(`http://localhost:3000/api/qr/generar`, {
+        const response = await fetch(REACT_APP_API_URL + `/api/qr/generar`, {
           method: 'POST',
           body: JSON.stringify(formDatos),
           headers: {

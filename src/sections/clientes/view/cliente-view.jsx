@@ -23,7 +23,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import ClienteTableRow from '../cliente-table-row';
 import ClienteTableHead from '../cliente-table-head';
 import ClienteTableToolbar from '../cliente-table-toolbar';
-
+const apiUrl = process.env.REACT_APP_API_URL;
   const useStyles = makeStyles((theme) => ({
     hideNavigationButton: {
       display: 'none !important', // Oculta el botón de navegación
@@ -124,7 +124,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     const handleEnviar = async () => {
         
       try {
-        const response = await fetch('http://localhost:3000/api/user/invite', {
+        const response = await fetch(REACT_APP_API_URL + '/api/user/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       try {
         console.log('SOY EL SELECTED')
         console.log(JSON.stringify({ selected }) )
-        const response = await fetch('http://localhost:3000/api/client/deshabilitarCliente', {
+        const response = await fetch(REACT_APP_API_URL + '/api/client/deshabilitarCliente', {
           method: 'POST',
 
           headers: {
@@ -218,7 +218,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/client/habilitarCliente', {
+        const response = await fetch(REACT_APP_API_URL + '/api/client/habilitarCliente', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import * as React from 'react';
 
-
+const apiUrl = process.env.REACT_APP_API_URL;
 
 // ----------------------------------------------------------------------
 
@@ -95,7 +95,7 @@ export default function UserTableRow({
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedUser)
     try {
-      const response = await fetch('http://localhost:3000/api/user/modificar', {
+      const response = await fetch(REACT_APP_API_URL + '/api/user/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ export default function UserTableRow({
       let response="";
       console.log(searchTerm)
       if(searchTerm===""){
-        response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
+        response = await fetch(REACT_APP_API_URL + `/api/tiendas/listartiendas?query=all&page=1&pageSize=10`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -178,7 +178,7 @@ export default function UserTableRow({
           }
         });
       }else{
-        response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
+        response = await fetch(REACT_APP_API_URL + `/api/tiendas/listartiendas?query=${searchTerm}&page=1&pageSize=10`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

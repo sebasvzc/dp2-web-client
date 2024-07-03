@@ -29,7 +29,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs'; // Ruta corregi
 import CategoriaTableRow from '../categoria-table-row';
 import CategoriaTableHead from '../categoria-table-head';
 import CategoriaTableToolbar from '../categoria-table-toolbar';
-
+const apiUrl = process.env.REACT_APP_API_URL;
   const useStyles = makeStyles((theme) => ({
     hideNavigationButton: {
       display: 'none !important', // Oculta el botón de navegación
@@ -216,7 +216,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
     const handleDeshabilitar = async () => {
      try {
-        const response = await fetch('http://localhost:3000/api/categoriaTienda/deshabilitarCategoriaTiendaWeb', {
+        const response = await fetch(REACT_APP_API_URL + '/api/categoriaTienda/deshabilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -245,7 +245,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     };
     const handleHabilitar = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/categoriaTienda/habilitarCategoriaTiendaWeb', {
+        const response = await fetch(REACT_APP_API_URL + '/api/categoriaTienda/habilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -359,7 +359,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
     const handleCrear = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/categoriaTienda/crearCategoriaTiendaWeb', {
+        const response = await fetch(REACT_APP_API_URL + '/api/categoriaTienda/crearCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

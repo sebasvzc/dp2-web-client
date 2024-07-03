@@ -1,3 +1,5 @@
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export const fetchAccountData = async () => {
   try {
     const user = localStorage.getItem('user');
@@ -6,7 +8,7 @@ export const fetchAccountData = async () => {
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
     console.log("estoy consultando el usuario para el navbar");
-    const response = await fetch('http://localhost:3000/api/user/extraerData', {
+    const response = await fetch(REACT_APP_API_URL + '/api/user/extraerData', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

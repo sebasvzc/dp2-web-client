@@ -18,7 +18,7 @@ import Logo from 'src/components/logo';
 import fondo from 'src/components/images/fondo-nuevo.jpg';
 
 import { useAuth } from '../../../utils/AuthContext'
-
+const apiUrl = process.env.REACT_APP_API_URL;
 // ----------------------------------------------------------------------
 
 export default function NuevaContrasenaView() {
@@ -56,7 +56,7 @@ export default function NuevaContrasenaView() {
       });
     }else{
       try {
-        const response = await fetch('http://localhost:3000/api/password/cambiarPasswordWeb', {
+        const response = await fetch(REACT_APP_API_URL + '/api/password/cambiarPasswordWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

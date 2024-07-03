@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { RegisterView } from 'src/sections/register';
 
 
-
+const apiUrl = process.env.REACT_APP_API_URL;
 // import obtenerUsuarios from '../_mock/user';
 
 // ----------------------------------------------------------------------
@@ -21,7 +21,7 @@ export default function RegisterPage() {
       try {
         console.log(token2);
         console.log("validadndo token2");
-        const response = await fetch('http://localhost:3000/api/user/comprobarTokenRegistro', {
+        const response = await fetch(REACT_APP_API_URL + '/api/user/comprobarTokenRegistro', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
