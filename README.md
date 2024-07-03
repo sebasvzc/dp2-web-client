@@ -17,3 +17,5 @@ Para desplegar el sistema se debe correr el siguiente script, introduciendo la d
 chmod +x deploy.sh
 ./deploy.sh http://3.218.68.113
 ```
+
+El script bash manejará toda la logica necesaria de despliegue.
