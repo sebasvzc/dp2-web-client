@@ -100,7 +100,7 @@ export async function getJuegosRAPorc(token, refreshToken, endDateParam,startDat
   try {
 
     let response="";
-    response = await fetch(`http://localhost:3000/api/user/getJuegosRAPorc?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://3.218.68.113/api/api/user/getJuegosRAPorc?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
