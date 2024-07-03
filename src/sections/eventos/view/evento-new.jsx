@@ -136,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
         
         let response="";
         console.log("Respuesta", response);
-        response = await fetch(REACT_APP_API_URL + `/api/eventos/crear`, {
+        response = await fetch(apiUrl + `/api/eventos/crear`, {
           method: 'POST',
           body: formData,
           headers: {
@@ -198,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchTerm===""){
-          response = await fetch(REACT_APP_API_URL + `/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
+          response = await fetch(apiUrl + `/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -207,7 +207,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(apiUrl + `/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -242,7 +242,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchLugar===""){
-          response = await fetch(REACT_APP_API_URL + `/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
+          response = await fetch(apiUrl + `/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -251,7 +251,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/lugares/listarLugares?query=${searchLugar}&page=1&pageSize=10`, {
+          response = await fetch(apiUrl + `/api/lugares/listarLugares?query=${searchLugar}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -286,7 +286,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchTienda===""){
-          response = await fetch(REACT_APP_API_URL + `/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
+          response = await fetch(apiUrl + `/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -295,7 +295,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/tiendas/listartiendas?query=${searchTienda}&page=1&pageSize=300`, {
+          response = await fetch(apiUrl + `/api/tiendas/listartiendas?query=${searchTienda}&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',

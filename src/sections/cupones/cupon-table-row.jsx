@@ -109,7 +109,7 @@ export default function CuponTableRow({
     /*
     console.log("Usuario a modificar: ",editedCupon)
     try {
-      const response = await fetch(REACT_APP_API_URL + '/api/Cupon/modificar', {
+      const response = await fetch(apiUrl + '/api/Cupon/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

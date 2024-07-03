@@ -95,7 +95,7 @@ export default function EventoEdit() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(REACT_APP_API_URL + `/api/eventos/detalleEventoCompleto`, {
+        response = await fetch(apiUrl + `/api/eventos/detalleEventoCompleto`, {
           method: 'POST',
           body: JSON.stringify({
             id:idParam,
@@ -196,7 +196,7 @@ export default function EventoEdit() {
 
 
       let response="";
-      response = await fetch(REACT_APP_API_URL + `/api/eventos/modificar`, {
+      response = await fetch(apiUrl + `/api/eventos/modificar`, {
         method: 'POST',
         body: formData,
         headers: {

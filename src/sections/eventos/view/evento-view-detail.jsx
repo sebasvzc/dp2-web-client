@@ -112,7 +112,7 @@ export default function EventoDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(REACT_APP_API_URL + `/api/eventos/detalleEventoCompleto`, {
+        response = await fetch(apiUrl + `/api/eventos/detalleEventoCompleto`, {
           method: 'POST',
           body: JSON.stringify({
             id:idParam,
@@ -176,7 +176,7 @@ export default function EventoDetail() {
         console.log(idParam)
 
         let responseEventoAsist="";
-        responseEventoAsist = await fetch(REACT_APP_API_URL + `/api/eventos/listarAsistencia?idParam=${idParam}`, {
+        responseEventoAsist = await fetch(apiUrl + `/api/eventos/listarAsistencia?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -212,7 +212,7 @@ export default function EventoDetail() {
         setDataDashEventos({ totalAsistencia: data6.totalAsistio, totalInscritos: data6.totalEventos})
         
         let responseEventoAsistAgrupEdad="";
-        responseEventoAsistAgrupEdad = await fetch(REACT_APP_API_URL + `/api/eventos/asitenciaXGeneroAgrupEdad?idParam=${idParam}`, {
+        responseEventoAsistAgrupEdad = await fetch(apiUrl + `/api/eventos/asitenciaXGeneroAgrupEdad?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -270,7 +270,7 @@ export default function EventoDetail() {
       formData.append("tipo", "evento");
       formData.append("idReferencia", idParam);
       
-      const response = await fetch(REACT_APP_API_URL + `/api/qr/generar`, {
+      const response = await fetch(apiUrl + `/api/qr/generar`, {
         method: 'POST',
         body: JSON.stringify(formDatos),
         headers: {

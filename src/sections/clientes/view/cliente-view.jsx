@@ -124,7 +124,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     const handleEnviar = async () => {
         
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/user/invite', {
+        const response = await fetch(apiUrl + '/api/user/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
       try {
         console.log('SOY EL SELECTED')
         console.log(JSON.stringify({ selected }) )
-        const response = await fetch(REACT_APP_API_URL + '/api/client/deshabilitarCliente', {
+        const response = await fetch(apiUrl + '/api/client/deshabilitarCliente', {
           method: 'POST',
 
           headers: {
@@ -218,7 +218,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/client/habilitarCliente', {
+        const response = await fetch(apiUrl + '/api/client/habilitarCliente', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -56,7 +56,7 @@ export default function NuevaContrasenaView() {
       });
     }else{
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/password/cambiarPasswordWeb', {
+        const response = await fetch(apiUrl + '/api/password/cambiarPasswordWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

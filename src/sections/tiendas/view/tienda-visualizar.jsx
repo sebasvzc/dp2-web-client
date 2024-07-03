@@ -115,7 +115,7 @@ export default function TiendaDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(REACT_APP_API_URL + `/api/tiendas/detalleTiendaCompleto`, {
+        response = await fetch(apiUrl + `/api/tiendas/detalleTiendaCompleto`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -165,7 +165,7 @@ export default function TiendaDetail() {
         // Simulación de carga
         const endDateParam=`${endDateStat.date()}/${endDateStat.month()+1}/${endDateStat.year()}`;
         const startDateParam=`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`;
-        response = await fetch(REACT_APP_API_URL + `/api/tiendas/listarCuponesMesxTienda?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        response = await fetch(apiUrl + `/api/tiendas/listarCuponesMesxTienda?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -214,7 +214,7 @@ export default function TiendaDetail() {
 
 
         if(searchName===""){
-          response = await fetch(REACT_APP_API_URL + `/api/tiendas/listarcuponesxtienda?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(apiUrl + `/api/tiendas/listarcuponesxtienda?query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -225,7 +225,7 @@ export default function TiendaDetail() {
 
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/tiendas/listarcuponesxtienda?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(apiUrl + `/api/tiendas/listarcuponesxtienda?query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -400,7 +400,7 @@ export default function TiendaDetail() {
       // Simulación de carga
       console.log(formDatos)
       let response="";
-      response = await fetch(REACT_APP_API_URL + `/api/qr/generar`, {
+      response = await fetch(apiUrl + `/api/qr/generar`, {
         method: 'POST',
         body: JSON.stringify(formDatos),
         headers: {
@@ -504,7 +504,7 @@ export default function TiendaDetail() {
       formData.append("tipo", "tienda");
       formData.append("idReferencia", idParam);
       
-      const response = await fetch(REACT_APP_API_URL + `/api/qr/generar`, {
+      const response = await fetch(apiUrl + `/api/qr/generar`, {
         method: 'POST',
         body: JSON.stringify(formDatos),
         headers: {
