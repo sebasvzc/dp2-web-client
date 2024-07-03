@@ -21,7 +21,7 @@ const getNotificaciones = async (page,pageSize,searchName) => {
     const {refreshToken} = userStringify;
 
     
-    const response = await fetch(apiUrl + `/api/notifications/listarNotificacion?page=${page}&pageSize=${pageSize}&searchName=${searchName}`, {
+    const response = await fetch(REACT_APP_API_URL + `/api/notifications/listarNotificacion?page=${page}&pageSize=${pageSize}&searchName=${searchName}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

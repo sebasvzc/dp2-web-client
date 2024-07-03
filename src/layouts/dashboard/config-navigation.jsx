@@ -95,7 +95,7 @@ NavItem.propTypes = {
         const userStringify = JSON.parse(userX);
         const { token, refreshToken } = userStringify;
 
-        const response = await fetch(apiUrl + `/api/qr/generar`, {
+        const response = await fetch(REACT_APP_API_URL + `/api/qr/generar`, {
           method: 'POST',
           body: JSON.stringify(formDatos),
           headers: {

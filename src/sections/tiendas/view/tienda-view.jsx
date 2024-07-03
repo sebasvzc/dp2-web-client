@@ -129,7 +129,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
       console.log("Probando deshabilitar");
       console.log(selected)
       try {
-        const response = await fetch(apiUrl + '/api/tiendas/deshabilitar', {
+        const response = await fetch(REACT_APP_API_URL + '/api/tiendas/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch(apiUrl + '/api/tiendas/habilitar', {
+        const response = await fetch(REACT_APP_API_URL + '/api/tiendas/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

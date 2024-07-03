@@ -125,7 +125,7 @@ export default function CuponView() {
     /* const handleEnviar = async () => {
 
      try {
-       const response = await fetch(apiUrl + '/api/user/invite', {
+       const response = await fetch(REACT_APP_API_URL + '/api/user/invite', {
          method: 'POST',
          headers: {
            'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ export default function CuponView() {
       console.log("Probando deshabilitar");
       console.log(selected)
       try {
-        const response = await fetch(apiUrl + '/api/cupones/deshabilitar', {
+        const response = await fetch(REACT_APP_API_URL + '/api/cupones/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export default function CuponView() {
 
     const handleHabilitar = async () => {
       try {
-        const response = await fetch(apiUrl + '/api/cupones/habilitar', {
+        const response = await fetch(REACT_APP_API_URL + '/api/cupones/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

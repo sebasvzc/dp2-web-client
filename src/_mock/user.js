@@ -23,7 +23,7 @@ const getUsers = async (page,pageSize,searchName) => {
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(apiUrl + `/api/user/listusers?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(REACT_APP_API_URL + `/api/user/listusers?query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

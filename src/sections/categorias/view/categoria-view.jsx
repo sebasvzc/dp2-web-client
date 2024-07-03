@@ -216,7 +216,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleDeshabilitar = async () => {
      try {
-        const response = await fetch(apiUrl + '/api/categoriaTienda/deshabilitarCategoriaTiendaWeb', {
+        const response = await fetch(REACT_APP_API_URL + '/api/categoriaTienda/deshabilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -245,7 +245,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     };
     const handleHabilitar = async () => {
     try {
-        const response = await fetch(apiUrl + '/api/categoriaTienda/habilitarCategoriaTiendaWeb', {
+        const response = await fetch(REACT_APP_API_URL + '/api/categoriaTienda/habilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -359,7 +359,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleCrear = async () => {
       try {
-        const response = await fetch(apiUrl + '/api/categoriaTienda/crearCategoriaTiendaWeb', {
+        const response = await fetch(REACT_APP_API_URL + '/api/categoriaTienda/crearCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

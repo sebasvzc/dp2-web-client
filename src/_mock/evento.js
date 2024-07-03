@@ -23,7 +23,7 @@ const getEventos = async (page,pageSize,searchName) => {
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(apiUrl + `/api/eventos/listareventos?permission=Gestion%de%Eventos&query=${searchName}&page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(REACT_APP_API_URL + `/api/eventos/listareventos?permission=Gestion%de%Eventos&query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

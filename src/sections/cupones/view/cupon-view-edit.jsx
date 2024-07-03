@@ -219,7 +219,7 @@ export default function CuponDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(apiUrl + `/api/cupones/detalleCuponCompleto`, {
+        response = await fetch(REACT_APP_API_URL + `/api/cupones/detalleCuponCompleto`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam, permission:"Gestion de Cupones"}),
           headers: {
@@ -278,7 +278,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(apiUrl + `/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(REACT_APP_API_URL + `/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -289,7 +289,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(apiUrl + `/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(REACT_APP_API_URL + `/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -325,7 +325,7 @@ export default function CuponDetail() {
 
         setDataClients(data2.clientesxCupon);
 
-        response = await fetch(apiUrl + `/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
+        response = await fetch(REACT_APP_API_URL + `/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -410,7 +410,7 @@ export default function CuponDetail() {
       let response="";
       formData.append("permission","Gestion de Cupones");
       setLoading2(true)
-      response = await fetch(apiUrl + `/api/cupones/modificar`, {
+      response = await fetch(REACT_APP_API_URL + `/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
         headers: {

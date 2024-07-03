@@ -23,7 +23,7 @@ const getCupones = async (page,pageSize,searchName) => {
     if(searchName===""){
       searchName="all";
     }
-    const response = await fetch(apiUrl + `/api/cupones/listarcupones?permission=Gestion%de%Cupones&query=${searchName}&page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(REACT_APP_API_URL + `/api/cupones/listarcupones?permission=Gestion%de%Cupones&query=${searchName}&page=${page}&pageSize=${pageSize}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

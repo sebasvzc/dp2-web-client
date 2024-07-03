@@ -8,7 +8,7 @@ export const fetchAccountData = async () => {
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
     console.log("estoy consultando el usuario para el navbar");
-    const response = await fetch(apiUrl + '/api/user/extraerData', {
+    const response = await fetch(REACT_APP_API_URL + '/api/user/extraerData', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

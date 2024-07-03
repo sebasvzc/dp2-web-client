@@ -139,7 +139,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
       try {
 
         setLoading2(true)
-        const response = await fetch(apiUrl + '/api/user/invite', {
+        const response = await fetch(REACT_APP_API_URL + '/api/user/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     };
     const handleDeshabilitar = async () => {
       try {
-        const response = await fetch(apiUrl + '/api/user/deshabilitar', {
+        const response = await fetch(REACT_APP_API_URL + '/api/user/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch(apiUrl + '/api/user/habilitar', {
+        const response = await fetch(REACT_APP_API_URL + '/api/user/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

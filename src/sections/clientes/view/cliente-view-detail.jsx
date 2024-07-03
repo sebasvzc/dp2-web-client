@@ -126,7 +126,7 @@ export default function ClienteViewDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(apiUrl + `/api/client/listarClientesActivos?page=1&pageSize=10`, {
+        response = await fetch(REACT_APP_API_URL + `/api/client/listarClientesActivos?page=1&pageSize=10`, {
           method: 'POST',
           body: JSON.stringify({ id:idParam }),
           headers: {
@@ -182,7 +182,7 @@ export default function ClienteViewDetail() {
         console.log(`${startDateStat.date()}/${startDateStat.month()+1}/${startDateStat.year()}`);
         const endDateParamBarra=`${endDateStatBarra.date()}/${endDateStatBarra.month()+1}/${endDateStatBarra.year()}`;
         const startDateParamBarra=`${startDateStatBarra.date()}/${startDateStatBarra.month()+1}/${startDateStatBarra.year()}`;
-        response = await fetch(apiUrl + `/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParamBarra}&startDate=${startDateParamBarra}`, {
+        response = await fetch(REACT_APP_API_URL + `/api/client/listarCuponesXClientes?idParam=${idParam}&endDate=${endDateParamBarra}&startDate=${startDateParamBarra}`, {
           method: 'GET',
 
           headers: {
@@ -241,7 +241,7 @@ export default function ClienteViewDetail() {
           setDataDash(fechasPorCategoria);
         }
 
-        response = await fetch(apiUrl + `/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        response = await fetch(REACT_APP_API_URL + `/api/client/listarCuponesCanjeadosUsados?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -317,7 +317,7 @@ export default function ClienteViewDetail() {
         let responseEventoCateg="";
         const endDateParamEvento=`${endDateStatEvento.date()}/${endDateStatEvento.month()+1}/${endDateStatEvento.year()}`;
         const startDateParamEvento=`${startDateStatEvento.date()}/${startDateStatEvento.month()+1}/${startDateStatEvento.year()}`;
-        responseEventoCateg = await fetch(apiUrl + `/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParamEvento}&startDate=${startDateParamEvento}`, {
+        responseEventoCateg = await fetch(REACT_APP_API_URL + `/api/client/listarEventosCategoria?idParam=${idParam}&endDate=${endDateParamEvento}&startDate=${startDateParamEvento}`, {
           method: 'GET',
 
           headers: {
@@ -429,7 +429,7 @@ export default function ClienteViewDetail() {
         let responseCuponCateg="";
         const endDateParam=`${endDateStatCupon.date()}/${endDateStatCupon.month()+1}/${endDateStatCupon.year()}`;
         const startDateParam=`${startDateStatCupon.date()}/${startDateStatCupon.month()+1}/${startDateStatCupon.year()}`;
-        responseCuponCateg = await fetch(apiUrl + `/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
+        responseCuponCateg = await fetch(REACT_APP_API_URL + `/api/client/listarCuponesCategoriaRadar?idParam=${idParam}&endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
 
           headers: {
@@ -507,7 +507,7 @@ export default function ClienteViewDetail() {
         const endDateParamExp=`${endDateStatExp.date()}/${endDateStatExp.month()+1}/${endDateStatExp.year()}`;
         const startDateParamExp=`${startDateStatExp.date()}/${startDateStatExp.month()+1}/${startDateStatExp.year()}`;
         if(searchName===""){
-          responseTable = await fetch(apiUrl + `/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
+          responseTable = await fetch(REACT_APP_API_URL + `/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
             method: 'GET',
 
             headers: {
@@ -518,7 +518,7 @@ export default function ClienteViewDetail() {
 
           });
         }else{
-          responseTable = await fetch(apiUrl + `/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
+          responseTable = await fetch(REACT_APP_API_URL + `/api/client/listarcuponesxcliente?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}&endDate=${endDateParam}&startDate=${startDateParam}&endDateExp=${endDateParamExp}&startDateExp=${startDateParamExp}&idTienda=${selectedTienda}&idCategoriaTienda=${selectedCategoria}`, {
             method: 'GET',
 
             headers: {
@@ -582,7 +582,7 @@ export default function ClienteViewDetail() {
 
 
       let response="";
-      response = await fetch(apiUrl + `/api/cupones/modificar`, {
+      response = await fetch(REACT_APP_API_URL + `/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
