@@ -1,4 +1,3 @@
-const apiUrl = process.env.REACT_APP_API_URL;
 
 const obtenerClientes = async (page,pageSize,searchName) => {
   try {
@@ -26,7 +25,7 @@ const getUsers = async (page,pageSize,searchName) => {
    
     if(searchName==="all"){searchName=""}
     
-    const response = await fetch(REACT_APP_API_URL + `/api/client/listarClientesActivos?page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=${page}&pageSize=${pageSize}`, {
       method: 'POST',
       headers: {
         

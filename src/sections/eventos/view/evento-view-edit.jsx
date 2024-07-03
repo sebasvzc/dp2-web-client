@@ -29,7 +29,6 @@ import Iconify from '../../../components/iconify';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import { getTipoEventos,getLugarEvento,getTiendaEvento, } from '../../../funciones/api';
 
-const apiUrl = process.env.REACT_APP_API_URL;
 dayjs.extend(utc);
 
 export default function EventoEdit() {
@@ -95,7 +94,7 @@ export default function EventoEdit() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(REACT_APP_API_URL + `/api/eventos/detalleEventoCompleto`, {
+        response = await fetch(`http://localhost:3000/api/eventos/detalleEventoCompleto`, {
           method: 'POST',
           body: JSON.stringify({
             id:idParam,
@@ -196,7 +195,7 @@ export default function EventoEdit() {
 
 
       let response="";
-      response = await fetch(REACT_APP_API_URL + `/api/eventos/modificar`, {
+      response = await fetch(`http://localhost:3000/api/eventos/modificar`, {
         method: 'POST',
         body: formData,
         headers: {

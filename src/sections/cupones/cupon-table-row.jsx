@@ -18,7 +18,7 @@ import CardContent from '@mui/material/CardContent';
 
 import Iconify from 'src/components/iconify';
 
-const apiUrl = process.env.REACT_APP_API_URL;
+
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -109,7 +109,7 @@ export default function CuponTableRow({
     /*
     console.log("Usuario a modificar: ",editedCupon)
     try {
-      const response = await fetch(REACT_APP_API_URL + '/api/Cupon/modificar', {
+      const response = await fetch('http://localhost:3000/api/Cupon/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

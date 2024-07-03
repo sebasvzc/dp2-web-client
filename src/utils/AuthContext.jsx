@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo,useState,useEffect,useContext,useCallback, createContext  } from 'react';
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -41,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     console.log(userStringify.token);
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
-    const response = await fetch(REACT_APP_API_URL + `/api/user/listarpermisos`, {
+    const response = await fetch(`http://localhost:3000/api/user/listarpermisos`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

@@ -38,7 +38,6 @@ import DashboardGeneroEdad from '../../overview/DashboardGeneroEdad';
 import DashboardEventosAsistentes from '../../overview/DashboardEventosAsistentes';
 import { getTipoEventos,getLugarEvento,getTiendaEvento, } from '../../../funciones/api';
 
-const apiUrl = process.env.REACT_APP_API_URL;
 dayjs.extend(utc);
 
 export default function EventoDetail() {
@@ -112,7 +111,7 @@ export default function EventoDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(REACT_APP_API_URL + `/api/eventos/detalleEventoCompleto`, {
+        response = await fetch(`http://localhost:3000/api/eventos/detalleEventoCompleto`, {
           method: 'POST',
           body: JSON.stringify({
             id:idParam,
@@ -176,7 +175,7 @@ export default function EventoDetail() {
         console.log(idParam)
 
         let responseEventoAsist="";
-        responseEventoAsist = await fetch(REACT_APP_API_URL + `/api/eventos/listarAsistencia?idParam=${idParam}`, {
+        responseEventoAsist = await fetch(`http://localhost:3000/api/eventos/listarAsistencia?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -212,7 +211,7 @@ export default function EventoDetail() {
         setDataDashEventos({ totalAsistencia: data6.totalAsistio, totalInscritos: data6.totalEventos})
         
         let responseEventoAsistAgrupEdad="";
-        responseEventoAsistAgrupEdad = await fetch(REACT_APP_API_URL + `/api/eventos/asitenciaXGeneroAgrupEdad?idParam=${idParam}`, {
+        responseEventoAsistAgrupEdad = await fetch(`http://localhost:3000/api/eventos/asitenciaXGeneroAgrupEdad?idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -270,7 +269,7 @@ export default function EventoDetail() {
       formData.append("tipo", "evento");
       formData.append("idReferencia", idParam);
       
-      const response = await fetch(REACT_APP_API_URL + `/api/qr/generar`, {
+      const response = await fetch(`http://localhost:3000/api/qr/generar`, {
         method: 'POST',
         body: JSON.stringify(formDatos),
         headers: {

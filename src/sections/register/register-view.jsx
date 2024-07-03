@@ -19,7 +19,7 @@ import Iconify from 'src/components/iconify';
 import fondo from 'src/components/images/fondo.avif';
 
 // ----------------------------------------------------------------------
-const apiUrl = process.env.REACT_APP_API_URL;
+
 export default function RegisterView() {
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token');
@@ -123,7 +123,7 @@ export default function RegisterView() {
     // Aquí puedes manejar la lógica de envío del formulario, como enviar los datos al backend
     const fetchData = async () => {
       try {
-         const response = await fetch(REACT_APP_API_URL + '/api/user/signup', {
+         const response = await fetch('http://localhost:3000/api/user/signup', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

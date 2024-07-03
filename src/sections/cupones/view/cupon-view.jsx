@@ -24,7 +24,7 @@ import CuponTableRow from '../cupon-table-row';
 import CuponTableHead from '../cupon-table-head';
 import CuponTableToolbar from '../cupon-table-toolbar';
 
-const apiUrl = process.env.REACT_APP_API_URL;
+
 
 const useStyles = makeStyles((theme) => ({
   hideNavigationButton: {
@@ -125,7 +125,7 @@ export default function CuponView() {
     /* const handleEnviar = async () => {
 
      try {
-       const response = await fetch(REACT_APP_API_URL + '/api/user/invite', {
+       const response = await fetch('http://localhost:3000/api/user/invite', {
          method: 'POST',
          headers: {
            'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ export default function CuponView() {
       console.log("Probando deshabilitar");
       console.log(selected)
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/cupones/deshabilitar', {
+        const response = await fetch('http://localhost:3000/api/cupones/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export default function CuponView() {
 
     const handleHabilitar = async () => {
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/cupones/habilitar', {
+        const response = await fetch('http://localhost:3000/api/cupones/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

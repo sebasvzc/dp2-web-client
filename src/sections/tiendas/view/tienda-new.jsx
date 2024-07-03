@@ -18,7 +18,6 @@ import {TimePicker,LocalizationProvider  } from '@mui/x-date-pickers';
 import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, InputLabel, FormControl } from '@mui/material';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 
-const apiUrl = process.env.REACT_APP_API_URL;
 dayjs.locale('es-mx');
 
 const useStyles = makeStyles((theme) => ({
@@ -131,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
         
         let response="";
         console.log("Respuesta", response);
-        response = await fetch(REACT_APP_API_URL + `/api/tiendas/crear`, {
+        response = await fetch(`http://localhost:3000/api/tiendas/crear`, {
           method: 'POST',
           body: formData,
           headers: {
@@ -192,7 +191,7 @@ const useStyles = makeStyles((theme) => ({
         let response="";
         console.log(searchTerm)
         if(searchTerm===""){
-          response = await fetch(REACT_APP_API_URL + `/api/categoriaTienda/listarCategoriaTiendasWeb?query=all&page=1&pageSize=40`, {
+          response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=all&page=1&pageSize=40`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -201,7 +200,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/categoriaTienda/listarCategoriaTiendasWeb?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/categoriaTienda/listarCategoriaTiendasWeb?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -239,7 +238,7 @@ const useStyles = makeStyles((theme) => ({
         let response="";
         console.log(searchTermTipoTiendaes)
         if(searchTerm===""){
-          response = await fetch(REACT_APP_API_URL + `/api/tipocupones/listartipocupones?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tipocupones/listartipocupones?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -248,7 +247,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/tipocupones/listartipocupones?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tipocupones/listartipocupones?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',

@@ -2,7 +2,6 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import checker from 'vite-plugin-checker';
-import dotenv from 'dotenv';
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +25,6 @@ export default defineConfig({
         replacement: path.join(process.cwd(), 'src/$1'),
       },
     ],
-  },
-  define: {
-    'process.env': process.env
   },
   server: {
     port: 3030,

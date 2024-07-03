@@ -19,7 +19,6 @@ import {Box, Grid, Button, Select, MenuItem, TextField, Container, Typography, I
 
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 
-const apiUrl = process.env.REACT_APP_API_URL;
 dayjs.locale('es-mx');
 
 const useStyles = makeStyles((theme) => ({
@@ -136,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
         
         let response="";
         console.log("Respuesta", response);
-        response = await fetch(REACT_APP_API_URL + `/api/eventos/crear`, {
+        response = await fetch(`http://localhost:3000/api/eventos/crear`, {
           method: 'POST',
           body: formData,
           headers: {
@@ -198,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchTerm===""){
-          response = await fetch(REACT_APP_API_URL + `/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -207,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/tipoEvento/listarTipoEvento?query=${searchTerm}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -242,7 +241,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchLugar===""){
-          response = await fetch(REACT_APP_API_URL + `/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=all&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -251,7 +250,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/lugares/listarLugares?query=${searchLugar}&page=1&pageSize=10`, {
+          response = await fetch(`http://localhost:3000/api/lugares/listarLugares?query=${searchLugar}&page=1&pageSize=10`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -286,7 +285,7 @@ const useStyles = makeStyles((theme) => ({
         const { token, refreshToken } = userStringify;
         let response="";
         if(searchTienda===""){
-          response = await fetch(REACT_APP_API_URL + `/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=all&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -295,7 +294,7 @@ const useStyles = makeStyles((theme) => ({
             }
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/tiendas/listartiendas?query=${searchTienda}&page=1&pageSize=300`, {
+          response = await fetch(`http://localhost:3000/api/tiendas/listartiendas?query=${searchTienda}&page=1&pageSize=300`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',

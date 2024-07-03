@@ -24,7 +24,7 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import TiendaTableRow from '../tienda-table-row';
 import TiendaTableHead from '../tienda-table-head';
 import TiendaTableToolbar from '../tienda-table-toolbar';
-const apiUrl = process.env.REACT_APP_API_URL;
+
   const useStyles = makeStyles((theme) => ({
     hideNavigationButton: {
       display: 'none !important', // Oculta el botón de navegación
@@ -129,7 +129,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
       console.log("Probando deshabilitar");
       console.log(selected)
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/tiendas/deshabilitar', {
+        const response = await fetch('http://localhost:3000/api/tiendas/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/tiendas/habilitar', {
+        const response = await fetch('http://localhost:3000/api/tiendas/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

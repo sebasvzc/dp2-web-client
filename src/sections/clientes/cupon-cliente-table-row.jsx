@@ -13,7 +13,6 @@ import Iconify from '../../components/iconify';
 import { useAuth } from '../../utils/AuthContext';
 
 
-const apiUrl = process.env.REACT_APP_API_URL;
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -104,7 +103,7 @@ export default function   CuponxClienteTableRow({
       const userStringify = JSON.parse(userX);
       const { token, refreshToken } = userStringify;
 
-      const response = await fetch(REACT_APP_API_URL + `/api/qr/generar`, {
+      const response = await fetch(`http://localhost:3000/api/qr/generar`, {
         method: 'POST',
         body: JSON.stringify(formDatos),
         headers: {

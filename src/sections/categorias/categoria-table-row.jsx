@@ -19,7 +19,7 @@ import CardContent from '@mui/material/CardContent';
 import Iconify from 'src/components/iconify';
 
 
-const apiUrl = process.env.REACT_APP_API_URL;
+
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -94,7 +94,7 @@ export default function CategoriaTableRow({
   const handleGuardarCambios = async () => {
     console.log("Categoría a modificar: ", editedCategoria);
     try {
-      const response = await fetch(REACT_APP_API_URL + '/api/categoriaTienda/editarCategoriaTiendaWeb', {
+      const response = await fetch('http://localhost:3000/api/categoriaTienda/editarCategoriaTiendaWeb', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

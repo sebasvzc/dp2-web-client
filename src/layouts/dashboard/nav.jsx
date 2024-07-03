@@ -22,7 +22,7 @@ import { NAV } from './config-layout';
 import NavBar from './config-navigation';
 // Ruta corregida
 
-const apiUrl = process.env.REACT_APP_API_URL;
+
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
@@ -46,7 +46,7 @@ export default function Nav({ openNav, onCloseNav }) {
     const accessToken = userStringify.token;
     const {refreshToken} = userStringify;
     console.log("estoy consultando el usuario para el navbar");
-    const response = await fetch(REACT_APP_API_URL + '/api/tiendas/getPdfManual', {
+    const response = await fetch('http://localhost:3000/api/tiendas/getPdfManual', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

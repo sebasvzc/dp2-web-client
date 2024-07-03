@@ -25,7 +25,7 @@ import EventoTableRow from '../evento-table-row';
 import EventoTableHead from '../evento-table-head';
 import EventoTableToolbar from '../evento-table-toolbar';
 import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
-const apiUrl = process.env.REACT_APP_API_URL;
+
   const useStyles = makeStyles((theme) => ({
     hideNavigationButton: {
       display: 'none !important', // Oculta el botón de navegación
@@ -133,7 +133,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
       try {
         console.log('SOY EL SELECTED')
         console.log(JSON.stringify({ selected }) )
-        const response = await fetch(REACT_APP_API_URL + '/api/eventos/deshabilitar', {
+        const response = await fetch('http://localhost:3000/api/eventos/deshabilitar', {
           method: 'POST',
 
           headers: {
@@ -167,7 +167,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch(REACT_APP_API_URL + '/api/eventos/habilitar', {
+        const response = await fetch('http://localhost:3000/api/eventos/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

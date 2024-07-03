@@ -36,7 +36,6 @@ import BasicBreadcrumbs from '../../../routes/BasicBreadcrumbs';
 import { getTiendas, getTipoCupones } from '../../../funciones/api';
 import DashboardCuponClient from '../../overview/dashboardCuponClient'; // Ruta corregida
 
-const apiUrl = process.env.REACT_APP_API_URL;
 dayjs.extend(utc);
 
 export default function CuponDetail() {
@@ -105,7 +104,7 @@ export default function CuponDetail() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(REACT_APP_API_URL + `/api/cupones/detalleCuponCompleto`, {
+        response = await fetch(`http://localhost:3000/api/cupones/detalleCuponCompleto`, {
           method: 'POST',
           body: JSON.stringify({
             id:idParam,
@@ -174,7 +173,7 @@ export default function CuponDetail() {
         // Simulación de carga
 
         if(searchName===""){
-          response = await fetch(REACT_APP_API_URL + `/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=all&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -185,7 +184,7 @@ export default function CuponDetail() {
 
           });
         }else{
-          response = await fetch(REACT_APP_API_URL + `/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
+          response = await fetch(`http://localhost:3000/api/cupones/listarclientesxcupon?permission=Gestion%de%Cupones&query=${searchName}&idParam=${idParam}&page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
 
             headers: {
@@ -221,7 +220,7 @@ export default function CuponDetail() {
 
         setDataClients(data2.clientesxCupon);
 
-        response = await fetch(REACT_APP_API_URL + `/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
+        response = await fetch(`http://localhost:3000/api/cupones/listarcuponesxdiacanjeado?permission=Gestion%de%Cupones&idParam=${idParam}`, {
           method: 'GET',
 
           headers: {
@@ -304,7 +303,7 @@ export default function CuponDetail() {
       }
 
       let response="";
-      response = await fetch(REACT_APP_API_URL + `/api/cupones/modificar`, {
+      response = await fetch(`http://localhost:3000/api/cupones/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
