@@ -2,7 +2,7 @@ export async function getPersonasAsistente(token, refreshToken, endDateParam,sta
   try {
 
     let response="";
-      response = await fetch(`http://3.218.68.113/api/api/eventos/getPersonasAsistente?startDate=${startDateParam}&endDate=${endDateParam}`, {
+      response = await fetch(`http://localhost:3000/api/eventos/getPersonasAsistente?startDate=${startDateParam}&endDate=${endDateParam}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -34,7 +34,7 @@ export async function getGeneroEventosPorc(token, refreshToken, endDateParam,sta
   try {
 
     let response="";
-    response = await fetch(`http://3.218.68.113/api/api/eventos/getGeneroPorcEventos?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://localhost:3000/api/eventos/getGeneroPorcEventos?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -67,7 +67,7 @@ export async function getEdadEventosPorc(token, refreshToken, endDateParam,start
   try {
 
     let response="";
-    response = await fetch(`http://3.218.68.113/api/api/eventos/getEdadPorcEventos?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://localhost:3000/api/eventos/getEdadPorcEventos?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -100,7 +100,7 @@ export async function getJuegosRAPorc(token, refreshToken, endDateParam,startDat
   try {
 
     let response="";
-    response = await fetch(`http://3.218.68.113/api/api/user/getJuegosRAPorc?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://localhost:3000/api/user/getJuegosRAPorc?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -133,7 +133,7 @@ export async function getPuntosEventosAsitencia(token, refreshToken, endDatePara
   try {
 
     let response="";
-    response = await fetch(`http://3.218.68.113/api/api/eventos/getPuntosEventosAsitencia?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://localhost:3000/api/eventos/getPuntosEventosAsitencia?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -167,7 +167,7 @@ export async function getPuntosTiendasAsitencia(token, refreshToken, endDatePara
   try {
 
     let response="";
-    response = await fetch(`http://3.218.68.113/api/api/tiendas/getPuntosTiendasAsitencia?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://localhost:3000/api/tiendas/getPuntosTiendasAsitencia?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -201,7 +201,7 @@ export async function getUsersPlayRA(token, refreshToken, endDateParam,startDate
   try {
 
     let response="";
-    response = await fetch(`http://3.218.68.113/api/api/user/getUsersPlayRA?startDate=${startDateParam}&endDate=${endDateParam}`, {
+    response = await fetch(`http://localhost:3000/api/user/getUsersPlayRA?startDate=${startDateParam}&endDate=${endDateParam}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

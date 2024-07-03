@@ -139,7 +139,7 @@ import UserTableToolbar from '../user-table-toolbar';
       try {
 
         setLoading2(true)
-        const response = await fetch('http://3.218.68.113/api/api/user/invite', {
+        const response = await fetch('http://localhost:3000/api/user/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ import UserTableToolbar from '../user-table-toolbar';
     };
     const handleDeshabilitar = async () => {
       try {
-        const response = await fetch('http://3.218.68.113/api/api/user/deshabilitar', {
+        const response = await fetch('http://localhost:3000/api/user/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ import UserTableToolbar from '../user-table-toolbar';
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch('http://3.218.68.113/api/api/user/habilitar', {
+        const response = await fetch('http://localhost:3000/api/user/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

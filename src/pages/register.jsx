@@ -21,7 +21,7 @@ export default function RegisterPage() {
       try {
         console.log(token2);
         console.log("validadndo token2");
-        const response = await fetch('http://3.218.68.113/api/api/user/comprobarTokenRegistro', {
+        const response = await fetch('http://localhost:3000/api/user/comprobarTokenRegistro', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

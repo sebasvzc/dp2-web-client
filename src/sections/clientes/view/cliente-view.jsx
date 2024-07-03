@@ -124,7 +124,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     const handleEnviar = async () => {
         
       try {
-        const response = await fetch('http://3.218.68.113/api/api/user/invite', {
+        const response = await fetch('http://localhost:3000/api/user/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
       try {
         console.log('SOY EL SELECTED')
         console.log(JSON.stringify({ selected }) )
-        const response = await fetch('http://3.218.68.113/api/api/client/deshabilitarCliente', {
+        const response = await fetch('http://localhost:3000/api/client/deshabilitarCliente', {
           method: 'POST',
 
           headers: {
@@ -218,7 +218,7 @@ import ClienteTableToolbar from '../cliente-table-toolbar';
     };
     const handleHabilitar = async () => {
       try {
-        const response = await fetch('http://3.218.68.113/api/api/client/habilitarCliente', {
+        const response = await fetch('http://localhost:3000/api/client/habilitarCliente', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

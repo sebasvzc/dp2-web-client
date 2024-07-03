@@ -125,7 +125,7 @@ export default function CuponView() {
     /* const handleEnviar = async () => {
 
      try {
-       const response = await fetch('http://3.218.68.113/api/api/user/invite', {
+       const response = await fetch('http://localhost:3000/api/user/invite', {
          method: 'POST',
          headers: {
            'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ export default function CuponView() {
       console.log("Probando deshabilitar");
       console.log(selected)
       try {
-        const response = await fetch('http://3.218.68.113/api/api/cupones/deshabilitar', {
+        const response = await fetch('http://localhost:3000/api/cupones/deshabilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export default function CuponView() {
 
     const handleHabilitar = async () => {
       try {
-        const response = await fetch('http://3.218.68.113/api/api/cupones/habilitar', {
+        const response = await fetch('http://localhost:3000/api/cupones/habilitar', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

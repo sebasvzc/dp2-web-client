@@ -103,7 +103,7 @@ export default function EventoTableRow({
   const handleGuardarCambios = async() => {
     console.log("Usuario a modificar: ",editedEvento)
     /* try {
-      const response = await fetch('http://3.218.68.113/api/api/user/modificar', {
+      const response = await fetch('http://localhost:3000/api/user/modificar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

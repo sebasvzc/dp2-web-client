@@ -94,7 +94,7 @@ export default function EventoEdit() {
         console.log(idParam)
         // Simulación de carga
         let response="";
-        response = await fetch(`http://3.218.68.113/api/api/eventos/detalleEventoCompleto`, {
+        response = await fetch(`http://localhost:3000/api/eventos/detalleEventoCompleto`, {
           method: 'POST',
           body: JSON.stringify({
             id:idParam,
@@ -195,7 +195,7 @@ export default function EventoEdit() {
 
 
       let response="";
-      response = await fetch(`http://3.218.68.113/api/api/eventos/modificar`, {
+      response = await fetch(`http://localhost:3000/api/eventos/modificar`, {
         method: 'POST',
         body: formData,
         headers: {
