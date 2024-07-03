@@ -84,7 +84,7 @@ export default function AppView() {
         const startDateParam=`${startDate.date()}/${startDate.month()+1}/${startDate.year()}`;
         // Simulación de carga
         let response="";
-        response = await fetch(`http://localhost:3000/api/tiendas/getTopTiendasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
+        response = await fetch(`http://3.218.68.113/api/api/tiendas/getTopTiendasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -124,7 +124,7 @@ export default function AppView() {
 
         }
 
-        response = await fetch(`http://localhost:3000/api/categoriaTienda/getTopCategoriasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
+        response = await fetch(`http://3.218.68.113/api/api/categoriaTienda/getTopCategoriasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -243,7 +243,7 @@ export default function AppView() {
         console.log("selectedOption")
         console.log(selectedOption)
         if(selectedOption==="top10mayor"){
-          response = await fetch(`http://localhost:3000/api/tiendas/getTopTiendasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
+          response = await fetch(`http://3.218.68.113/api/api/tiendas/getTopTiendasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -253,7 +253,7 @@ export default function AppView() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/tiendas/getBottomTiendasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
+          response = await fetch(`http://3.218.68.113/api/api/tiendas/getBottomTiendasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -328,7 +328,7 @@ export default function AppView() {
         console.log("selectedOptionCateg")
         console.log(selectedOptionCateg)
         if(selectedOptionCateg==="top10mayorCateg"){
-          response = await fetch(`http://localhost:3000/api/categoriaTienda/getTopCategoriasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
+          response = await fetch(`http://3.218.68.113/api/api/categoriaTienda/getTopCategoriasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -338,7 +338,7 @@ export default function AppView() {
 
           });
         }else{
-          response = await fetch(`http://localhost:3000/api/categoriaTienda/getBottomCategoriasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
+          response = await fetch(`http://3.218.68.113/api/api/categoriaTienda/getBottomCategoriasAsist?endDate=${endDateParam}&startDate=${startDateParam}`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',

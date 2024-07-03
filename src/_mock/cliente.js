@@ -25,7 +25,7 @@ const getUsers = async (page,pageSize,searchName) => {
    
     if(searchName==="all"){searchName=""}
     
-    const response = await fetch(`http://localhost:3000/api/client/listarClientesActivos?page=${page}&pageSize=${pageSize}`, {
+    const response = await fetch(`http://3.218.68.113/api/api/client/listarClientesActivos?page=${page}&pageSize=${pageSize}`, {
       method: 'POST',
       headers: {
         

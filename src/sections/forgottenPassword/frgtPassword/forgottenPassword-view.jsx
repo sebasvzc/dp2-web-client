@@ -45,7 +45,7 @@ export default function ForgottenPasswordView() {
     if(regEx.test(emailRef.current.value)){
         console.log('emailRef', emailRef.current.value)
         try {
-            const response = await fetch('http://localhost:3000/api/password/olvidoPasswordWeb ', {
+            const response = await fetch('http://3.218.68.113/api/api/password/olvidoPasswordWeb ', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

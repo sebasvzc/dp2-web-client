@@ -216,7 +216,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
     const handleDeshabilitar = async () => {
      try {
-        const response = await fetch('http://localhost:3000/api/categoriaTienda/deshabilitarCategoriaTiendaWeb', {
+        const response = await fetch('http://3.218.68.113/api/api/categoriaTienda/deshabilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -245,7 +245,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
     };
     const handleHabilitar = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/categoriaTienda/habilitarCategoriaTiendaWeb', {
+        const response = await fetch('http://3.218.68.113/api/api/categoriaTienda/habilitarCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -359,7 +359,7 @@ import CategoriaTableToolbar from '../categoria-table-toolbar';
 
     const handleCrear = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/categoriaTienda/crearCategoriaTiendaWeb', {
+        const response = await fetch('http://3.218.68.113/api/api/categoriaTienda/crearCategoriaTiendaWeb', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
