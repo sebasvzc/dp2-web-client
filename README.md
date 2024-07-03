@@ -7,7 +7,7 @@ Este es el frontend de la app web que desarrollamos.
 Primero hay que clonar el repositorio.
 
 ```sh
-git clone https://github.com/sebasvzc/dp2-web-ia-server.git
+git clone https://github.com/sebasvzc/dp2-web-client.git
 cd dp2-web-client
 ```
 
