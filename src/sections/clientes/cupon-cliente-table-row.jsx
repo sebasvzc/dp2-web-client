@@ -58,7 +58,7 @@ const modalStyle = {
 };
 
 export default function   CuponxClienteTableRow({
-                                               id,
+                                               id,fidCupon,
                                                codigo,usado,
                                                   categoria,tienda,fechaCompra,fechaExpiracion,selected,handleClick
                                              }) {
@@ -69,7 +69,7 @@ export default function   CuponxClienteTableRow({
   const classes = useStyles();
   const [formDatos, setFormDatos] = useState({
     tipo: "cupon",
-    idReferencia: id
+    idReferencia: fidCupon
   });
   const [openQR, setOpenQR] = useState(false);
   const [qrCode, setQrCode] = useState('');
@@ -214,6 +214,7 @@ export default function   CuponxClienteTableRow({
 
 CuponxClienteTableRow.propTypes = {
   id: PropTypes.number.isRequired,
+  fidCupon: PropTypes.number.isRequired,
   codigo: PropTypes.string.isRequired,
   categoria: PropTypes.string.isRequired,
   tienda: PropTypes.string.isRequired,

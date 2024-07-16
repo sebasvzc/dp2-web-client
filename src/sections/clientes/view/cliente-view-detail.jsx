@@ -1124,6 +1124,7 @@ export default function ClienteViewDetail() {
                                       <CuponxClienteTableRow
                                         key={row.id}
                                         id={row.id}
+                                        fidCupon={row.fidCupon}
                                         codigo={row.cupon.codigo}
                                         usado={row.usado}
                                         categoria={row.cupon.locatario.categoriaTienda.nombre}
