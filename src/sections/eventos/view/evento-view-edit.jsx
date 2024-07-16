@@ -50,6 +50,7 @@ export default function EventoEdit() {
 
   const [codigoText, setCodigoText] = useState('');
   const [nombreText, setNombreText] = useState('');
+  const [nombreTienda, setNombreTienda] = useState('');
   const [descripcionText, setDescripcionText] = useState('');
   const [puntosOtorgadosText, setPuntosOtorgadosText] = useState('');
   const [selectedLugar, setSelectedLugar] = useState('');
@@ -144,6 +145,7 @@ export default function EventoEdit() {
         setCodigoText(data.detalles.codigo)
         setNombreText(data.detalles.nombre)
         setUrlImagenS3(data.image)
+        setNombreTienda(data.detalles.locatario.nombre)
         setDescripcionText(data.detalles.descripcion)
         setPuntosOtorgadosText(data.detalles.puntosOtorgados)
         setStartDate(dayjs(data.detalles.fechaInicio).utc(true))
@@ -550,47 +552,8 @@ export default function EventoEdit() {
                       </FormControl>
                       </Grid>
                       <Grid item xs={6}>
-                        <FormControl fullWidth>
-                          <InputLabel 
-                          id="search-select-label-tienda" >Tienda</InputLabel>
-                          <Select
-                            // Disables auto focus on MenuItems and allows TextField to be in focus
-                            MenuProps={{ autoFocus: false }}
-                            labelId="search-select-label-tienda"
-                            id="search-select-tienda"
-                            value={selectedTienda}
-                            disabled={!editable}
-                            label="Elegir Tienda"
-                            onChange={(e) => setSelectedTienda(e.target.value)}
-                            // This prevents rendering empty string in Select's value
-                            // if search text would exclude currently selected option.
-
-                          >
-                            <ListSubheader>
-                              <TextField
-                                size="small"
-                                autoFocus
-                                placeholder="Buscar tienda por nombre..."
-                                fullWidth
-                                value={searchTienda}
-                                onChange={changeTiendaSearch}
-                                onKeyDown={(e) => e.stopPropagation()} // Detener la propagación del evento
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <SearchIcon onClick={handleTiendaEvento} />
-                                    </InputAdornment>
-                                  )
-                                }}
-                              />
-                            </ListSubheader>
-                            {tienda.map((option, i) => (
-                              <MenuItem key={i} value={option.id}>
-                                {option.nombre}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
+                        <TextField fullWidth label="Tienda" name="tienda"
+                                   disabled defaultValue={nombreTienda}/>
                       </Grid>
                       <Grid item xs={6}>
                       <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="de">
